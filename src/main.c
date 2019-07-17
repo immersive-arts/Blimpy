@@ -1,6 +1,9 @@
 #include <driver/adc.h>
 #include <driver/i2c.h>
 #include <naos.h>
+#include <string.h>
+#include <art32/strconv.h>
+#include <art32/numbers.h>
 
 #include "bat.h"
 #include "led.h"
@@ -35,47 +38,77 @@ static void ping() {
   status(last_status);
 }
 
-uint8_t pos = 0;
-bool add = true;
-bool fwd = true;
-
-static void loop() {
-  // move
-  pos = add ? pos + 1 : pos - 1;
-
-  // set dir
-  if (add && pos >= 255) {
-    add = false;
-  } else if (!add && pos <= 0) {
-    add = true;
-    fwd = !fwd;
-  }
-
-  // print
-  naos_log("pos: %d, dir: %d, fwd: %d", pos, add, fwd);
-
-  // set servos
-  for (int i=1; i<=4; i++) {
-    exp_servo(i, pos);
-  }
-
-  // set motors
-  for (int i=1; i<=6; i++) {
-    exp_motor(i, fwd, pos);
-  }
+static void online() {
+  naos_subscribe("#", 0, NAOS_LOCAL);
 }
 
-static naos_param_t params[] = {};
+static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_t scope) {
+  naos_log("tpc: %s", topic);
+
+  // set motor 1
+  if(strcmp(topic, "m1") == 0) {
+    int speed = a32_constrain_i(a32_str2i((const char*)payload), -255, 255);
+    bool fwd = true;
+    if (speed < 0) {
+      speed *= -1;
+      fwd = false;
+    }
+
+    exp_motor(1, fwd, speed);
+
+    return;
+  }
+
+  // set motor 2
+  if(strcmp(topic, "m2") == 0) {
+    int speed = a32_constrain_i(a32_str2i((const char*)payload), -255, 255);
+    bool fwd = true;
+    if (speed < 0) {
+      speed *= -1;
+      fwd = false;
+    }
+
+    exp_motor(2, fwd, speed);
+
+    return;
+  }
+
+  // set motor 3
+  if(strcmp(topic, "m3") == 0) {
+    int speed = a32_constrain_i(a32_str2i((const char*)payload), -255, 255);
+    bool fwd = true;
+    if (speed < 0) {
+      speed *= -1;
+      fwd = false;
+    }
+
+    exp_motor(3, fwd, speed);
+
+    return;
+  }
+
+  // set motor 4
+  if(strcmp(topic, "m4") == 0) {
+    int speed = a32_constrain_i(a32_str2i((const char*)payload), -255, 255);
+    bool fwd = true;
+    if (speed < 0) {
+      speed *= -1;
+      fwd = false;
+    }
+
+    exp_motor(4, fwd, speed);
+
+    return;
+  }
+}
 
 static float battery() { return bat_read_factor(); }
 
 static naos_config_t config = {.device_type = "blimpy",
                                .firmware_version = "0.1.0",
-                               .parameters = params,
-                               .num_parameters = 0,
                                .ping_callback = ping,
-                               .loop_callback = loop,
-                               .loop_interval = 10,
+                               .online_callback = online,
+                               .message_callback = message,
                                .battery_level = battery,
                                .status_callback = status};
 
