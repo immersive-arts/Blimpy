@@ -3,19 +3,10 @@
 #include <naos.h>
 
 #include "bat.h"
-#include "imu.h"
 #include "led.h"
 #include "exp.h"
 
-static int32_t interval = 0;
-static bool use_acc = false;
-static bool use_gyr = false;
-static bool use_mag = false;
-static bool use_tmp = false;
-
 static naos_status_t last_status = NAOS_DISCONNECTED;
-
-static uint32_t last_interval = 0;
 
 static void status(naos_status_t status) {
   // set last status
@@ -72,54 +63,16 @@ static void loop() {
   for (int i=1; i<=6; i++) {
     exp_motor(i, fwd, pos);
   }
-
-  // return if interval is not yet met
-  if (last_interval + interval > naos_millis()) {
-    return;
-  }
-
-  // publish accelerometer if enabled
-  if (use_acc) {
-    imu_vector_t acc = imu_read_accelerometer();
-    char buf[64];
-    sprintf(buf, "%f,%f,%f", acc.x, acc.y, acc.z);
-    naos_publish("acc", buf, 0, false, NAOS_LOCAL);
-  }
-
-  // publish gyroscope if enabled
-  if (use_gyr) {
-    imu_vector_t gyr = imu_read_gyroscope();
-    char buf[64];
-    sprintf(buf, "%f,%f,%f", gyr.x, gyr.y, gyr.z);
-    naos_publish("gyr", buf, 0, false, NAOS_LOCAL);
-  }
-
-  // publish magnetometer if enabled
-  if (use_mag) {
-    imu_vector_t mag = imu_read_magnetometer();
-    char buf[64];
-    sprintf(buf, "%f,%f,%f", mag.x, mag.y, mag.z);
-    naos_publish("mag", buf, 0, false, NAOS_LOCAL);
-  }
-
-  // save time
-  last_interval = naos_millis();
 }
 
-static naos_param_t params[] = {
-    {.name = "interval", .type = NAOS_LONG, .default_l = 100, .sync_l = &interval},
-    {.name = "accelerometer", .type = NAOS_BOOL, .default_b = false, .sync_b = &use_acc},
-    {.name = "gyroscope", .type = NAOS_BOOL, .default_b = false, .sync_b = &use_gyr},
-    {.name = "magnetometer", .type = NAOS_BOOL, .default_b = false, .sync_b = &use_mag},
-    {.name = "temperature", .type = NAOS_BOOL, .default_b = false, .sync_b = &use_tmp},
-};
+static naos_param_t params[] = {};
 
 static float battery() { return bat_read_factor(); }
 
 static naos_config_t config = {.device_type = "blimpy",
-                               .firmware_version = "0.2.1",
+                               .firmware_version = "0.1.0",
                                .parameters = params,
-                               .num_parameters = 5,
+                               .num_parameters = 0,
                                .ping_callback = ping,
                                .loop_callback = loop,
                                .loop_interval = 10,
@@ -148,12 +101,7 @@ void app_main() {
   // initialize components
   bat_init();
   led_init();
-
-  // init exp
   exp_init();
-
-  // initialize inertial measurement unit
-  imu_init();
 
   // set led
   status(NAOS_DISCONNECTED);
