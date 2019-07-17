@@ -15,8 +15,6 @@ set(SOURCE_FILES
         src/exp.h
         src/led.c
         src/led.h
-        src/imu.c
-        src/imu.h
         src/main.c)
 
 # create a fake library target
