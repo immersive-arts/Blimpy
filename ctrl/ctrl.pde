@@ -4,15 +4,12 @@ MQTTClient client;
 
 void setup() {
   size(500, 500);
-  frameRate(5);
 
   client = new MQTTClient(this);
   client.connect("mqtt://0.0.0.0:8883", "ctrl");
 }
 
-void draw() {
-  background(0);
-}
+void draw() {}
 
 boolean fwd = false;
 boolean bwd = false;
@@ -130,7 +127,7 @@ void setMotors(float m1, float m2, float m3, float m4) {
   speeds[3] = Float.toString(m4 * 255);
 
   // send speeds
-  client.publish("blimpy/m1", join(speeds, ","));
+  client.publish("blimpy/mX", join(speeds, ","));
 
   // save hash
   last = hash;
