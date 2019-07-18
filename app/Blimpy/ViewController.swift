@@ -93,10 +93,10 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         // get data
         let fwdBwd = Double(jrd!.velocity.y) * -1 // x
         let upDown = Double(jld!.velocity.y) * -1 // z
-        // let leftRight = Double(jrd!.velocity.x) // y
+        let leftRight = Double(jrd!.velocity.x) * -1 // mz
         
         // calculate motor speeds
-        let speeds = calcForce(x: fwdBwd, z: upDown)
+        let speeds = calcForce(fx: fwdBwd, fz: upDown, mz: leftRight)
         
         // get time
         let now = CACurrentMediaTime()

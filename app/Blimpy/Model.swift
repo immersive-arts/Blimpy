@@ -9,22 +9,24 @@
 import Foundation
 
 let FORCE_MAX = 721.24891681
+let TORQUE_MAX = 360.6244584051392
 
-let FORCE_MAT = [[ 0.35355339, -0.35355339],
-             [ 0.35355339,  0.35355339],
-             [ 0.35355339,  0.35355339],
-             [ 0.35355339, -0.35355339]]
+let MATRICE = [[ 0.35355339, -0.35355339,  0.70710678],
+    [ 0.35355339,  0.35355339,  0.70710678],
+    [ 0.35355339,  0.35355339, -0.70710678],
+    [ 0.35355339, -0.35355339, -0.70710678]]
 
-func calcForce(x: Double, z: Double) -> Array<Double> {
+func calcForce(fx: Double, fz: Double, mz: Double) -> Array<Double> {
     // get forces
-    let fx = x * FORCE_MAX
-    let fz = z * FORCE_MAX
+    let ffx = fx * FORCE_MAX
+    let ffz = fz * FORCE_MAX
+    let mmz = mz * TORQUE_MAX
     
     // get motor speeds
-    let m1 = FORCE_MAT[0][0] * fx + FORCE_MAT[0][1] * fz
-    let m2 = FORCE_MAT[1][0] * fx + FORCE_MAT[1][1] * fz
-    let m3 = FORCE_MAT[2][0] * fx + FORCE_MAT[2][1] * fz
-    let m4 = FORCE_MAT[3][0] * fx + FORCE_MAT[3][1] * fz
+    let m1 = MATRICE[0][0] * ffx + MATRICE[0][1] * ffz + MATRICE[0][2] * mmz
+    let m2 = MATRICE[1][0] * ffx + MATRICE[1][1] * ffz + MATRICE[1][2] * mmz
+    let m3 = MATRICE[2][0] * ffx + MATRICE[2][1] * ffz + MATRICE[2][2] * mmz
+    let m4 = MATRICE[3][0] * ffx + MATRICE[3][1] * ffz + MATRICE[3][2] * mmz
     
     return [m1, m2, m3, m4]
 }
