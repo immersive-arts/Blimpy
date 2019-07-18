@@ -43,8 +43,6 @@ static void online() {
 }
 
 static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_t scope) {
-  naos_log("tpc: %s", topic);
-
   // set motor 1
   if(scope == NAOS_LOCAL && strcmp(topic, "m1") == 0) {
     int speed = a32_constrain_i(a32_str2i((const char*)payload), -255, 255);
