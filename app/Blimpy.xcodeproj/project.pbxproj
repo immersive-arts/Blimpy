@@ -13,6 +13,7 @@
 		521DCD0722E0C6EF00F87170 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521DCD0522E0C6EF00F87170 /* Main.storyboard */; };
 		521DCD0922E0C6F100F87170 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 521DCD0822E0C6F100F87170 /* Assets.xcassets */; };
 		521DCD0C22E0C6F100F87170 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 521DCD0A22E0C6F100F87170 /* LaunchScreen.storyboard */; };
+		521DCD1622E0DFA300F87170 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 521DCD1522E0DFA300F87170 /* Model.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		521DCD0822E0C6F100F87170 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		521DCD0B22E0C6F100F87170 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		521DCD0D22E0C6F100F87170 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		521DCD1522E0DFA300F87170 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		7E55653D4D8E7F7C85C57F73 /* Pods-Blimpy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Blimpy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Blimpy/Pods-Blimpy.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -71,6 +73,7 @@
 			children = (
 				521DCD0122E0C6EF00F87170 /* AppDelegate.swift */,
 				521DCD0322E0C6EF00F87170 /* ViewController.swift */,
+				521DCD1522E0DFA300F87170 /* Model.swift */,
 				521DCD0522E0C6EF00F87170 /* Main.storyboard */,
 				521DCD0822E0C6F100F87170 /* Assets.xcassets */,
 				521DCD0A22E0C6F100F87170 /* LaunchScreen.storyboard */,
@@ -205,6 +208,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				521DCD0422E0C6EF00F87170 /* ViewController.swift in Sources */,
+				521DCD1622E0DFA300F87170 /* Model.swift in Sources */,
 				521DCD0222E0C6EF00F87170 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,7 +286,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -337,7 +341,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -353,7 +357,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TU3UR5MTVQ;
 				INFOPLIST_FILE = Blimpy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -371,7 +377,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = TU3UR5MTVQ;
 				INFOPLIST_FILE = Blimpy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
