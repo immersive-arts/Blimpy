@@ -46,7 +46,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
   naos_log("tpc: %s", topic);
 
   // set motor 1
-  if(strcmp(topic, "m1") == 0) {
+  if(scope == NAOS_LOCAL && strcmp(topic, "m1") == 0) {
     int speed = a32_constrain_i(a32_str2i((const char*)payload), -255, 255);
     bool fwd = true;
     if (speed < 0) {
@@ -60,7 +60,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
   }
 
   // set motor 2
-  if(strcmp(topic, "m2") == 0) {
+  if(scope == NAOS_LOCAL && strcmp(topic, "m2") == 0) {
     int speed = a32_constrain_i(a32_str2i((const char*)payload), -255, 255);
     bool fwd = true;
     if (speed < 0) {
@@ -74,7 +74,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
   }
 
   // set motor 3
-  if(strcmp(topic, "m3") == 0) {
+  if(scope == NAOS_LOCAL && strcmp(topic, "m3") == 0) {
     int speed = a32_constrain_i(a32_str2i((const char*)payload), -255, 255);
     bool fwd = true;
     if (speed < 0) {
@@ -88,7 +88,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
   }
 
   // set motor 4
-  if(strcmp(topic, "m4") == 0) {
+  if(scope == NAOS_LOCAL && strcmp(topic, "m4") == 0) {
     int speed = a32_constrain_i(a32_str2i((const char*)payload), -255, 255);
     bool fwd = true;
     if (speed < 0) {
