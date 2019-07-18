@@ -223,7 +223,7 @@ void exp_init() {
   conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
   conf.scl_io_num = GPIO_NUM_27;
   conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
-  conf.master.clk_speed = 100000;
+  conf.master.clk_speed = 400000; // 400 Khz
 
   // configure i2c port
   ESP_ERROR_CHECK(i2c_param_config(I2C_NUM_1, &conf));

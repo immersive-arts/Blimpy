@@ -43,58 +43,37 @@ static void online() {
 }
 
 static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_t scope) {
-  // set motor 1
-  if(scope == NAOS_LOCAL && strcmp(topic, "m1") == 0) {
-    int speed = a32_constrain_i(a32_str2i((const char*)payload), -255, 255);
-    bool fwd = true;
-    if (speed < 0) {
-      speed *= -1;
-      fwd = false;
+  // set motors "1,2,3,4"
+  if(scope == NAOS_LOCAL && strcmp(topic, "mX") == 0) {
+    // prepare speeds
+    int speeds[4] = {0};
+
+    // parse comma separated speeds
+    char *ptr = strtok((char*)payload, ",");
+    int i = 0;
+    while(ptr != NULL) {
+      speeds[i] = a32_constrain_i(a32_str2i(ptr), -255, 255);
+      ptr = strtok(NULL, ",");
+      i++;
     }
 
-    exp_motor(1, fwd, speed);
+    // set motors
+    for (i=0; i<4; i++) {
+      // get speed
+      int speed = speeds[i];
 
-    return;
-  }
+      // get direction
+      bool fwd = true;
+      if (speed < 0) {
+        speed *= -1;
+        fwd = false;
+      }
 
-  // set motor 2
-  if(scope == NAOS_LOCAL && strcmp(topic, "m2") == 0) {
-    int speed = a32_constrain_i(a32_str2i((const char*)payload), -255, 255);
-    bool fwd = true;
-    if (speed < 0) {
-      speed *= -1;
-      fwd = false;
+      // set motor
+      exp_motor(i+1, fwd, speed);
     }
 
-    exp_motor(2, fwd, speed);
-
-    return;
-  }
-
-  // set motor 3
-  if(scope == NAOS_LOCAL && strcmp(topic, "m3") == 0) {
-    int speed = a32_constrain_i(a32_str2i((const char*)payload), -255, 255);
-    bool fwd = true;
-    if (speed < 0) {
-      speed *= -1;
-      fwd = false;
-    }
-
-    exp_motor(3, fwd, speed);
-
-    return;
-  }
-
-  // set motor 4
-  if(scope == NAOS_LOCAL && strcmp(topic, "m4") == 0) {
-    int speed = a32_constrain_i(a32_str2i((const char*)payload), -255, 255);
-    bool fwd = true;
-    if (speed < 0) {
-      speed *= -1;
-      fwd = false;
-    }
-
-    exp_motor(4, fwd, speed);
+    naos_log("set motors");
 
     return;
   }

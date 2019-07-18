@@ -114,16 +114,25 @@ void setControls(boolean on) {
 float last = 0;
 
 void setMotors(float m1, float m2, float m3, float m4) {
+  // calculate hash
   float hash = m1 + m2 * 1025 + m3 * 1024 * 1024 + m4 * 1024 * 1024 * 1024;
+  
+  // check if update is needed
   if (last == hash) {
     return;
   }
 
-  client.publish("blimpy/m1", Float.toString(m1 * 255));
-  client.publish("blimpy/m2", Float.toString(m2 * 255));
-  client.publish("blimpy/m3", Float.toString(m3 * 255));
-  client.publish("blimpy/m4", Float.toString(m4 * 255));
+  // prepare values
+  String speeds[] = new String[4];
+  speeds[0] = Float.toString(m1 * 255);
+  speeds[1] = Float.toString(m2 * 255);
+  speeds[2] = Float.toString(m3 * 255);
+  speeds[3] = Float.toString(m4 * 255);
 
+  // send speeds
+  client.publish("blimpy/m1", join(speeds, ","));
+
+  // save hash
   last = hash;
 }
 
