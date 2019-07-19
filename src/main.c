@@ -8,6 +8,7 @@
 #include "bat.h"
 #include "led.h"
 #include "exp.h"
+#include "mod.h"
 
 static naos_status_t last_status = NAOS_DISCONNECTED;
 
@@ -61,6 +62,42 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     for (i=0; i<4; i++) {
       // get speed
       int speed = speeds[i];
+
+      // get direction
+      bool fwd = true;
+      if (speed < 0) {
+        speed *= -1;
+        fwd = false;
+      }
+
+      // set motor
+      exp_motor(i+1, fwd, speed);
+    }
+
+    return;
+  }
+
+  // set model forces and torques "1,-1,0.5,0.25"
+  if(scope == NAOS_LOCAL && strcmp(topic, "forces") == 0) {
+    // prepare speeds
+    double speeds[4] = {0};
+
+    // parse comma separated speeds
+    char *ptr = strtok((char*)payload, ",");
+    int i = 0;
+    while(ptr != NULL) {
+      speeds[i] = a32_constrain_d(a32_str2d(ptr), -1, 1);
+      ptr = strtok(NULL, ",");
+      i++;
+    }
+
+    // calculate model
+    mod_result_t res = mod_calc(speeds[0], speeds[1], speeds[2], speeds[3]);
+
+    // set motors
+    for (i=0; i<4; i++) {
+      // get speed
+      int speed = res.a[i];
 
       // get direction
       bool fwd = true;
