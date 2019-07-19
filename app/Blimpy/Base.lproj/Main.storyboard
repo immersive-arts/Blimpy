@@ -47,6 +47,15 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BATTERY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhB-tZ-aPr">
+                                <rect key="frame" x="75" y="279" width="150" height="11"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="szA-jG-v7K"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="9"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="bMs-1d-GQU">
                                 <rect key="frame" x="259.5" y="198" width="51" height="31"/>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -56,10 +65,41 @@
                                     <action selector="motionSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="YkJ-Hy-Y1p"/>
                                 </connections>
                             </switch>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="xjz-Jp-TU8">
+                                <rect key="frame" x="75" y="298" width="150" height="2"/>
+                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="dLr-Nc-Pyc"/>
+                                </constraints>
+                                <color key="progressTintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="trackTintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </progressView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="6sR-fy-Unf">
+                                <rect key="frame" x="343" y="298" width="150" height="2"/>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="VvL-EO-98e"/>
+                                </constraints>
+                                <color key="progressTintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="trackTintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </progressView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WiFI" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GeA-O7-hUi">
+                                <rect key="frame" x="343" y="279" width="150" height="11"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="n9G-wE-4ME"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="9"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="GeA-O7-hUi" firstAttribute="trailing" secondItem="6sR-fy-Unf" secondAttribute="trailing" id="6Ni-KL-hXs"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6sR-fy-Unf" secondAttribute="bottom" constant="20" id="AeQ-7G-bzf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="6sR-fy-Unf" secondAttribute="trailing" constant="55" id="BQv-Ln-maw"/>
                             <constraint firstItem="Gu7-rc-wQb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DSv-Zo-DqP"/>
+                            <constraint firstItem="6sR-fy-Unf" firstAttribute="top" secondItem="GeA-O7-hUi" secondAttribute="bottom" constant="8" id="Paj-mX-NGt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qYG-I8-TJi" secondAttribute="bottom" constant="50" id="SxA-q4-6jg"/>
                             <constraint firstItem="Gu7-rc-wQb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="WVp-Mz-lgJ"/>
                             <constraint firstItem="FV5-Tl-Mcz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="YjI-35-UQG"/>
@@ -68,10 +108,18 @@
                             <constraint firstItem="qYG-I8-TJi" firstAttribute="top" secondItem="bMs-1d-GQU" secondAttribute="bottom" constant="25" id="atU-fo-hUG"/>
                             <constraint firstItem="CaR-ui-RLR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="hMJ-HV-uDR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CaR-ui-RLR" secondAttribute="trailing" constant="50" id="lcF-Hf-hB4"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xjz-Jp-TU8" secondAttribute="bottom" constant="20" id="ox6-sn-Ylr"/>
+                            <constraint firstItem="xjz-Jp-TU8" firstAttribute="leading" secondItem="DhB-tZ-aPr" secondAttribute="leading" id="rwE-Pg-5wa"/>
                             <constraint firstItem="qYG-I8-TJi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="teG-El-BTc"/>
+                            <constraint firstItem="xjz-Jp-TU8" firstAttribute="top" secondItem="DhB-tZ-aPr" secondAttribute="bottom" constant="8" id="uqg-X5-e9J"/>
+                            <constraint firstItem="xjz-Jp-TU8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="55" id="y2W-E0-aJG"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="battery" destination="xjz-Jp-TU8" id="cg6-lG-QgJ"/>
+                        <outlet property="wifi" destination="6sR-fy-Unf" id="9WO-hs-3YR"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

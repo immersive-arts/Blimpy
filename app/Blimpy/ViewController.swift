@@ -27,8 +27,15 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     var lastSpeeds: Array<Int> = [0, 0, 0, 0]
     
+    @IBOutlet weak var battery: UIProgressView!
+    @IBOutlet weak var wifi: UIProgressView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // set initial values
+        battery.progress = 0
+        wifi.progress = 0
         
         // setup joysticks
         setupLeftJoystick()
@@ -164,10 +171,39 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     // CocoaMQTTDelegate
     
-    func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {}
+    func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
+        if ack == .accept {
+            client?.subscribe("blimpy/#", qos: .qos0)
+        }
+    }
+    
+    func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16) {
+        // get data
+        let data = String(data: Data(message.payload), encoding: .utf8)
+        
+        // check for hearbeat
+        if message.topic == "blimpy/naos/heartbeat" {
+            // get info
+            let info = data?.split(separator: ",")
+            
+            // set battery level
+            battery.progress = Float(info?[6] ?? "0") ?? 0
+            
+            // map signal strength to percentage
+            var ss = (100 - ((Float(info?[7] ?? "0") ?? 0) * -1)) * 2
+            if ss > 100 {
+                ss = 100
+            } else if ss < 0 {
+                ss = 0
+            }
+            
+            // set wifi strength
+            wifi.progress = ss / 100
+        }
+    }
+    
     func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {}
     func mqtt(_ mqtt: CocoaMQTT, didPublishAck id: UInt16) {}
-    func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16) {}
     func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topic: String) {}
     func mqtt(_ mqtt: CocoaMQTT, didUnsubscribeTopic topic: String) {}
     func mqttDidPing(_ mqtt: CocoaMQTT) {}
