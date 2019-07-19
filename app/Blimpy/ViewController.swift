@@ -9,14 +9,19 @@
 import UIKit
 import CocoaMQTT
 import CDJoystick
+import CoreMotion
 
 class ViewController: UIViewController, CocoaMQTTDelegate {
+    var manager: CMMotionManager = CMMotionManager()
     var client: CocoaMQTT?
     
     var jlx: Double = 0
     var jly: Double = 0
     var jrx: Double = 0
     var jry: Double = 0
+    var roll: Double = 0
+    var yaw: Double = 0
+    var pitch: Double = 0
     
     var lastSpeeds: Array<Int> = [0, 0, 0, 0]
     
@@ -26,6 +31,19 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         // setup joysticks
         setupLeftJoystick()
         setupRighttJoystick()
+        
+        // set motion interval
+        manager.deviceMotionUpdateInterval = 0.05
+        
+        // listen to motion
+        manager.startDeviceMotionUpdates(to: .main) { (data, error) in
+            if let data = data {
+                self.yaw = data.attitude.yaw
+                self.roll = data.attitude.roll
+                self.pitch = data.attitude.pitch
+                self.updateControls()
+            }
+        }
     
         // create client
         client = CocoaMQTT(clientID: "app", host: "10.128.96.191", port: 8883)
@@ -94,7 +112,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         let leftRight = jrx * -1 // mz
         
         // calculate motor speeds
-        let speeds = Model.calculate(fx: fwdBwd, fz: upDown, mz: leftRight)
+        let speeds = Model.calculate(fx: fwdBwd, fz: upDown, mx: pitch, mz: leftRight)
         
         // get hash
         let dist = distance(a: speeds, b: lastSpeeds)

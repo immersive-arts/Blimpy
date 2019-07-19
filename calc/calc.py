@@ -6,10 +6,11 @@ thrust = np.sin(np.pi * 45 / 180)
 # meter
 lever = 0.5
 
-# motor forces and torques matrix (fx, fz, mz)
+# motor forces and torques matrix (fx, fz, mx, mz)
 MATRIX = np.array([
     [thrust, thrust, thrust, thrust],
     [-thrust, thrust, thrust, -thrust],
+    [thrust*-lever, thrust*lever, thrust*-lever, thrust*lever],
     [thrust*lever, thrust*lever, thrust*-lever, thrust*-lever]
 ])
 
@@ -24,6 +25,10 @@ print("FX_MAX", FX_MAX)
 FZ_MAX = np.max(np.dot(MATRIX, np.array([-1, 1, 1, -1]) * max_duty_cycle))
 print("FZ_MAX", FZ_MAX)
 
+# max motor torques in X
+MX_MAX = np.max(np.dot(MATRIX, np.array([1, 1, -1, -1]) * max_duty_cycle))
+print("MX_MAX", MX_MAX)
+
 # max motor torques in Z
 MZ_MAX = np.max(np.dot(MATRIX, np.array([1, 1, -1, -1]) * max_duty_cycle))
 print("MZ_MAX", MZ_MAX)
@@ -33,5 +38,5 @@ INVERSE = np.linalg.pinv(MATRIX)
 print("INVERSE", INVERSE)
 
 # example calculation
-f = np.array([FX_MAX, 0, MZ_MAX])
+f = np.array([FX_MAX, 0, 0, MZ_MAX])
 print("example", np.dot(INVERSE, f))
