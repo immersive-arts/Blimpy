@@ -46,7 +46,7 @@ class Model {
         let v = min(max(v, -255), 255)
         
         // reduce low values to zero
-        if abs(v) < 50 {
+        if abs(v) < 30 {
             return 0
         }
         

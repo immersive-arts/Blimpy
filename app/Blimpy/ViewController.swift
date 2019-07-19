@@ -126,7 +126,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         let dist = distance(a: speeds, b: lastSpeeds)
         
         // skip if distance didn't change much
-        if abs(dist) < 30 {
+        if abs(dist) < 50 {
             return
         }
         
