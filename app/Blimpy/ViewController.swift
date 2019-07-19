@@ -13,10 +13,10 @@ import CDJoystick
 class ViewController: UIViewController, CocoaMQTTDelegate {
     var client: CocoaMQTT?
     
-    var jlx: CGFloat = 0
-    var jly: CGFloat = 0
-    var jrx: CGFloat = 0
-    var jry: CGFloat = 0
+    var jlx: Double = 0
+    var jly: Double = 0
+    var jrx: Double = 0
+    var jry: Double = 0
     
     var lastSpeeds: Array<Int> = [0, 0, 0, 0]
     
@@ -53,8 +53,8 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         
         // set handler
         joystick.trackingHandler = { data in
-            self.jlx = data.velocity.x
-            self.jly = data.velocity.y
+            self.jlx = Double(data.velocity.x)
+            self.jly = Double(data.velocity.y)
             self.updateControls()
         }
         
@@ -78,8 +78,8 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         
         // set handler
         joystick.trackingHandler = { data in
-            self.jrx = data.velocity.x
-            self.jry = data.velocity.y
+            self.jrx = Double(data.velocity.x)
+            self.jry = Double(data.velocity.y)
             self.updateControls()
         }
         
@@ -89,9 +89,9 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     func updateControls() {
         // get axes
-        let fwdBwd = Double(jry) * -1 // x
-        let upDown = Double(jly) * -1 // z
-        let leftRight = Double(jrx) * -1 // mz
+        let fwdBwd = jry * -1 // x
+        let upDown = jly * -1 // z
+        let leftRight = jrx * -1 // mz
         
         // calculate motor speeds
         let speeds = Model.calculate(fx: fwdBwd, fz: upDown, mz: leftRight)
