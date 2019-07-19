@@ -75,8 +75,8 @@
 				521DCD0322E0C6EF00F87170 /* ViewController.swift */,
 				521DCD1522E0DFA300F87170 /* Model.swift */,
 				521DCD0522E0C6EF00F87170 /* Main.storyboard */,
-				521DCD0822E0C6F100F87170 /* Assets.xcassets */,
 				521DCD0A22E0C6F100F87170 /* LaunchScreen.storyboard */,
+				521DCD0822E0C6F100F87170 /* Assets.xcassets */,
 				521DCD0D22E0C6F100F87170 /* Info.plist */,
 			);
 			path = Blimpy;

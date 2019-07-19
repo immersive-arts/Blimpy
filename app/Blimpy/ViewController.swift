@@ -12,10 +12,13 @@ import CDJoystick
 
 class ViewController: UIViewController, CocoaMQTTDelegate {
     var client: CocoaMQTT?
-    var connected: Bool = false
     
-    var jld: CDJoystickData?
-    var jrd: CDJoystickData?
+    var jlx: CGFloat = 0
+    var jly: CGFloat = 0
+    var jrx: CGFloat = 0
+    var jry: CGFloat = 0
+    
+    var lastSend: Double = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,8 +52,9 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         joystick.fade = 0.5
         
         // set handler
-        joystick.trackingHandler = { joystickData in
-            self.jld = joystickData
+        joystick.trackingHandler = { data in
+            self.jlx = data.velocity.x
+            self.jly = data.velocity.y
             self.updateControls()
         }
         
@@ -73,8 +77,9 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         joystick.fade = 0.5
         
         // set handler
-        joystick.trackingHandler = { joystickData in
-            self.jrd = joystickData
+        joystick.trackingHandler = { data in
+            self.jrx = data.velocity.x
+            self.jry = data.velocity.y
             self.updateControls()
         }
         
@@ -82,18 +87,11 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         view.addSubview(joystick)
     }
     
-    var lastSend: Double = 0
-    
     func updateControls() {
-        // check data
-        if jld == nil || jrd == nil {
-            return
-        }
-        
         // get data
-        let fwdBwd = Double(jrd!.velocity.y) * -1 // x
-        let upDown = Double(jld!.velocity.y) * -1 // z
-        let leftRight = Double(jrd!.velocity.x) * -1 // mz
+        let fwdBwd = Double(jrx) * -1 // x
+        let upDown = Double(jly) * -1 // z
+        let leftRight = Double(jrx) * -1 // mz
         
         // calculate motor speeds
         let speeds = calcForce(fx: fwdBwd, fz: upDown, mz: leftRight)
@@ -116,10 +114,10 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     }
     
     func clamp(v: Int) -> Int {
-        // clamp to range
+        // clamp to duty cycle range
         let v = min(max(v, -255), 255)
         
-        // reduce to zero
+        // reduce low values to zero
         if abs(v) < 50 {
             return 0
         }
@@ -144,34 +142,13 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     // CocoaMQTTDelegate
     
-    func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
-        // return immediately if connection has been rejected
-        if ack != .accept {
-            return
-        }
-        
-        // set flag
-        connected = true
-    }
-    
+    func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {}
     func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {}
-    
     func mqtt(_ mqtt: CocoaMQTT, didPublishAck id: UInt16) {}
-    
-    func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16) {
-        // TODO: Handle message.
-    }
-    
+    func mqtt(_ mqtt: CocoaMQTT, didReceiveMessage message: CocoaMQTTMessage, id: UInt16) {}
     func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topic: String) {}
-    
     func mqtt(_ mqtt: CocoaMQTT, didUnsubscribeTopic topic: String) {}
-    
     func mqttDidPing(_ mqtt: CocoaMQTT) {}
-    
     func mqttDidReceivePong(_ mqtt: CocoaMQTT) {}
-    
-    func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {
-        // set flag
-        connected = false
-    }
+    func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {}
 }
