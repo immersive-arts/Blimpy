@@ -18,33 +18,40 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BLIMPY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gu7-rc-wQb">
-                                <rect key="frame" x="252" y="149.5" width="64" height="21"/>
+                                <rect key="frame" x="252" y="100" width="64" height="21"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FWD,BWD / LEFT,RIGHT" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaR-ui-RLR">
-                                <rect key="frame" x="389" y="25" width="154" height="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="FWD/BWD &amp; LEFT/RIGHT" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CaR-ui-RLR">
+                                <rect key="frame" x="318" y="50" width="200" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="YHf-W6-Ied"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UP / DOWN" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FV5-Tl-Mcz">
-                                <rect key="frame" x="25" y="25" width="73" height="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UP/DOWN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FV5-Tl-Mcz">
+                                <rect key="frame" x="50" y="50" width="200" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="LBy-LY-ilS"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt; PITCH &gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qYG-I8-TJi">
-                                <rect key="frame" x="251.5" y="279" width="65" height="16"/>
+                                <rect key="frame" x="251.5" y="254" width="65" height="16"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="bMs-1d-GQU">
-                                <rect key="frame" x="259.5" y="223" width="51" height="31"/>
+                                <rect key="frame" x="259.5" y="198" width="51" height="31"/>
+                                <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="onTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <color key="thumbTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="thumbTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <action selector="motionSwitch:" destination="BYZ-38-t0r" eventType="valueChanged" id="YkJ-Hy-Y1p"/>
                                 </connections>
@@ -53,14 +60,14 @@
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="Gu7-rc-wQb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DSv-Zo-DqP"/>
-                            <constraint firstItem="Gu7-rc-wQb" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="LhA-3L-5ll"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qYG-I8-TJi" secondAttribute="bottom" constant="25" id="SxA-q4-6jg"/>
-                            <constraint firstItem="FV5-Tl-Mcz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="YjI-35-UQG"/>
-                            <constraint firstItem="FV5-Tl-Mcz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="Zeq-Vc-zQc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qYG-I8-TJi" secondAttribute="bottom" constant="50" id="SxA-q4-6jg"/>
+                            <constraint firstItem="Gu7-rc-wQb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="WVp-Mz-lgJ"/>
+                            <constraint firstItem="FV5-Tl-Mcz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="YjI-35-UQG"/>
+                            <constraint firstItem="FV5-Tl-Mcz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="Zeq-Vc-zQc"/>
                             <constraint firstItem="bMs-1d-GQU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aVf-nr-PYc"/>
                             <constraint firstItem="qYG-I8-TJi" firstAttribute="top" secondItem="bMs-1d-GQU" secondAttribute="bottom" constant="25" id="atU-fo-hUG"/>
-                            <constraint firstItem="CaR-ui-RLR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="25" id="hMJ-HV-uDR"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CaR-ui-RLR" secondAttribute="trailing" constant="25" id="lcF-Hf-hB4"/>
+                            <constraint firstItem="CaR-ui-RLR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="hMJ-HV-uDR"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CaR-ui-RLR" secondAttribute="trailing" constant="50" id="lcF-Hf-hB4"/>
                             <constraint firstItem="qYG-I8-TJi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="teG-El-BTc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
