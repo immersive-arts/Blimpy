@@ -18,7 +18,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     var jrx: CGFloat = 0
     var jry: CGFloat = 0
     
-    var lastSend: Double = 0
+    var lastSpeeds: Array<Int> = [0, 0, 0, 0]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,56 +88,47 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     }
     
     func updateControls() {
-        // get data
-        let fwdBwd = Double(jrx) * -1 // x
+        // get axes
+        let fwdBwd = Double(jry) * -1 // x
         let upDown = Double(jly) * -1 // z
         let leftRight = Double(jrx) * -1 // mz
         
         // calculate motor speeds
-        let speeds = calcForce(fx: fwdBwd, fz: upDown, mz: leftRight)
+        let speeds = Model.calculate(fx: fwdBwd, fz: upDown, mz: leftRight)
         
-        // get time
-        let now = CACurrentMediaTime()
+        // get hash
+        let dist = distance(a: speeds, b: lastSpeeds)
         
-        // check rate if not all zero
-        if speeds[0] != 0 || speeds[1] != 0 || speeds[2] != 0 || speeds[3] != 0 {
-            if lastSend > now - 0.2 {
-                return
-            }
+        // skip if distance didn't change much
+        if abs(dist) < 30 {
+            return
         }
         
-        // set motor speeds
-        setMotors(m1: speeds[0], m2: speeds[1], m3: speeds[2], m4: speeds[3])
+        // set last speeds
+        lastSpeeds = speeds
         
-        // set time
-        lastSend = now
-    }
-    
-    func clamp(v: Int) -> Int {
-        // clamp to duty cycle range
-        let v = min(max(v, -255), 255)
-        
-        // reduce low values to zero
-        if abs(v) < 50 {
-            return 0
+        // map ints to strings
+        let stringSpeeds = speeds.map { (v: Int) -> String in
+            return String(v)
         }
+
+        // encode message
+        let message = stringSpeeds.joined(separator: ",")
         
-        return v
+        // send message
+        client?.publish("blimpy/mX", withString: message, qos: .qos0, retained: false)
     }
     
-    func setMotors(m1: Double, m2: Double, m3: Double, m4: Double) {
-        // get integers
-        let mm1 = clamp(v: Int(m1))
-        let mm2 = clamp(v: Int(m2))
-        let mm3 = clamp(v: Int(m3))
-        let mm4 = clamp(v: Int(m4))
-        
-        // encode speeds
-        let speeds = [String(mm1), String(mm2), String(mm3), String(mm4)]
-        let value = speeds.joined(separator: ",")
-        
-        // send speeds
-        client?.publish("blimpy/mX", withString: value)
+    // Utilities
+    
+    func distance(a: Array<Int>, b: Array<Int>) -> Double {
+        var total = 0
+        var diff = 0
+        for (i, _) in a.enumerated() {
+            diff = b[i] - a[i];
+            total += diff * diff;
+        }
+        return sqrt(Double(total))
     }
     
     // CocoaMQTTDelegate
