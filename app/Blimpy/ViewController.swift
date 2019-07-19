@@ -23,6 +23,8 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     var yaw: Double = 0
     var pitch: Double = 0
     
+    var motion: Bool = false
+    
     var lastSpeeds: Array<Int> = [0, 0, 0, 0]
     
     override func viewDidLoad() {
@@ -106,13 +108,19 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     }
     
     func updateControls() {
-        // get axes
-        let fwdBwd = jry * -1 // x
-        let upDown = jly * -1 // z
-        let leftRight = jrx * -1 // mz
+        // prepare values
+        let fx = jry * -1
+        let fz = jly * -1
+        let mz = jrx * -1
+        var mx = 0.0
+        
+        // use motion if enabled
+        if motion {
+           mx = pitch
+        }
         
         // calculate motor speeds
-        let speeds = Model.calculate(fx: fwdBwd, fz: upDown, mx: pitch, mz: leftRight)
+        let speeds = Model.calculate(fx: fx, fz: fz, mx: mx, mz: mz)
         
         // get hash
         let dist = distance(a: speeds, b: lastSpeeds)
@@ -135,6 +143,11 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         
         // send message
         client?.publish("blimpy/motors", withString: message, qos: .qos0, retained: false)
+    }
+    
+    @IBAction func motionSwitch(_ sender: UISwitch) {
+        // set flag
+        motion = (sender.isOn)
     }
     
     // Utilities
