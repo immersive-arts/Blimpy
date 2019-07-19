@@ -116,7 +116,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         let message = stringSpeeds.joined(separator: ",")
         
         // send message
-        client?.publish("blimpy/mX", withString: message, qos: .qos0, retained: false)
+        client?.publish("blimpy/motors", withString: message, qos: .qos0, retained: false)
     }
     
     // Utilities

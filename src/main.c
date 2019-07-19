@@ -43,8 +43,8 @@ static void online() {
 }
 
 static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_t scope) {
-  // set motors "1,2,3,4"
-  if(scope == NAOS_LOCAL && strcmp(topic, "mX") == 0) {
+  // set motors duty cycles "255,-255,127,64"
+  if(scope == NAOS_LOCAL && strcmp(topic, "motors") == 0) {
     // prepare speeds
     int speeds[4] = {0};
 
@@ -72,8 +72,6 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
       // set motor
       exp_motor(i+1, fwd, speed);
     }
-
-    naos_log("set motors");
 
     return;
   }
