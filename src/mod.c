@@ -42,12 +42,10 @@ mod_result_t mod_calc(double fx, double fz, double mx, double mz) {
 
   // prepare result
   mod_result_t res = {
-      .v = {
-          .m1 = convert(m1),
-          .m2 = convert(m2),
-          .m3 = convert(m3),
-          .m4 = convert(m4),
-      }
+    .m1 = convert(m1),
+    .m2 = convert(m2),
+    .m3 = convert(m3),
+    .m4 = convert(m4),
   };
 
   return res;

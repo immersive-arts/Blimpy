@@ -97,7 +97,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     // set motors
     for (i=0; i<4; i++) {
       // get speed
-      int speed = res.a[i];
+      int speed = (&res.m1)[i];
 
       // get direction
       bool fwd = true;
