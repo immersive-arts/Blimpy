@@ -53,9 +53,17 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
                 self.updateControls()
             }
         }
-    
+        
+        // get settings
+        let host = UserDefaults.standard.string(forKey: "host") ?? ""
+        let port = UserDefaults.standard.integer(forKey: "port")
+        let username = UserDefaults.standard.string(forKey: "username")
+        let password = UserDefaults.standard.string(forKey: "password")
+        
         // create client
-        client = CocoaMQTT(clientID: "app", host: "10.128.96.191", port: 8883)
+        client = CocoaMQTT(clientID: "app", host: host, port: UInt16(port))
+        client!.username = username
+        client!.password = password
         client!.delegate = self
         client!.autoReconnect = true
         client!.autoReconnectTimeInterval = 1
