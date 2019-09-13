@@ -125,8 +125,8 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     func updateControls() {
         // prepare values
         let fx = jry * -1
-        let fz = jly * -1
-        let mz = jrx * -1
+        let fz = jly
+        let mz = jrx
         var mx = 0.0
         
         // use motion if enabled
