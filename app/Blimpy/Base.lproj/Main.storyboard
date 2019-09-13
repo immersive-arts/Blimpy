@@ -92,6 +92,14 @@
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xcq-NQ-fxz">
+                                <rect key="frame" x="268" y="42" width="32" height="32"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="I3U-8c-cDL"/>
+                                    <constraint firstAttribute="width" constant="32" id="WGh-Nm-N4e"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -99,6 +107,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6sR-fy-Unf" secondAttribute="bottom" constant="20" id="AeQ-7G-bzf"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6sR-fy-Unf" secondAttribute="trailing" constant="55" id="BQv-Ln-maw"/>
                             <constraint firstItem="Gu7-rc-wQb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DSv-Zo-DqP"/>
+                            <constraint firstItem="Xcq-NQ-fxz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="42" id="Kqf-wn-6DW"/>
                             <constraint firstItem="6sR-fy-Unf" firstAttribute="top" secondItem="GeA-O7-hUi" secondAttribute="bottom" constant="8" id="Paj-mX-NGt"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qYG-I8-TJi" secondAttribute="bottom" constant="50" id="SxA-q4-6jg"/>
                             <constraint firstItem="Gu7-rc-wQb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="WVp-Mz-lgJ"/>
@@ -108,6 +117,7 @@
                             <constraint firstItem="qYG-I8-TJi" firstAttribute="top" secondItem="bMs-1d-GQU" secondAttribute="bottom" constant="25" id="atU-fo-hUG"/>
                             <constraint firstItem="CaR-ui-RLR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="hMJ-HV-uDR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CaR-ui-RLR" secondAttribute="trailing" constant="50" id="lcF-Hf-hB4"/>
+                            <constraint firstItem="Xcq-NQ-fxz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="m0D-Ca-5v5"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xjz-Jp-TU8" secondAttribute="bottom" constant="20" id="ox6-sn-Ylr"/>
                             <constraint firstItem="xjz-Jp-TU8" firstAttribute="leading" secondItem="DhB-tZ-aPr" secondAttribute="leading" id="rwE-Pg-5wa"/>
                             <constraint firstItem="qYG-I8-TJi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="teG-El-BTc"/>
@@ -118,6 +128,7 @@
                     </view>
                     <connections>
                         <outlet property="battery" destination="xjz-Jp-TU8" id="cg6-lG-QgJ"/>
+                        <outlet property="status" destination="Xcq-NQ-fxz" id="Tg2-AC-APC"/>
                         <outlet property="wifi" destination="6sR-fy-Unf" id="9WO-hs-3YR"/>
                     </connections>
                 </viewController>

@@ -29,6 +29,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     @IBOutlet weak var battery: UIProgressView!
     @IBOutlet weak var wifi: UIProgressView!
+    @IBOutlet weak var status: UIView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,10 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         // set initial values
         battery.progress = 0
         wifi.progress = 0
+        
+        // setup status
+        status.layer.cornerRadius = 16
+        status.backgroundColor = UIColor.red
         
         // setup joysticks
         setupLeftJoystick()
@@ -181,6 +186,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
         if ack == .accept {
+            status.backgroundColor = UIColor.green
             client?.subscribe("blimpy/#", qos: .qos0)
         }
     }
@@ -216,5 +222,8 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     func mqtt(_ mqtt: CocoaMQTT, didUnsubscribeTopic topic: String) {}
     func mqttDidPing(_ mqtt: CocoaMQTT) {}
     func mqttDidReceivePong(_ mqtt: CocoaMQTT) {}
-    func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {}
+    
+    func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {
+        status.backgroundColor = UIColor.red
+    }
 }
