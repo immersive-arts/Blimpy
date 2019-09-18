@@ -8188,7 +8188,9 @@ close jumper to disable</text>
 <text x="200.66" y="124.46" size="1.778" layer="94">PROGRAMMING</text>
 <text x="17.78" y="121.92" size="1.27" layer="97">CHARGING LED</text>
 <text x="121.92" y="127" size="1.27" layer="97">CHARGE
-MEASUREMENT</text>
+MEASUREMENT
+
+I2C Address: 0x6C</text>
 <text x="43.18" y="45.72" size="1.778" layer="94">I2C PULL-UP
 RESISTORS</text>
 <text x="190.5" y="50.8" size="1.778" layer="94">WIFI/BLE SOC</text>
