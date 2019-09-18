@@ -7925,6 +7925,131 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </deviceset>
 </devicesets>
 </library>
+<library name="SparkFun-IC-Power" urn="urn:adsk.eagle:library:526">
+<description>&lt;h3&gt;SparkFun Power Driver and Management ICs&lt;/h3&gt;
+In this library you'll find anything that has to do with power delivery, or making power supplies.
+&lt;p&gt;Contents:
+&lt;ul&gt;&lt;li&gt;LDOs&lt;/li&gt;
+&lt;li&gt;Boost/Buck controllers&lt;/li&gt;
+&lt;li&gt;Charge pump controllers&lt;/li&gt;
+&lt;li&gt;Power sequencers&lt;/li&gt;
+&lt;li&gt;Power switches&lt;/li&gt;
+&lt;/ul&gt;&lt;/p&gt;
+&lt;br&gt;
+We've spent an enormous amount of time creating and checking these footprints and parts, but it is &lt;b&gt; the end user's responsibility&lt;/b&gt; to ensure correctness and suitablity for a given componet or application. 
+&lt;br&gt;
+&lt;br&gt;If you enjoy using this library, please buy one of our products at &lt;a href=" www.sparkfun.com"&gt;SparkFun.com&lt;/a&gt;.
+&lt;br&gt;
+&lt;br&gt;
+&lt;b&gt;Licensing:&lt;/b&gt; Creative Commons ShareAlike 4.0 International - https://creativecommons.org/licenses/by-sa/4.0/ 
+&lt;br&gt;
+&lt;br&gt;
+You are welcome to use this library for commercial purposes. For attribution, we ask that when you begin to sell your device using our footprint, you email us with a link to the product being sold. We want bragging rights that we helped (in a very small part) to create your 8th world wonder. We would like the opportunity to feature your device on our homepage.</description>
+<packages>
+<package name="DFN-8" urn="urn:adsk.eagle:footprint:39051/1" library_version="1">
+<description>Now follows http://pdfserv.maximintegrated.com/land_patterns/90-0065.PDF&lt;br /&gt;
+Pasted was reduced by 40% width on the center ground pad, and some amount on the other 8.  Stop mask extends 135 µm wider than the pad to hit dead center of what IPC-7351 recommends.</description>
+<circle x="-1.0628" y="-0.92" radius="0.070709375" width="0.127" layer="21"/>
+<circle x="-1.0628" y="-0.92" radius="0.070709375" width="0.127" layer="21"/>
+<smd name="P$1" x="-0.75" y="-0.99" dx="0.7" dy="0.3" layer="1" rot="R90" stop="no" cream="no"/>
+<smd name="P$2" x="-0.25" y="-0.99" dx="0.7" dy="0.3" layer="1" rot="R90" stop="no" cream="no"/>
+<smd name="P$3" x="0.25" y="-0.99" dx="0.7" dy="0.3" layer="1" rot="R90" stop="no" cream="no"/>
+<smd name="P$4" x="0.75" y="-0.99" dx="0.7" dy="0.3" layer="1" rot="R90" stop="no" cream="no"/>
+<smd name="P$5" x="0.75" y="0.99" dx="0.7" dy="0.3" layer="1" rot="R90" stop="no" cream="no"/>
+<smd name="P$6" x="0.25" y="0.99" dx="0.7" dy="0.3" layer="1" rot="R90" stop="no" cream="no"/>
+<smd name="P$7" x="-0.25" y="0.99" dx="0.7" dy="0.3" layer="1" rot="R90" stop="no" cream="no"/>
+<smd name="P$8" x="-0.75" y="0.99" dx="0.7" dy="0.3" layer="1" rot="R90" stop="no" cream="no"/>
+<smd name="P$9" x="0" y="0" dx="1.38" dy="0.8" layer="1" stop="no" cream="no"/>
+<wire x1="-1" y1="1" x2="1" y2="1" width="0.127" layer="51"/>
+<wire x1="1" y1="1" x2="1" y2="-1" width="0.127" layer="51"/>
+<wire x1="1" y1="-1" x2="-1" y2="-1" width="0.127" layer="51"/>
+<wire x1="-1" y1="-1" x2="-1" y2="1" width="0.127" layer="51"/>
+<rectangle x1="-0.875" y1="-1.3375" x2="-0.625" y2="-0.7" layer="31"/>
+<rectangle x1="-0.375" y1="0.7" x2="-0.125" y2="1.3375" layer="31"/>
+<rectangle x1="-0.875" y1="0.7" x2="-0.625" y2="1.3375" layer="31"/>
+<rectangle x1="0.125" y1="0.7" x2="0.375" y2="1.3375" layer="31"/>
+<rectangle x1="0.625" y1="0.7" x2="0.875" y2="1.3375" layer="31"/>
+<rectangle x1="-0.375" y1="-1.3375" x2="-0.125" y2="-0.7" layer="31"/>
+<rectangle x1="0.125" y1="-1.3375" x2="0.375" y2="-0.7" layer="31"/>
+<rectangle x1="0.625" y1="-1.3375" x2="0.875" y2="-0.7" layer="31"/>
+<rectangle x1="0.09" y1="-0.32" x2="0.59" y2="0.32" layer="31"/>
+<rectangle x1="-0.59" y1="-0.32" x2="-0.09" y2="0.32" layer="31"/>
+<rectangle x1="-0.97" y1="0.57" x2="-0.53" y2="1.41" layer="29"/>
+<rectangle x1="-0.47" y1="0.57" x2="-0.03" y2="1.41" layer="29"/>
+<rectangle x1="0.03" y1="0.57" x2="0.47" y2="1.41" layer="29"/>
+<rectangle x1="0.53" y1="0.57" x2="0.97" y2="1.41" layer="29"/>
+<rectangle x1="0.53" y1="-1.43" x2="0.97" y2="-0.59" layer="29"/>
+<rectangle x1="0.03" y1="-1.43" x2="0.47" y2="-0.59" layer="29"/>
+<rectangle x1="-0.47" y1="-1.43" x2="-0.03" y2="-0.59" layer="29"/>
+<rectangle x1="-0.97" y1="-1.43" x2="-0.53" y2="-0.59" layer="29"/>
+<rectangle x1="-0.76" y1="-0.47" x2="0.76" y2="0.47" layer="29"/>
+<text x="0" y="1.905" size="0.6096" layer="25" font="vector" ratio="20" align="bottom-center">&gt;NAME</text>
+<text x="0" y="-2.54" size="0.6096" layer="27" font="vector" ratio="20" align="bottom-center">&gt;VALUE</text>
+</package>
+</packages>
+<packages3d>
+<package3d name="DFN-8" urn="urn:adsk.eagle:package:39085/1" type="box" library_version="1">
+<description>Now follows http://pdfserv.maximintegrated.com/land_patterns/90-0065.PDF
+Pasted was reduced by 40% width on the center ground pad, and some amount on the other 8.  Stop mask extends 135 µm wider than the pad to hit dead center of what IPC-7351 recommends.</description>
+<packageinstances>
+<packageinstance name="DFN-8"/>
+</packageinstances>
+</package3d>
+</packages3d>
+<symbols>
+<symbol name="MAX17048" urn="urn:adsk.eagle:symbol:39050/1" library_version="1">
+<wire x1="7.62" y1="-10.16" x2="7.62" y2="10.16" width="0.254" layer="94"/>
+<wire x1="7.62" y1="10.16" x2="-10.16" y2="10.16" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="10.16" x2="-10.16" y2="-10.16" width="0.254" layer="94"/>
+<wire x1="-10.16" y1="-10.16" x2="7.62" y2="-10.16" width="0.254" layer="94"/>
+<pin name="!ALRT" x="10.16" y="7.62" visible="pin" length="short" rot="R180"/>
+<pin name="CELL" x="-12.7" y="2.54" visible="pin" length="short" direction="in"/>
+<pin name="CTG" x="-12.7" y="-2.54" visible="pin" length="short" direction="in"/>
+<pin name="GND" x="-12.7" y="-7.62" visible="pin" length="short"/>
+<pin name="QSTRT" x="10.16" y="-7.62" visible="pin" length="short" rot="R180"/>
+<pin name="SCL" x="10.16" y="-2.54" visible="pin" length="short" direction="out" rot="R180"/>
+<pin name="SDA" x="10.16" y="2.54" visible="pin" length="short" direction="in" rot="R180"/>
+<pin name="VDD" x="-12.7" y="7.62" visible="pin" length="short"/>
+<text x="-10.16" y="10.668" size="1.778" layer="95" font="vector">&gt;Name</text>
+<text x="-10.16" y="-12.7" size="1.778" layer="96" font="vector">&gt;Value</text>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="MAX17048" urn="urn:adsk.eagle:component:39120/1" library_version="1">
+<description>&lt;h3&gt;Micropower 1-Cell Li+ ModelGauge&lt;/h3&gt;
+&lt;h4&gt;SparkFun Products&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.sparkfun.com/products/13614"&gt;Qduino Mini&lt;/a&gt; (DEV-13614)&lt;/li&gt;
+&lt;/ul&gt;</description>
+<gates>
+<gate name="G$1" symbol="MAX17048" x="0" y="0"/>
+</gates>
+<devices>
+<device name="DFN8" package="DFN-8">
+<connects>
+<connect gate="G$1" pin="!ALRT" pad="P$5"/>
+<connect gate="G$1" pin="CELL" pad="P$2"/>
+<connect gate="G$1" pin="CTG" pad="P$1"/>
+<connect gate="G$1" pin="GND" pad="P$4 P$9"/>
+<connect gate="G$1" pin="QSTRT" pad="P$6"/>
+<connect gate="G$1" pin="SCL" pad="P$7"/>
+<connect gate="G$1" pin="SDA" pad="P$8"/>
+<connect gate="G$1" pin="VDD" pad="P$3"/>
+</connects>
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:39085/1"/>
+</package3dinstances>
+<technologies>
+<technology name="">
+<attribute name="PROD_ID" value="IC-12551" constant="no"/>
+<attribute name="VALUE" value="MAX17048" constant="no"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -7952,8 +8077,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="Q2" library="SparkFun" deviceset="TRANSISTOR_NPN" device="SOT23-3" value="mmbt2222"/>
 <part name="Q3" library="microbuilder" deviceset="MOSFET-P" device="" value="DMG3415U"/>
 <part name="R12" library="SparkFun-Resistors" deviceset="100KOHM" device="-0603-1/10W-1%" value="100k"/>
-<part name="R1" library="SparkFun-Resistors" deviceset="100KOHM" device="-0603-1/10W-1%" value="100k"/>
-<part name="R3" library="SparkFun-Resistors" deviceset="100KOHM" device="-0603-1/10W-1%" value="100k"/>
 <part name="R4" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="2.0KOHM" device="-0603-1/10W-5%" package3d_urn="urn:adsk.eagle:package:39650/1" value="2.0k"/>
 <part name="S1" library="SparkFun-Switches" deviceset="SWITCH-SPDT" device="-SMD-RIGHT-ANGLE" value="PWR"/>
 <part name="U1" library="Particle" deviceset="RGB-LED-CLMVB-FKA" device="RGB" value="RGB"/>
@@ -8049,6 +8172,8 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="J6" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="CONN_03" device="JST-SMD" package3d_urn="urn:adsk.eagle:package:38075/1" value="3-PIN SMD"/>
 <part name="J7" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="CONN_03" device="JST-SMD" package3d_urn="urn:adsk.eagle:package:38075/1" value="3-PIN SMD"/>
 <part name="JP1" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" deviceset="JUMPER-SMT_2_NO" device="_SILK" package3d_urn="urn:adsk.eagle:package:39279/1"/>
+<part name="U10" library="SparkFun-IC-Power" library_urn="urn:adsk.eagle:library:526" deviceset="MAX17048" device="DFN8" package3d_urn="urn:adsk.eagle:package:39085/1" value="MAX17048"/>
+<part name="C11" library="SparkFun-Capacitors" library_urn="urn:adsk.eagle:library:510" deviceset="0.1UF" device="-0603-25V-5%" package3d_urn="urn:adsk.eagle:package:37414/1" value="0.1uF"/>
 </parts>
 <sheets>
 <sheet>
@@ -8062,7 +8187,7 @@ close jumper to disable</text>
 <text x="-40.64" y="71.12" size="2.54" layer="97"></text>
 <text x="200.66" y="124.46" size="1.778" layer="94">PROGRAMMING</text>
 <text x="17.78" y="121.92" size="1.27" layer="97">CHARGING LED</text>
-<text x="93.98" y="121.92" size="1.27" layer="97">CHARGE
+<text x="121.92" y="127" size="1.27" layer="97">CHARGE
 MEASUREMENT</text>
 <text x="43.18" y="45.72" size="1.778" layer="94">I2C PULL-UP
 RESISTORS</text>
@@ -8071,7 +8196,7 @@ RESISTORS</text>
 
 I2C Address: 0x4A</text>
 <text x="378.46" y="185.42" size="1.27" layer="97">INT OSC</text>
-<text x="665.48" y="220.98" size="5.08" layer="94" align="top-left">TODO
+<text x="160.02" y="-58.42" size="5.08" layer="94" align="top-left">TODO
 
 - Connect IMU to MC
 - Connect Servos to MC
@@ -8162,14 +8287,6 @@ I2C Address: 0x3F</text>
 <instance part="R12" gate="G$1" x="27.94" y="182.88" smashed="yes" rot="R90">
 <attribute name="NAME" x="26.416" y="182.88" size="1.778" layer="95" font="vector" rot="R90" align="bottom-center"/>
 <attribute name="VALUE" x="29.464" y="182.88" size="1.778" layer="96" font="vector" rot="R90" align="top-center"/>
-</instance>
-<instance part="R1" gate="G$1" x="106.68" y="111.76" smashed="yes" rot="R90">
-<attribute name="NAME" x="105.156" y="111.76" size="1.778" layer="95" font="vector" rot="R90" align="bottom-center"/>
-<attribute name="VALUE" x="108.204" y="111.76" size="1.778" layer="96" font="vector" rot="R90" align="top-center"/>
-</instance>
-<instance part="R3" gate="G$1" x="106.68" y="96.52" smashed="yes" rot="R90">
-<attribute name="NAME" x="105.156" y="96.52" size="1.778" layer="95" font="vector" rot="R90" align="bottom-center"/>
-<attribute name="VALUE" x="108.204" y="96.52" size="1.778" layer="96" font="vector" rot="R90" align="top-center"/>
 </instance>
 <instance part="R4" gate="G$1" x="78.74" y="106.68" smashed="yes" rot="R90">
 <attribute name="NAME" x="77.216" y="106.68" size="1.778" layer="95" font="vector" rot="R90" align="bottom-center"/>
@@ -8505,6 +8622,14 @@ I2C Address: 0x3F</text>
 <instance part="JP1" gate="G$1" x="78.74" y="127" smashed="yes" rot="R90">
 <attribute name="NAME" x="76.2" y="124.46" size="1.778" layer="95" font="vector" rot="R90"/>
 </instance>
+<instance part="U10" gate="G$1" x="132.08" y="111.76" smashed="yes">
+<attribute name="NAME" x="121.92" y="122.428" size="1.778" layer="95" font="vector"/>
+<attribute name="VALUE" x="121.92" y="99.06" size="1.778" layer="96" font="vector"/>
+</instance>
+<instance part="C11" gate="G$1" x="106.68" y="106.68" smashed="yes">
+<attribute name="NAME" x="108.204" y="109.601" size="1.778" layer="95" font="vector"/>
+<attribute name="VALUE" x="108.204" y="104.521" size="1.778" layer="96" font="vector"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -8825,9 +8950,7 @@ I2C Address: 0x3F</text>
 <wire x1="228.6" y1="-27.94" x2="228.6" y2="-22.86" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="R3" gate="G$1" pin="1"/>
 <pinref part="U3" gate="G$1" pin="VSS"/>
-<wire x1="106.68" y1="88.9" x2="106.68" y2="91.44" width="0.1524" layer="91"/>
 <wire x1="68.58" y1="114.3" x2="71.12" y2="114.3" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="114.3" x2="71.12" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="96.52" x2="78.74" y2="96.52" width="0.1524" layer="91"/>
@@ -8840,13 +8963,28 @@ I2C Address: 0x3F</text>
 <wire x1="35.56" y1="99.06" x2="35.56" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="35.56" y1="96.52" x2="71.12" y2="96.52" width="0.1524" layer="91"/>
 <junction x="71.12" y="96.52"/>
-<wire x1="106.68" y1="88.9" x2="88.9" y2="88.9" width="0.1524" layer="91"/>
-<wire x1="88.9" y1="88.9" x2="88.9" y2="96.52" width="0.1524" layer="91"/>
-<junction x="88.9" y="96.52"/>
 <wire x1="78.74" y1="101.6" x2="78.74" y2="96.52" width="0.1524" layer="91"/>
 <junction x="78.74" y="96.52"/>
 <pinref part="GND12" gate="1" pin="GND"/>
 <wire x1="71.12" y1="88.9" x2="71.12" y2="96.52" width="0.1524" layer="91"/>
+<pinref part="U10" gate="G$1" pin="QSTRT"/>
+<wire x1="142.24" y1="104.14" x2="144.78" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="144.78" y1="104.14" x2="144.78" y2="96.52" width="0.1524" layer="91"/>
+<pinref part="U10" gate="G$1" pin="CTG"/>
+<wire x1="119.38" y1="109.22" x2="116.84" y2="109.22" width="0.1524" layer="91"/>
+<pinref part="U10" gate="G$1" pin="GND"/>
+<wire x1="119.38" y1="104.14" x2="116.84" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="109.22" x2="116.84" y2="104.14" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="104.14" x2="116.84" y2="96.52" width="0.1524" layer="91"/>
+<junction x="116.84" y="104.14"/>
+<wire x1="144.78" y1="96.52" x2="116.84" y2="96.52" width="0.1524" layer="91"/>
+<junction x="116.84" y="96.52"/>
+<wire x1="88.9" y1="96.52" x2="106.68" y2="96.52" width="0.1524" layer="91"/>
+<junction x="88.9" y="96.52"/>
+<pinref part="C11" gate="G$1" pin="2"/>
+<wire x1="106.68" y1="96.52" x2="116.84" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="106.68" y1="104.14" x2="106.68" y2="96.52" width="0.1524" layer="91"/>
+<junction x="106.68" y="96.52"/>
 </segment>
 <segment>
 <pinref part="GND13" gate="1" pin="GND"/>
@@ -9255,22 +9393,6 @@ I2C Address: 0x3F</text>
 <label x="231.14" y="91.44" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="BAT" class="0">
-<segment>
-<pinref part="R1" gate="G$1" pin="1"/>
-<pinref part="R3" gate="G$1" pin="2"/>
-<label x="111.76" y="104.14" size="1.27" layer="95" xref="yes"/>
-<wire x1="106.68" y1="101.6" x2="106.68" y2="104.14" width="0.1524" layer="91"/>
-<wire x1="106.68" y1="104.14" x2="106.68" y2="106.68" width="0.1524" layer="91"/>
-<wire x1="106.68" y1="104.14" x2="111.76" y2="104.14" width="0.1524" layer="91"/>
-<junction x="106.68" y="104.14"/>
-</segment>
-<segment>
-<pinref part="U9" gate="G$1" pin="34-IA"/>
-<wire x1="172.72" y1="17.78" x2="152.4" y2="17.78" width="0.1524" layer="91"/>
-<label x="152.4" y="17.78" size="1.27" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
 <net name="RED" class="0">
 <segment>
 <pinref part="R5" gate="G$1" pin="2"/>
@@ -9340,6 +9462,11 @@ I2C Address: 0x3F</text>
 <wire x1="345.44" y1="-35.56" x2="322.58" y2="-35.56" width="0.1524" layer="91"/>
 <label x="322.58" y="-35.56" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U10" gate="G$1" pin="SDA"/>
+<wire x1="142.24" y1="114.3" x2="144.78" y2="114.3" width="0.1524" layer="91"/>
+<label x="144.78" y="114.3" size="1.27" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="SCL" class="0">
 <segment>
@@ -9366,6 +9493,11 @@ I2C Address: 0x3F</text>
 <pinref part="U6" gate="G$1" pin="SCL"/>
 <wire x1="322.58" y1="-38.1" x2="345.44" y2="-38.1" width="0.1524" layer="91"/>
 <label x="322.58" y="-38.1" size="1.27" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U10" gate="G$1" pin="SCL"/>
+<wire x1="142.24" y1="109.22" x2="144.78" y2="109.22" width="0.1524" layer="91"/>
+<label x="144.78" y="109.22" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="N$9" class="0">
@@ -9725,11 +9857,19 @@ I2C Address: 0x3F</text>
 <wire x1="88.9" y1="129.54" x2="88.9" y2="119.38" width="0.1524" layer="91"/>
 <pinref part="U3" gate="G$1" pin="VBAT"/>
 <wire x1="68.58" y1="119.38" x2="88.9" y2="119.38" width="0.1524" layer="91"/>
-<wire x1="88.9" y1="119.38" x2="106.68" y2="119.38" width="0.1524" layer="91"/>
 <junction x="88.9" y="119.38"/>
-<pinref part="R1" gate="G$1" pin="2"/>
-<wire x1="106.68" y1="116.84" x2="106.68" y2="119.38" width="0.1524" layer="91"/>
 <pinref part="SUPPLY6" gate="G$1" pin="V_BATT"/>
+<pinref part="U10" gate="G$1" pin="CELL"/>
+<wire x1="119.38" y1="114.3" x2="116.84" y2="114.3" width="0.1524" layer="91"/>
+<pinref part="U10" gate="G$1" pin="VDD"/>
+<wire x1="119.38" y1="119.38" x2="116.84" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="116.84" y1="114.3" x2="116.84" y2="119.38" width="0.1524" layer="91"/>
+<junction x="116.84" y="119.38"/>
+<wire x1="88.9" y1="119.38" x2="106.68" y2="119.38" width="0.1524" layer="91"/>
+<pinref part="C11" gate="G$1" pin="1"/>
+<wire x1="106.68" y1="119.38" x2="116.84" y2="119.38" width="0.1524" layer="91"/>
+<wire x1="106.68" y1="111.76" x2="106.68" y2="119.38" width="0.1524" layer="91"/>
+<junction x="106.68" y="119.38"/>
 </segment>
 <segment>
 <pinref part="HB4" gate="G$1" pin="VM2"/>
