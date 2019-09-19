@@ -8206,7 +8206,6 @@ I2C Address: 0x4A</text>
 - Connect IOs to MC
 
 - Expose unused GPIOs
-- Add. Capacitors?
 - Check all components</text>
 <text x="342.9" y="106.68" size="1.778" layer="94">GPIO Expander 1
 
