@@ -8206,8 +8206,7 @@ I2C Address: 0x4A</text>
 - Connect IOs to MC
 
 - Expose unused GPIOs
-- ESD Protection?
-- Capacitors
+- Add. Capacitors?
 - Check all components</text>
 <text x="342.9" y="106.68" size="1.778" layer="94">GPIO Expander 1
 
@@ -9520,7 +9519,7 @@ I2C Address: 0x3F</text>
 <wire x1="55.88" y1="-5.08" x2="50.8" y2="-5.08" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$18" class="0">
+<net name="HB3-A1" class="0">
 <segment>
 <pinref part="HB3" gate="G$1" pin="AO1"/>
 <wire x1="469.9" y1="48.26" x2="467.36" y2="48.26" width="0.1524" layer="91"/>
@@ -9529,48 +9528,12 @@ I2C Address: 0x3F</text>
 <wire x1="467.36" y1="45.72" x2="467.36" y2="48.26" width="0.1524" layer="91"/>
 <wire x1="467.36" y1="45.72" x2="462.28" y2="45.72" width="0.1524" layer="91"/>
 <junction x="467.36" y="45.72"/>
-<pinref part="J12" gate="G$1" pin="2"/>
-<wire x1="459.74" y1="40.64" x2="462.28" y2="40.64" width="0.1524" layer="91"/>
 <wire x1="462.28" y1="45.72" x2="462.28" y2="40.64" width="0.1524" layer="91"/>
+<pinref part="J12" gate="G$1" pin="1"/>
+<wire x1="459.74" y1="38.1" x2="462.28" y2="40.64" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$22" class="0">
-<segment>
-<pinref part="HB1" gate="G$1" pin="BO2"/>
-<wire x1="467.36" y1="195.58" x2="464.82" y2="195.58" width="0.1524" layer="91"/>
-<pinref part="HB1" gate="G$1" pin="BO2'"/>
-<wire x1="467.36" y1="193.04" x2="464.82" y2="193.04" width="0.1524" layer="91"/>
-<wire x1="464.82" y1="193.04" x2="464.82" y2="195.58" width="0.1524" layer="91"/>
-<wire x1="459.74" y1="193.04" x2="464.82" y2="193.04" width="0.1524" layer="91"/>
-<junction x="464.82" y="193.04"/>
-<pinref part="J9" gate="G$1" pin="2"/>
-<wire x1="457.2" y1="187.96" x2="459.74" y2="187.96" width="0.1524" layer="91"/>
-<wire x1="459.74" y1="193.04" x2="459.74" y2="187.96" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="HB2" gate="G$1" pin="BO2"/>
-<wire x1="469.9" y1="109.22" x2="467.36" y2="109.22" width="0.1524" layer="91"/>
-<pinref part="HB2" gate="G$1" pin="BO2'"/>
-<wire x1="469.9" y1="106.68" x2="467.36" y2="106.68" width="0.1524" layer="91"/>
-<wire x1="467.36" y1="106.68" x2="467.36" y2="109.22" width="0.1524" layer="91"/>
-<wire x1="467.36" y1="106.68" x2="462.28" y2="106.68" width="0.1524" layer="91"/>
-<junction x="467.36" y="106.68"/>
-<pinref part="J11" gate="G$1" pin="2"/>
-<wire x1="459.74" y1="101.6" x2="462.28" y2="101.6" width="0.1524" layer="91"/>
-<wire x1="462.28" y1="106.68" x2="462.28" y2="101.6" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="HB3" gate="G$1" pin="BO2"/>
-<wire x1="469.9" y1="25.4" x2="467.36" y2="25.4" width="0.1524" layer="91"/>
-<pinref part="HB3" gate="G$1" pin="BO2'"/>
-<wire x1="469.9" y1="22.86" x2="467.36" y2="22.86" width="0.1524" layer="91"/>
-<wire x1="467.36" y1="22.86" x2="467.36" y2="25.4" width="0.1524" layer="91"/>
-<wire x1="467.36" y1="22.86" x2="462.28" y2="22.86" width="0.1524" layer="91"/>
-<junction x="467.36" y="22.86"/>
-<pinref part="J13" gate="G$1" pin="2"/>
-<wire x1="459.74" y1="17.78" x2="462.28" y2="17.78" width="0.1524" layer="91"/>
-<wire x1="462.28" y1="22.86" x2="462.28" y2="17.78" width="0.1524" layer="91"/>
-</segment>
+<net name="HB4-B2" class="0">
 <segment>
 <pinref part="HB4" gate="G$1" pin="BO2"/>
 <wire x1="472.44" y1="-58.42" x2="469.9" y2="-58.42" width="0.1524" layer="91"/>
@@ -9579,9 +9542,9 @@ I2C Address: 0x3F</text>
 <wire x1="469.9" y1="-60.96" x2="469.9" y2="-58.42" width="0.1524" layer="91"/>
 <wire x1="469.9" y1="-60.96" x2="464.82" y2="-60.96" width="0.1524" layer="91"/>
 <junction x="469.9" y="-60.96"/>
-<pinref part="J15" gate="G$1" pin="2"/>
-<wire x1="462.28" y1="-66.04" x2="464.82" y2="-66.04" width="0.1524" layer="91"/>
 <wire x1="464.82" y1="-60.96" x2="464.82" y2="-66.04" width="0.1524" layer="91"/>
+<pinref part="J15" gate="G$1" pin="1"/>
+<wire x1="462.28" y1="-68.58" x2="464.82" y2="-66.04" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="H4-6" class="0">
@@ -9990,10 +9953,8 @@ I2C Address: 0x3F</text>
 <wire x1="53.34" y1="-116.84" x2="58.42" y2="-116.84" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$5" class="0">
+<net name="HB1-A1" class="0">
 <segment>
-<pinref part="J8" gate="G$1" pin="2"/>
-<wire x1="457.2" y1="210.82" x2="459.74" y2="210.82" width="0.1524" layer="91"/>
 <pinref part="HB1" gate="G$1" pin="AO1"/>
 <wire x1="467.36" y1="218.44" x2="464.82" y2="218.44" width="0.1524" layer="91"/>
 <pinref part="HB1" gate="G$1" pin="AO1'"/>
@@ -10002,12 +9963,12 @@ I2C Address: 0x3F</text>
 <wire x1="464.82" y1="215.9" x2="459.74" y2="215.9" width="0.1524" layer="91"/>
 <junction x="464.82" y="215.9"/>
 <wire x1="459.74" y1="210.82" x2="459.74" y2="215.9" width="0.1524" layer="91"/>
+<pinref part="J8" gate="G$1" pin="1"/>
+<wire x1="457.2" y1="208.28" x2="459.74" y2="210.82" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$17" class="0">
+<net name="HB1-A2" class="0">
 <segment>
-<pinref part="J8" gate="G$1" pin="1"/>
-<wire x1="457.2" y1="208.28" x2="459.74" y2="208.28" width="0.1524" layer="91"/>
 <pinref part="HB1" gate="G$1" pin="AO2"/>
 <wire x1="467.36" y1="203.2" x2="464.82" y2="203.2" width="0.1524" layer="91"/>
 <pinref part="HB1" gate="G$1" pin="AO2'"/>
@@ -10016,12 +9977,12 @@ I2C Address: 0x3F</text>
 <wire x1="464.82" y1="200.66" x2="464.82" y2="203.2" width="0.1524" layer="91"/>
 <junction x="464.82" y="203.2"/>
 <wire x1="459.74" y1="208.28" x2="459.74" y2="203.2" width="0.1524" layer="91"/>
+<pinref part="J8" gate="G$1" pin="2"/>
+<wire x1="457.2" y1="210.82" x2="459.74" y2="208.28" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$21" class="0">
+<net name="HB1-B1" class="0">
 <segment>
-<pinref part="J9" gate="G$1" pin="1"/>
-<wire x1="457.2" y1="185.42" x2="459.74" y2="185.42" width="0.1524" layer="91"/>
 <pinref part="HB1" gate="G$1" pin="BO1'"/>
 <wire x1="467.36" y1="180.34" x2="464.82" y2="180.34" width="0.1524" layer="91"/>
 <pinref part="HB1" gate="G$1" pin="BO1"/>
@@ -10030,12 +9991,12 @@ I2C Address: 0x3F</text>
 <wire x1="464.82" y1="177.8" x2="464.82" y2="180.34" width="0.1524" layer="91"/>
 <junction x="464.82" y="180.34"/>
 <wire x1="459.74" y1="185.42" x2="459.74" y2="180.34" width="0.1524" layer="91"/>
+<pinref part="J9" gate="G$1" pin="2"/>
+<wire x1="457.2" y1="187.96" x2="459.74" y2="185.42" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$23" class="0">
+<net name="HB2-A1" class="0">
 <segment>
-<pinref part="J10" gate="G$1" pin="2"/>
-<wire x1="459.74" y1="124.46" x2="462.28" y2="124.46" width="0.1524" layer="91"/>
 <pinref part="HB2" gate="G$1" pin="AO1"/>
 <wire x1="469.9" y1="132.08" x2="467.36" y2="132.08" width="0.1524" layer="91"/>
 <pinref part="HB2" gate="G$1" pin="AO1'"/>
@@ -10044,12 +10005,12 @@ I2C Address: 0x3F</text>
 <wire x1="467.36" y1="129.54" x2="462.28" y2="129.54" width="0.1524" layer="91"/>
 <junction x="467.36" y="129.54"/>
 <wire x1="462.28" y1="124.46" x2="462.28" y2="129.54" width="0.1524" layer="91"/>
+<pinref part="J10" gate="G$1" pin="1"/>
+<wire x1="459.74" y1="121.92" x2="462.28" y2="124.46" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$25" class="0">
+<net name="HB2-A2" class="0">
 <segment>
-<pinref part="J10" gate="G$1" pin="1"/>
-<wire x1="459.74" y1="121.92" x2="462.28" y2="121.92" width="0.1524" layer="91"/>
 <pinref part="HB2" gate="G$1" pin="AO2"/>
 <wire x1="469.9" y1="116.84" x2="467.36" y2="116.84" width="0.1524" layer="91"/>
 <pinref part="HB2" gate="G$1" pin="AO2'"/>
@@ -10058,12 +10019,12 @@ I2C Address: 0x3F</text>
 <wire x1="467.36" y1="114.3" x2="467.36" y2="116.84" width="0.1524" layer="91"/>
 <junction x="467.36" y="116.84"/>
 <wire x1="462.28" y1="121.92" x2="462.28" y2="116.84" width="0.1524" layer="91"/>
+<pinref part="J10" gate="G$1" pin="2"/>
+<wire x1="459.74" y1="124.46" x2="462.28" y2="121.92" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$33" class="0">
+<net name="HB2-B1" class="0">
 <segment>
-<pinref part="J11" gate="G$1" pin="1"/>
-<wire x1="459.74" y1="99.06" x2="462.28" y2="99.06" width="0.1524" layer="91"/>
 <pinref part="HB2" gate="G$1" pin="BO1'"/>
 <wire x1="469.9" y1="93.98" x2="467.36" y2="93.98" width="0.1524" layer="91"/>
 <pinref part="HB2" gate="G$1" pin="BO1"/>
@@ -10072,12 +10033,12 @@ I2C Address: 0x3F</text>
 <wire x1="467.36" y1="91.44" x2="467.36" y2="93.98" width="0.1524" layer="91"/>
 <junction x="467.36" y="93.98"/>
 <wire x1="462.28" y1="99.06" x2="462.28" y2="93.98" width="0.1524" layer="91"/>
+<pinref part="J11" gate="G$1" pin="2"/>
+<wire x1="459.74" y1="101.6" x2="462.28" y2="99.06" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$35" class="0">
+<net name="HB3-A2" class="0">
 <segment>
-<pinref part="J12" gate="G$1" pin="1"/>
-<wire x1="459.74" y1="38.1" x2="462.28" y2="38.1" width="0.1524" layer="91"/>
 <pinref part="HB3" gate="G$1" pin="AO2"/>
 <wire x1="469.9" y1="33.02" x2="467.36" y2="33.02" width="0.1524" layer="91"/>
 <pinref part="HB3" gate="G$1" pin="AO2'"/>
@@ -10086,12 +10047,12 @@ I2C Address: 0x3F</text>
 <wire x1="467.36" y1="30.48" x2="467.36" y2="33.02" width="0.1524" layer="91"/>
 <junction x="467.36" y="33.02"/>
 <wire x1="462.28" y1="38.1" x2="462.28" y2="33.02" width="0.1524" layer="91"/>
+<pinref part="J12" gate="G$1" pin="2"/>
+<wire x1="459.74" y1="40.64" x2="462.28" y2="38.1" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$37" class="0">
+<net name="HB3-B1" class="0">
 <segment>
-<pinref part="J13" gate="G$1" pin="1"/>
-<wire x1="459.74" y1="15.24" x2="462.28" y2="15.24" width="0.1524" layer="91"/>
 <pinref part="HB3" gate="G$1" pin="BO1'"/>
 <wire x1="469.9" y1="10.16" x2="467.36" y2="10.16" width="0.1524" layer="91"/>
 <pinref part="HB3" gate="G$1" pin="BO1"/>
@@ -10100,12 +10061,12 @@ I2C Address: 0x3F</text>
 <wire x1="467.36" y1="7.62" x2="467.36" y2="10.16" width="0.1524" layer="91"/>
 <junction x="467.36" y="10.16"/>
 <wire x1="462.28" y1="15.24" x2="462.28" y2="10.16" width="0.1524" layer="91"/>
+<pinref part="J13" gate="G$1" pin="2"/>
+<wire x1="459.74" y1="17.78" x2="462.28" y2="15.24" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$38" class="0">
+<net name="HB4-A1" class="0">
 <segment>
-<pinref part="J14" gate="G$1" pin="2"/>
-<wire x1="462.28" y1="-43.18" x2="464.82" y2="-43.18" width="0.1524" layer="91"/>
 <pinref part="HB4" gate="G$1" pin="AO1"/>
 <wire x1="472.44" y1="-35.56" x2="469.9" y2="-35.56" width="0.1524" layer="91"/>
 <pinref part="HB4" gate="G$1" pin="AO1'"/>
@@ -10114,12 +10075,12 @@ I2C Address: 0x3F</text>
 <wire x1="469.9" y1="-38.1" x2="464.82" y2="-38.1" width="0.1524" layer="91"/>
 <junction x="469.9" y="-38.1"/>
 <wire x1="464.82" y1="-43.18" x2="464.82" y2="-38.1" width="0.1524" layer="91"/>
+<pinref part="J14" gate="G$1" pin="1"/>
+<wire x1="462.28" y1="-45.72" x2="464.82" y2="-43.18" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$39" class="0">
+<net name="HB4-A2" class="0">
 <segment>
-<pinref part="J14" gate="G$1" pin="1"/>
-<wire x1="462.28" y1="-45.72" x2="464.82" y2="-45.72" width="0.1524" layer="91"/>
 <pinref part="HB4" gate="G$1" pin="AO2"/>
 <wire x1="472.44" y1="-50.8" x2="469.9" y2="-50.8" width="0.1524" layer="91"/>
 <pinref part="HB4" gate="G$1" pin="AO2'"/>
@@ -10128,12 +10089,12 @@ I2C Address: 0x3F</text>
 <wire x1="469.9" y1="-53.34" x2="469.9" y2="-50.8" width="0.1524" layer="91"/>
 <junction x="469.9" y="-50.8"/>
 <wire x1="464.82" y1="-45.72" x2="464.82" y2="-50.8" width="0.1524" layer="91"/>
+<pinref part="J14" gate="G$1" pin="2"/>
+<wire x1="462.28" y1="-43.18" x2="464.82" y2="-45.72" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$41" class="0">
+<net name="HB4-B1" class="0">
 <segment>
-<pinref part="J15" gate="G$1" pin="1"/>
-<wire x1="462.28" y1="-68.58" x2="464.82" y2="-68.58" width="0.1524" layer="91"/>
 <pinref part="HB4" gate="G$1" pin="BO1'"/>
 <wire x1="472.44" y1="-73.66" x2="469.9" y2="-73.66" width="0.1524" layer="91"/>
 <pinref part="HB4" gate="G$1" pin="BO1"/>
@@ -10142,6 +10103,8 @@ I2C Address: 0x3F</text>
 <wire x1="469.9" y1="-76.2" x2="469.9" y2="-73.66" width="0.1524" layer="91"/>
 <junction x="469.9" y="-73.66"/>
 <wire x1="464.82" y1="-68.58" x2="464.82" y2="-73.66" width="0.1524" layer="91"/>
+<pinref part="J15" gate="G$1" pin="2"/>
+<wire x1="462.28" y1="-66.04" x2="464.82" y2="-68.58" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="1-1" class="0">
@@ -10402,6 +10365,48 @@ I2C Address: 0x3F</text>
 <pinref part="HB3" gate="G$1" pin="PWMB"/>
 <wire x1="505.46" y1="15.24" x2="530.86" y2="15.24" width="0.1524" layer="91"/>
 <label x="530.86" y="15.24" size="1.27" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="HB1-B2" class="0">
+<segment>
+<pinref part="HB1" gate="G$1" pin="BO2"/>
+<wire x1="467.36" y1="195.58" x2="464.82" y2="195.58" width="0.1524" layer="91"/>
+<pinref part="HB1" gate="G$1" pin="BO2'"/>
+<wire x1="467.36" y1="193.04" x2="464.82" y2="193.04" width="0.1524" layer="91"/>
+<wire x1="464.82" y1="193.04" x2="464.82" y2="195.58" width="0.1524" layer="91"/>
+<wire x1="459.74" y1="193.04" x2="464.82" y2="193.04" width="0.1524" layer="91"/>
+<junction x="464.82" y="193.04"/>
+<wire x1="459.74" y1="193.04" x2="459.74" y2="187.96" width="0.1524" layer="91"/>
+<pinref part="J9" gate="G$1" pin="1"/>
+<wire x1="457.2" y1="185.42" x2="459.74" y2="187.96" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="HB2-B2" class="0">
+<segment>
+<pinref part="HB2" gate="G$1" pin="BO2"/>
+<wire x1="469.9" y1="109.22" x2="467.36" y2="109.22" width="0.1524" layer="91"/>
+<pinref part="HB2" gate="G$1" pin="BO2'"/>
+<wire x1="469.9" y1="106.68" x2="467.36" y2="106.68" width="0.1524" layer="91"/>
+<wire x1="467.36" y1="106.68" x2="467.36" y2="109.22" width="0.1524" layer="91"/>
+<wire x1="467.36" y1="106.68" x2="462.28" y2="106.68" width="0.1524" layer="91"/>
+<junction x="467.36" y="106.68"/>
+<wire x1="462.28" y1="106.68" x2="462.28" y2="101.6" width="0.1524" layer="91"/>
+<pinref part="J11" gate="G$1" pin="1"/>
+<wire x1="459.74" y1="99.06" x2="462.28" y2="101.6" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="HB3-B2" class="0">
+<segment>
+<pinref part="HB3" gate="G$1" pin="BO2"/>
+<wire x1="469.9" y1="25.4" x2="467.36" y2="25.4" width="0.1524" layer="91"/>
+<pinref part="HB3" gate="G$1" pin="BO2'"/>
+<wire x1="469.9" y1="22.86" x2="467.36" y2="22.86" width="0.1524" layer="91"/>
+<wire x1="467.36" y1="22.86" x2="467.36" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="467.36" y1="22.86" x2="462.28" y2="22.86" width="0.1524" layer="91"/>
+<junction x="467.36" y="22.86"/>
+<wire x1="462.28" y1="22.86" x2="462.28" y2="17.78" width="0.1524" layer="91"/>
+<pinref part="J13" gate="G$1" pin="1"/>
+<wire x1="459.74" y1="15.24" x2="462.28" y2="17.78" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
