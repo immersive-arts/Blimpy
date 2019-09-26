@@ -2198,12 +2198,12 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <contactref element="J12" pad="2"/>
 <wire x1="89.5" y1="153.8" x2="89.5" y2="150" width="0.8" layer="1"/>
 <wire x1="89.5" y1="150" x2="88.5" y2="149" width="0.8" layer="1"/>
-<wire x1="88.5" y1="149" x2="87.5" y2="149" width="0.8" layer="1"/>
-<wire x1="87.5" y1="149" x2="87.075" y2="148.575" width="0.8" layer="1"/>
-<wire x1="87.075" y1="148.575" x2="87.075" y2="147.125" width="0.8" layer="1"/>
-<wire x1="87.075" y1="148.575" x2="86.5782" y2="148.0782" width="0.8" layer="1"/>
-<wire x1="86.5782" y1="148.0782" x2="86.5782" y2="147.125" width="0.8" layer="1"/>
-<wire x1="86.5782" y1="147.125" x2="86.425" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="86.5" y1="149" x2="87" y2="149" width="0.8" layer="1"/>
+<wire x1="87" y1="149" x2="88.5" y2="149" width="0.8" layer="1"/>
+<wire x1="86.425" y1="147.125" x2="86.425" y2="148.925" width="0.4" layer="1"/>
+<wire x1="86.425" y1="148.925" x2="86.5" y2="149" width="0.4" layer="1"/>
+<wire x1="87.075" y1="147.125" x2="87.075" y2="148.925" width="0.4" layer="1"/>
+<wire x1="87.075" y1="148.925" x2="87" y2="149" width="0.4" layer="1"/>
 </signal>
 <signal name="HB4-B2">
 <contactref element="HB4" pad="7"/>
@@ -2212,12 +2212,11 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="100.5" y1="153.8" x2="100.5" y2="151" width="0.8" layer="1"/>
 <wire x1="100.5" y1="151" x2="101" y2="150.5" width="0.8" layer="1"/>
 <wire x1="101" y1="150.5" x2="102.5" y2="150.5" width="0.8" layer="1"/>
-<wire x1="102.5" y1="150.5" x2="103.6782" y2="149.3218" width="0.8" layer="1"/>
-<wire x1="103.6782" y1="149.3218" x2="103.6782" y2="147.125" width="0.8" layer="1"/>
-<wire x1="103.6782" y1="149.3218" x2="103.9242" y2="149.0758" width="0.8" layer="1"/>
-<wire x1="103.9242" y1="149.0758" x2="103.9242" y2="147.125" width="0.8" layer="1"/>
-<wire x1="103.9242" y1="147.125" x2="104.175" y2="147.125" width="0" layer="19" extent="1-1"/>
-<wire x1="103.525" y1="147.125" x2="103.6782" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="103.5" y1="149.5" x2="102.5" y2="150.5" width="0.8" layer="1"/>
+<wire x1="103.525" y1="147.125" x2="103.525" y2="149.475" width="0.4" layer="1"/>
+<wire x1="103.525" y1="149.475" x2="103.5" y2="149.5" width="0.4" layer="1"/>
+<wire x1="104.175" y1="147.125" x2="104.175" y2="148.825" width="0.4" layer="1"/>
+<wire x1="104.175" y1="148.825" x2="103.525" y2="149.475" width="0.4" layer="1"/>
 </signal>
 <signal name="H4-6">
 <contactref element="HB4" pad="15"/>
@@ -2433,12 +2432,12 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <contactref element="J8" pad="2"/>
 <wire x1="47.5" y1="153.8" x2="47.5" y2="150" width="0.8" layer="1"/>
 <wire x1="47.5" y1="150" x2="46.5" y2="149" width="0.8" layer="1"/>
-<wire x1="46.5" y1="149" x2="45.5" y2="149" width="0.8" layer="1"/>
-<wire x1="45.5" y1="149" x2="45.075" y2="148.575" width="0.8" layer="1"/>
-<wire x1="45.075" y1="147.125" x2="45.075" y2="148.575" width="0.8" layer="1"/>
-<wire x1="45.075" y1="148.575" x2="44.5782" y2="148.0782" width="0.8" layer="1"/>
-<wire x1="44.5782" y1="148.0782" x2="44.5782" y2="147.125" width="0.8" layer="1"/>
-<wire x1="44.5782" y1="147.125" x2="44.425" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="46.5" y1="149" x2="45" y2="149" width="0.8" layer="1"/>
+<wire x1="44.5" y1="149" x2="45" y2="149" width="0.8" layer="1"/>
+<wire x1="45.075" y1="147.125" x2="45.075" y2="148.925" width="0.4" layer="1"/>
+<wire x1="45.075" y1="148.925" x2="45" y2="149" width="0.4" layer="1"/>
+<wire x1="44.425" y1="147.125" x2="44.425" y2="148.925" width="0.4" layer="1"/>
+<wire x1="44.425" y1="148.925" x2="44.5" y2="149" width="0.4" layer="1"/>
 </signal>
 <signal name="HB1-A2">
 <contactref element="HB1" pad="5"/>
@@ -2447,25 +2446,24 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="45.5" y1="153.8" x2="45.5" y2="151" width="0.8" layer="1"/>
 <wire x1="45.5" y1="151" x2="45" y2="150.5" width="0.8" layer="1"/>
 <wire x1="45" y1="150.5" x2="43.5" y2="150.5" width="0.8" layer="1"/>
-<wire x1="43.5" y1="150.5" x2="42.3218" y2="149.3218" width="0.8" layer="1"/>
-<wire x1="42.3218" y1="149.3218" x2="42.3218" y2="147.125" width="0.8" layer="1"/>
-<wire x1="42.3218" y1="149.3218" x2="42.0758" y2="149.0758" width="0.8" layer="1"/>
-<wire x1="42.0758" y1="149.0758" x2="42.0758" y2="147.125" width="0.8" layer="1"/>
-<wire x1="42.3218" y1="147.125" x2="42.475" y2="147.125" width="0" layer="19" extent="1-1"/>
-<wire x1="41.825" y1="147.125" x2="42.0758" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="42.5" y1="149.5" x2="43.5" y2="150.5" width="0.8" layer="1"/>
+<wire x1="42.475" y1="147.125" x2="42.475" y2="149.475" width="0.4" layer="1"/>
+<wire x1="42.475" y1="149.475" x2="42.5" y2="149.5" width="0.4" layer="1"/>
+<wire x1="41.825" y1="147.125" x2="41.825" y2="148.825" width="0.4" layer="1"/>
+<wire x1="41.825" y1="148.825" x2="42.475" y2="149.475" width="0.4" layer="1"/>
 </signal>
 <signal name="HB1-B1">
 <contactref element="HB1" pad="12"/>
 <contactref element="HB1" pad="11"/>
 <contactref element="J9" pad="1"/>
 <wire x1="35.5" y1="150" x2="36.5" y2="149" width="0.8" layer="1"/>
-<wire x1="36.5" y1="149" x2="37.5" y2="149" width="0.8" layer="1"/>
-<wire x1="37.5" y1="149" x2="37.925" y2="148.575" width="0.8" layer="1"/>
-<wire x1="37.925" y1="147.125" x2="37.925" y2="148.575" width="0.8" layer="1"/>
 <wire x1="35.5" y1="153.8" x2="35.5" y2="150" width="0.8" layer="1"/>
-<wire x1="37.925" y1="148.575" x2="38.4218" y2="148.0782" width="0.8" layer="1"/>
-<wire x1="38.4218" y1="148.0782" x2="38.4218" y2="147.125" width="0.8" layer="1"/>
-<wire x1="38.4218" y1="147.125" x2="38.575" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="36.5" y1="149" x2="38" y2="149" width="0.8" layer="1"/>
+<wire x1="38" y1="149" x2="38.5" y2="149" width="0.8" layer="1"/>
+<wire x1="37.925" y1="147.125" x2="37.925" y2="148.925" width="0.4" layer="1"/>
+<wire x1="37.925" y1="148.925" x2="38" y2="149" width="0.4" layer="1"/>
+<wire x1="38.575" y1="147.125" x2="38.575" y2="148.925" width="0.4" layer="1"/>
+<wire x1="38.575" y1="148.925" x2="38.5" y2="149" width="0.4" layer="1"/>
 </signal>
 <signal name="HB2-A1">
 <contactref element="HB2" pad="1"/>
@@ -2473,12 +2471,12 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <contactref element="J10" pad="2"/>
 <wire x1="68.5" y1="153.8" x2="68.5" y2="150" width="0.8" layer="1"/>
 <wire x1="68.5" y1="150" x2="67.5" y2="149" width="0.8" layer="1"/>
-<wire x1="67.5" y1="149" x2="66.5" y2="149" width="0.8" layer="1"/>
-<wire x1="66.5" y1="149" x2="66.075" y2="148.575" width="0.8" layer="1"/>
-<wire x1="66.075" y1="148.575" x2="66.075" y2="147.125" width="0.8" layer="1"/>
-<wire x1="66.075" y1="148.575" x2="65.5782" y2="148.0782" width="0.8" layer="1"/>
-<wire x1="65.5782" y1="148.0782" x2="65.5782" y2="147.125" width="0.8" layer="1"/>
-<wire x1="65.5782" y1="147.125" x2="65.425" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="65.5" y1="149" x2="66" y2="149" width="0.8" layer="1"/>
+<wire x1="66" y1="149" x2="67.5" y2="149" width="0.8" layer="1"/>
+<wire x1="65.425" y1="147.125" x2="65.425" y2="148.925" width="0.4" layer="1"/>
+<wire x1="65.425" y1="148.925" x2="65.5" y2="149" width="0.4" layer="1"/>
+<wire x1="66.075" y1="147.125" x2="66.075" y2="148.925" width="0.4" layer="1"/>
+<wire x1="66.075" y1="148.925" x2="66" y2="149" width="0.4" layer="1"/>
 </signal>
 <signal name="HB2-A2">
 <contactref element="HB2" pad="5"/>
@@ -2487,12 +2485,11 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="66.5" y1="153.8" x2="66.5" y2="151" width="0.8" layer="1"/>
 <wire x1="66.5" y1="151" x2="66" y2="150.5" width="0.8" layer="1"/>
 <wire x1="66" y1="150.5" x2="64.5" y2="150.5" width="0.8" layer="1"/>
-<wire x1="64.5" y1="150.5" x2="63.3218" y2="149.3218" width="0.8" layer="1"/>
-<wire x1="63.3218" y1="149.3218" x2="63.3218" y2="147.125" width="0.8" layer="1"/>
-<wire x1="63.3218" y1="149.3218" x2="62.9782" y2="148.9782" width="0.8" layer="1"/>
-<wire x1="62.9782" y1="148.9782" x2="62.9782" y2="147.125" width="0.8" layer="1"/>
-<wire x1="63.3218" y1="147.125" x2="63.475" y2="147.125" width="0" layer="19" extent="1-1"/>
-<wire x1="62.825" y1="147.125" x2="62.9782" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="63.5" y1="149.5" x2="64.5" y2="150.5" width="0.8" layer="1"/>
+<wire x1="63.475" y1="147.125" x2="63.475" y2="149.475" width="0.4" layer="1"/>
+<wire x1="63.475" y1="149.475" x2="63.5" y2="149.5" width="0.4" layer="1"/>
+<wire x1="62.825" y1="147.125" x2="62.825" y2="148.825" width="0.4" layer="1"/>
+<wire x1="62.825" y1="148.825" x2="63.475" y2="149.475" width="0.4" layer="1"/>
 </signal>
 <signal name="HB2-B1">
 <contactref element="HB2" pad="12"/>
@@ -2500,12 +2497,12 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <contactref element="J11" pad="1"/>
 <wire x1="56.5" y1="153.8" x2="56.5" y2="150" width="0.8" layer="1"/>
 <wire x1="56.5" y1="150" x2="57.5" y2="149" width="0.8" layer="1"/>
-<wire x1="57.5" y1="149" x2="58.5" y2="149" width="0.8" layer="1"/>
-<wire x1="58.5" y1="149" x2="58.925" y2="148.575" width="0.8" layer="1"/>
-<wire x1="58.925" y1="148.575" x2="58.925" y2="147.125" width="0.8" layer="1"/>
-<wire x1="58.925" y1="148.575" x2="59.4218" y2="148.0782" width="0.8" layer="1"/>
-<wire x1="59.4218" y1="148.0782" x2="59.4218" y2="147.125" width="0.8" layer="1"/>
-<wire x1="59.4218" y1="147.125" x2="59.575" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="57.5" y1="149" x2="59" y2="149" width="0.8" layer="1"/>
+<wire x1="59.5" y1="149" x2="59" y2="149" width="0.8" layer="1"/>
+<wire x1="58.925" y1="147.125" x2="58.925" y2="148.925" width="0.4" layer="1"/>
+<wire x1="58.925" y1="148.925" x2="59" y2="149" width="0.4" layer="1"/>
+<wire x1="59.575" y1="147.125" x2="59.575" y2="148.925" width="0.4" layer="1"/>
+<wire x1="59.575" y1="148.925" x2="59.5" y2="149" width="0.4" layer="1"/>
 </signal>
 <signal name="HB3-A2">
 <contactref element="HB3" pad="5"/>
@@ -2514,12 +2511,11 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="87.5" y1="153.8" x2="87.5" y2="151" width="0.8" layer="1"/>
 <wire x1="87.5" y1="151" x2="87" y2="150.5" width="0.8" layer="1"/>
 <wire x1="87" y1="150.5" x2="85.5" y2="150.5" width="0.8" layer="1"/>
-<wire x1="85.5" y1="150.5" x2="84.3218" y2="149.3218" width="0.8" layer="1"/>
-<wire x1="84.3218" y1="149.3218" x2="84.3218" y2="147.125" width="0.8" layer="1"/>
-<wire x1="84.3218" y1="149.3218" x2="84.0758" y2="149.0758" width="0.8" layer="1"/>
-<wire x1="84.0758" y1="149.0758" x2="84.0758" y2="147.125" width="0.8" layer="1"/>
-<wire x1="84.3218" y1="147.125" x2="84.475" y2="147.125" width="0" layer="19" extent="1-1"/>
-<wire x1="83.825" y1="147.125" x2="84.0758" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="84.5" y1="149.5" x2="85.5" y2="150.5" width="0.8" layer="1"/>
+<wire x1="84.475" y1="147.125" x2="84.475" y2="149.475" width="0.4" layer="1"/>
+<wire x1="84.475" y1="149.475" x2="84.5" y2="149.5" width="0.4" layer="1"/>
+<wire x1="83.825" y1="147.125" x2="83.825" y2="148.825" width="0.4" layer="1"/>
+<wire x1="83.825" y1="148.825" x2="84.475" y2="149.475" width="0.4" layer="1"/>
 </signal>
 <signal name="HB3-B1">
 <contactref element="HB3" pad="12"/>
@@ -2527,12 +2523,12 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <contactref element="J13" pad="1"/>
 <wire x1="77.5" y1="153.8" x2="77.5" y2="150" width="0.8" layer="1"/>
 <wire x1="77.5" y1="150" x2="78.5" y2="149" width="0.8" layer="1"/>
-<wire x1="78.5" y1="149" x2="79.5" y2="149" width="0.8" layer="1"/>
-<wire x1="79.5" y1="149" x2="79.925" y2="148.575" width="0.8" layer="1"/>
-<wire x1="79.925" y1="147.125" x2="79.925" y2="148.575" width="0.8" layer="1"/>
-<wire x1="79.925" y1="148.575" x2="80.4218" y2="148.0782" width="0.8" layer="1"/>
-<wire x1="80.4218" y1="148.0782" x2="80.4218" y2="147.125" width="0.8" layer="1"/>
-<wire x1="80.4218" y1="147.125" x2="80.575" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="78.5" y1="149" x2="80" y2="149" width="0.8" layer="1"/>
+<wire x1="80.5" y1="149" x2="80" y2="149" width="0.8" layer="1"/>
+<wire x1="79.925" y1="147.125" x2="79.925" y2="148.925" width="0.4" layer="1"/>
+<wire x1="79.925" y1="148.925" x2="80" y2="149" width="0.4" layer="1"/>
+<wire x1="80.575" y1="147.125" x2="80.575" y2="148.925" width="0.4" layer="1"/>
+<wire x1="80.575" y1="148.925" x2="80.5" y2="149" width="0.4" layer="1"/>
 </signal>
 <signal name="HB4-A1">
 <contactref element="HB4" pad="1"/>
@@ -2540,12 +2536,12 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <contactref element="J14" pad="2"/>
 <wire x1="110.5" y1="153.8" x2="110.5" y2="150" width="0.8" layer="1"/>
 <wire x1="110.5" y1="150" x2="109.5" y2="149" width="0.8" layer="1"/>
-<wire x1="109.5" y1="149" x2="108.5" y2="149" width="0.8" layer="1"/>
-<wire x1="108.5" y1="149" x2="108.075" y2="148.575" width="0.8" layer="1"/>
-<wire x1="108.075" y1="148.575" x2="108.075" y2="147.125" width="0.8" layer="1"/>
-<wire x1="108.075" y1="148.575" x2="107.5782" y2="148.0782" width="0.8" layer="1"/>
-<wire x1="107.5782" y1="148.0782" x2="107.5782" y2="147.125" width="0.8" layer="1"/>
-<wire x1="107.5782" y1="147.125" x2="107.425" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="107.5" y1="149" x2="108" y2="149" width="0.8" layer="1"/>
+<wire x1="108" y1="149" x2="109.5" y2="149" width="0.8" layer="1"/>
+<wire x1="107.425" y1="147.125" x2="107.425" y2="148.925" width="0.4" layer="1"/>
+<wire x1="107.425" y1="148.925" x2="107.5" y2="149" width="0.4" layer="1"/>
+<wire x1="108.075" y1="147.125" x2="108.075" y2="148.925" width="0.4" layer="1"/>
+<wire x1="108.075" y1="148.925" x2="108" y2="149" width="0.4" layer="1"/>
 </signal>
 <signal name="HB4-A2">
 <contactref element="HB4" pad="5"/>
@@ -2554,12 +2550,11 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="108.5" y1="153.8" x2="108.5" y2="151" width="0.8" layer="1"/>
 <wire x1="108.5" y1="151" x2="108" y2="150.5" width="0.8" layer="1"/>
 <wire x1="108" y1="150.5" x2="106.5" y2="150.5" width="0.8" layer="1"/>
-<wire x1="106.5" y1="150.5" x2="105.3218" y2="149.3218" width="0.8" layer="1"/>
-<wire x1="105.3218" y1="149.3218" x2="105.3218" y2="147.125" width="0.8" layer="1"/>
-<wire x1="105.3218" y1="149.3218" x2="104.9782" y2="148.9782" width="0.8" layer="1"/>
-<wire x1="104.9782" y1="148.9782" x2="104.9782" y2="147.125" width="0.8" layer="1"/>
-<wire x1="105.3218" y1="147.125" x2="105.475" y2="147.125" width="0" layer="19" extent="1-1"/>
-<wire x1="104.825" y1="147.125" x2="104.9782" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="105.5" y1="149.5" x2="106.5" y2="150.5" width="0.8" layer="1"/>
+<wire x1="105.475" y1="147.125" x2="105.475" y2="149.475" width="0.4" layer="1"/>
+<wire x1="105.475" y1="149.475" x2="105.5" y2="149.5" width="0.4" layer="1"/>
+<wire x1="104.825" y1="147.125" x2="104.825" y2="148.825" width="0.4" layer="1"/>
+<wire x1="104.825" y1="148.825" x2="105.475" y2="149.475" width="0.4" layer="1"/>
 </signal>
 <signal name="HB4-B1">
 <contactref element="HB4" pad="12"/>
@@ -2567,12 +2562,12 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <contactref element="J15" pad="1"/>
 <wire x1="98.5" y1="153.8" x2="98.5" y2="150" width="0.8" layer="1"/>
 <wire x1="98.5" y1="150" x2="99.5" y2="149" width="0.8" layer="1"/>
-<wire x1="99.5" y1="149" x2="100.5" y2="149" width="0.8" layer="1"/>
-<wire x1="100.5" y1="149" x2="100.925" y2="148.575" width="0.8" layer="1"/>
-<wire x1="100.925" y1="148.575" x2="100.925" y2="147.125" width="0.8" layer="1"/>
-<wire x1="100.925" y1="148.575" x2="101.4218" y2="148.0782" width="0.8" layer="1"/>
-<wire x1="101.4218" y1="148.0782" x2="101.4218" y2="147.125" width="0.8" layer="1"/>
-<wire x1="101.4218" y1="147.125" x2="101.575" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="101.5" y1="149" x2="101" y2="149" width="0.8" layer="1"/>
+<wire x1="101" y1="149" x2="99.5" y2="149" width="0.8" layer="1"/>
+<wire x1="101.575" y1="147.125" x2="101.575" y2="148.925" width="0.4" layer="1"/>
+<wire x1="101.575" y1="148.925" x2="101.5" y2="149" width="0.4" layer="1"/>
+<wire x1="100.925" y1="147.125" x2="100.925" y2="148.925" width="0.4" layer="1"/>
+<wire x1="100.925" y1="148.925" x2="101" y2="149" width="0.4" layer="1"/>
 </signal>
 <signal name="1-1">
 <contactref element="U5" pad="27"/>
@@ -2692,12 +2687,11 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="37.5" y1="153.8" x2="37.5" y2="151" width="0.8" layer="1"/>
 <wire x1="37.5" y1="151" x2="38" y2="150.5" width="0.8" layer="1"/>
 <wire x1="38" y1="150.5" x2="39.5" y2="150.5" width="0.8" layer="1"/>
-<wire x1="39.5" y1="150.5" x2="40.6782" y2="149.3218" width="0.8" layer="1"/>
-<wire x1="40.6782" y1="149.3218" x2="40.6782" y2="147.125" width="0.8" layer="1"/>
-<wire x1="40.6782" y1="149.3218" x2="41.0218" y2="148.9782" width="0.8" layer="1"/>
-<wire x1="41.0218" y1="148.9782" x2="41.0218" y2="147.125" width="0.8" layer="1"/>
-<wire x1="41.0218" y1="147.125" x2="41.175" y2="147.125" width="0" layer="19" extent="1-1"/>
-<wire x1="40.525" y1="147.125" x2="40.6782" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="40.5" y1="149.5" x2="39.5" y2="150.5" width="0.8" layer="1"/>
+<wire x1="40.525" y1="147.125" x2="40.525" y2="149.475" width="0.4" layer="1"/>
+<wire x1="40.525" y1="149.475" x2="40.5" y2="149.5" width="0.4" layer="1"/>
+<wire x1="41.175" y1="147.125" x2="41.175" y2="148.825" width="0.4" layer="1"/>
+<wire x1="41.175" y1="148.825" x2="40.525" y2="149.475" width="0.4" layer="1"/>
 </signal>
 <signal name="HB2-B2">
 <contactref element="HB2" pad="7"/>
@@ -2706,12 +2700,11 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="58.5" y1="153.8" x2="58.5" y2="151" width="0.8" layer="1"/>
 <wire x1="58.5" y1="151" x2="59" y2="150.5" width="0.8" layer="1"/>
 <wire x1="59" y1="150.5" x2="60.5" y2="150.5" width="0.8" layer="1"/>
-<wire x1="60.5" y1="150.5" x2="61.6782" y2="149.3218" width="0.8" layer="1"/>
-<wire x1="61.6782" y1="149.3218" x2="61.6782" y2="147.125" width="0.8" layer="1"/>
-<wire x1="61.6782" y1="149.3218" x2="61.9242" y2="149.0758" width="0.8" layer="1"/>
-<wire x1="61.9242" y1="149.0758" x2="61.9242" y2="147.125" width="0.8" layer="1"/>
-<wire x1="61.9242" y1="147.125" x2="62.175" y2="147.125" width="0" layer="19" extent="1-1"/>
-<wire x1="61.525" y1="147.125" x2="61.6782" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="61.5" y1="149.5" x2="60.5" y2="150.5" width="0.8" layer="1"/>
+<wire x1="61.525" y1="147.125" x2="61.525" y2="149.475" width="0.4" layer="1"/>
+<wire x1="61.525" y1="149.475" x2="61.5" y2="149.5" width="0.4" layer="1"/>
+<wire x1="62.175" y1="147.125" x2="62.175" y2="148.825" width="0.4" layer="1"/>
+<wire x1="62.175" y1="148.825" x2="61.525" y2="149.475" width="0.4" layer="1"/>
 </signal>
 <signal name="HB3-B2">
 <contactref element="HB3" pad="7"/>
@@ -2720,12 +2713,11 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="79.5" y1="153.8" x2="79.5" y2="151" width="0.8" layer="1"/>
 <wire x1="79.5" y1="151" x2="80" y2="150.5" width="0.8" layer="1"/>
 <wire x1="80" y1="150.5" x2="81.5" y2="150.5" width="0.8" layer="1"/>
-<wire x1="81.5" y1="150.5" x2="82.6782" y2="149.3218" width="0.8" layer="1"/>
-<wire x1="82.6782" y1="149.3218" x2="82.6782" y2="147.125" width="0.8" layer="1"/>
-<wire x1="82.6782" y1="149.3218" x2="83.0218" y2="148.9782" width="0.8" layer="1"/>
-<wire x1="83.0218" y1="148.9782" x2="83.0218" y2="147.125" width="0.8" layer="1"/>
-<wire x1="83.0218" y1="147.125" x2="83.175" y2="147.125" width="0" layer="19" extent="1-1"/>
-<wire x1="82.525" y1="147.125" x2="82.6782" y2="147.125" width="0" layer="19" extent="1-1"/>
+<wire x1="82.5" y1="149.5" x2="81.5" y2="150.5" width="0.8" layer="1"/>
+<wire x1="82.525" y1="147.125" x2="82.525" y2="149.475" width="0.4" layer="1"/>
+<wire x1="82.525" y1="149.475" x2="82.5" y2="149.5" width="0.4" layer="1"/>
+<wire x1="83.175" y1="147.125" x2="83.175" y2="148.825" width="0.4" layer="1"/>
+<wire x1="83.175" y1="148.825" x2="82.525" y2="149.475" width="0.4" layer="1"/>
 </signal>
 </signals>
 <mfgpreviewcolors>
