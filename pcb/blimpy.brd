@@ -3,7 +3,7 @@
 <eagle version="9.5.0">
 <drawing>
 <settings>
-<setting alwaysvectorfont="yes"/>
+<setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
 <grid distance="0.5" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.003125" altunitdist="mic" altunit="mm"/>
@@ -167,7 +167,7 @@
 <wire x1="0" y1="1" x2="1" y2="0" width="0.1524" layer="20" curve="90"/>
 <wire x1="1" y1="0" x2="134" y2="0" width="0.1524" layer="20"/>
 <text x="103" y="64.5" size="0.6" layer="25" font="vector" ratio="15" align="bottom-center">U1</text>
-<text x="7" y="170.5" size="1.778" layer="51">Trace Widths for 1oz Copper:
+<text x="7" y="170.5" size="1.778" layer="51" font="vector">Trace Widths for 1oz Copper:
 Logic: 0.2mm, ~8mil
 Power: 0.4mm, 15mil (1A)
 Actors: 0.8mm, 30mil (2A)
@@ -187,7 +187,7 @@ Vector, 0.6, 15%</text>
 <text x="64.5" y="156" size="2" layer="25" font="vector" ratio="15" align="top-right">S2</text>
 <text x="64.5" y="11" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-left">S3</text>
 <text x="42.5" y="11" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-right">S4</text>
-<text x="44.5" y="170.5" size="1.778" layer="51">Min Trace: 6mil
+<text x="44.5" y="170.5" size="1.778" layer="51" font="vector">Min Trace: 6mil
 Min Space: 6mil
 Min Hole: 0.3mm</text>
 </plain>
