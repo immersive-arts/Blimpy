@@ -60,10 +60,10 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         }
         
         // get settings
-        let host = UserDefaults.standard.string(forKey: "host") ?? ""
-        let port = UserDefaults.standard.integer(forKey: "port")
-        let username = UserDefaults.standard.string(forKey: "username")
-        let password = UserDefaults.standard.string(forKey: "password")
+        let host = UserDefaults.standard.string(forKey: "BrokerHost") ?? ""
+        let port = UserDefaults.standard.integer(forKey: "BrokerPort")
+        let username = UserDefaults.standard.string(forKey: "BrokerUsername")
+        let password = UserDefaults.standard.string(forKey: "BrokerPassword")
         
         // create client
         client = CocoaMQTT(clientID: "app", host: host, port: UInt16(port))

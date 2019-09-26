@@ -18,9 +18,9 @@
 			<key>Title</key>
 			<string>Host</string>
 			<key>Key</key>
-			<string>host</string>
+			<string>BrokerHost</string>
 			<key>DefaultValue</key>
-			<string>broker.shiftr.io</string>
+			<string></string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>
@@ -36,9 +36,9 @@
 			<key>Title</key>
 			<string>Port</string>
 			<key>Key</key>
-			<string>port</string>
+			<string>BrokerPort</string>
 			<key>DefaultValue</key>
-			<string>1883</string>
+			<string></string>
 			<key>IsSecure</key>
 			<false/>
 			<key>KeyboardType</key>
@@ -54,7 +54,7 @@
 			<key>Title</key>
 			<string>Username</string>
 			<key>Key</key>
-			<string>username</string>
+			<string>BrokerUsername</string>
 			<key>DefaultValue</key>
 			<string></string>
 			<key>IsSecure</key>
@@ -72,7 +72,7 @@
 			<key>Title</key>
 			<string>Password</string>
 			<key>Key</key>
-			<string>password</string>
+			<string>BrokerPassword</string>
 			<key>DefaultValue</key>
 			<string></string>
 			<key>IsSecure</key>
