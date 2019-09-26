@@ -8198,11 +8198,13 @@ I2C Address: 0x4A</text>
 
 - Connect IMU to MC
 - Connect Servos to MC
-- Connect H-Bridges to IOs
 - Connect IOs to MC
 
 - Expose unused GPIOs
-- Check all components</text>
+- Check all components
+
+- Replace Switch with something Standard
+- Replace USB with USB-C</text>
 <text x="342.9" y="106.68" size="1.778" layer="94">GPIO Expander 1
 
 I2C Address: 0x3E</text>
@@ -10261,6 +10263,96 @@ I2C Address: 0x3F</text>
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="102,1,93.98,195.58,OUT,3.3V,,,,"/>
+<approved hash="104,1,73.66,195.58,U2,IN,N$7,,,"/>
+<approved hash="104,1,43.18,119.38,U3,VDD,V_USB,,,"/>
+<approved hash="104,1,68.58,119.38,U3,VBAT,V_BATT,,,"/>
+<approved hash="104,1,68.58,114.3,U3,VSS,GND,,,"/>
+<approved hash="202,1,238.76,185.42,U7G$1,RI,,,,"/>
+<approved hash="104,1,208.28,210.82,U7G$1,VIO,3.3V,,,"/>
+<approved hash="104,1,208.28,208.28,U7G$1,VDD,3.3V,,,"/>
+<approved hash="104,1,208.28,205.74,U7G$1,REGIN,3.3V,,,"/>
+<approved hash="104,1,208.28,185.42,U7G$1,VBUS,V_USB,,,"/>
+<approved hash="202,1,238.76,182.88,U7G$1,DCD,,,,"/>
+<approved hash="202,1,238.76,177.8,U7G$1,DSR,,,,"/>
+<approved hash="202,1,238.76,167.64,U7G$1,CTS,,,,"/>
+<approved hash="104,1,254,200.66,U7G$2,TP,GND,,,"/>
+<approved hash="104,1,182.88,177.8,J1,VBUS,V_USB,,,"/>
+<approved hash="104,1,467.36,210.82,HB1,PGND1,GND,,,"/>
+<approved hash="104,1,467.36,208.28,HB1,PGND1',GND,,,"/>
+<approved hash="104,1,467.36,187.96,HB1,PGND2,GND,,,"/>
+<approved hash="104,1,467.36,185.42,HB1,PGND2',GND,,,"/>
+<approved hash="104,1,502.92,177.8,HB1,VM2,V_BATT,,,"/>
+<approved hash="104,1,502.92,180.34,HB1,VM3,V_BATT,,,"/>
+<approved hash="104,1,502.92,203.2,HB1,VCC,3.3V,,,"/>
+<approved hash="104,1,502.92,218.44,HB1,VM1,V_BATT,,,"/>
+<approved hash="104,1,469.9,124.46,HB2,PGND1,GND,,,"/>
+<approved hash="104,1,469.9,121.92,HB2,PGND1',GND,,,"/>
+<approved hash="104,1,469.9,101.6,HB2,PGND2,GND,,,"/>
+<approved hash="104,1,469.9,99.06,HB2,PGND2',GND,,,"/>
+<approved hash="104,1,505.46,91.44,HB2,VM2,V_BATT,,,"/>
+<approved hash="104,1,505.46,93.98,HB2,VM3,V_BATT,,,"/>
+<approved hash="104,1,505.46,116.84,HB2,VCC,3.3V,,,"/>
+<approved hash="104,1,505.46,132.08,HB2,VM1,V_BATT,,,"/>
+<approved hash="104,1,469.9,40.64,HB3,PGND1,GND,,,"/>
+<approved hash="104,1,469.9,38.1,HB3,PGND1',GND,,,"/>
+<approved hash="104,1,469.9,17.78,HB3,PGND2,GND,,,"/>
+<approved hash="104,1,469.9,15.24,HB3,PGND2',GND,,,"/>
+<approved hash="104,1,505.46,7.62,HB3,VM2,V_BATT,,,"/>
+<approved hash="104,1,505.46,10.16,HB3,VM3,V_BATT,,,"/>
+<approved hash="104,1,505.46,33.02,HB3,VCC,3.3V,,,"/>
+<approved hash="104,1,505.46,48.26,HB3,VM1,V_BATT,,,"/>
+<approved hash="104,1,472.44,-43.18,HB4,PGND1,GND,,,"/>
+<approved hash="104,1,472.44,-45.72,HB4,PGND1',GND,,,"/>
+<approved hash="104,1,472.44,-66.04,HB4,PGND2,GND,,,"/>
+<approved hash="104,1,472.44,-68.58,HB4,PGND2',GND,,,"/>
+<approved hash="104,1,508,-76.2,HB4,VM2,V_BATT,,,"/>
+<approved hash="104,1,508,-73.66,HB4,VM3,V_BATT,,,"/>
+<approved hash="104,1,508,-50.8,HB4,VCC,3.3V,,,"/>
+<approved hash="104,1,508,-35.56,HB4,VM1,V_BATT,,,"/>
+<approved hash="206,1,467.36,218.44,HB1-A1,,,,,"/>
+<approved hash="206,1,467.36,215.9,HB1-A1,,,,,"/>
+<approved hash="206,1,467.36,203.2,HB1-A2,,,,,"/>
+<approved hash="206,1,467.36,200.66,HB1-A2,,,,,"/>
+<approved hash="206,1,467.36,180.34,HB1-B1,,,,,"/>
+<approved hash="206,1,467.36,177.8,HB1-B1,,,,,"/>
+<approved hash="206,1,467.36,195.58,HB1-B2,,,,,"/>
+<approved hash="206,1,467.36,193.04,HB1-B2,,,,,"/>
+<approved hash="206,1,469.9,132.08,HB2-A1,,,,,"/>
+<approved hash="206,1,469.9,129.54,HB2-A1,,,,,"/>
+<approved hash="206,1,469.9,116.84,HB2-A2,,,,,"/>
+<approved hash="206,1,469.9,114.3,HB2-A2,,,,,"/>
+<approved hash="206,1,469.9,93.98,HB2-B1,,,,,"/>
+<approved hash="206,1,469.9,91.44,HB2-B1,,,,,"/>
+<approved hash="206,1,469.9,109.22,HB2-B2,,,,,"/>
+<approved hash="206,1,469.9,106.68,HB2-B2,,,,,"/>
+<approved hash="206,1,469.9,48.26,HB3-A1,,,,,"/>
+<approved hash="206,1,469.9,45.72,HB3-A1,,,,,"/>
+<approved hash="206,1,469.9,33.02,HB3-A2,,,,,"/>
+<approved hash="206,1,469.9,30.48,HB3-A2,,,,,"/>
+<approved hash="206,1,469.9,10.16,HB3-B1,,,,,"/>
+<approved hash="206,1,469.9,7.62,HB3-B1,,,,,"/>
+<approved hash="206,1,469.9,25.4,HB3-B2,,,,,"/>
+<approved hash="206,1,469.9,22.86,HB3-B2,,,,,"/>
+<approved hash="206,1,472.44,-35.56,HB4-A1,,,,,"/>
+<approved hash="206,1,472.44,-38.1,HB4-A1,,,,,"/>
+<approved hash="206,1,472.44,-50.8,HB4-A2,,,,,"/>
+<approved hash="206,1,472.44,-53.34,HB4-A2,,,,,"/>
+<approved hash="206,1,472.44,-73.66,HB4-B1,,,,,"/>
+<approved hash="206,1,472.44,-76.2,HB4-B1,,,,,"/>
+<approved hash="206,1,472.44,-58.42,HB4-B2,,,,,"/>
+<approved hash="206,1,472.44,-60.96,HB4-B2,,,,,"/>
+<approved hash="113,1,454.177,211.046,J8,,,,,"/>
+<approved hash="113,1,454.177,188.186,J9,,,,,"/>
+<approved hash="113,1,456.717,124.686,J10,,,,,"/>
+<approved hash="113,1,456.717,101.826,J11,,,,,"/>
+<approved hash="113,1,456.717,40.8661,J12,,,,,"/>
+<approved hash="113,1,456.717,18.0061,J13,,,,,"/>
+<approved hash="113,1,459.257,-42.9539,J14,,,,,"/>
+<approved hash="113,1,459.257,-65.8139,J15,,,,,"/>
+<approved hash="113,1,12.0227,190.663,J2,,,,,"/>
+</errors>
 </schematic>
 </drawing>
 <compatibility>
