@@ -9630,9 +9630,9 @@ I2C Address: 0x3F</text>
 <label x="322.58" y="-30.48" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 <segment>
-<pinref part="U9" gate="G$1" pin="14-IO"/>
-<wire x1="172.72" y1="0" x2="165.1" y2="0" width="0.1524" layer="91"/>
-<label x="165.1" y="0" size="1.4224" layer="95" rot="R180" xref="yes"/>
+<pinref part="U9" gate="G$1" pin="4-IO"/>
+<wire x1="226.06" y1="0" x2="233.68" y2="0" width="0.1524" layer="91"/>
+<label x="233.68" y="0" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="V_USB" class="0">
@@ -10278,9 +10278,9 @@ I2C Address: 0x3F</text>
 <label x="60.96" y="-96.52" size="1.4224" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="U9" gate="G$1" pin="16-IO"/>
-<wire x1="226.06" y1="2.54" x2="233.68" y2="2.54" width="0.1524" layer="91"/>
-<label x="233.68" y="2.54" size="1.4224" layer="95" xref="yes"/>
+<pinref part="U9" gate="G$1" pin="23-IO"/>
+<wire x1="226.06" y1="27.94" x2="233.68" y2="27.94" width="0.1524" layer="91"/>
+<label x="233.68" y="27.94" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="S4-SIG" class="0">
@@ -10290,9 +10290,9 @@ I2C Address: 0x3F</text>
 <label x="60.96" y="-111.76" size="1.4224" layer="95" xref="yes"/>
 </segment>
 <segment>
-<pinref part="U9" gate="G$1" pin="4-IO"/>
-<wire x1="226.06" y1="0" x2="233.68" y2="0" width="0.1524" layer="91"/>
-<label x="233.68" y="0" size="1.4224" layer="95" xref="yes"/>
+<pinref part="U9" gate="G$1" pin="16-IO"/>
+<wire x1="226.06" y1="2.54" x2="233.68" y2="2.54" width="0.1524" layer="91"/>
+<label x="233.68" y="2.54" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="IMU-INT" class="0">
