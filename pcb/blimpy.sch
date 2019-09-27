@@ -8225,10 +8225,6 @@ I2C Address: 0x4A</text>
 <text x="378.46" y="185.42" size="1.27" layer="97">INT OSC</text>
 <text x="160.02" y="-58.42" size="5.08" layer="94" align="top-left">TODO
 
-- Connect IMU to MC
-- Connect Servos to MC
-- Connect IOs to MC
-
 - Expose unused GPIOs
 - Expose important GPIOs
 - Check all components</text>
@@ -9240,18 +9236,6 @@ I2C Address: 0x3F</text>
 <pinref part="SUPPLY10" gate="G$1" pin="3.3V"/>
 </segment>
 </net>
-<net name="BOOT_SEL" class="0">
-<segment>
-<wire x1="223.52" y1="119.38" x2="231.14" y2="119.38" width="0.1524" layer="91"/>
-<pinref part="Q2" gate="G$1" pin="C"/>
-<label x="231.14" y="119.38" size="1.27" layer="95" xref="yes"/>
-</segment>
-<segment>
-<pinref part="U9" gate="G$1" pin="0-DTR"/>
-<wire x1="226.06" y1="-2.54" x2="233.68" y2="-2.54" width="0.1524" layer="91"/>
-<label x="233.68" y="-2.54" size="1.27" layer="95" xref="yes"/>
-</segment>
-</net>
 <net name="N$2" class="0">
 <segment>
 <pinref part="U7" gate="G$1" pin="D+"/>
@@ -9370,22 +9354,6 @@ I2C Address: 0x3F</text>
 <wire x1="73.66" y1="193.04" x2="63.5" y2="193.04" width="0.1524" layer="91"/>
 <pinref part="S1" gate="1" pin="P"/>
 <wire x1="63.5" y1="193.04" x2="63.5" y2="185.42" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="CHIP_EN" class="0">
-<segment>
-<pinref part="U9" gate="G$1" pin="EN-RTS"/>
-<wire x1="172.72" y1="25.4" x2="165.1" y2="25.4" width="0.1524" layer="91"/>
-<label x="152.4" y="25.4" size="1.27" layer="95" rot="MR0" xref="yes"/>
-<wire x1="165.1" y1="25.4" x2="152.4" y2="25.4" width="0.1524" layer="91"/>
-<wire x1="165.1" y1="30.48" x2="165.1" y2="25.4" width="0.1524" layer="91"/>
-<junction x="165.1" y="25.4"/>
-<pinref part="R11" gate="G$1" pin="1"/>
-</segment>
-<segment>
-<wire x1="231.14" y1="91.44" x2="223.52" y2="91.44" width="0.1524" layer="91"/>
-<pinref part="Q1" gate="G$1" pin="C"/>
-<label x="231.14" y="91.44" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="RED" class="0">
@@ -9613,14 +9581,7 @@ I2C Address: 0x3F</text>
 <label x="396.24" y="-20.32" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="IMU_INT" class="0">
-<segment>
-<pinref part="U4" gate="U1" pin="!H_INT"/>
-<wire x1="337.82" y1="195.58" x2="327.66" y2="195.58" width="0.1524" layer="91"/>
-<label x="327.66" y="195.58" size="1.27" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="IMU_BOOT" class="0">
+<net name="IMU-BOOT" class="0">
 <segment>
 <pinref part="U4" gate="U1" pin="!BOOT"/>
 <wire x1="337.82" y1="190.5" x2="312.42" y2="190.5" width="0.1524" layer="91"/>
@@ -9630,12 +9591,10 @@ I2C Address: 0x3F</text>
 <wire x1="312.42" y1="195.58" x2="312.42" y2="190.5" width="0.1524" layer="91"/>
 <junction x="312.42" y="190.5"/>
 </segment>
-</net>
-<net name="IMU_RST" class="0">
 <segment>
-<pinref part="U4" gate="U1" pin="!RST"/>
-<wire x1="375.92" y1="210.82" x2="381" y2="210.82" width="0.1524" layer="91"/>
-<label x="381" y="210.82" size="1.27" layer="95" xref="yes"/>
+<pinref part="U9" gate="G$1" pin="13-IO"/>
+<wire x1="190.5" y1="-20.32" x2="190.5" y2="-27.94" width="0.1524" layer="91"/>
+<label x="190.5" y="-27.94" size="1.4224" layer="95" rot="R270" xref="yes"/>
 </segment>
 </net>
 <net name="N$14" class="0">
@@ -9664,18 +9623,16 @@ I2C Address: 0x3F</text>
 <wire x1="378.46" y1="175.26" x2="378.46" y2="172.72" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="IO2_RST" class="0">
+<net name="IO2-RST" class="0">
 <segment>
 <wire x1="322.58" y1="-30.48" x2="345.44" y2="-30.48" width="0.1524" layer="91"/>
 <pinref part="U6" gate="G$1" pin="!RESET"/>
 <label x="322.58" y="-30.48" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
-</net>
-<net name="IO1_RST" class="0">
 <segment>
-<wire x1="322.58" y1="81.28" x2="345.44" y2="81.28" width="0.1524" layer="91"/>
-<pinref part="U5" gate="G$1" pin="!RESET"/>
-<label x="322.58" y="81.28" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="U9" gate="G$1" pin="14-IO"/>
+<wire x1="172.72" y1="0" x2="165.1" y2="0" width="0.1524" layer="91"/>
+<label x="165.1" y="0" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="V_USB" class="0">
@@ -10296,12 +10253,22 @@ I2C Address: 0x3F</text>
 <wire x1="53.34" y1="-66.04" x2="60.96" y2="-66.04" width="0.1524" layer="91"/>
 <label x="60.96" y="-66.04" size="1.4224" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U9" gate="G$1" pin="33-IOA"/>
+<wire x1="172.72" y1="10.16" x2="165.1" y2="10.16" width="0.1524" layer="91"/>
+<label x="165.1" y="10.16" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
 </net>
 <net name="S2-SIG" class="0">
 <segment>
 <pinref part="J5" gate="J$1" pin="3"/>
 <wire x1="53.34" y1="-81.28" x2="60.96" y2="-81.28" width="0.1524" layer="91"/>
 <label x="60.96" y="-81.28" size="1.4224" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U9" gate="G$1" pin="32-IOA"/>
+<wire x1="172.72" y1="12.7" x2="165.1" y2="12.7" width="0.1524" layer="91"/>
+<label x="165.1" y="12.7" size="1.4224" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="S3-SIG" class="0">
@@ -10310,12 +10277,86 @@ I2C Address: 0x3F</text>
 <wire x1="53.34" y1="-96.52" x2="60.96" y2="-96.52" width="0.1524" layer="91"/>
 <label x="60.96" y="-96.52" size="1.4224" layer="95" xref="yes"/>
 </segment>
+<segment>
+<pinref part="U9" gate="G$1" pin="16-IO"/>
+<wire x1="226.06" y1="2.54" x2="233.68" y2="2.54" width="0.1524" layer="91"/>
+<label x="233.68" y="2.54" size="1.4224" layer="95" xref="yes"/>
+</segment>
 </net>
 <net name="S4-SIG" class="0">
 <segment>
 <pinref part="J7" gate="J$1" pin="3"/>
 <wire x1="53.34" y1="-111.76" x2="60.96" y2="-111.76" width="0.1524" layer="91"/>
 <label x="60.96" y="-111.76" size="1.4224" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U9" gate="G$1" pin="4-IO"/>
+<wire x1="226.06" y1="0" x2="233.68" y2="0" width="0.1524" layer="91"/>
+<label x="233.68" y="0" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="IMU-INT" class="0">
+<segment>
+<pinref part="U9" gate="G$1" pin="26-IOD"/>
+<wire x1="172.72" y1="5.08" x2="165.1" y2="5.08" width="0.1524" layer="91"/>
+<label x="165.1" y="5.08" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U4" gate="U1" pin="!H_INT"/>
+<wire x1="337.82" y1="195.58" x2="327.66" y2="195.58" width="0.1524" layer="91"/>
+<label x="327.66" y="195.58" size="1.27" layer="95" rot="R180" xref="yes"/>
+</segment>
+</net>
+<net name="IMU-RST" class="0">
+<segment>
+<pinref part="U9" gate="G$1" pin="27-IO"/>
+<wire x1="172.72" y1="2.54" x2="165.1" y2="2.54" width="0.1524" layer="91"/>
+<label x="165.1" y="2.54" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U4" gate="U1" pin="!RST"/>
+<wire x1="375.92" y1="210.82" x2="381" y2="210.82" width="0.1524" layer="91"/>
+<label x="381" y="210.82" size="1.27" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="IO1-RST" class="0">
+<segment>
+<pinref part="U9" gate="G$1" pin="25-IOD"/>
+<wire x1="172.72" y1="7.62" x2="165.1" y2="7.62" width="0.1524" layer="91"/>
+<label x="165.1" y="7.62" size="1.4224" layer="95" rot="R180" xref="yes"/>
+</segment>
+<segment>
+<wire x1="322.58" y1="81.28" x2="345.44" y2="81.28" width="0.1524" layer="91"/>
+<pinref part="U5" gate="G$1" pin="!RESET"/>
+<label x="322.58" y="81.28" size="1.27" layer="95" rot="R180" xref="yes"/>
+</segment>
+</net>
+<net name="BOOT-SEL" class="0">
+<segment>
+<pinref part="U9" gate="G$1" pin="0-DTR"/>
+<wire x1="226.06" y1="-2.54" x2="233.68" y2="-2.54" width="0.1524" layer="91"/>
+<label x="233.68" y="-2.54" size="1.27" layer="95" xref="yes"/>
+</segment>
+<segment>
+<wire x1="223.52" y1="119.38" x2="231.14" y2="119.38" width="0.1524" layer="91"/>
+<pinref part="Q2" gate="G$1" pin="C"/>
+<label x="231.14" y="119.38" size="1.27" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="CHIP-EN" class="0">
+<segment>
+<wire x1="231.14" y1="91.44" x2="223.52" y2="91.44" width="0.1524" layer="91"/>
+<pinref part="Q1" gate="G$1" pin="C"/>
+<label x="231.14" y="91.44" size="1.27" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U9" gate="G$1" pin="EN-RTS"/>
+<wire x1="172.72" y1="25.4" x2="165.1" y2="25.4" width="0.1524" layer="91"/>
+<label x="152.4" y="25.4" size="1.27" layer="95" rot="MR0" xref="yes"/>
+<wire x1="165.1" y1="25.4" x2="152.4" y2="25.4" width="0.1524" layer="91"/>
+<wire x1="165.1" y1="30.48" x2="165.1" y2="25.4" width="0.1524" layer="91"/>
+<junction x="165.1" y="25.4"/>
+<pinref part="R11" gate="G$1" pin="1"/>
 </segment>
 </net>
 </nets>
