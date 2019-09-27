@@ -175,18 +175,18 @@ Battery: 1.2mm, 60mil (3A)
 
 Text Sizes
 Vector, 0.6, 15%</text>
-<text x="16" y="59" size="2" layer="25" font="vector" ratio="15" align="top-left">M1</text>
-<text x="34" y="59" size="2" layer="25" font="vector" ratio="15" align="top-right">M2</text>
-<text x="36" y="59" size="2" layer="25" font="vector" ratio="15" align="top-left">M3</text>
-<text x="54" y="59" size="2" layer="25" font="vector" ratio="15" align="top-right">M4</text>
-<text x="54" y="11" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-left">M5</text>
-<text x="36" y="11" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-right">M6</text>
-<text x="34" y="11" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-left">M7</text>
-<text x="16" y="11" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-right">M8</text>
-<text x="3.5" y="59" size="2" layer="25" font="vector" ratio="15" align="top-left">S1</text>
-<text x="66.5" y="59" size="2" layer="25" font="vector" ratio="15" align="top-right">S2</text>
-<text x="66.5" y="11" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-left">S3</text>
-<text x="3.5" y="11" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-right">S4</text>
+<text x="16" y="58.5" size="2" layer="25" font="vector" ratio="15" align="top-left">M1</text>
+<text x="34" y="58.5" size="2" layer="25" font="vector" ratio="15" align="top-right">M2</text>
+<text x="36" y="58.5" size="2" layer="25" font="vector" ratio="15" align="top-left">M3</text>
+<text x="54" y="58.5" size="2" layer="25" font="vector" ratio="15" align="top-right">M4</text>
+<text x="54" y="11.5" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-left">M5</text>
+<text x="36" y="11.5" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-right">M6</text>
+<text x="34" y="11.5" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-left">M7</text>
+<text x="16" y="11.5" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-right">M8</text>
+<text x="3.5" y="58.5" size="2" layer="25" font="vector" ratio="15" align="top-left">S1</text>
+<text x="66.5" y="58.5" size="2" layer="25" font="vector" ratio="15" align="top-right">S2</text>
+<text x="66.5" y="11.5" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-left">S3</text>
+<text x="3.5" y="11.5" size="2" layer="25" font="vector" ratio="15" rot="R180" align="top-right">S4</text>
 <text x="38.5" y="72.5" size="1.778" layer="51" font="vector">Min Trace: 6mil
 Min Space: 6mil
 Min Hole: 0.3mm</text>
