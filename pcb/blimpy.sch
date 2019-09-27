@@ -10018,28 +10018,6 @@ I2C Address: 0x3F</text>
 <wire x1="462.28" y1="-66.04" x2="464.82" y2="-68.58" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$19" class="0">
-<segment>
-<pinref part="J4" gate="J$1" pin="3"/>
-<wire x1="53.34" y1="-66.04" x2="63.5" y2="-66.04" width="0.1524" layer="91"/>
-<label x="63.5" y="-66.04" size="1.27" layer="95" xref="yes"/>
-</segment>
-<segment>
-<pinref part="J5" gate="J$1" pin="3"/>
-<wire x1="53.34" y1="-81.28" x2="63.5" y2="-81.28" width="0.1524" layer="91"/>
-<label x="63.5" y="-81.28" size="1.27" layer="95" xref="yes"/>
-</segment>
-<segment>
-<pinref part="J6" gate="J$1" pin="3"/>
-<wire x1="53.34" y1="-96.52" x2="63.5" y2="-96.52" width="0.1524" layer="91"/>
-<label x="63.5" y="-96.52" size="1.27" layer="95" xref="yes"/>
-</segment>
-<segment>
-<pinref part="J7" gate="J$1" pin="3"/>
-<wire x1="53.34" y1="-111.76" x2="63.5" y2="-111.76" width="0.1524" layer="91"/>
-<label x="63.5" y="-111.76" size="1.27" layer="95" xref="yes"/>
-</segment>
-</net>
 <net name="H2-APWM" class="0">
 <segment>
 <pinref part="HB2" gate="G$1" pin="PWMA"/>
@@ -10310,6 +10288,34 @@ I2C Address: 0x3F</text>
 <pinref part="J1" gate="J1" pin="CC2"/>
 <pinref part="R3" gate="G$1" pin="1"/>
 <wire x1="165.1" y1="175.26" x2="182.88" y2="175.26" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="S1-SIG" class="0">
+<segment>
+<pinref part="J4" gate="J$1" pin="3"/>
+<wire x1="53.34" y1="-66.04" x2="60.96" y2="-66.04" width="0.1524" layer="91"/>
+<label x="60.96" y="-66.04" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="S2-SIG" class="0">
+<segment>
+<pinref part="J5" gate="J$1" pin="3"/>
+<wire x1="53.34" y1="-81.28" x2="60.96" y2="-81.28" width="0.1524" layer="91"/>
+<label x="60.96" y="-81.28" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="S3-SIG" class="0">
+<segment>
+<pinref part="J6" gate="J$1" pin="3"/>
+<wire x1="53.34" y1="-96.52" x2="60.96" y2="-96.52" width="0.1524" layer="91"/>
+<label x="60.96" y="-96.52" size="1.4224" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="S4-SIG" class="0">
+<segment>
+<pinref part="J7" gate="J$1" pin="3"/>
+<wire x1="53.34" y1="-111.76" x2="60.96" y2="-111.76" width="0.1524" layer="91"/>
+<label x="60.96" y="-111.76" size="1.4224" layer="95" xref="yes"/>
 </segment>
 </net>
 </nets>

@@ -2412,7 +2412,7 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <contactref element="Q1" pad="3"/>
 <contactref element="R11" pad="1"/>
 <wire x1="66" y1="46.65" x2="66.04" y2="46.61" width="0.2" layer="1"/>
-<wire x1="66.04" y1="46.61" x2="65.54" y2="44.26" width="0" layer="19" extent="1-1"/>
+<wire x1="65.54" y1="44.26" x2="66.04" y2="46.61" width="0" layer="19" extent="1-1"/>
 <wire x1="-8.5" y1="62.1" x2="66" y2="46.65" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="RED">
@@ -2879,15 +2879,6 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="28.575" y1="14.875" x2="28.575" y2="13.075" width="0.4" layer="1"/>
 <wire x1="28.575" y1="13.075" x2="28.5" y2="13" width="0.4" layer="1"/>
 </signal>
-<signal name="N$19">
-<contactref element="J4" pad="3"/>
-<contactref element="J5" pad="3"/>
-<contactref element="J6" pad="3"/>
-<contactref element="J7" pad="3"/>
-<wire x1="10.51" y1="61.73" x2="63.51" y2="61.73" width="0" layer="19" extent="1-1"/>
-<wire x1="59.49" y1="8.27" x2="63.51" y2="61.73" width="0" layer="19" extent="1-1"/>
-<wire x1="6.49" y1="8.27" x2="59.49" y2="8.27" width="0" layer="19" extent="1-1"/>
-</signal>
 <signal name="H2-APWM">
 <contactref element="HB2" pad="23"/>
 <wire x1="47.925" y1="47.875" x2="47.925" y2="43.925" width="0.2" layer="1"/>
@@ -3108,6 +3099,18 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <contactref element="R3" pad="1"/>
 <wire x1="7" y1="44.25" x2="8.1" y2="44.25" width="0.2" layer="1"/>
 <wire x1="8.1" y1="44.25" x2="9" y2="43.35" width="0.2" layer="1"/>
+</signal>
+<signal name="S1-SIG">
+<contactref element="J4" pad="3"/>
+</signal>
+<signal name="S2-SIG">
+<contactref element="J5" pad="3"/>
+</signal>
+<signal name="S3-SIG">
+<contactref element="J6" pad="3"/>
+</signal>
+<signal name="S4-SIG">
+<contactref element="J7" pad="3"/>
 </signal>
 </signals>
 <mfgpreviewcolors>
