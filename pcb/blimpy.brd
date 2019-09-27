@@ -2799,35 +2799,34 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="20.6999" y1="34.05" x2="20.6999" y2="33.3001" width="0.4" layer="1"/>
 <wire x1="21.15" y1="32.85" x2="21.15" y2="32" width="0.4" layer="1"/>
 <wire x1="20.6999" y1="33.3001" x2="21.15" y2="32.85" width="0.4" layer="1"/>
-<wire x1="8.2" y1="36" x2="5.5" y2="36" width="0.8" layer="1"/>
-<wire x1="5.5" y1="36" x2="4.5" y2="35" width="0.8" layer="1"/>
-<via x="4.5" y="35" extent="1-16" drill="0.35"/>
-<wire x1="4.5" y1="35" x2="4.5" y2="64.5" width="1.2" layer="16"/>
+<wire x1="8.2" y1="36" x2="4.5" y2="36" width="1.2" layer="1"/>
+<via x="4.5" y="36" extent="1-16" drill="0.6"/>
+<wire x1="4.5" y1="36" x2="4.5" y2="64.5" width="1.2" layer="16"/>
 <wire x1="4.5" y1="64.5" x2="6.5" y2="66.5" width="1.2" layer="16"/>
 <wire x1="6.5" y1="66.5" x2="25" y2="66.5" width="1.2" layer="16"/>
 <wire x1="25" y1="66.5" x2="45" y2="66.5" width="1.2" layer="16"/>
 <wire x1="45" y1="66.5" x2="59.5" y2="66.5" width="1.2" layer="16"/>
-<wire x1="4.5" y1="35" x2="4.5" y2="5.5" width="1.2" layer="16"/>
+<wire x1="4.5" y1="36" x2="4.5" y2="5.5" width="1.2" layer="16"/>
 <wire x1="4.5" y1="5.5" x2="6.5" y2="3.5" width="1.2" layer="16"/>
 <wire x1="6.5" y1="3.5" x2="10.5" y2="3.5" width="1.2" layer="16"/>
-<via x="6.5" y="66.5" extent="1-16" drill="0.35"/>
+<via x="6.5" y="66.5" extent="1-16" drill="0.6" diameter="0.8"/>
 <wire x1="10.5" y1="3.5" x2="25" y2="3.5" width="1.2" layer="16"/>
 <wire x1="25" y1="3.5" x2="45" y2="3.5" width="1.2" layer="16"/>
 <wire x1="45" y1="3.5" x2="63.5" y2="3.5" width="1.2" layer="16"/>
-<wire x1="6.5" y1="66.5" x2="6.5" y2="61.74" width="0.8" layer="1"/>
+<wire x1="6.5" y1="66.5" x2="6.5" y2="61.74" width="1.2" layer="1"/>
 <wire x1="6.5" y1="61.74" x2="6.51" y2="61.73" width="0.8" layer="1"/>
-<via x="59.5" y="66.5" extent="1-16" drill="0.35"/>
+<via x="59.5" y="66.5" extent="1-16" drill="0.6"/>
 <wire x1="59.5" y1="66.5" x2="59.51" y2="66.49" width="0.8" layer="1"/>
-<wire x1="59.51" y1="66.49" x2="59.51" y2="61.73" width="0.8" layer="1"/>
-<via x="10.5" y="3.5" extent="1-16" drill="0.35"/>
-<wire x1="10.5" y1="3.5" x2="10.5" y2="8.26" width="0.8" layer="1"/>
+<wire x1="59.51" y1="66.49" x2="59.51" y2="61.73" width="1.2" layer="1"/>
+<via x="10.5" y="3.5" extent="1-16" drill="0.6"/>
+<wire x1="10.5" y1="3.5" x2="10.5" y2="8.26" width="1.2" layer="1"/>
 <wire x1="10.5" y1="8.26" x2="10.49" y2="8.27" width="0.8" layer="1"/>
-<via x="63.5" y="3.5" extent="1-16" drill="0.35"/>
-<wire x1="63.5" y1="3.5" x2="63.5" y2="8.26" width="0.8" layer="1"/>
+<via x="63.5" y="3.5" extent="1-16" drill="0.6"/>
+<wire x1="63.5" y1="3.5" x2="63.5" y2="8.26" width="1.2" layer="1"/>
 <wire x1="63.5" y1="8.26" x2="63.49" y2="8.27" width="0.8" layer="1"/>
-<via x="25" y="50.1" extent="1-16" drill="0.8"/>
+<via x="25" y="50.1" extent="1-16" drill="0.6"/>
 <wire x1="25" y1="50.1" x2="25" y2="66.5" width="1.2" layer="16"/>
-<via x="45" y="50.1" extent="1-16" drill="0.8"/>
+<via x="45" y="50.1" extent="1-16" drill="0.6"/>
 <wire x1="45" y1="50.1" x2="45" y2="66.5" width="1.2" layer="16"/>
 <via x="45" y="19.9" extent="1-16" drill="0.8"/>
 <wire x1="45" y1="19.9" x2="45" y2="3.5" width="1.2" layer="16"/>
