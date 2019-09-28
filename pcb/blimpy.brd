@@ -3,7 +3,7 @@
 <eagle version="9.5.0">
 <drawing>
 <settings>
-<setting alwaysvectorfont="no"/>
+<setting alwaysvectorfont="yes"/>
 <setting verticaltext="up"/>
 </settings>
 <grid distance="0.5" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.003125" altunitdist="mic" altunit="mm"/>
@@ -2114,6 +2114,11 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <via x="35.5" y="35" extent="1-16" drill="0.3"/>
 <via x="39.5" y="31" extent="1-16" drill="0.3"/>
 <via x="11.5" y="42.5" extent="1-16" drill="0.3"/>
+<wire x1="14.25" y1="38.49" x2="14.25" y2="37.75" width="0.2" layer="1"/>
+<wire x1="14.25" y1="37.75" x2="14" y2="37.5" width="0.2" layer="1"/>
+<wire x1="32.6" y1="34.25" x2="32.75" y2="34.1" width="0.2" layer="1"/>
+<wire x1="32.75" y1="34.1" x2="32.75" y2="33.3" width="0.2" layer="1"/>
+<wire x1="32.6" y1="35.75" x2="32.25" y2="35.75" width="0.2" layer="1"/>
 </signal>
 <signal name="N$1">
 <contactref element="D2" pad="C"/>
@@ -2357,12 +2362,12 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="15.25" y1="48" x2="15.25" y2="48.75" width="0.2" layer="1"/>
 <wire x1="15.25" y1="48.75" x2="16" y2="49.5" width="0.2" layer="1"/>
 <via x="16" y="49.5" extent="1-16" drill="0.3"/>
-<via x="51.5" y="49.5" extent="1-16" drill="0.3"/>
-<wire x1="51.5" y1="49.5" x2="57.5" y2="55.5" width="0.2" layer="1"/>
-<wire x1="57.5" y1="55.5" x2="59.5" y2="55.5" width="0.2" layer="1"/>
+<via x="52" y="49.5" extent="1-16" drill="0.3"/>
+<wire x1="52" y1="49.5" x2="58" y2="55.5" width="0.2" layer="1"/>
+<wire x1="58" y1="55.5" x2="59.5" y2="55.5" width="0.2" layer="1"/>
 <wire x1="59.5" y1="55.5" x2="59.95" y2="55.05" width="0.2" layer="1"/>
 <wire x1="59.95" y1="55.05" x2="59.95" y2="52.5" width="0.2" layer="1"/>
-<wire x1="16" y1="49.5" x2="51.5" y2="49.5" width="0.2" layer="16"/>
+<wire x1="16" y1="49.5" x2="52" y2="49.5" width="0.2" layer="16"/>
 </signal>
 <signal name="DTR">
 <contactref element="U7" pad="23"/>
@@ -2436,13 +2441,13 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="14.75" y1="49.25" x2="15" y2="49.5" width="0.2" layer="1"/>
 <wire x1="15" y1="49.5" x2="15" y2="50.5" width="0.2" layer="1"/>
 <via x="15" y="50.5" extent="1-16" drill="0.3"/>
-<wire x1="15" y1="50.5" x2="52" y2="50.5" width="0.2" layer="16"/>
+<wire x1="15" y1="50.5" x2="52.5" y2="50.5" width="0.2" layer="16"/>
 <wire x1="64.27" y1="26.26" x2="64.27" y2="28.23" width="0.2" layer="1"/>
 <wire x1="64.27" y1="28.23" x2="64" y2="28.5" width="0.2" layer="1"/>
 <via x="64" y="28.5" extent="1-16" drill="0.3"/>
-<wire x1="52" y1="50.5" x2="54.5" y2="48" width="0.2" layer="16"/>
+<wire x1="52.5" y1="50.5" x2="55" y2="48" width="0.2" layer="16"/>
 <wire x1="63" y1="48" x2="64" y2="47" width="0.2" layer="16"/>
-<wire x1="54.5" y1="48" x2="63" y2="48" width="0.2" layer="16"/>
+<wire x1="55" y1="48" x2="63" y2="48" width="0.2" layer="16"/>
 <wire x1="64" y1="47" x2="64" y2="28.5" width="0.2" layer="16"/>
 </signal>
 <signal name="N$8">
