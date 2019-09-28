@@ -2118,7 +2118,6 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="14.25" y1="37.75" x2="14" y2="37.5" width="0.2" layer="1"/>
 <wire x1="32.6" y1="34.25" x2="32.75" y2="34.1" width="0.2" layer="1"/>
 <wire x1="32.75" y1="34.1" x2="32.75" y2="33.3" width="0.2" layer="1"/>
-<wire x1="32.6" y1="35.75" x2="32.25" y2="35.75" width="0.2" layer="1"/>
 </signal>
 <signal name="N$1">
 <contactref element="D2" pad="C"/>
