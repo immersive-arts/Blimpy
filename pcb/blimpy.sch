@@ -8439,8 +8439,6 @@ I2C Address: 0x4A</text>
 <text x="378.46" y="185.42" size="1.27" layer="97">INT OSC</text>
 <text x="160.02" y="-58.42" size="5.08" layer="94" align="top-left">TODO
 
-- Expose unused GPIOs
-- Expose important GPIOs
 - Check all components</text>
 <text x="342.9" y="106.68" size="1.778" layer="94">GPIO Expander 1
 
