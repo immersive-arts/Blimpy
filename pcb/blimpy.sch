@@ -8413,6 +8413,11 @@ Pasted was reduced by 40% width on the center ground pad, and some amount on the
 <part name="TP15" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="TEST-POINT" device="3" package3d_urn="urn:adsk.eagle:package:38286/1" value="TEST-POINT3"/>
 <part name="TP16" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="TEST-POINT" device="3" package3d_urn="urn:adsk.eagle:package:38286/1" value="TEST-POINT3"/>
 <part name="TP17" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="TEST-POINT" device="3" package3d_urn="urn:adsk.eagle:package:38286/1" value="TEST-POINT3"/>
+<part name="TP18" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="TEST-POINT" device="3" package3d_urn="urn:adsk.eagle:package:38286/1" value="TEST-POINT3"/>
+<part name="TP19" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="TEST-POINT" device="3" package3d_urn="urn:adsk.eagle:package:38286/1" value="TEST-POINT3"/>
+<part name="TP20" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="TEST-POINT" device="3" package3d_urn="urn:adsk.eagle:package:38286/1" value="TEST-POINT3"/>
+<part name="TP21" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="TEST-POINT" device="3" package3d_urn="urn:adsk.eagle:package:38286/1" value="TEST-POINT3"/>
+<part name="TP22" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="TEST-POINT" device="3" package3d_urn="urn:adsk.eagle:package:38286/1" value="TEST-POINT3"/>
 </parts>
 <sheets>
 <sheet>
@@ -8867,11 +8872,16 @@ ZHdK - Joël Gähwiler</text>
 <instance part="TP10" gate="G$1" x="152.4" y="22.86" smashed="yes" rot="R180"/>
 <instance part="TP11" gate="G$1" x="152.4" y="27.94" smashed="yes" rot="R180"/>
 <instance part="TP12" gate="G$1" x="152.4" y="30.48" smashed="yes" rot="R180"/>
-<instance part="TP13" gate="G$1" x="248.92" y="30.48" smashed="yes"/>
-<instance part="TP14" gate="G$1" x="248.92" y="27.94" smashed="yes"/>
+<instance part="TP13" gate="G$1" x="251.46" y="30.48" smashed="yes"/>
+<instance part="TP14" gate="G$1" x="251.46" y="27.94" smashed="yes"/>
 <instance part="TP15" gate="G$1" x="251.46" y="2.54" smashed="yes"/>
 <instance part="TP16" gate="G$1" x="251.46" y="0" smashed="yes"/>
 <instance part="TP17" gate="G$1" x="190.5" y="-40.64" smashed="yes" rot="R270"/>
+<instance part="TP18" gate="G$1" x="251.46" y="25.4" smashed="yes"/>
+<instance part="TP19" gate="G$1" x="251.46" y="17.78" smashed="yes"/>
+<instance part="TP20" gate="G$1" x="251.46" y="12.7" smashed="yes"/>
+<instance part="TP21" gate="G$1" x="251.46" y="10.16" smashed="yes"/>
+<instance part="TP22" gate="G$1" x="251.46" y="5.08" smashed="yes"/>
 </instances>
 <busses>
 </busses>
@@ -9184,7 +9194,7 @@ ZHdK - Joël Gähwiler</text>
 <wire x1="152.4" y1="30.48" x2="170.18" y2="30.48" width="0.1524" layer="91"/>
 <junction x="170.18" y="30.48"/>
 <pinref part="TP13" gate="G$1" pin="1"/>
-<wire x1="228.6" y1="30.48" x2="248.92" y2="30.48" width="0.1524" layer="91"/>
+<wire x1="228.6" y1="30.48" x2="251.46" y2="30.48" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U3" gate="G$1" pin="VSS"/>
@@ -9601,8 +9611,9 @@ ZHdK - Joël Gähwiler</text>
 </segment>
 <segment>
 <pinref part="U9" gate="G$1" pin="19-IO"/>
-<wire x1="226.06" y1="12.7" x2="233.68" y2="12.7" width="0.1524" layer="91"/>
-<label x="233.68" y="12.7" size="1.27" layer="95" xref="yes"/>
+<label x="233.68" y="12.7" size="1.27" layer="95"/>
+<pinref part="TP20" gate="G$1" pin="1"/>
+<wire x1="226.06" y1="12.7" x2="251.46" y2="12.7" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="GREEN" class="0">
@@ -9613,8 +9624,9 @@ ZHdK - Joël Gähwiler</text>
 </segment>
 <segment>
 <pinref part="U9" gate="G$1" pin="18-IO"/>
-<wire x1="226.06" y1="10.16" x2="233.68" y2="10.16" width="0.1524" layer="91"/>
-<label x="233.68" y="10.16" size="1.27" layer="95" xref="yes"/>
+<label x="233.68" y="10.16" size="1.27" layer="95"/>
+<pinref part="TP21" gate="G$1" pin="1"/>
+<wire x1="226.06" y1="10.16" x2="251.46" y2="10.16" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="BLUE" class="0">
@@ -9625,8 +9637,9 @@ ZHdK - Joël Gähwiler</text>
 </segment>
 <segment>
 <pinref part="U9" gate="G$1" pin="17-IO"/>
-<wire x1="226.06" y1="5.08" x2="233.68" y2="5.08" width="0.1524" layer="91"/>
-<label x="233.68" y="5.08" size="1.27" layer="95" xref="yes"/>
+<label x="233.68" y="5.08" size="1.27" layer="95"/>
+<pinref part="TP22" gate="G$1" pin="1"/>
+<wire x1="226.06" y1="5.08" x2="251.46" y2="5.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$11" class="0">
@@ -9644,8 +9657,9 @@ ZHdK - Joël Gähwiler</text>
 </segment>
 <segment>
 <pinref part="U9" gate="G$1" pin="21-IO"/>
-<wire x1="226.06" y1="17.78" x2="233.68" y2="17.78" width="0.1524" layer="91"/>
-<label x="233.68" y="17.78" size="1.27" layer="95" xref="yes"/>
+<label x="233.68" y="17.78" size="1.27" layer="95"/>
+<pinref part="TP19" gate="G$1" pin="1"/>
+<wire x1="226.06" y1="17.78" x2="251.46" y2="17.78" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U4" gate="U1" pin="H_SDA/MISO/TX"/>
@@ -9676,8 +9690,9 @@ ZHdK - Joël Gähwiler</text>
 </segment>
 <segment>
 <pinref part="U9" gate="G$1" pin="22-IO"/>
-<wire x1="226.06" y1="25.4" x2="233.68" y2="25.4" width="0.1524" layer="91"/>
-<label x="233.68" y="25.4" size="1.27" layer="95" xref="yes"/>
+<label x="233.68" y="25.4" size="1.27" layer="95"/>
+<pinref part="TP18" gate="G$1" pin="1"/>
+<wire x1="226.06" y1="25.4" x2="251.46" y2="25.4" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="U4" gate="U1" pin="H_SCL/SCLK/RX"/>
@@ -10522,7 +10537,7 @@ ZHdK - Joël Gähwiler</text>
 <pinref part="U9" gate="G$1" pin="23-IO"/>
 <label x="233.68" y="27.94" size="1.4224" layer="95"/>
 <pinref part="TP14" gate="G$1" pin="1"/>
-<wire x1="226.06" y1="27.94" x2="248.92" y2="27.94" width="0.1524" layer="91"/>
+<wire x1="226.06" y1="27.94" x2="251.46" y2="27.94" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="S4-SIG" class="0">
