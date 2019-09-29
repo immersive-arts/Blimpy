@@ -2782,13 +2782,15 @@ These rules have been curated by SparkFuns DFM commitee. After doing much resear
 <wire x1="35.8" y1="27.475" x2="35.8" y2="28.3" width="0.2" layer="1"/>
 <wire x1="35.8" y1="28.3" x2="36" y2="28.5" width="0.2" layer="1"/>
 <contactref element="U9" pad="26"/>
-<wire x1="46" y1="28.5" x2="50" y2="24.5" width="0.2" layer="1"/>
-<wire x1="36" y1="28.5" x2="46" y2="28.5" width="0.2" layer="1"/>
 <contactref element="TP16" pad="P$1"/>
+<wire x1="46.5" y1="28" x2="50" y2="24.5" width="0.2" layer="1"/>
 <wire x1="53.333053125" y1="24.477234375" x2="53.333053125" y2="26.253053125" width="0.2" layer="1"/>
 <wire x1="53.333053125" y1="26.253053125" x2="53.34" y2="26.26" width="0.2" layer="1"/>
 <wire x1="53.3102875" y1="24.5" x2="53.333053125" y2="24.477234375" width="0.2" layer="1"/>
 <wire x1="50" y1="24.5" x2="53.3102875" y2="24.5" width="0.2" layer="1"/>
+<wire x1="36" y1="28.5" x2="36.5" y2="28.5" width="0.2" layer="1"/>
+<wire x1="36.5" y1="28.5" x2="37" y2="28" width="0.2" layer="1"/>
+<wire x1="37" y1="28" x2="46.5" y2="28" width="0.2" layer="1"/>
 </signal>
 <signal name="V_USB">
 <contactref element="U7" pad="8"/>
