@@ -11,7 +11,7 @@
 "R1, R3";"2";"5.1KΩ, min. 0.1W, max. 1% tol.";"I-0603";"1kΩ resistor";""
 "R9, R10, R11, R16";"4";"10KΩ, min. 0.1W, max. 1% tol.";"I-0603";"10kΩ resistor";""
 "R12";"1";"100KΩ, min. 0.1W, max. 1% tol.";"I-0603";"100kΩ resistor";""
-"J1";"1";"AN1953";"";"USB Type C connector";"http://ww1.microchip.com/downloads/en/appnotes/00001953a.pdf"
+"J1";"1";"ZX62-B-5PA(33)";"";"USB Micro B connector";"https://www.mouser.ch/datasheet/2/185/X_CL0242-0033-8-33_2d-1620412.pdf"
 "U2";"1";"AP2112-3.3";"SOT23-5";"Fixed Voltage Regulator";"https://cdn-shop.adafruit.com/product-files/2471/AP2112.pdf"
 "U4";"1";"BNO080";"LGA-28";"Inertial Measurement Unit";"https://cdn.sparkfun.com/assets/1/3/4/5/9/BNO080_Datasheet_v1.3.pdf"
 "U7";"1";"CP2104";"QFN24";"USB to UART Bridge";"https://www.silabs.com/documents/public/data-sheets/cp2104.pdf"
