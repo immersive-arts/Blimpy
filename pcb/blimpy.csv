@@ -1,4 +1,4 @@
-"Parts";"Qty";"Device";"Package";"Description";""
+"Parts";"Quantity";"Device";"Package";"Description";"Datasheet"
 "J2, J8, J9, J10, J11, J12, J13, J14, J15";"9";"S2B-PH-SM4-TB";"";"2 pin side entry JST PH connector";"http://www.jst-mfg.com/product/pdf/eng/ePH.pdf"
 "J4, J5, J6, J7";"4";"S3B-PH-SM4-TB";"";"3 pin side entry JST PH connector";"http://www.jst-mfg.com/product/pdf/eng/ePH.pdf"
 "C1, C4, C5, C10, C11, C13, C15, C18, C19, C21, C22, C24, C25, C27";"14";"0.1µF, min. 10V, max. 10% tol.";"I-0603";"0.1µF ceramic capacitor";""
