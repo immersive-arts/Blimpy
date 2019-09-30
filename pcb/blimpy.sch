@@ -8423,7 +8423,7 @@ I2C Address: 0x3F</text>
 <text x="45.72" y="-50.8" size="1.778" layer="94">SERVOS</text>
 <text x="462.28" y="228.6" size="1.778" layer="94">MOTORS</text>
 <text x="162.56" y="-101.6" size="6.35" layer="95">Blimpy Board 1.0
-Immersive Art Space
+Immersive Arts Space
 ZHdK - Joël Gähwiler</text>
 </plain>
 <instances>
