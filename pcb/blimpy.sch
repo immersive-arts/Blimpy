@@ -8422,7 +8422,7 @@ I2C Address: 0x3F</text>
 <text x="63.5" y="203.2" size="1.778" layer="97">600mA (800mA max)</text>
 <text x="45.72" y="-50.8" size="1.778" layer="94">SERVOS</text>
 <text x="462.28" y="228.6" size="1.778" layer="94">MOTORS</text>
-<text x="129.54" y="-119.38" size="12.7" layer="95">Blimpy Board 1.0
+<text x="162.56" y="-101.6" size="6.35" layer="95">Blimpy Board 1.0
 Immersive Art Space
 ZHdK - Joël Gähwiler</text>
 </plain>

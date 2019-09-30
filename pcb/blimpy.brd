@@ -3,7 +3,7 @@
 <eagle version="9.5.0">
 <drawing>
 <settings>
-<setting alwaysvectorfont="yes"/>
+<setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
 <grid distance="0.5" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.003125" altunitdist="mic" altunit="mm"/>
@@ -167,18 +167,6 @@
 <wire x1="0" y1="1" x2="1" y2="0" width="0.1524" layer="20" curve="90"/>
 <wire x1="1" y1="0" x2="69" y2="0" width="0.1524" layer="20"/>
 <text x="44.5" y="36.5" size="0.6" layer="25" font="vector" ratio="15" align="bottom-center">U1</text>
-<text x="72" y="68" size="0.75" layer="48" font="vector" align="top-left">Trace Widths for 1oz Copper:
-Logic: 0.2mm, ~8mil (.8A)
-Power: 0.4mm, 15mil (1A)
-Actors: 0.8mm, 30mil (2A)
-Battery: 1.2mm, 60mil (3A)
-
-Text Sizes
-Vector, 0.6, 15%
-
-Min Trace: 6mil
-Min Space: 6mil
-Min Hole: 0.3mm</text>
 <text x="16" y="58.5" size="2" layer="25" font="vector" ratio="15" align="top-left">M1</text>
 <text x="34" y="58.5" size="2" layer="25" font="vector" ratio="15" align="top-right">M2</text>
 <text x="36" y="58.5" size="2" layer="25" font="vector" ratio="15" align="top-left">M3</text>

@@ -23,6 +23,23 @@ Battery:
 - Cross Section: 0.205mm2
 - Max Current: 3.5A
 
+## Board Settings
+
+Trace Widths for 1oz Copper:
+
+- Logic: 0.2mm, ~8mil (.8A)
+- Power: 0.4mm, 15mil (1A)
+- Actors: 0.8mm, 30mil (2A)
+- Battery: 1.2mm, 60mil (3A)
+
+Text Size: Vector, 0.6, 15%
+
+Manufacturing Requirements:
+
+- Min Trace: 6mil
+- Min Space: 6mil
+- Min Hole: 0.3mm
+
 ## Assemblies
 
 We might want to consider ordering ready made cable assemblies:
