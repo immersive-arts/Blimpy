@@ -13,9 +13,9 @@ All:
 
 Actors:
 
-- Wire Gauge: 26
-- Cross Section: 0.129mm2
-- Max Current: 2.2A
+- Wire Gauge: 26 (28)
+- Cross Section: 0.129mm2 (0.0810mm2)
+- Max Current: 2.2A (1.4A)
 
 Battery:
 
