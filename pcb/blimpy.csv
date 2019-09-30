@@ -8,7 +8,6 @@
 "R2, R5, R6, R7";"4";"1KΩ, min. 0.1W, max. 1% tol.";"I-0603";"1kΩ resistor";"";"0.1"
 "R4";"1";"2KΩ, min. 0.1W, max. 1% tol.";"I-0603";"2kΩ resistor";"";"0.1"
 "R8, R13, R14, R15";"4";"4.7KΩ, min. 0.1W, max. 1% tol.";"I-0603";"4.7kΩ resistor";"";"0.1"
-"R1, R3";"2";"5.1KΩ, min. 0.1W, max. 1% tol.";"I-0603";"1kΩ resistor";"";"0.1"
 "R9, R10, R11, R16";"4";"10KΩ, min. 0.1W, max. 1% tol.";"I-0603";"10kΩ resistor";"";"0.1"
 "R12";"1";"100KΩ, min. 0.1W, max. 1% tol.";"I-0603";"100kΩ resistor";"";"0.5"
 "J1";"1";"ZX62-B-5PA(33)";"";"USB Micro B connector";"https://www.mouser.ch/datasheet/2/185/X_CL0242-0033-8-33_2d-1620412.pdf";"0.84000"
