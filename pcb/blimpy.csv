@@ -17,7 +17,7 @@
 "Q3";"1";"DMG3415U-7";"SOT23-R";"P-Channel Mosfet";"https://www.diodes.com/assets/Datasheets/ds31735.pdf";"0.42000"
 "U9";"1";"ESP-WROOM-32";"";"ESP32 BLE and WiFi Module";"https://www.espressif.com/sites/default/files/documentation/esp32-wroom-32_datasheet_en.pdf";"3.80002"
 "U10";"1";"MAX17048";"DFN-8";"1-Cell Li+ Fuel Gauge";"https://datasheets.maximintegrated.com/en/ds/MAX17048-MAX17049.pdf";"2.92000"
-"D1";"1";"MBR120";"SOD-123";"Schottky Diode";"http://www.smc-diodes.com/propdf/MBR120(140)HW%20N0715%20REV.A.pdf";"0.45000"
+"D1";"1";"BAT20J";"SOD-323";"Schottky Diode";"https://www.st.com/resource/en/datasheet/bat20j.pdf";"0.38000"
 "U3";"1";"MCP73831T-2";"SOT23-5";"LiPo Charger";"http://ww1.microchip.com/downloads/en/DeviceDoc/20001984g.pdf";"0.58000"
 "D2";"1";"HSML-C170";"I-0805";"Orange Chip LED";"https://docs.broadcom.com/docs/HSML-C170-T0000-DS100";"0.58000"
 "S1";"1";"MA12R";"";"Single Pole, Double Throw Slide Switch";"http://www.mouser.com/ds/2/26/MA_MICRO_SLIDE-30247.pdf";"2.49000"
