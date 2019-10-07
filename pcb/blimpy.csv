@@ -21,7 +21,7 @@
 "U3";"1";"MCP73831T-2";"SOT23-5";"LiPo Charger";"http://ww1.microchip.com/downloads/en/DeviceDoc/20001984g.pdf";"0.58000"
 "D2";"1";"HSML-C170";"I-0805";"Orange Chip LED";"https://docs.broadcom.com/docs/HSML-C170-T0000-DS100";"0.58000"
 "S1";"1";"MA12R";"";"Single Pole, Double Throw Slide Switch";"http://www.mouser.com/ds/2/26/MA_MICRO_SLIDE-30247.pdf";"2.49000"
-"U1";"1";"CLMVC-FKA";"4-PLCC";"RGB LED 2mm x 2mm";"https://www.cree.com/led-components/media/documents/CLMVC-FKC.pdf";"0.14761"
+"U1";"1";"CLMVC-FKA-CL1D1L71BB7C3C3";"4-PLCC";"RGB LED 2mm x 2mm";"https://www.cree.com/led-components/media/documents/CLMVC-FKC.pdf";"0.14761"
 "U5, U6";"2";"SX1509";"QFN-28";"16 Channel GPIO Expander";"https://cdn.sparkfun.com/datasheets/BreakoutBoards/sx1509.pdf";"2.43000"
 "HB1, HB2, HB3, HB4";"4";"TB6612FNG";"SSOP24";"Dual H-Bridge";"https://www.sparkfun.com/datasheets/Robotics/TB6612FNG.pdf";"2.01000"
 "Q1, Q2";"2";"MMBT2222";"SOT23-3";"NPN Transistor";"https://www.onsemi.com/pub/Collateral/MMBT2222LT1-D.PDF";"0.13000"
