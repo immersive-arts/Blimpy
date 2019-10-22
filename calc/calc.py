@@ -4,13 +4,13 @@ import numpy as np
 thrust = np.sin(np.pi * 45 / 180)
 
 # meter
-lever = 0.5
+lever = 1.5
 
 # motor forces and torques matrix (fx, fz, mx, mz)
 MATRIX = np.array([
     [thrust, thrust, thrust, thrust],
     [-thrust, thrust, thrust, -thrust],
-    [thrust*-lever, thrust*lever, thrust*-lever, thrust*lever],
+    [thrust*lever, thrust*-lever, thrust*lever, thrust*-lever],
     [thrust*lever, thrust*lever, thrust*-lever, thrust*-lever]
 ])
 
@@ -38,5 +38,5 @@ INVERSE = np.linalg.pinv(MATRIX)
 print("INVERSE", INVERSE)
 
 # example calculation
-f = np.array([FX_MAX, 0, 0, MZ_MAX])
+f = np.array([0, FZ_MAX/2, 0, 0])
 print("example", np.dot(INVERSE, f))

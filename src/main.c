@@ -97,7 +97,14 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     // set motors
     for (i=0; i<4; i++) {
       // get speed
-      int speed = (&res.m1)[i];
+      int speed;
+      switch (i) {
+        case 0: speed = res.m1; break;
+        case 1: speed = res.m2; break;
+        case 2: speed = res.m3; break;
+        case 3: speed = res.m4; break;
+        default: speed = 0;
+      }
 
       // get direction
       bool fwd = true;
@@ -117,7 +124,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
 static float battery() { return bat_read_factor(); }
 
 static naos_config_t config = {.device_type = "blimpy",
-                               .firmware_version = "0.1.0",
+                               .firmware_version = "0.1.1",
                                .ping_callback = ping,
                                .online_callback = online,
                                .message_callback = message,

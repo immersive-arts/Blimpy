@@ -283,8 +283,8 @@ void exp_init() {
   exp_pin_mode(15, EXP_OUTPUT_PWM);
 }
 
-uint8_t exp_motor_dir[6] = {12, 14, 8, 10, 4, 6};
-uint8_t exp_motor_pwm[6] = {13, 15, 9, 11, 5, 7};
+uint8_t exp_motor_dir[6] = {8, 10, 12, 14, 4, 6};
+uint8_t exp_motor_pwm[6] = {9, 11, 13, 15, 5, 7};
 
 void exp_motor(uint8_t num, bool fwd, uint8_t duty) {
   // set pwm
