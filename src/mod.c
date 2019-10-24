@@ -1,5 +1,4 @@
 #include <art32/matrix.h>
-#include <art32/numbers.h>
 #include <art32/strconv.h>
 #include <math.h>
 #include <naos.h>
@@ -62,13 +61,17 @@ static int convert(double v) {
 }
 
 void mod_calculate() {
-  // TODO: Read motor configuration from parameters.
-
   // set static configuration
-  char m1cs[] = "1, 0, -1, 0,  75,  25";
-  char m2cs[] = "1, 0,  1, 0,  75, -25";
-  char m3cs[] = "1, 0,  1, 0, -75,  25";
-  char m4cs[] = "1, 0, -1, 0, -75, -25";
+  // char m1cs[] = "1, 0, -1, 0,  75,  25";
+  // char m2cs[] = "1, 0,  1, 0,  75, -25";
+  // char m3cs[] = "1, 0,  1, 0, -75,  25";
+  // char m4cs[] = "1, 0, -1, 0, -75, -25";
+
+  // load motor configurations
+  char *m1cs = strdup(naos_get("model-m1"));
+  char *m2cs = strdup(naos_get("model-m1"));
+  char *m3cs = strdup(naos_get("model-m1"));
+  char *m4cs = strdup(naos_get("model-m1"));
 
   // vectors have the layout: fx,fy,fz,dx,dy,dz
 

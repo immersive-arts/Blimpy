@@ -44,6 +44,13 @@ static void online() {
   naos_subscribe("#", 0, NAOS_LOCAL);
 }
 
+static void update(const char *param, const char *value) {
+  // recalculate model if motor configuration changed
+  if (strncmp(param, "model-m", 7) == 0) {
+    mod_calculate();
+  }
+}
+
 static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_t scope) {
   // set motors duty cycles "255,-255,127,64"
   if (scope == NAOS_LOCAL && strcmp(topic, "motors") == 0) {
@@ -136,10 +143,20 @@ static float battery() {
   return bat_read_factor();
 }
 
+static naos_param_t params[] = {
+    {.name = "model-m1", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
+    {.name = "model-m2", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
+    {.name = "model-m3", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
+    {.name = "model-m4", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
+};
+
 static naos_config_t config = {.device_type = "blimpy",
                                .firmware_version = "0.1.1",
+                               .parameters = params,
+                               .num_parameters = 4,
                                .ping_callback = ping,
                                .online_callback = online,
+                               .update_callback = update,
                                .message_callback = message,
                                .battery_level = battery,
                                .status_callback = status};
