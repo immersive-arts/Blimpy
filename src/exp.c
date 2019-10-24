@@ -10,11 +10,11 @@
 #define EXP_ADDR 0x3E
 
 typedef enum {
-    EXP_INPUT,
-    EXP_INPUT_PULL_UP,
-    EXP_INPUT_PULL_DOWN,
-    EXP_OUTPUT,
-    EXP_OUTPUT_PWM,
+  EXP_INPUT,
+  EXP_INPUT_PULL_UP,
+  EXP_INPUT_PULL_DOWN,
+  EXP_OUTPUT,
+  EXP_OUTPUT_PWM,
 } exp_pin_mode_t;
 
 static void exp_write_data(uint8_t reg, const uint8_t *buf, uint8_t len) {
@@ -136,8 +136,8 @@ static void exp_pin_mode(uint8_t pin, exp_pin_mode_t mode) {
     uint16_t pull_down = exp_read_16bit(0x08);
 
     // set pin
-    pull_up |= (1<<pin);
-    pull_down &= ~(1<<pin);
+    pull_up |= (1 << pin);
+    pull_down &= ~(1 << pin);
 
     // write registers
     exp_write_16bit(0x06, pull_up);
@@ -151,8 +151,8 @@ static void exp_pin_mode(uint8_t pin, exp_pin_mode_t mode) {
     uint16_t pull_down = exp_read_16bit(0x08);
 
     // set pin
-    pull_down |= (1<<pin);
-    pull_up &= ~(1<<pin);
+    pull_down |= (1 << pin);
+    pull_up &= ~(1 << pin);
 
     // write registers
     exp_write_16bit(0x06, pull_up);
@@ -163,22 +163,22 @@ static void exp_pin_mode(uint8_t pin, exp_pin_mode_t mode) {
   if (mode == EXP_OUTPUT_PWM) {
     // disable input buffer
     reg = exp_read_16bit(0x00);
-    reg |= (1<<pin);
+    reg |= (1 << pin);
     exp_write_16bit(0x00, reg);
 
     // disable pull-up
     reg = exp_read_16bit(0x06);
-    reg &= ~(1<<pin);
+    reg &= ~(1 << pin);
     exp_write_16bit(0x06, reg);
 
     // enable LED driver
     reg = exp_read_16bit(0x20);
-    reg |= (1<<pin);
+    reg |= (1 << pin);
     exp_write_16bit(0x20, reg);
 
     // start LED driver
     reg = exp_read_16bit(0x10);
-    reg &= ~(1<<pin);
+    reg &= ~(1 << pin);
     exp_write_16bit(0x10, reg);
   }
 }
@@ -188,7 +188,7 @@ static bool exp_pin_get(uint8_t pin) {
   uint16_t data = exp_read_16bit(0x10);
 
   // return whether pin is high
-  return data & (1<<pin);
+  return data & (1 << pin);
 }
 
 void exp_pin_set(uint8_t pin, bool level) {
@@ -196,19 +196,17 @@ void exp_pin_set(uint8_t pin, bool level) {
   uint16_t data = exp_read_16bit(0x10);
 
   if (level) {
-    data |= (1<<pin);
+    data |= (1 << pin);
   } else {
-    data &= ~(1<<pin);
+    data &= ~(1 << pin);
   }
 
   // write data
   exp_write_16bit(0x10, data);
 }
 
-uint8_t exp_reg_pwm[16] = {0x2A, 0x2D, 0x30, 0x33,
-                           0x36, 0x3B, 0x40, 0x45,
-                           0x4A, 0x4D, 0x50, 0x53,
-                           0x56, 0x5B, 0x60, 0x65};
+uint8_t exp_reg_pwm[16] = {0x2A, 0x2D, 0x30, 0x33, 0x36, 0x3B, 0x40, 0x45,
+                           0x4A, 0x4D, 0x50, 0x53, 0x56, 0x5B, 0x60, 0x65};
 
 static void exp_pin_pwm(uint8_t pin, uint8_t intensity) {
   // write intensity
@@ -223,7 +221,7 @@ void exp_init() {
   conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
   conf.scl_io_num = GPIO_NUM_27;
   conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
-  conf.master.clk_speed = 400000; // 400 Khz
+  conf.master.clk_speed = 400000;  // 400 Khz
 
   // configure i2c port
   ESP_ERROR_CHECK(i2c_param_config(I2C_NUM_1, &conf));
@@ -288,13 +286,13 @@ uint8_t exp_motor_pwm[6] = {9, 11, 13, 15, 5, 7};
 
 void exp_motor(uint8_t num, bool fwd, uint8_t duty) {
   // set pwm
-  exp_pin_pwm(exp_motor_pwm[num-1], 255-duty);
+  exp_pin_pwm(exp_motor_pwm[num - 1], 255 - duty);
 
   // set dir
-  exp_pin_set(exp_motor_dir[num-1], fwd);
+  exp_pin_set(exp_motor_dir[num - 1], fwd);
 }
 
 void exp_servo(uint8_t num, uint8_t duty) {
   // set pwm
-  exp_pin_pwm(num-1, duty);
+  exp_pin_pwm(num - 1, duty);
 }

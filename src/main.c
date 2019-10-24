@@ -1,13 +1,13 @@
+#include <art32/numbers.h>
+#include <art32/strconv.h>
 #include <driver/adc.h>
 #include <driver/i2c.h>
 #include <naos.h>
 #include <string.h>
-#include <art32/strconv.h>
-#include <art32/numbers.h>
 
 #include "bat.h"
-#include "led.h"
 #include "exp.h"
+#include "led.h"
 #include "mod.h"
 
 static naos_status_t last_status = NAOS_DISCONNECTED;
@@ -40,26 +40,27 @@ static void ping() {
 }
 
 static void online() {
+  // subscribe to all local messages
   naos_subscribe("#", 0, NAOS_LOCAL);
 }
 
 static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_t scope) {
   // set motors duty cycles "255,-255,127,64"
-  if(scope == NAOS_LOCAL && strcmp(topic, "motors") == 0) {
+  if (scope == NAOS_LOCAL && strcmp(topic, "motors") == 0) {
     // prepare speeds
     int speeds[4] = {0};
 
     // parse comma separated speeds
-    char *ptr = strtok((char*)payload, ",");
+    char *ptr = strtok((char *)payload, ",");
     int i = 0;
-    while(ptr != NULL) {
+    while (ptr != NULL) {
       speeds[i] = a32_constrain_i(a32_str2i(ptr), -255, 255);
       ptr = strtok(NULL, ",");
       i++;
     }
 
     // set motors
-    for (i=0; i<4; i++) {
+    for (i = 0; i < 4; i++) {
       // get speed
       int speed = speeds[i];
 
@@ -71,21 +72,21 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
       }
 
       // set motor
-      exp_motor(i+1, fwd, speed);
+      exp_motor(i + 1, fwd, speed);
     }
 
     return;
   }
 
   // set model forces and torques "1,-1,0.5,0.25"
-  if(scope == NAOS_LOCAL && strcmp(topic, "forces") == 0) {
+  if (scope == NAOS_LOCAL && strcmp(topic, "forces") == 0) {
     // prepare speeds
     double speeds[4] = {0};
 
     // parse comma separated speeds
-    char *ptr = strtok((char*)payload, ",");
+    char *ptr = strtok((char *)payload, ",");
     int i = 0;
-    while(ptr != NULL) {
+    while (ptr != NULL) {
       speeds[i] = a32_constrain_d(a32_str2d(ptr), -1, 1);
       ptr = strtok(NULL, ",");
       i++;
@@ -95,15 +96,24 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     mod_result_t res = mod_calc(speeds[0], speeds[1], speeds[2], speeds[3]);
 
     // set motors
-    for (i=0; i<4; i++) {
+    for (i = 0; i < 4; i++) {
       // get speed
       int speed;
       switch (i) {
-        case 0: speed = res.m1; break;
-        case 1: speed = res.m2; break;
-        case 2: speed = res.m3; break;
-        case 3: speed = res.m4; break;
-        default: speed = 0;
+        case 0:
+          speed = res.m1;
+          break;
+        case 1:
+          speed = res.m2;
+          break;
+        case 2:
+          speed = res.m3;
+          break;
+        case 3:
+          speed = res.m4;
+          break;
+        default:
+          speed = 0;
       }
 
       // get direction
@@ -114,7 +124,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
       }
 
       // set motor
-      exp_motor(i+1, fwd, speed);
+      exp_motor(i + 1, fwd, speed);
     }
 
     return;
