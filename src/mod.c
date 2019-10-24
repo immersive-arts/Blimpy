@@ -69,9 +69,9 @@ void mod_calculate() {
 
   // load motor configurations
   char *m1cs = strdup(naos_get("model-m1"));
-  char *m2cs = strdup(naos_get("model-m1"));
-  char *m3cs = strdup(naos_get("model-m1"));
-  char *m4cs = strdup(naos_get("model-m1"));
+  char *m2cs = strdup(naos_get("model-m2"));
+  char *m3cs = strdup(naos_get("model-m3"));
+  char *m4cs = strdup(naos_get("model-m4"));
 
   // vectors have the layout: fx,fy,fz,dx,dy,dz
 
