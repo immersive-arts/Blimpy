@@ -14,23 +14,20 @@ MATRIX = np.array([
     [thrust*lever, thrust*lever, thrust*-lever, thrust*-lever]
 ])
 
-# max duty cycle
-max_duty_cycle = 255
-
 # max motor forces in X
-FX_MAX = np.max(np.dot(MATRIX, np.array([1, 1, 1, 1]) * max_duty_cycle))
+FX_MAX = np.max(np.dot(MATRIX, np.array([1, 1, 1, 1])))
 print("FX_MAX", FX_MAX)
 
 # max motor forces in Z
-FZ_MAX = np.max(np.dot(MATRIX, np.array([-1, 1, 1, -1]) * max_duty_cycle))
+FZ_MAX = np.max(np.dot(MATRIX, np.array([-1, 1, 1, -1])))
 print("FZ_MAX", FZ_MAX)
 
 # max motor torques in X
-MX_MAX = np.max(np.dot(MATRIX, np.array([1, 1, -1, -1]) * max_duty_cycle))
+MX_MAX = np.max(np.dot(MATRIX, np.array([1, 1, -1, -1])))
 print("MX_MAX", MX_MAX)
 
 # max motor torques in Z
-MZ_MAX = np.max(np.dot(MATRIX, np.array([1, 1, -1, -1]) * max_duty_cycle))
+MZ_MAX = np.max(np.dot(MATRIX, np.array([1, 1, -1, -1])))
 print("MZ_MAX", MZ_MAX)
 
 # pseudo inverse of matrix
