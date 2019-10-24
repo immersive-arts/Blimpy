@@ -170,4 +170,7 @@ void app_main() {
 
   // initialize naos
   naos_init(&config);
+
+  // prepare model
+  mod_calculate();
 }
