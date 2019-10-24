@@ -53,7 +53,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     // parse comma separated speeds
     char *ptr = strtok((char *)payload, ",");
     int i = 0;
-    while (ptr != NULL) {
+    while (ptr != NULL && i < 4) {
       speeds[i] = a32_constrain_i(a32_str2i(ptr), -255, 255);
       ptr = strtok(NULL, ",");
       i++;
@@ -86,7 +86,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     // parse comma separated speeds
     char *ptr = strtok((char *)payload, ",");
     int i = 0;
-    while (ptr != NULL) {
+    while (ptr != NULL && i < 4) {
       speeds[i] = a32_constrain_d(a32_str2d(ptr), -1, 1);
       ptr = strtok(NULL, ",");
       i++;
