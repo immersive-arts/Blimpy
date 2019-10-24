@@ -120,6 +120,13 @@ void mod_calculate() {
   // print matrix
   naos_log("inverse model matrix:");
   a32_matrix_print(model);
+
+  // free objects
+  a32_matrix_free(mat);
+  a32_vector_free(m1c);
+  a32_vector_free(m2c);
+  a32_vector_free(m3c);
+  a32_vector_free(m4c);
 }
 
 // calculate motor duty cycles from forces and torques
