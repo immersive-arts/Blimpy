@@ -26,7 +26,7 @@ FZ_MAX = np.max(np.dot(MATRIX, np.array([-1, 1, 1, -1])))
 print("FZ_MAX", FZ_MAX)
 
 # max motor torques in X
-MX_MAX = np.max(np.dot(MATRIX, np.array([1, 1, -1, -1])))
+MX_MAX = np.max(np.dot(MATRIX, np.array([1, -1, 1, -1])))
 print("MX_MAX", MX_MAX)
 
 # max motor torques in Z
