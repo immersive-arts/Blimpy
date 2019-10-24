@@ -5,10 +5,10 @@
 // max force, max torque and inverse matrix calculated by calc.py
 static double FORCE_MAX = 721.24891681;
 static double TORQUE_MAX = 1081.8733752154176;
-static double MODEL[4][4] = {{ 0.35355339, -0.35355339,  0.23570226,  0.23570226},
-                             { 0.35355339,  0.35355339, -0.23570226,  0.23570226},
-                             { 0.35355339,  0.35355339,  0.23570226, -0.23570226},
-                             { 0.35355339, -0.35355339, -0.23570226, -0.23570226}};
+static double MODEL[4][4] = {{0.35355339, -0.35355339, 0.23570226, 0.23570226},
+                             {0.35355339, 0.35355339, -0.23570226, 0.23570226},
+                             {0.35355339, 0.35355339, 0.23570226, -0.23570226},
+                             {0.35355339, -0.35355339, -0.23570226, -0.23570226}};
 
 static int convert(double v) {
   // clamp to duty cycle range
@@ -40,10 +40,10 @@ mod_result_t mod_calc(double fx, double fz, double mx, double mz) {
 
   // prepare result
   mod_result_t res = {
-    .m1 = convert(m1),
-    .m2 = convert(m2),
-    .m3 = convert(m3),
-    .m4 = convert(m4),
+      .m1 = convert(m1),
+      .m2 = convert(m2),
+      .m3 = convert(m3),
+      .m4 = convert(m4),
   };
 
   return res;
