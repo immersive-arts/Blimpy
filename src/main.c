@@ -131,7 +131,10 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
   }
 }
 
-static float battery() { return bat_read_factor(); }
+static float battery() {
+  // read battery
+  return bat_read_factor();
+}
 
 static naos_config_t config = {.device_type = "blimpy",
                                .firmware_version = "0.1.1",
