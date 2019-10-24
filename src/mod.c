@@ -104,11 +104,11 @@ void mod_calculate() {
   // TODO: Normalize all motion matrix to range -1..1 (per column)?
 
   // create matrix
-  a32_matrix_t mat = a32_matrix_new(4, 6);
-  a32_matrix_set_row(mat, 0, m1c);
-  a32_matrix_set_row(mat, 1, m2c);
-  a32_matrix_set_row(mat, 2, m3c);
-  a32_matrix_set_row(mat, 3, m4c);
+  a32_matrix_t mat = a32_matrix_new(6, 4);
+  a32_matrix_set_col(mat, 0, m1c);
+  a32_matrix_set_col(mat, 1, m2c);
+  a32_matrix_set_col(mat, 2, m3c);
+  a32_matrix_set_col(mat, 3, m4c);
 
   // print matrix
   naos_log("configuration matrix:");
