@@ -2,9 +2,11 @@ import numpy as np
 
 # motor alignment (use cos(a) for 0/90)
 thrust = np.sin(np.pi * 45 / 180)
+print("thrust", thrust)
 
 # meter
 lever = 1.5
+print("lever", lever)
 
 # motor forces and torques matrix (fx, fz, mx, mz)
 MATRIX = np.array([
@@ -13,6 +15,7 @@ MATRIX = np.array([
     [thrust*lever, thrust*-lever, thrust*lever, thrust*-lever],
     [thrust*lever, thrust*lever, thrust*-lever, thrust*-lever]
 ])
+print("MATRIX", MATRIX)
 
 # max motor forces in X
 FX_MAX = np.max(np.dot(MATRIX, np.array([1, 1, 1, 1])))
