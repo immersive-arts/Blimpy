@@ -114,6 +114,8 @@ void mod_calculate() {
   naos_log("configuration matrix:");
   a32_matrix_print(mat);
 
+  // TODO: Null column issue, use SVD algorithm?
+
   // calculate right pseudo inverse
   model = a32_matrix_right_pseudo_inverse(mat);
 
