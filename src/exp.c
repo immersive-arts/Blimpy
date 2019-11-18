@@ -220,7 +220,7 @@ void exp_init() {
       .pin_bit_mask = GPIO_SEL_25 | GPIO_SEL_4,
       .mode = GPIO_MODE_OUTPUT,
       .pull_down_en = GPIO_PULLDOWN_DISABLE,
-      .pull_up_en = GPIO_PULLUP_ENABLE,
+      .pull_up_en = GPIO_PULLUP_DISABLE,
       .intr_type = GPIO_INTR_DISABLE,
   };
 
