@@ -7,7 +7,7 @@
 
 #include "bat.h"
 
-#define BAT_ADDR 0x36
+#define BAT_ADDR 0x36u
 
 static void bat_write(uint8_t reg, const uint8_t *buf, uint8_t len, bool ack) {
   // prepare command
@@ -17,7 +17,7 @@ static void bat_write(uint8_t reg, const uint8_t *buf, uint8_t len, bool ack) {
   ESP_ERROR_CHECK(i2c_master_start(cmd));
 
   // write address
-  ESP_ERROR_CHECK(i2c_master_write_byte(cmd, (BAT_ADDR << 1) | I2C_MASTER_WRITE, true));
+  ESP_ERROR_CHECK(i2c_master_write_byte(cmd, (BAT_ADDR << 1u) | I2C_MASTER_WRITE, true));
 
   // write register
   ESP_ERROR_CHECK(i2c_master_write_byte(cmd, reg, true));
@@ -30,7 +30,7 @@ static void bat_write(uint8_t reg, const uint8_t *buf, uint8_t len, bool ack) {
   // generate stop sequence
   ESP_ERROR_CHECK(i2c_master_stop(cmd));
 
-  // issue config command
+  // issue command
   ESP_ERROR_CHECK(i2c_master_cmd_begin(I2C_NUM_0, cmd, 2000 / portTICK_RATE_MS));
 
   // cleanup command
@@ -45,7 +45,7 @@ static void bat_read(uint8_t reg, uint8_t *buf, uint8_t len) {
   ESP_ERROR_CHECK(i2c_master_start(cmd));
 
   // write address
-  ESP_ERROR_CHECK(i2c_master_write_byte(cmd, (BAT_ADDR << 1) | I2C_MASTER_WRITE, true));
+  ESP_ERROR_CHECK(i2c_master_write_byte(cmd, (BAT_ADDR << 1u) | I2C_MASTER_WRITE, true));
 
   // write register
   ESP_ERROR_CHECK(i2c_master_write_byte(cmd, reg, true));
@@ -54,7 +54,7 @@ static void bat_read(uint8_t reg, uint8_t *buf, uint8_t len) {
   ESP_ERROR_CHECK(i2c_master_start(cmd));
 
   // write address
-  ESP_ERROR_CHECK(i2c_master_write_byte(cmd, (BAT_ADDR << 1) | I2C_MASTER_READ, true));
+  ESP_ERROR_CHECK(i2c_master_write_byte(cmd, (BAT_ADDR << 1u) | I2C_MASTER_READ, true));
 
   // read data
   for (int i = 0; i < len; i++) {
@@ -64,7 +64,7 @@ static void bat_read(uint8_t reg, uint8_t *buf, uint8_t len) {
   // generate stop sequence
   ESP_ERROR_CHECK(i2c_master_stop(cmd));
 
-  // issue config command
+  // issue command
   ESP_ERROR_CHECK(i2c_master_cmd_begin(I2C_NUM_0, cmd, 2000 / portTICK_RATE_MS));
 
   // cleanup command
