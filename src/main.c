@@ -52,22 +52,22 @@ static void update(const char *param, const char *value) {
 }
 
 static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_t scope) {
-  // set motors duty cycles "255,-255,127,64"
+  // set motors duty cycles "255,-255,127,64,..."
   if (scope == NAOS_LOCAL && strcmp(topic, "motors") == 0) {
     // prepare speeds
-    int speeds[4] = {0};
+    int speeds[8] = {0};
 
     // parse comma separated speeds
     char *ptr = strtok((char *)payload, ",");
     int i = 0;
-    while (ptr != NULL && i < 4) {
+    while (ptr != NULL && i < 8) {
       speeds[i] = a32_constrain_i(a32_str2i(ptr), -255, 255);
       ptr = strtok(NULL, ",");
       i++;
     }
 
     // set motors
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < 8; i++) {
       // get speed
       int speed = speeds[i];
 
@@ -138,6 +138,11 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
   }
 }
 
+static void loop() {
+  // print fault
+  // naos_log("fault: %x", exp_fault());
+}
+
 static float battery() {
   // read battery
   return bat_read_factor();
@@ -158,10 +163,15 @@ static naos_config_t config = {.device_type = "blimpy",
                                .online_callback = online,
                                .update_callback = update,
                                .message_callback = message,
+                               .loop_callback = loop,
+                               .loop_interval = 1,
                                .battery_level = battery,
                                .status_callback = status};
 
 void app_main() {
+  // install global interrupt service
+  ESP_ERROR_CHECK(gpio_install_isr_service(0));
+
   // prepare i2c config
   i2c_config_t conf;
   conf.mode = I2C_MODE_MASTER;
