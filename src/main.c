@@ -12,6 +12,8 @@
 
 static naos_status_t last_status = NAOS_DISCONNECTED;
 
+static double motor_map[6] = {0};
+
 static void status(naos_status_t status) {
   // set last status
   last_status = status;
@@ -85,43 +87,36 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     return;
   }
 
-  // set model forces and torques "1,-1,0.5,0.25"
+  // set model forces and torques "1,-1,0.5,0.25,0"
   if (scope == NAOS_LOCAL && strcmp(topic, "forces") == 0) {
-    // prepare speeds
-    double speeds[4] = {0};
+    // prepare factors
+    double factors[5] = {0};
 
     // parse comma separated speeds
     char *ptr = strtok((char *)payload, ",");
     int i = 0;
-    while (ptr != NULL && i < 4) {
-      speeds[i] = a32_constrain_d(a32_str2d(ptr), -1, 1);
+    while (ptr != NULL && i < 5) {
+      factors[i] = a32_constrain_d(a32_str2d(ptr), -1, 1);
       ptr = strtok(NULL, ",");
       i++;
     }
 
     // calculate model
-    mod_result_t res = mod_calc(speeds[0], speeds[1], speeds[2], speeds[3]);
+    mod_result_t res = mod_calc(factors[0], factors[1], factors[2], factors[3], factors[4]);
 
     // set motors
-    for (i = 0; i < 4; i++) {
-      // get speed
-      int speed;
-      switch (i) {
-        case 0:
-          speed = res.m1;
-          break;
-        case 1:
-          speed = res.m2;
-          break;
-        case 2:
-          speed = res.m3;
-          break;
-        case 3:
-          speed = res.m4;
-          break;
-        default:
-          speed = 0;
-      }
+    for (i = 0; i < 6; i++) {
+      // get factor
+      double factor = res.a[i];
+
+      // apply modifier
+      factor = factor * motor_map[i];
+
+      // get duty cycle
+      factor = a32_constrain_d(factor * 255, -255, 255);
+
+      // convert
+      int speed = (int)factor;
 
       // get direction
       bool fwd = true;
@@ -149,6 +144,12 @@ static float battery() {
 }
 
 static naos_param_t params[] = {
+    {.name = "motor-map1", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[0]},
+    {.name = "motor-map2", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[1]},
+    {.name = "motor-map3", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[2]},
+    {.name = "motor-map4", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[3]},
+    {.name = "motor-map5", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[4]},
+    {.name = "motor-map6", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[5]},
     {.name = "model-m1", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
     {.name = "model-m2", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
     {.name = "model-m3", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
@@ -156,9 +157,9 @@ static naos_param_t params[] = {
 };
 
 static naos_config_t config = {.device_type = "blimpy",
-                               .firmware_version = "0.1.1",
+                               .firmware_version = "0.2.0",
                                .parameters = params,
-                               .num_parameters = 4,
+                               .num_parameters = 10,
                                .ping_callback = ping,
                                .online_callback = online,
                                .update_callback = update,
