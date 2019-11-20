@@ -1,4 +1,5 @@
 #include <art32/matrix.h>
+#include <art32/numbers.h>
 #include <art32/strconv.h>
 #include <naos.h>
 #include <string.h>
@@ -150,7 +151,15 @@ mod_result_t mod_calc(double fx, double fy, double fz, double mx, double mz) {
 
   // prepare result
   mod_result_t res = {
-      .a = {m1, m2, m3, m4, m5, m6},
+      .s =
+          {
+              .m1 = a32_constrain_d(m1, -1, 1),
+              .m2 = a32_constrain_d(m2, -1, 1),
+              .m3 = a32_constrain_d(m3, -1, 1),
+              .m4 = a32_constrain_d(m4, -1, 1),
+              .m5 = a32_constrain_d(m5, -1, 1),
+              .m6 = a32_constrain_d(m6, -1, 1),
+          },
   };
 
   return res;
