@@ -145,7 +145,8 @@ mod_result_t mod_calc(double fx, double fy, double fz, double mx, double mz) {
   double m5 = MODEL[4][0] * ffx + MODEL[4][1] * ffy + MODEL[4][2] * ffz + MODEL[4][3] * mmx + MODEL[4][4] * mmz;
   double m6 = MODEL[5][0] * ffx + MODEL[5][1] * ffy + MODEL[5][2] * ffz + MODEL[5][3] * mmx + MODEL[5][4] * mmz;
 
-  naos_log("mod  | %f | %f | %f | %f | %f | %f |", m1, m2, m3, m4, m5, m6);
+  // print calculation
+  naos_log("model: %f | %f | %f | %f | %f | %f", m1, m2, m3, m4, m5, m6);
 
   // prepare result
   mod_result_t res = {
