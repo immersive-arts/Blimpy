@@ -25,7 +25,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     var motion: Bool = false
     
-    var lastSpeeds: Array<Int> = [0, 0, 0, 0]
+    var lastSpeeds: Array<Double> = [0, 0, 0, 0, 0]
     
     @IBOutlet weak var battery: UIProgressView!
     @IBOutlet weak var wifi: UIProgressView!
@@ -130,9 +130,10 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     func updateControls() {
         // prepare values
         let fx = jry * -1
-        let fz = jly
-        let mz = jrx
+        let fy = jrx
+        let fz = jly * -1
         var mx = 0.0
+        let mz = jlx
         
         // use motion if enabled
         if motion {
@@ -140,13 +141,13 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         }
         
         // calculate motor speeds
-        let speeds = Model.calculate(fx: fx, fz: fz, mx: mx, mz: mz)
+        let speeds = [fx, fy, fz, mx, mz]
         
         // get hash
         let dist = distance(a: speeds, b: lastSpeeds)
         
         // skip if distance didn't change much
-        if abs(dist) < 50 {
+        if abs(dist) < 0.1 {
             return
         }
         
@@ -154,7 +155,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         lastSpeeds = speeds
         
         // map ints to strings
-        let stringSpeeds = speeds.map { (v: Int) -> String in
+        let stringSpeeds = speeds.map { (v: Double) -> String in
             return String(v)
         }
 
@@ -162,7 +163,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         let message = stringSpeeds.joined(separator: ",")
         
         // send message
-        client?.publish("blimpy/motors", withString: message, qos: .qos0, retained: false)
+        client?.publish("blimpy/forces", withString: message, qos: .qos0, retained: false)
     }
     
     @IBAction func motionSwitch(_ sender: UISwitch) {
@@ -172,9 +173,9 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     // Utilities
     
-    func distance(a: Array<Int>, b: Array<Int>) -> Double {
-        var total = 0
-        var diff = 0
+    func distance(a: Array<Double>, b: Array<Double>) -> Double {
+        var total = 0.0
+        var diff = 0.0
         for (i, _) in a.enumerated() {
             diff = b[i] - a[i];
             total += diff * diff;
