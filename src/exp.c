@@ -287,7 +287,7 @@ uint8_t exp_motor_in2[8] = {12, 11, 4, 3, 12, 11, 4, 3};
 
 void exp_motor(uint8_t num, bool fwd, uint8_t duty) {
   // print configuration
-  naos_log("motor %d, fwd: %d, duty %d", num, fwd, duty);
+  naos_log("motor: num %d, fwd: %d, duty %d", num, fwd, duty);
 
   // get addr
   uint8_t addr = num > 4 ? 1 : 0;

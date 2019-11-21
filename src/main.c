@@ -12,6 +12,8 @@
 
 static naos_status_t last_status = NAOS_DISCONNECTED;
 
+static int32_t min_duty = 0;
+
 static double motor_map[6] = {0};
 
 static void status(naos_status_t status) {
@@ -20,14 +22,15 @@ static void status(naos_status_t status) {
 
   // set led accordingly
   switch (status) {
-    case NAOS_DISCONNECTED:
-      led_set(1024, 0, 0);
+    case NAOS_NETWORKED:
+      led_set(0, 1024, 0);
       break;
     case NAOS_CONNECTED:
       led_set(0, 0, 1024);
       break;
-    case NAOS_NETWORKED:
-      led_set(0, 1024, 0);
+    case NAOS_DISCONNECTED:
+    default:
+      led_set(1024, 0, 0);
       break;
   }
 }
@@ -54,7 +57,7 @@ static void update(const char *param, const char *value) {
 }
 
 static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_t scope) {
-  // set motors duty cycles "255,-255,127,64,..."
+  // set motors duty cycles "m1,m2,m3,m4,m5,m6,m7,m8" (-255 to 255)
   if (scope == NAOS_LOCAL && strcmp(topic, "motors") == 0) {
     // prepare speeds
     int speeds[8] = {0};
@@ -87,7 +90,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     return;
   }
 
-  // set model forces and torques "1,-1,0.5,0.25,0"
+  // set model forces and torques "fx,fy,fz,mx,mz" (-1 to 1)
   if (scope == NAOS_LOCAL && strcmp(topic, "forces") == 0) {
     // prepare factors
     double factors[5] = {0};
@@ -112,21 +115,23 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
       // apply modifier
       factor = factor * motor_map[i];
 
-      // get duty cycle
-      factor = a32_constrain_d(factor * 255, -255, 255);
+      // convert to duty cycle
+      int duty = (int)a32_constrain_d(factor * 255, -255, 255);
 
-      // convert
-      int speed = (int)factor;
+      // apply duty threshold
+      if (duty > -min_duty && duty < min_duty) {
+        duty = 0;
+      }
 
       // get direction
       bool fwd = true;
-      if (speed < 0) {
-        speed *= -1;
+      if (duty < 0) {
+        duty *= -1;
         fwd = false;
       }
 
       // set motor
-      exp_motor(i + 1, fwd, speed);
+      exp_motor(i + 1, fwd, duty);
     }
 
     return;
@@ -134,8 +139,11 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
 }
 
 static void loop() {
-  // print fault
-  // naos_log("fault: %x", exp_fault());
+  // check fault
+  uint8_t fault = exp_fault();
+  if (fault != 0) {
+    naos_log("fault: %x", exp_fault());
+  }
 }
 
 static float battery() {
@@ -144,6 +152,7 @@ static float battery() {
 }
 
 static naos_param_t params[] = {
+    {.name = "min-duty", .type = NAOS_LONG, .default_l = 0, .sync_l = &min_duty},
     {.name = "motor-map1", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[0]},
     {.name = "motor-map2", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[1]},
     {.name = "motor-map3", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[2]},
@@ -159,13 +168,13 @@ static naos_param_t params[] = {
 static naos_config_t config = {.device_type = "blimpy",
                                .firmware_version = "0.2.0",
                                .parameters = params,
-                               .num_parameters = 10,
+                               .num_parameters = 11,
                                .ping_callback = ping,
                                .online_callback = online,
                                .update_callback = update,
                                .message_callback = message,
                                .loop_callback = loop,
-                               .loop_interval = 1,
+                               .loop_interval = 10,
                                .battery_level = battery,
                                .status_callback = status};
 
