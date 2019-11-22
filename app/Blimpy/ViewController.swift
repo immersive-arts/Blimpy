@@ -25,7 +25,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     var motion: Bool = false
     
-    var lastSpeeds: Array<Double> = [0, 0, 0, 0, 0]
+    var lastSpeeds: Array<Double> = [0, 0, 0, 0, 0, 0]
     
     @IBOutlet weak var battery: UIProgressView!
     @IBOutlet weak var wifi: UIProgressView!
@@ -133,15 +133,17 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         let fy = jrx * -1
         let fz = jly * -1
         var mx = 0.0
+        var my = 0.0
         let mz = jlx * -1
         
         // use motion if enabled
         if motion {
-           mx = pitch
+            mx = pitch
+            my = roll
         }
         
         // calculate motor speeds
-        let speeds = [fx, fy, fz, mx, mz]
+        let speeds = [fx, fy, fz, mx, my, mz]
         
         // get hash
         let dist = distance(a: speeds, b: lastSpeeds)
