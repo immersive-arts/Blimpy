@@ -90,27 +90,27 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     return;
   }
 
-  // set model forces and torques "fx,fy,fz,mx,mz" (-1 to 1)
+  // set model forces and torques "fx,fy,fz,mx,my,mz" (-1 to 1)
   if (scope == NAOS_LOCAL && strcmp(topic, "forces") == 0) {
     // prepare factors
-    double factors[5] = {0};
+    a32_vector_t factors = a32_vector_new(6);
 
     // parse comma separated speeds
     char *ptr = strtok((char *)payload, ",");
     int i = 0;
-    while (ptr != NULL && i < 5) {
-      factors[i] = a32_constrain_d(a32_str2d(ptr), -1, 1);
+    while (ptr != NULL && i < factors.len) {
+      factors.values[i] = a32_constrain_d(a32_str2d(ptr), -1, 1);
       ptr = strtok(NULL, ",");
       i++;
     }
 
     // calculate model
-    mod_result_t res = mod_calc(factors[0], factors[1], factors[2], factors[3], factors[4]);
+    a32_vector_t result = mod_calc(factors);
 
     // set motors
     for (i = 0; i < 6; i++) {
       // get factor
-      double factor = res.a[i];
+      double factor = result.values[i];
 
       // apply modifier
       factor = factor * motor_map[i];
@@ -133,6 +133,10 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
       // set motor
       exp_motor(i + 1, fwd, duty);
     }
+
+    // free vectors
+    a32_vector_free(result);
+    a32_vector_free(factors);
 
     return;
   }

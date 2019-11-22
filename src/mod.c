@@ -8,19 +8,6 @@
 
 #include "mod.h"
 
-// max force, max torque and inverse matrix calculated by calc.py
-static double FORCE_MAX_X = 2.82842712474619;
-static double FORCE_MAX_Y = 2.0;
-static double FORCE_MAX_Z = 2.82842712474619;
-static double TORQUE_MAX_X = 7.778174593052022;
-static double TORQUE_MAX_Z = 4.242640687119285;
-static double MODEL[6][5] = {{3.53553391e-01, 1.54914841e-17, -3.53553391e-01, 9.86660625e-02, 2.35702260e-01},
-                             {3.53553391e-01, -1.54914841e-17, 3.53553391e-01, -9.86660625e-02, 2.35702260e-01},
-                             {3.53553391e-01, 1.54914841e-17, 3.53553391e-01, 9.86660625e-02, -2.35702260e-01},
-                             {3.53553391e-01, -1.54914841e-17, -3.53553391e-01, -9.86660625e-02, -2.35702260e-01},
-                             {0.00000000e+00, 5.00000000e-01, -3.92523115e-17, -1.64443437e-01, 1.94750590e-18},
-                             {0.00000000e+00, 5.00000000e-01, -3.92523115e-17, 1.64443437e-01, -4.11998174e-17}};
-
 static a32_matrix_t model = {0};
 static a32_vector_t range = {0};
 
@@ -41,11 +28,6 @@ static a32_vector_t parse_config(char *config) {
 }
 
 void mod_calculate() {
-  // static model
-  a32_matrix_t st = a32_matrix_use((double *)MODEL, 6, 5);
-  a32_matrix_print(st);
-  a32_matrix_free(st);
-
   // free existing model and range
   if (model.values != NULL) {
     a32_matrix_free(model);
@@ -124,37 +106,21 @@ void mod_calculate() {
 }
 
 // calculate motor duty cycles from forces and torques
-mod_result_t mod_calc(double fx, double fy, double fz, double mx, double mz) {
-  // get maximums
-  double ffx = fx * FORCE_MAX_X;
-  double ffy = fy * FORCE_MAX_Y;
-  double ffz = fz * FORCE_MAX_Z;
-  double mmx = mx * TORQUE_MAX_X;
-  double mmz = mz * TORQUE_MAX_Z;
+a32_vector_t mod_calc(a32_vector_t values) {
+  // multiply values with range
+  a32_vector_multiply(values, range);
 
-  // get motor duty cycles
-  double m1 = MODEL[0][0] * ffx + MODEL[0][1] * ffy + MODEL[0][2] * ffz + MODEL[0][3] * mmx + MODEL[0][4] * mmz;
-  double m2 = MODEL[1][0] * ffx + MODEL[1][1] * ffy + MODEL[1][2] * ffz + MODEL[1][3] * mmx + MODEL[1][4] * mmz;
-  double m3 = MODEL[2][0] * ffx + MODEL[2][1] * ffy + MODEL[2][2] * ffz + MODEL[2][3] * mmx + MODEL[2][4] * mmz;
-  double m4 = MODEL[3][0] * ffx + MODEL[3][1] * ffy + MODEL[3][2] * ffz + MODEL[3][3] * mmx + MODEL[3][4] * mmz;
-  double m5 = MODEL[4][0] * ffx + MODEL[4][1] * ffy + MODEL[4][2] * ffz + MODEL[4][3] * mmx + MODEL[4][4] * mmz;
-  double m6 = MODEL[5][0] * ffx + MODEL[5][1] * ffy + MODEL[5][2] * ffz + MODEL[5][3] * mmx + MODEL[5][4] * mmz;
+  // multiply vector with matrix
+  a32_vector_t output = a32_vector_multiply_matrix(values, model);
 
   // clamp results
-  m1 = a32_constrain_d(m1, -1, 1);
-  m2 = a32_constrain_d(m2, -1, 1);
-  m3 = a32_constrain_d(m3, -1, 1);
-  m4 = a32_constrain_d(m4, -1, 1);
-  m5 = a32_constrain_d(m5, -1, 1);
-  m6 = a32_constrain_d(m6, -1, 1);
+  for (size_t e = 0; e < output.len; e++) {
+    output.values[e] = a32_constrain_d(output.values[e], -1, 1);
+  }
 
   // print calculation
-  naos_log("model: %f | %f | %f | %f | %f | %f", m1, m2, m3, m4, m5, m6);
+  naos_log("calculated values:");
+  a32_vector_print(output);
 
-  // prepare result
-  mod_result_t res = {
-      .a = {m1, m2, m3, m4, m5, m6},
-  };
-
-  return res;
+  return output;
 }
