@@ -1,5 +1,7 @@
 import numpy as np
 
+np.set_printoptions(precision=4, suppress=True)
+
 # motor alignment (use cos(a) for 0/90)
 thrust = np.sin(np.pi * 45 / 180)
 print("thrust", thrust)

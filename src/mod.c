@@ -71,10 +71,10 @@ void mod_calculate() {
     // normalize forces
     a32_vector_norm(a32_vector_view(cfg, 0, 3));
 
-    // calculate torques (mx = fy * dz + fz * dy), (my = fx * dz + fz * dx), (mz = fx * dy + fy * dx)
-    double mx = cfg.values[1] * cfg.values[5] + cfg.values[2] * cfg.values[4];
-    double my = cfg.values[0] * cfg.values[5] + cfg.values[2] * cfg.values[3];
-    double mz = cfg.values[0] * cfg.values[4] + cfg.values[1] * cfg.values[3];
+    // calculate torques (mx = -fy * dz + fz * dy), (my = -fx * dz + fz * dx), (mz = -fx * dy + fy * dx)
+    double mx = -cfg.values[1] * cfg.values[5] + cfg.values[2] * cfg.values[4];
+    double my = -cfg.values[0] * cfg.values[5] + cfg.values[2] * cfg.values[3];
+    double mz = -cfg.values[0] * cfg.values[4] + cfg.values[1] * cfg.values[3];
 
     // set torques
     cfg.values[3] = mx;
@@ -96,6 +96,8 @@ void mod_calculate() {
 
   // calculate right pseudo inverse
   model = a32_matrix_pseudo_inverse(config);
+
+  // TODO: Provide feedback on model calculations (singular matrices..).
 
   // print matrix
   naos_log("inverse model matrix:");
