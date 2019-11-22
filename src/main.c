@@ -163,12 +163,14 @@ static naos_param_t params[] = {
     {.name = "model-m2", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
     {.name = "model-m3", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
     {.name = "model-m4", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
+    {.name = "model-m5", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
+    {.name = "model-m6", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
 };
 
 static naos_config_t config = {.device_type = "blimpy",
                                .firmware_version = "0.2.0",
                                .parameters = params,
-                               .num_parameters = 11,
+                               .num_parameters = 13,
                                .ping_callback = ping,
                                .online_callback = online,
                                .update_callback = update,
