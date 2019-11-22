@@ -142,7 +142,7 @@ static void loop() {
   // check fault
   uint8_t fault = exp_fault();
   if (fault != 0) {
-    naos_log("fault: %x", exp_fault());
+    naos_log("fault: %x", fault);
   }
 }
 
