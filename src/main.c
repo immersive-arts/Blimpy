@@ -98,7 +98,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     // parse comma separated speeds
     char *ptr = strtok((char *)payload, ",");
     int i = 0;
-    while (ptr != NULL && i < factors.len) {
+    while (ptr != NULL && i < factors.length) {
       factors.values[i] = a32_constrain_d(a32_str2d(ptr), -1, 1);
       ptr = strtok(NULL, ",");
       i++;
