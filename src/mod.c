@@ -18,7 +18,7 @@ static a32_vector_t parse_config(char *config) {
   // parse comma separated speeds
   char *ptr = strtok((char *)config, ",");
   int i = 0;
-  while (ptr != NULL && i < vec.len) {
+  while (ptr != NULL && i < vec.length) {
     vec.values[i] = a32_str2d(ptr);
     ptr = strtok(NULL, ",");
     i++;
@@ -46,30 +46,30 @@ void mod_calculate() {
     sprintf(param, "model-m%d", i + 1);
 
     // parse string config
-    a32_vector_t cfg = parse_config(naos_get(param));
+    a32_vector_t motor = parse_config(naos_get(param));
 
     // vector has the layout: fx, fy, fz, dx, dy, dz
 
     // normalize forces
-    a32_vector_norm(a32_vector_view(cfg, 0, 3));
+    a32_vector_norm(a32_vector_view(motor, 0, 3));
 
     // calculate torques (mx = -fy * dz + fz * dy), (my = -fx * dz + fz * dx), (mz = -fx * dy + fy * dx)
-    double mx = -cfg.values[1] * cfg.values[5] + cfg.values[2] * cfg.values[4];
-    double my = -cfg.values[0] * cfg.values[5] + cfg.values[2] * cfg.values[3];
-    double mz = -cfg.values[0] * cfg.values[4] + cfg.values[1] * cfg.values[3];
+    double mx = -motor.values[1] * motor.values[5] + motor.values[2] * motor.values[4];
+    double my = -motor.values[0] * motor.values[5] + motor.values[2] * motor.values[3];
+    double mz = -motor.values[0] * motor.values[4] + motor.values[1] * motor.values[3];
 
     // set torques
-    cfg.values[3] = mx;
-    cfg.values[4] = my;
-    cfg.values[5] = mz;
+    motor.values[3] = mx;
+    motor.values[4] = my;
+    motor.values[5] = mz;
 
     // vector now has the layout: fx, fy, fz, mx, my, mz
 
     // add to matrix
-    a32_matrix_set_col(config, i, cfg);
+    a32_matrix_set_col(config, i, motor);
 
     // free vector
-    a32_vector_free(cfg);
+    a32_vector_free(motor);
   }
 
   // print matrix
@@ -114,7 +114,7 @@ a32_vector_t mod_calc(a32_vector_t values) {
   a32_vector_t output = a32_vector_multiply_matrix(values, model);
 
   // clamp results
-  for (size_t e = 0; e < output.len; e++) {
+  for (size_t e = 0; e < output.length; e++) {
     output.values[e] = a32_constrain_d(output.values[e], -1, 1);
   }
 
