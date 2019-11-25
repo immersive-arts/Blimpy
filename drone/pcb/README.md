@@ -1,4 +1,4 @@
-# blimpy
+# Blimpy PCB
 
 ## Connectors
 
@@ -47,7 +47,6 @@ We might want to consider ordering ready made cable assemblies:
 - https://www.adafruit.com/category/598
 - https://www.fabrimex.com/products/cable-assembly.html
 
-## Tools
+## Required Tools
 
-- Wire Cutter
 - JST Crimp Tool
