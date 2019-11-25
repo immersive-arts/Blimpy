@@ -17,7 +17,9 @@ set(SOURCE_FILES
         src/led.h
         src/main.c
         src/mod.c
-        src/mod.h)
+        src/mod.h
+        src/srv.c
+        src/srv.h)
 
 # create a fake library target
 add_library(${CMAKE_PROJECT_NAME} ${SOURCE_FILES})
