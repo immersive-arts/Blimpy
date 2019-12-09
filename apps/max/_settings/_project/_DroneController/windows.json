@@ -1,0 +1,99 @@
+{
+	"bs_gui_win_fps-graph_S_Solver" : 	{
+		"_pin" : 0,
+		"_type" : "Solver",
+		"_slotsize" : 45
+	}
+,
+	"_storenames" : "Main",
+	"_slotspot" : 0,
+	"bs_gui_win_Grid_P_Model" : 	{
+		"_pin" : 0,
+		"_type" : "Model",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_SpaceModel_P_Model" : 	{
+		"_pin" : 0,
+		"_type" : "Model",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_Shape_P_Model" : 	{
+		"_pin" : 0,
+		"_type" : "Model",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_QueScript_PB_ProgressBar" : 	{
+		"_pin" : 0,
+		"_type" : "ProgressBar",
+		"_slotsize" : 25,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_QueScript_P_Script" : 	{
+		"_pin" : 0,
+		"_type" : "Script",
+		"_slotsize" : 25,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_Drone_ONE_path_P_Canvas" : 	{
+		"_pin" : 0,
+		"_type" : "Canvas",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_Drone_ONE_pathdata_P_Tfm" : 	{
+		"_pin" : 0,
+		"_type" : "Tfm",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_OptiTrack_P_Hook" : 	{
+		"_pin" : 0,
+		"_type" : "Hook",
+		"_slotsize" : 43
+	}
+,
+	"bs_gui_win_OptiTrack_1_P_Hook" : 	{
+		"_pin" : 0,
+		"_type" : "Hook",
+		"_slotsize" : 43
+	}
+
+}

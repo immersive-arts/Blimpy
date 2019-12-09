@@ -1,0 +1,36 @@
+<ledstrip version="1">
+	<segment name="ElongatedTampon">
+		<coord x="-1.000" y="0.000" z="3.000"></coord>
+		<coord x="-1.096" y="1.402" z="3.000"></coord>
+		<coord x="-1.333" y="2.898" z="3.000"></coord>
+		<coord x="-1.607" y="4.401" z="3.000"></coord>
+		<coord x="-1.818" y="5.826" z="3.000"></coord>
+		<coord x="-1.865" y="7.084" z="3.000"></coord>
+		<coord x="-1.645" y="8.091" z="3.000"></coord>
+		<coord x="-1.057" y="8.758" z="3.000"></coord>
+		<coord x="0.000" y="9.000" z="3.000"></coord>
+		<coord x="1.057" y="8.758" z="3.000"></coord>
+		<coord x="1.645" y="8.091" z="3.000"></coord>
+		<coord x="1.865" y="7.084" z="3.000"></coord>
+		<coord x="1.818" y="5.826" z="3.000"></coord>
+		<coord x="1.607" y="4.401" z="3.000"></coord>
+		<coord x="1.333" y="2.898" z="3.000"></coord>
+		<coord x="1.096" y="1.402" z="3.000"></coord>
+		<coord x="1.000" y="0.000" z="3.000"></coord>
+		<coord x="1.124" y="-1.556" z="3.000"></coord>
+		<coord x="1.405" y="-3.218" z="3.000"></coord>
+		<coord x="1.728" y="-4.888" z="3.000"></coord>
+		<coord x="1.979" y="-6.471" z="3.000"></coord>
+		<coord x="2.046" y="-7.870" z="3.000"></coord>
+		<coord x="1.815" y="-8.989" z="3.000"></coord>
+		<coord x="1.170" y="-9.731" z="3.000"></coord>
+		<coord x="0.000" y="-10.000" z="3.000"></coord>
+		<coord x="-1.170" y="-9.731" z="3.000"></coord>
+		<coord x="-1.815" y="-8.989" z="3.000"></coord>
+		<coord x="-2.046" y="-7.870" z="3.000"></coord>
+		<coord x="-1.979" y="-6.471" z="3.000"></coord>
+		<coord x="-1.728" y="-4.888" z="3.000"></coord>
+		<coord x="-1.405" y="-3.218" z="3.000"></coord>
+		<coord x="-1.124" y="-1.556" z="3.000"></coord>
+	</segment>
+</ledstrip>
