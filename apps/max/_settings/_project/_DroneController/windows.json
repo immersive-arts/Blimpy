@@ -87,7 +87,12 @@
 	"bs_gui_win_OptiTrack_P_Hook" : 	{
 		"_pin" : 0,
 		"_type" : "Hook",
-		"_slotsize" : 43
+		"_slotsize" : 43,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
 	}
 ,
 	"bs_gui_win_OptiTrack_1_P_Hook" : 	{

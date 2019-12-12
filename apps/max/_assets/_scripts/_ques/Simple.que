@@ -1,6 +1,6 @@
 <script>
     <que name="elongatedTampon" loop="no">
-        <anim name="runAround" duration="30s" fadeout="2s" loop="normal">
+        <anim name="runAround" duration="240s" fadeout="2s" loop="normal">
              <track name="t1">0. 1.</track>
              <send>/sparck/node ::Drone_ONE_path::playbar {t1}</send>
         </anim>
