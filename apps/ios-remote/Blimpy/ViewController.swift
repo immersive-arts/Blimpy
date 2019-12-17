@@ -12,6 +12,8 @@ import CDJoystick
 import CoreMotion
 
 class ViewController: UIViewController, CocoaMQTTDelegate {
+    var baseTopic = ""
+    
     var manager: CMMotionManager = CMMotionManager()
     var client: CocoaMQTT?
     
@@ -64,6 +66,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         let port = UserDefaults.standard.integer(forKey: "BrokerPort")
         let username = UserDefaults.standard.string(forKey: "BrokerUsername")
         let password = UserDefaults.standard.string(forKey: "BrokerPassword")
+        baseTopic = UserDefaults.standard.string(forKey: "BaseTopic") ?? ""
         
         // create client
         client = CocoaMQTT(clientID: "app", host: host, port: UInt16(port))
@@ -165,7 +168,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         let message = stringSpeeds.joined(separator: ",")
         
         // send message
-        client?.publish("blimpy/forces", withString: message, qos: .qos0, retained: false)
+        client?.publish(baseTopic + "/forces", withString: message, qos: .qos0, retained: false)
     }
     
     @IBAction func motionSwitch(_ sender: UISwitch) {
@@ -190,7 +193,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
         if ack == .accept {
             status.backgroundColor = UIColor.green
-            client?.subscribe("blimpy/#", qos: .qos0)
+            client?.subscribe(baseTopic + "/#", qos: .qos0)
         }
     }
     
@@ -199,7 +202,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         let data = String(data: Data(message.payload), encoding: .utf8)
         
         // check for hearbeat
-        if message.topic == "blimpy/naos/heartbeat" {
+        if message.topic == baseTopic + "/naos/heartbeat" {
             // get info
             let info = data?.split(separator: ",")
             
