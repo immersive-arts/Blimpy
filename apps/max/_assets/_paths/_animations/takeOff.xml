@@ -1,0 +1,23 @@
+<ledstrip version="1">
+	<segment name="TakeCenter">
+		<coord x="-0.911" y="1.100" z="2.009"></coord>
+		<coord x="-0.771" y="0.770" z="1.873"></coord>
+		<coord x="-0.461" y="0.660" z="1.530"></coord>
+		<coord x="-0.152" y="0.494" z="1.074"></coord>
+		<coord x="-0.011" y="0.000" z="0.600"></coord>
+	</segment>
+	<segment name="TakeLeft">
+		<coord x="-1.019" y="2.790" z="0.809"></coord>
+		<coord x="-1.060" y="2.197" z="0.776"></coord>
+		<coord x="-1.081" y="1.503" z="0.704"></coord>
+		<coord x="-1.066" y="0.755" z="0.633"></coord>
+		<coord x="-1.000" y="0.000" z="0.600"></coord>
+	</segment>
+	<segment name="TakeRight">
+		<coord x="1.549" y="0.669" z="1.909"></coord>
+		<coord x="1.518" y="0.383" z="1.809"></coord>
+		<coord x="1.466" y="0.378" z="1.533"></coord>
+		<coord x="1.319" y="0.351" z="1.118"></coord>
+		<coord x="1.000" y="0.000" z="0.600"></coord>
+	</segment>
+</ledstrip>
