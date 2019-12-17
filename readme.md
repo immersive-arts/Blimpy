@@ -1,6 +1,6 @@
 # Blimpy - an artistic framework for creating a spatial augmented reality experience with helium blimps
 
-![alt text](assets/pix/Space.jpg)
+![alt text](assets/pix/BlimpsInFlight.jpg)
 
 ## Introduction
 
