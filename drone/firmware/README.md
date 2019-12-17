@@ -54,14 +54,14 @@ connect to device:
 
 menu > shitfr.io > 1(2..) Device > deviceName
 
-![wifi](../../assets/pix/BT_deviceConfig_Wifi.jpg)
+![wifi](../../assets/pix/firmware/BT_deviceConfig_Wifi.jpg)
 
 * SSID: Network deviceName
 * Password: Network password
 * Boot Factory: deprecated
-* Ping: Led flashes white of the pinged device
+* Ping: status LED of the pinged device flashes white
 
-![mqtt](../../assets/pix/BT_deviceConfig_MQTT.jpg)
+![mqtt](../../assets/pix/firmware/BT_deviceConfig_MQTT.jpg)
 
 * Host: broker IP
 * Port: broker Port (1883 default port for * MQTT brokers, i.e. mosquitto)
@@ -72,7 +72,7 @@ menu > shitfr.io > 1(2..) Device > deviceName
 * Use Local Broker: if there is a local shiftr.io broker running, it takes those settings.
 * Configure: upload new settings
 
-![device](../../assets/pix/BT_deviceConfig_Device.jpg)
+![device](../../assets/pix/firmware/BT_deviceConfig_Device.jpg)
 
 * Device name: Device name shown via bluetooth
 * Base topic: prefix for all communication with deviceName.
@@ -83,7 +83,7 @@ ie. for the parameter min-duty:
 blimps/b43/min-duty
 ```
 
-![parameters](../../assets/pix/BT_deviceConfig_Parameters.jpg)
+![parameters](../../assets/pix/firmware/BT_deviceConfig_Parameters.jpg)
 
 Parameters this device is configured for.
 
