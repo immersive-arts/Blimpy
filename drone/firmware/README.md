@@ -48,7 +48,7 @@ Install [shiftr.io Desktop](https://desktop.shiftr.io) to get access to the BLE 
 
 shiftr.io will be inside the menu bar after start.
 
-when a device is switched, shiftr.io will detect the device if bluetooth is enabled.
+when a device is switched on, shiftr.io will detect the device if bluetooth is enabled.
 
 connect to device:
 
@@ -56,26 +56,28 @@ menu > shitfr.io > 1(2..) Device > deviceName
 
 ![wifi](../../assets/pix/BT_deviceConfig_Wifi.jpg)
 
-SSID: Network deviceName
-Password: Network password
-Boot Factory: deprecated
-Ping: Led flashes white of the pinged device
+* SSID: Network deviceName
+* Password: Network password
+* Boot Factory: deprecated
+* Ping: Led flashes white of the pinged device
 
 ![mqtt](../../assets/pix/BT_deviceConfig_MQTT.jpg)
 
-Host: broker IP
-Port: broker Port (1883 default port for MQTT brokers, i.e. mosquitto)
-Client ID: this device ID
-Username: broker Username
-Password: broker password
-Use shiftr.io: autocomplete for shiftr.io broker
-Use Local Broker: if there is a local shiftr.io broker running, it takes those settings.
-Configure: upload new settings
+* Host: broker IP
+* Port: broker Port (1883 default port for * MQTT brokers, i.e. mosquitto)
+* Client ID: this device ID
+* Username: broker Username
+* Password: broker password
+* Use shiftr.io: autocomplete for shiftr.io broker
+* Use Local Broker: if there is a local shiftr.io broker running, it takes those settings.
+* Configure: upload new settings
 
 ![device](../../assets/pix/BT_deviceConfig_Device.jpg)
 
-Device name: Device name shown via bluetooth
-Base topic: prefix for all communication with deviceName. ie. for the parameter min-duty:
+* Device name: Device name shown via bluetooth
+* Base topic: prefix for all communication with deviceName.
+
+ie. for the parameter min-duty:
 
 ```bash
 blimps/b43/min-duty
@@ -87,7 +89,15 @@ Parameters this device is configured for.
 
 ## Development
 
-setting up the recomended devolpment environment: [Clion](https://www.jetbrains.com/clion/)
+[Clion](https://www.jetbrains.com/clion/) is the recomended development environment.
+
+open the folder this readme is located.
+
+Menu > View > Appearance > Toolbar
+
+click-cmd on a function will jump to the references. click on back button in toolbar to get back to source.
+
+compilation only with the above described toolchain.
 
 ## Credits
 
