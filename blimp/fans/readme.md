@@ -19,13 +19,20 @@ Prints have been testet using a Printer with 0.4mm Nozzle, 0.2mm Layer-height an
 ## 3. Slicing
 
 ### UP-Studio
-Open UP-Studio and add the fanmount STL.![alt text](../../assets/pix/fans/up_studio_open.gif)
+Open UP-Studio and add the fanmount STL.
 
-Deselect all Supports in the Supportsettings (right pie-menu)![alt text](../../assets/pix/fans/up_studio_deselect_support.gif)
+![alt text](../../assets/pix/fans/up_studio_open.gif)
 
-Select 0.2mm layer-thickness, "no Infill, no Top/Bottom", "no Raft", "no Support" ![alt text](../../assets/pix/fans/up_studio_slicer_setting.gif)
+Deselect all Supports in the Supportsettings (right pie-menu)
+
+![alt text](../../assets/pix/fans/up_studio_deselect_support.gif)
+
+Select 0.2mm layer-thickness, "no Infill, no Top/Bottom", "no Raft", "no Support"
+
+![alt text](../../assets/pix/fans/up_studio_slicer_setting.gif)
 
 Run preview and make sure no Support is selected.
+
 ![alt text](../../assets/pix/fans/up_studio_bad_support.gif)
 ![alt text](../../assets/pix/fans/up_studio_no_support.gif)
 
@@ -34,12 +41,22 @@ Run preview and make sure no Support is selected.
 "spiralizing" in cura is great and improves printtime and quality. but it only works with one object at the time. export your files from Onshape seperatly and not all at once.
 
 Open Cura and open STL File.
-Set Layer Height to 0.2mm and Wall Thickness to 0.4mm ![alt text](../../assets/pix/fans/cura_layerheight.gif)
+Set Layer Height to 0.2mm and Wall Thickness to 0.4mm
 
-Under "Spectial Modes" Check "surface" as your surface mode. Also check "spiralize"![alt text](../../assets/pix/fans/cura_surfacemode.gif)
+![alt text](../../assets/pix/fans/cura_layerheight.gif)
 
-Check if your slice does not have any tool-jumps in it.![alt text](../../assets/pix/fans/cura_spiral.gif)
-If it does, change "seam corner preference" to "none" ![alt text](../../assets/pix/fans/cura_seam.gif)
+Under "Spectial Modes" Check "surface" as your surface mode. Also check "spiralize"
+
+![alt text](../../assets/pix/fans/cura_surfacemode.gif)
+
+Check if your slice does not have any tool-jumps in it.
+
+![alt text](../../assets/pix/fans/cura_spiral.gif)
+
+
+If it does, change "seam corner preference" to "none"
+
+![alt text](../../assets/pix/fans/cura_seam.gif)
 
 ## Printing
 
