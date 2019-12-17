@@ -29,17 +29,6 @@
 
 	}
 ,
-	"bs_gui_win_Shape_P_Model" : 	{
-		"_pin" : 0,
-		"_type" : "Model",
-		"_slotsize" : 45,
-		"Main" : 		{
-			"_visible" : 0,
-			"_slotted" : 0
-		}
-
-	}
-,
 	"bs_gui_win_QueScript_PB_ProgressBar" : 	{
 		"_pin" : 0,
 		"_type" : "ProgressBar",
@@ -62,28 +51,6 @@
 
 	}
 ,
-	"bs_gui_win_Drone_ONE_path_P_Canvas" : 	{
-		"_pin" : 0,
-		"_type" : "Canvas",
-		"_slotsize" : 45,
-		"Main" : 		{
-			"_visible" : 0,
-			"_slotted" : 0
-		}
-
-	}
-,
-	"bs_gui_win_Drone_ONE_pathdata_P_Tfm" : 	{
-		"_pin" : 0,
-		"_type" : "Tfm",
-		"_slotsize" : 45,
-		"Main" : 		{
-			"_visible" : 0,
-			"_slotted" : 0
-		}
-
-	}
-,
 	"bs_gui_win_OptiTrack_P_Hook" : 	{
 		"_pin" : 0,
 		"_type" : "Hook",
@@ -99,6 +66,105 @@
 		"_pin" : 0,
 		"_type" : "Hook",
 		"_slotsize" : 43
+	}
+,
+	"bs_gui_win_Blimp_b41_path_P_Canvas" : 	{
+		"_pin" : 0,
+		"_type" : "Canvas",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_Blimp_b42_path_P_Canvas" : 	{
+		"_pin" : 0,
+		"_type" : "Canvas",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_Blimp_b42_pathdata_P_Tfm" : 	{
+		"_pin" : 0,
+		"_type" : "Tfm",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_Blimp_b41_pathdata_P_Tfm" : 	{
+		"_pin" : 0,
+		"_type" : "Tfm",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_Blimp_b43_path_P_Canvas" : 	{
+		"_pin" : 0,
+		"_type" : "Canvas",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_Blimp_b43_pathdata_P_Tfm" : 	{
+		"_pin" : 0,
+		"_type" : "Tfm",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_Blimp41_P_Model" : 	{
+		"_pin" : 0,
+		"_type" : "Model",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_Blimp42_P_Model" : 	{
+		"_pin" : 1,
+		"_type" : "Model",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
+	}
+,
+	"bs_gui_win_Blimp43_P_Model" : 	{
+		"_pin" : 0,
+		"_type" : "Model",
+		"_slotsize" : 45,
+		"Main" : 		{
+			"_visible" : 0,
+			"_slotted" : 0
+		}
+
 	}
 
 }

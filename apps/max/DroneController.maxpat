@@ -141,7 +141,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 632.0, 404.0, 1250.0, 723.0 ],
+						"rect" : [ 913.0, 421.0, 1250.0, 723.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -171,49 +171,120 @@
 						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
-									"id" : "obj-38",
-									"maxclass" : "newobj",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 268.75, 533.0, 103.0, 22.0 ],
-									"text" : "join 2 @triggers 1"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-37",
-									"maxclass" : "newobj",
-									"numinlets" : 6,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 268.75, 559.0, 332.0, 22.0 ],
-									"text" : "sprintf symout move x=%s y=%s z=%s vx=%s vy=%s vz=%s"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-34",
+									"id" : "obj-40",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 342.0, 284.0, 92.0, 22.0 ],
-									"text" : "expr $f1 / 1000."
+									"patching_rect" : [ 268.0, 521.0, 19.0, 22.0 ],
+									"text" : "t l"
 								}
 
 							}
 , 							{
 								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-38",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.pop.shape.1.maxpat",
+									"numinlets" : 4,
+									"numoutlets" : 4,
+									"offset" : [ 0.0, 0.0 ],
+									"outlettype" : [ "", "", "", "jit_matrix" ],
+									"patching_rect" : [ 669.0, 239.0, 180.0, 82.0 ],
+									"varname" : "Blimp43",
+									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-37",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.pop.shape.1.maxpat",
+									"numinlets" : 4,
+									"numoutlets" : 4,
+									"offset" : [ 0.0, 0.0 ],
+									"outlettype" : [ "", "", "", "jit_matrix" ],
+									"patching_rect" : [ 465.0, 233.0, 180.0, 82.0 ],
+									"varname" : "Blimp42",
+									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-35",
+									"maxclass" : "newobj",
+									"numinlets" : 3,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 644.5, 497.0, 215.0, 22.0 ],
+									"text" : "pathGenerator manager/blimps/b43 50"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-36",
+									"maxclass" : "toggle",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "int" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 644.5, 462.0, 24.0, 24.0 ]
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-34",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.tfm.node.path.1.maxpat",
+									"numinlets" : 2,
+									"numoutlets" : 0,
+									"offset" : [ 0.0, 0.0 ],
+									"patching_rect" : [ 669.0, 29.0, 180.0, 124.0 ],
+									"varname" : "Blimp_b43_path",
+									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
 									"id" : "obj-33",
-									"maxclass" : "number",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.tfm.node.info.1.maxpat",
 									"numinlets" : 1,
 									"numoutlets" : 2,
-									"outlettype" : [ "", "bang" ],
-									"parameter_enable" : 0,
-									"patching_rect" : [ 301.0, 246.0, 50.0, 22.0 ]
+									"offset" : [ 0.0, 0.0 ],
+									"outlettype" : [ "", "" ],
+									"patching_rect" : [ 673.0, 154.0, 180.0, 78.0 ],
+									"varname" : "Blimp_b43_pathdata",
+									"viewvisibility" : 1
 								}
 
 							}
@@ -221,59 +292,100 @@
 								"box" : 								{
 									"id" : "obj-30",
 									"maxclass" : "newobj",
-									"numinlets" : 2,
+									"numinlets" : 3,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 291.0, 497.0, 172.0, 22.0 ],
-									"text" : "vexpr $f1 / $f2 @scalarmode 1"
+									"patching_rect" : [ 268.0, 360.0, 215.0, 22.0 ],
+									"text" : "pathGenerator manager/blimps/b41 50"
 								}
 
 							}
 , 							{
 								"box" : 								{
-									"id" : "obj-17",
-									"maxclass" : "newobj",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 291.0, 469.0, 85.0, 22.0 ],
-									"text" : "vexpr $f2 - $f1"
+									"id" : "obj-31",
+									"maxclass" : "number",
+									"numinlets" : 1,
+									"numoutlets" : 2,
+									"outlettype" : [ "", "bang" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 859.0, 306.0, 50.0, 22.0 ]
 								}
 
 							}
 , 							{
 								"box" : 								{
-									"id" : "obj-16",
+									"id" : "obj-32",
+									"maxclass" : "toggle",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "int" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 268.0, 325.0, 24.0, 24.0 ]
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-28",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.tfm.node.info.1.maxpat",
+									"numinlets" : 1,
+									"numoutlets" : 2,
+									"offset" : [ 0.0, 0.0 ],
+									"outlettype" : [ "", "" ],
+									"patching_rect" : [ 263.0, 156.0, 180.0, 78.0 ],
+									"varname" : "Blimp_b41_pathdata",
+									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-9",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 3,
-									"outlettype" : [ "", "bang", "" ],
-									"patching_rect" : [ 291.0, 404.0, 64.0, 22.0 ],
-									"text" : "t l b l"
+									"outlettype" : [ "int", "", "" ],
+									"patching_rect" : [ 268.0, 563.0, 225.0, 22.0 ],
+									"text" : "mxj mqtt mqtt://10.128.96.102 BlimpAPP"
 								}
 
 							}
 , 							{
 								"box" : 								{
-									"id" : "obj-15",
+									"id" : "obj-27",
 									"maxclass" : "newobj",
-									"numinlets" : 2,
-									"numoutlets" : 2,
-									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 291.0, 442.0, 43.5, 22.0 ],
-									"text" : "zl.reg"
+									"numinlets" : 3,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 457.0, 434.0, 215.0, 22.0 ],
+									"text" : "pathGenerator manager/blimps/b42 50"
 								}
 
 							}
 , 							{
 								"box" : 								{
-									"id" : "obj-8",
-									"maxclass" : "newobj",
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-10",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.tfm.node.path.1.maxpat",
 									"numinlets" : 2,
-									"numoutlets" : 2,
-									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 268.75, 367.0, 38.0, 22.0 ],
-									"text" : "zl.reg"
+									"numoutlets" : 0,
+									"offset" : [ 0.0, 0.0 ],
+									"patching_rect" : [ 263.0, 29.0, 180.0, 124.0 ],
+									"varname" : "Blimp_b41_path",
+									"viewvisibility" : 1
 								}
 
 							}
@@ -292,7 +404,7 @@
 									"numoutlets" : 11,
 									"offset" : [ 0.0, 0.0 ],
 									"outlettype" : [ "", "", "", "", "", "", "", "", "", "", "" ],
-									"patching_rect" : [ 693.0, 37.0, 180.0, 225.0 ],
+									"patching_rect" : [ 918.0, 163.0, 180.0, 244.0 ],
 									"varname" : "OptiTrack",
 									"viewvisibility" : 1
 								}
@@ -313,7 +425,7 @@
 									"numoutlets" : 4,
 									"offset" : [ 0.0, 0.0 ],
 									"outlettype" : [ "", "", "", "" ],
-									"patching_rect" : [ 473.0, 37.0, 180.0, 99.0 ],
+									"patching_rect" : [ 859.0, 24.0, 180.0, 99.0 ],
 									"varname" : "QueScript",
 									"viewvisibility" : 1
 								}
@@ -334,8 +446,8 @@
 									"numoutlets" : 2,
 									"offset" : [ 0.0, 0.0 ],
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 258.0, 154.0, 180.0, 78.0 ],
-									"varname" : "Drone_ONE_pathdata",
+									"patching_rect" : [ 465.0, 154.0, 180.0, 78.0 ],
+									"varname" : "Blimp_b42_pathdata",
 									"viewvisibility" : 1
 								}
 
@@ -355,8 +467,8 @@
 									"numoutlets" : 4,
 									"offset" : [ 0.0, 0.0 ],
 									"outlettype" : [ "", "", "", "jit_matrix" ],
-									"patching_rect" : [ 45.0, 262.0, 180.0, 82.0 ],
-									"varname" : "Shape",
+									"patching_rect" : [ 263.0, 239.0, 180.0, 82.0 ],
+									"varname" : "Blimp41",
 									"viewvisibility" : 1
 								}
 
@@ -375,8 +487,8 @@
 									"numinlets" : 2,
 									"numoutlets" : 0,
 									"offset" : [ 0.0, 0.0 ],
-									"patching_rect" : [ 254.0, 29.0, 180.0, 124.0 ],
-									"varname" : "Drone_ONE_path",
+									"patching_rect" : [ 461.0, 29.0, 180.0, 124.0 ],
+									"varname" : "Blimp_b42_path",
 									"viewvisibility" : 1
 								}
 
@@ -426,55 +538,6 @@
 							}
 , 							{
 								"box" : 								{
-									"id" : "obj-32",
-									"maxclass" : "newobj",
-									"numinlets" : 1,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 613.0, 480.0, 19.0, 22.0 ],
-									"text" : "t l"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-27",
-									"maxclass" : "newobj",
-									"numinlets" : 1,
-									"numoutlets" : 3,
-									"outlettype" : [ "bang", "bang", "bang" ],
-									"patching_rect" : [ 257.25, 318.0, 42.0, 22.0 ],
-									"text" : "t b b b"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-24",
-									"linecount" : 2,
-									"maxclass" : "message",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 123.0, 637.0, 276.0, 36.0 ],
-									"text" : "publish manager/drones/d42/stack \"move x=-0.72 y=7.16 z=2.56 vx=0.08 vy=0.05 vz=0.05\""
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-22",
-									"maxclass" : "newobj",
-									"numinlets" : 3,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 698.25, 497.0, 215.0, 22.0 ],
-									"text" : "sprintf symout move x=%s y=%s z=%s"
-								}
-
-							}
-, 							{
-								"box" : 								{
 									"bubble" : 1,
 									"bubbleside" : 0,
 									"id" : "obj-20",
@@ -482,7 +545,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 546.0, 637.0, 72.0, 53.0 ],
+									"patching_rect" : [ 241.5, 636.0, 72.0, 53.0 ],
 									"style" : "default",
 									"text" : "connection state"
 								}
@@ -496,31 +559,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "int" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 613.0, 604.0, 24.0, 24.0 ]
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-19",
-									"maxclass" : "message",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 380.0, 375.0, 200.0, 22.0 ],
-									"text" : "publish manager/drones/d42/clear 1"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-13",
-									"maxclass" : "message",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 268.0, 587.0, 209.0, 22.0 ],
-									"text" : "publish manager/drones/d42/stack $1"
+									"patching_rect" : [ 268.0, 606.0, 24.0, 24.0 ]
 								}
 
 							}
@@ -531,8 +570,8 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 747.0, 396.0, 187.0, 22.0 ],
-									"text" : "unsubscribe manager/drones/d42"
+									"patching_rect" : [ 28.25, 364.0, 185.0, 22.0 ],
+									"text" : "unsubscribe manager/blimps/b41"
 								}
 
 							}
@@ -543,8 +582,8 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 747.0, 429.0, 174.0, 22.0 ],
-									"text" : "subscribe manager/drones/d42"
+									"patching_rect" : [ 28.25, 393.0, 172.0, 22.0 ],
+									"text" : "subscribe manager/blimps/b41"
 								}
 
 							}
@@ -555,7 +594,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 668.0, 404.0, 68.0, 22.0 ],
+									"patching_rect" : [ 125.0, 429.0, 68.0, 22.0 ],
 									"text" : "disconnect"
 								}
 
@@ -567,20 +606,8 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 613.0, 404.0, 53.0, 22.0 ],
+									"patching_rect" : [ 70.0, 429.0, 53.0, 22.0 ],
 									"text" : "connect"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-9",
-									"maxclass" : "newobj",
-									"numinlets" : 1,
-									"numoutlets" : 3,
-									"outlettype" : [ "int", "", "" ],
-									"patching_rect" : [ 613.0, 542.0, 219.0, 22.0 ],
-									"text" : "mxj mqtt mqtt://10.128.96.102 SPARCK"
 								}
 
 							}
@@ -592,31 +619,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "int" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 257.0, 246.0, 24.0, 24.0 ]
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-12",
-									"maxclass" : "newobj",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "bang" ],
-									"patching_rect" : [ 257.0, 284.0, 63.0, 22.0 ],
-									"text" : "qmetro 50"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-7",
-									"maxclass" : "newobj",
-									"numinlets" : 2,
-									"numoutlets" : 2,
-									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 419.0, 250.0, 87.0, 22.0 ],
-									"text" : "route worldpos"
+									"patching_rect" : [ 457.0, 399.0, 24.0, 24.0 ]
 								}
 
 							}
@@ -624,195 +627,122 @@
 						"lines" : [ 							{
 								"patchline" : 								{
 									"destination" : [ "obj-27", 0 ],
-									"source" : [ "obj-12", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-24", 1 ],
-									"order" : 1,
-									"source" : [ "obj-13", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-32", 0 ],
-									"order" : 0,
-									"source" : [ "obj-13", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-12", 0 ],
 									"source" : [ "obj-14", 0 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-17", 0 ],
-									"source" : [ "obj-15", 0 ]
+									"destination" : [ "obj-40", 0 ],
+									"source" : [ "obj-27", 0 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-15", 0 ],
-									"source" : [ "obj-16", 1 ]
+									"destination" : [ "obj-30", 2 ],
+									"source" : [ "obj-28", 1 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-15", 1 ],
-									"source" : [ "obj-16", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-17", 1 ],
-									"source" : [ "obj-16", 2 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-30", 0 ],
-									"source" : [ "obj-17", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-32", 0 ],
-									"source" : [ "obj-19", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-19", 0 ],
-									"source" : [ "obj-27", 2 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-8", 0 ],
-									"source" : [ "obj-27", 1 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-32", 0 ],
+									"destination" : [ "obj-40", 0 ],
 									"source" : [ "obj-29", 0 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-38", 1 ],
+									"destination" : [ "obj-40", 0 ],
 									"source" : [ "obj-30", 0 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-9", 0 ],
-									"source" : [ "obj-32", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-12", 1 ],
+									"destination" : [ "obj-27", 1 ],
 									"order" : 1,
-									"source" : [ "obj-33", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-34", 0 ],
-									"order" : 0,
-									"source" : [ "obj-33", 0 ]
+									"source" : [ "obj-31", 0 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
 									"destination" : [ "obj-30", 1 ],
-									"source" : [ "obj-34", 0 ]
+									"order" : 2,
+									"source" : [ "obj-31", 0 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-13", 0 ],
-									"source" : [ "obj-37", 0 ]
+									"destination" : [ "obj-35", 1 ],
+									"order" : 0,
+									"source" : [ "obj-31", 0 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-37", 0 ],
-									"source" : [ "obj-38", 0 ]
+									"destination" : [ "obj-30", 0 ],
+									"source" : [ "obj-32", 0 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-32", 0 ],
+									"destination" : [ "obj-35", 2 ],
+									"source" : [ "obj-33", 1 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-40", 0 ],
+									"source" : [ "obj-35", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-35", 0 ],
+									"source" : [ "obj-36", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-9", 0 ],
+									"source" : [ "obj-40", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-40", 0 ],
 									"source" : [ "obj-41", 0 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-32", 0 ],
+									"destination" : [ "obj-40", 0 ],
 									"source" : [ "obj-46", 0 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-32", 0 ],
+									"destination" : [ "obj-40", 0 ],
 									"source" : [ "obj-47", 0 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-7", 0 ],
+									"destination" : [ "obj-27", 2 ],
 									"source" : [ "obj-5", 1 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-8", 1 ],
-									"source" : [ "obj-7", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-16", 0 ],
-									"order" : 0,
-									"source" : [ "obj-8", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-38", 0 ],
-									"order" : 1,
-									"source" : [ "obj-8", 0 ]
 								}
 
 							}
@@ -918,9 +848,13 @@
 		"parameters" : 		{
 			"obj-2::obj-2::obj-99::obj-10::obj-72" : [ "toggle", "toggle", 0 ],
 			"obj-2::obj-11::obj-51::obj-10::obj-72" : [ "toggle[3]", "toggle", 0 ],
-			"obj-1::obj-1::obj-72" : [ "toggle[1]", "toggle", 0 ],
-			"obj-2::obj-2::obj-15::obj-60" : [ "lighting_enable", "lighting_enable", 0 ],
+			"obj-2::obj-38::obj-15::obj-60" : [ "lighting_enable[3]", "lighting_enable", 0 ],
 			"obj-2::obj-3::obj-99::obj-10::obj-72" : [ "toggle[2]", "toggle", 0 ],
+			"obj-2::obj-10::obj-99::obj-10::obj-72" : [ "toggle[4]", "toggle", 0 ],
+			"obj-1::obj-1::obj-72" : [ "toggle[1]", "toggle", 0 ],
+			"obj-2::obj-34::obj-99::obj-10::obj-72" : [ "toggle[5]", "toggle", 0 ],
+			"obj-2::obj-37::obj-15::obj-60" : [ "lighting_enable[2]", "lighting_enable", 0 ],
+			"obj-2::obj-2::obj-15::obj-60" : [ "lighting_enable", "lighting_enable", 0 ],
 			"obj-2::obj-4::obj-15::obj-60" : [ "lighting_enable[1]", "lighting_enable", 0 ],
 			"parameterbanks" : 			{
 
@@ -1441,6 +1375,13 @@
 , 			{
 				"name" : "bs.node.tfm.optitrack.body.maxpat",
 				"bootpath" : "~/Documents/Max 8/Packages/sparck/patchers/nodes/transform",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "pathGenerator.maxpat",
+				"bootpath" : "D:/04_projects/1901_HeliumDrone/02_dev/blimpy/apps/max",
+				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}

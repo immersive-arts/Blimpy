@@ -1,38 +1,138 @@
 <ledstrip version="1">
-	<segment name="Circle">
+	<segment name="CircleBack">
+		<coord x="-2.414" y="-5.000" z="2.782"></coord>
+		<coord x="-2.365" y="-4.514" z="2.782"></coord>
+		<coord x="-2.224" y="-4.060" z="2.782"></coord>
+		<coord x="-2.002" y="-3.650" z="2.782"></coord>
+		<coord x="-1.707" y="-3.293" z="2.782"></coord>
+		<coord x="-1.350" y="-2.998" z="2.782"></coord>
+		<coord x="-0.940" y="-2.776" z="2.782"></coord>
+		<coord x="-0.486" y="-2.635" z="2.782"></coord>
+		<coord x="0.000" y="-2.586" z="2.782"></coord>
+		<coord x="0.486" y="-2.635" z="2.782"></coord>
+		<coord x="0.940" y="-2.776" z="2.782"></coord>
+		<coord x="1.350" y="-2.998" z="2.782"></coord>
+		<coord x="1.707" y="-3.293" z="2.782"></coord>
+		<coord x="2.002" y="-3.650" z="2.782"></coord>
+		<coord x="2.224" y="-4.060" z="2.782"></coord>
+		<coord x="2.365" y="-4.514" z="2.782"></coord>
+		<coord x="2.414" y="-5.000" z="2.782"></coord>
+		<coord x="2.365" y="-5.486" z="2.782"></coord>
+		<coord x="2.224" y="-5.940" z="2.782"></coord>
+		<coord x="2.002" y="-6.350" z="2.782"></coord>
+		<coord x="1.707" y="-6.707" z="2.782"></coord>
+		<coord x="1.350" y="-7.002" z="2.782"></coord>
+		<coord x="0.940" y="-7.224" z="2.782"></coord>
+		<coord x="0.486" y="-7.365" z="2.782"></coord>
+		<coord x="0.000" y="-7.414" z="2.782"></coord>
+		<coord x="-0.486" y="-7.365" z="2.782"></coord>
+		<coord x="-0.940" y="-7.224" z="2.782"></coord>
+		<coord x="-1.350" y="-7.002" z="2.782"></coord>
+		<coord x="-1.707" y="-6.707" z="2.782"></coord>
+		<coord x="-2.002" y="-6.350" z="2.782"></coord>
+		<coord x="-2.224" y="-5.940" z="2.782"></coord>
+		<coord x="-2.365" y="-5.486" z="2.782"></coord>
+	</segment>
+	<segment name="CircleFront">
+		<coord x="-1.414" y="-2.000" z="4.094"></coord>
+		<coord x="-1.365" y="-1.514" z="4.094"></coord>
+		<coord x="-1.224" y="-1.060" z="4.094"></coord>
+		<coord x="-1.002" y="-0.650" z="4.094"></coord>
+		<coord x="-0.707" y="-0.293" z="4.094"></coord>
+		<coord x="-0.350" y="0.002" z="4.094"></coord>
+		<coord x="0.060" y="0.224" z="4.094"></coord>
+		<coord x="0.514" y="0.365" z="4.094"></coord>
+		<coord x="1.000" y="0.414" z="4.094"></coord>
+		<coord x="1.486" y="0.365" z="4.094"></coord>
+		<coord x="1.940" y="0.224" z="4.094"></coord>
+		<coord x="2.350" y="0.002" z="4.094"></coord>
+		<coord x="2.707" y="-0.293" z="4.094"></coord>
+		<coord x="3.002" y="-0.650" z="4.094"></coord>
+		<coord x="3.224" y="-1.060" z="4.094"></coord>
+		<coord x="3.365" y="-1.514" z="4.094"></coord>
+		<coord x="3.414" y="-2.000" z="4.094"></coord>
+		<coord x="3.365" y="-2.486" z="4.094"></coord>
+		<coord x="3.224" y="-2.940" z="4.094"></coord>
+		<coord x="3.002" y="-3.350" z="4.094"></coord>
+		<coord x="2.707" y="-3.707" z="4.094"></coord>
+		<coord x="2.350" y="-4.002" z="4.094"></coord>
+		<coord x="1.940" y="-4.224" z="4.094"></coord>
+		<coord x="1.486" y="-4.365" z="4.094"></coord>
+		<coord x="1.000" y="-4.414" z="4.094"></coord>
+		<coord x="0.514" y="-4.365" z="4.094"></coord>
+		<coord x="0.060" y="-4.224" z="4.094"></coord>
+		<coord x="-0.350" y="-4.002" z="4.094"></coord>
+		<coord x="-0.707" y="-3.707" z="4.094"></coord>
+		<coord x="-1.002" y="-3.350" z="4.094"></coord>
+		<coord x="-1.224" y="-2.940" z="4.094"></coord>
+		<coord x="-1.365" y="-2.486" z="4.094"></coord>
+	</segment>
+	<segment name="CircleMiddle">
 		<coord x="-2.414" y="0.000" z="1.782"></coord>
+		<coord x="-2.365" y="0.486" z="1.782"></coord>
 		<coord x="-2.224" y="0.940" z="1.782"></coord>
+		<coord x="-2.002" y="1.350" z="1.782"></coord>
 		<coord x="-1.707" y="1.707" z="1.782"></coord>
+		<coord x="-1.350" y="2.002" z="1.782"></coord>
 		<coord x="-0.940" y="2.224" z="1.782"></coord>
+		<coord x="-0.486" y="2.365" z="1.782"></coord>
 		<coord x="0.000" y="2.414" z="1.782"></coord>
+		<coord x="0.486" y="2.365" z="1.782"></coord>
 		<coord x="0.940" y="2.224" z="1.782"></coord>
+		<coord x="1.350" y="2.002" z="1.782"></coord>
 		<coord x="1.707" y="1.707" z="1.782"></coord>
+		<coord x="2.002" y="1.350" z="1.782"></coord>
 		<coord x="2.224" y="0.940" z="1.782"></coord>
+		<coord x="2.365" y="0.486" z="1.782"></coord>
 		<coord x="2.414" y="0.000" z="1.782"></coord>
+		<coord x="2.365" y="-0.486" z="1.782"></coord>
 		<coord x="2.224" y="-0.940" z="1.782"></coord>
+		<coord x="2.002" y="-1.350" z="1.782"></coord>
 		<coord x="1.707" y="-1.707" z="1.782"></coord>
+		<coord x="1.350" y="-2.002" z="1.782"></coord>
 		<coord x="0.940" y="-2.224" z="1.782"></coord>
+		<coord x="0.486" y="-2.365" z="1.782"></coord>
 		<coord x="0.000" y="-2.414" z="1.782"></coord>
+		<coord x="-0.486" y="-2.365" z="1.782"></coord>
 		<coord x="-0.940" y="-2.224" z="1.782"></coord>
+		<coord x="-1.350" y="-2.002" z="1.782"></coord>
 		<coord x="-1.707" y="-1.707" z="1.782"></coord>
+		<coord x="-2.002" y="-1.350" z="1.782"></coord>
 		<coord x="-2.224" y="-0.940" z="1.782"></coord>
+		<coord x="-2.365" y="-0.486" z="1.782"></coord>
 	</segment>
 	<segment name="ElongatedCurve">
 		<coord x="-1.000" y="0.000" z="1.638"></coord>
+		<coord x="-1.066" y="1.179" z="1.555"></coord>
 		<coord x="-1.223" y="2.440" z="1.538"></coord>
+		<coord x="-1.399" y="3.711" z="1.591"></coord>
 		<coord x="-1.521" y="4.914" z="1.717"></coord>
+		<coord x="-1.515" y="5.977" z="1.917"></coord>
 		<coord x="-1.308" y="6.824" z="2.196"></coord>
+		<coord x="-0.828" y="7.380" z="2.556"></coord>
 		<coord x="0.000" y="7.570" z="3.000"></coord>
+		<coord x="1.149" y="7.347" z="3.513"></coord>
 		<coord x="1.781" y="6.776" z="3.729"></coord>
+		<coord x="2.007" y="5.927" z="3.722"></coord>
 		<coord x="1.941" y="4.872" z="3.570"></coord>
+		<coord x="1.695" y="3.681" z="3.346"></coord>
 		<coord x="1.381" y="2.424" z="3.126"></coord>
+		<coord x="1.112" y="1.174" z="2.986"></coord>
 		<coord x="1.000" y="0.000" z="3.000"></coord>
+		<coord x="1.064" y="-1.244" z="3.168"></coord>
 		<coord x="1.203" y="-2.558" z="3.404"></coord>
+		<coord x="1.353" y="-3.871" z="3.680"></coord>
 		<coord x="1.449" y="-5.110" z="3.969"></coord>
+		<coord x="1.426" y="-6.204" z="4.241"></coord>
 		<coord x="1.220" y="-7.082" z="4.469"></coord>
+		<coord x="0.766" y="-7.670" z="4.624"></coord>
 		<coord x="0.000" y="-7.898" z="4.679"></coord>
+		<coord x="-1.601" y="-7.665" z="4.547"></coord>
 		<coord x="-2.446" y="-6.951" z="4.216"></coord>
+		<coord x="-2.703" y="-5.888" z="3.750"></coord>
 		<coord x="-2.537" y="-4.611" z="3.212"></coord>
+		<coord x="-2.117" y="-3.250" z="2.667"></coord>
 		<coord x="-1.610" y="-1.940" z="2.181"></coord>
+		<coord x="-1.181" y="-0.812" z="1.816"></coord>
 	</segment>
 </ledstrip>
