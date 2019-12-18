@@ -400,16 +400,15 @@ dt = 0.1
 run = True
 #mqtt_host = "10.128.96.102"
 #mqtt_port = 1883
-#osc_server = "10.128.96.176"
-#osc_port = 54321
-#manager_base_topic = "manager"
+#osc_server = "10.128.96.102"
+#osc_port = 1880
+#base_topic = "manager"
 
 if __name__ == "__main__":
     inputfile = ''
     outputfile = ''
     try:
         opts, args = getopt.getopt(sys.argv[1:],"h",["mqtt_host=","mqtt_port=","osc_server=","osc_port=", "base_topic="])
-        print(opts, args)
     except getopt.GetoptError:
         print ('manager.py --mqtt_host <host> --mqtt_port <port> --osc_server <server> --osc_port <port>')
         sys.exit(2)
