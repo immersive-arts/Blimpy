@@ -66,18 +66,17 @@ class Blimp:
 
     tracked = False
 
-    def __init__(self, dt, client, manager_base_topic, blimp_base_topic, blimp_id, tracking_id):
+    def __init__(self, dt, client, base_topic, blimp_base_topic, blimp_id, tracking_id):
 
         self.tracking_id = tracking_id
         self.blimp_id = blimp_id
-        self.manager_base_topic = manager_base_topic
         self.blimp_base_topic = blimp_base_topic
         self.dt = dt
         self.client = client
-        self.client.message_callback_add(str(self.manager_base_topic) + str(self.blimp_id) + "/stack", self.stack)
-        self.client.message_callback_add(str(self.manager_base_topic) + str(self.blimp_id) + "/clear", self.clear)
-        self.client.subscribe(str(self.manager_base_topic) + str(self.blimp_id) + "/stack")
-        self.client.subscribe(str(self.manager_base_topic) + str(self.blimp_id) + "/clear")
+        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/stack", self.stack)
+        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/clear", self.clear)
+        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/stack")
+        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/clear")
         
         osc_method("/rigidbody/" + str(self.tracking_id) + "/tracked", self.set_track)
         osc_method("/rigidbody/" + str(self.tracking_id) + "/quat", self.set_attitude)
@@ -319,20 +318,14 @@ def stop_blimp(blimp_id):
             blimps.remove(blimp)
 
 def add_blimp(client, userdata, msg):
-    global blimps, manager_base_topic
+    global blimps
     command = msg.payload.decode()
 
-    ms = re.search("manager_base_topic=[a-zA-Z0-9/]*/", command)
+    ms = re.search("blimp_base_topic=[a-zA-Z0-9/]*", command)
     if ms is None:
         return
 
-    manager_base_topic = command[ms.span()[0]+19:ms.span()[1]]
-
-    ms = re.search("blimps_base_topic=[a-zA-Z0-9/]*/", command)
-    if ms is None:
-        return
-
-    blimps_base_topic = command[ms.span()[0]+18:ms.span()[1]]
+    blimp_base_topic = command[ms.span()[0]+17:ms.span()[1]]
 
     ms = re.search("blimp_id=[a-zA-Z0-9]*", command)
     if ms is None:
@@ -346,7 +339,7 @@ def add_blimp(client, userdata, msg):
 
     tracking_id = command[ms.span()[0]+12:ms.span()[1]]
 
-    blimps.append(Blimp(dt, client, manager_base_topic, blimps_base_topic, blimp_id, tracking_id))
+    blimps.append(Blimp(dt, client, base_topic, blimp_base_topic, blimp_id, tracking_id))
 
 def remove_blimp(client, userdata, msg):
     global blimps
@@ -398,11 +391,11 @@ def main(mqtt_host, mqtt_port, osc_server, osc_port, base_topic):
 blimps = []
 dt = 0.1
 run = True
-#mqtt_host = "10.128.96.102"
-#mqtt_port = 1883
-#osc_server = "10.128.96.102"
-#osc_port = 1880
-#base_topic = "manager"
+mqtt_host = "localhost"
+mqtt_port = 1883
+osc_server = "localhost"
+osc_port = 1880
+base_topic = "manager"
 
 if __name__ == "__main__":
     inputfile = ''
