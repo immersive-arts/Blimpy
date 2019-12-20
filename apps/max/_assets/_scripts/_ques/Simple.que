@@ -1,6 +1,11 @@
 <script>
+<<<<<<< HEAD
+    <que name="elongatedTampon" loop="no">
+        <anim name="runAround" duration="50s" fadeout="2s" loop="palindrome">
+=======
     <que name="Animation" loop="no">
         <anim name="runAround" duration="90s" fadeout="2s" loop="normal">
+>>>>>>> 7a8ebe932f42278eb321b1ea5278dc5ae8942483
              <track name="t1">0. 1.</track>
              <send>/sparck/node ::Blimp_b41_path::playbar {t1}</send>
              <send>/sparck/node ::Blimp_b42_path::playbar {t1}</send>

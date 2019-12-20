@@ -62,4 +62,8 @@ If it does, change "seam corner preference" to "none"
 
 Since there is no Brim or other Printbed Adhesion Helpers, it is important to have a leveled Printbed with the first layer printing not to deep (ugly brim) and not to hi (no adhesion)
 
+![alt text](../../assets/pix/fans/cetus_print.gif)
+
 you should be able to remove your print by hand not using any tools.
+
+![alt text](../../assets/pix/fans/cetus_remove.gif)
