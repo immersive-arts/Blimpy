@@ -31,6 +31,8 @@ Acronym for Spatial Augmented Reality, is realized with [SPARCK](http://tecartla
 ### Motion Capture
 At the [IASpace](http://immersive-arts.ch) the [Optitrack](http://optitrack.com) System is used to track blimps with a large volume.
 
+To send Optitracks native NATNET protocoll to the manager and SPARCK, the [NatNetThree2OSC](https://github.com/tecartlab/app_NetNatThree2OSC) application is used.
+
 # Licenses
 
 All text and pictures are licensed under  ![CC-BY-NC](https://licensebuttons.net/l/by-nc/2.0/88x31.png)
@@ -41,8 +43,8 @@ All code is licensed under [MIT](https://opensource.org/licenses/MIT).
 
 created by [IASpace](http://immersive-arts.ch), Zürich University of the Arts, Switzerland.
 
-* Max Kriegleder -
-* Joel Gähwiler -
-* Roman Jurt -
-* Serena Cangiano -
-* Martin Fröhlich -
+* Max Kriegleder - Robotics, motion control, sensor integration
+* Joel Gähwiler - Micro-controller, networks, protocols
+* Roman Jurt - Materials, rapid prototyping, construction
+* Serena Cangiano - Theory
+* Martin Fröhlich - Lead, motion tracking, projection mapping
