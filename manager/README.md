@@ -1,6 +1,6 @@
 # Manager
 
-The manager acts as an abstraction layes between user applications and a fleet of blimps. User applications can register a blimp and send motion commands for a registered blimp, which are employed for controling this blimp on a desired path through space. The interaction between user applications and manager, and manager and blimps is based on the MQTT standard; in addition, the manager expects the blimps' motion data, which is neccessary for controling the blimps, from a motion capture system in OSC format. 
+The manager acts as an abstraction layes between user applications and a fleet of blimps. User applications can register a blimp and send motion commands for a registered blimp, which are employed for controling this blimp on a desired path through space. The interaction between user applications and manager, and manager and blimps is based on the MQTT standard; in addition, the manager expects the blimps' motion data, which is neccessary for controling the blimps, from a motion capture system in OSC format.
 
 ## Dependencies
 
@@ -31,17 +31,27 @@ python manager.py --mqtt_host <mqtt host IP> --mqtt_port <mqtt host port> --osc_
 Assuming the manager runs on the same machine as the MQTT broker and has IP address "10.128.96.102", the manager would be started with the following command.
 
 ```bash
-python manager.py --mqtt_host "10.128.96.102" --mqtt_port 1883 --osc_server "10.128.96.102" --osc_port 1880 --base_topic "manager" 
+python manager.py --mqtt_host "10.128.96.102" --mqtt_port 1883 --osc_server "10.128.96.102" --osc_port 1880 --manager_name "manager"
 ```
+**--mqtt_host** IP address of MQTT broker
 
-The base topic allows to run multiple instances on different or the same machine, distinguished by their base topic.
+**--mqtt_port** listening port of MQTT broker
+
+**--osc_server** is basically this machines IP
+
+**--osc_port** port the manager is listening to OSC messages from NatNetThree2OSC.
+
+**--manager_name** is also the <base_topic> for addressing the manager via MQTT. This allows to run multiple instances on different or the same machine, distinguished by their base topic.
 
 ## API
+
+![alt text](../assets/pix/manager/NetworkProtocolDetails.jpg)
+
 To register a new blimp with the manager, a message to the following topic needs to be sent:
 ```bash
 <base_topic>/add
 ```
-The payload of this message configures the blimp as 
+The payload of this message configures the blimp as
 ```bash
 "blimp_base_topic=<base topic of the blimp> blimp_id=<blimp id> tracking_id=<tracking id as per the motion capture system>"
 ```
