@@ -1,1 +1,0 @@
-python D:\00_Core\blimpy\manager\manager.py --mqtt_host "10.128.96.102" --mqtt_port 1883 --osc_server "10.128.96.102" --osc_port 1880 --base_topic "manager"

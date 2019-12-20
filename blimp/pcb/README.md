@@ -1,5 +1,16 @@
 # Blimpy PCB
 
+![alt text](../../assets/pix/controller.jpg)
+
+## TODO
+
+- On/Off switch needs replacement
+- thicker Board
+- current limiting for H-Bridges need resistors between pin x and y
+- PWM for driving H-Bridges need higher frequency out of the audible range
+- better battery state of charge estimation
+- RGB LEDS on the backside for illuminating blimp
+
 ## Connectors
 
 All:

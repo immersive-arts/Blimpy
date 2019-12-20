@@ -2,6 +2,12 @@
 
 ## Compilation for OSX and Linux (and maybe Windows)
 
+### API
+
+TODO: MQTT protocol description...
+
+## Compilation and Installation
+
 #### Install NAOS CLI:
 
 [https://naos.shiftr.io/quickstart](https://naos.shiftr.io/quickstart)

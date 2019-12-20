@@ -17,7 +17,11 @@ pip install paho-mqtt
 ```
 ## Running the application
 ### Prerequisites
-The manager requires an instance of shiftr.io as a MQTT broker. A straight-forward option is to run the broker on the same machine as the manager (TODO: instructions?). In addition, the motion capture system needs to be operational and a NATNET to OSC translator should provide motion capture data in OSC format (for more information, check [https://github.com/tecartlab/app_NetNatThree2OSC](https://github.com/tecartlab/app_NetNatThree2OSC).
+The manager requires
+* an instance of shiftr.io as a MQTT broker.
+* the motion capture system needs to be operational and a NATNET to OSC translator should provide motion capture data in OSC format.
+
+you can find more info (including the apps) inside the network folder.
 
 ### Starting the application
 #### Linux

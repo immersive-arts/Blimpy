@@ -1,1 +1,0 @@
-D:\00_Core\NatNet2OSC\Motive2.x\NatNetThree2OSC 10.128.96.102 10.128.96.102 10.128.96.102 1880 1881 isadora 1 0
