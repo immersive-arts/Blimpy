@@ -10,6 +10,10 @@
 - PWM for driving H-Bridges need higher frequency out of the audible range
 - better battery state of charge estimation
 - RGB LEDS on the backside for illuminating blimp
+- IMU? Fix missing driver. Use another one or drop it?
+- Charging switch? (Tethered motor tests)
+- Battery switch? (Reset after fault)
+- Bigger Battery Connector: XT60?
 
 ## Connectors
 
