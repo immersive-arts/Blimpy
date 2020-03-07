@@ -1,0 +1,61 @@
+{
+    "conference_title": "26th international symposium on electronic arts",
+    "license": "CC-BY-NC-2.0",
+    "description": "<p>This is the initial public release for zenodo</p>",
+    "language": "eng",
+    "title": "immersive-arts/Blimpy: Initial Release",
+    "upload_type": "software",
+    "conference_url": "http://isea2020.isea-international.org/",
+    "version": "V1.0.0",
+    "conference_dates": "19 - 24 May 2020",
+    "conference_acronym": "isea2020",
+    "keywords": [
+        "SAR",
+        "helium balloons",
+        "3D audiovisual mapping",
+        "drone",
+        "blimp",
+        "artistic research",
+        "autonomous agents",
+        "iot kit"
+    ],
+    "publication_date": "2020-03-07",
+    "creators": [
+        {
+            "orcid": "0000-0002-7317-6096",
+            "affiliation": "Zurich University of the Arts",
+            "name": "Martin Froehlich"
+        },
+        {
+            "affiliation": "Zurich University of the Arts",
+            "name": "Max Kriegleder"
+        },
+        {
+            "affiliation": "Zurich University of the Arts",
+            "name": "Jo\u00ebl G\u00e4hwiler"
+        },
+        {
+            "affiliation": "Zurich University of the Arts",
+            "name": "Roman Jurt"
+        },
+        {
+            "affiliation": "Supsi Lugano",
+            "name": "Serena Cangiano"
+        }
+    ],
+    "access_right": "open",
+    "conference_place": "Montreal, Canada",
+    "related_identifiers": [
+        {
+            "scheme": "url",
+            "identifier": "https://github.com/immersive-arts/Blimpy/tree/V1.0.0",
+            "relation": "isSupplementTo",
+            "resource_type": "software"
+        },
+        {
+            "scheme": "doi",
+            "identifier": "10.5281/zenodo.3700437",
+            "relation": "isVersionOf"
+        }
+    ]
+}
