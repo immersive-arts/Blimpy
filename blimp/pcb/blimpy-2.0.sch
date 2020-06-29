@@ -8682,15 +8682,22 @@ Allows current flow when high potential at base.</description>
 <wire x1="0.3048" y1="1.5494" x2="-0.3048" y2="1.5494" width="0.1524" layer="51" curve="-180"/>
 <text x="-3.2766" y="-0.635" size="1.27" layer="25" ratio="6" rot="SR0">&gt;Name</text>
 </package>
+<package name="CB61F">
+<smd name="1" x="-2.5" y="0" dx="2" dy="3.18" layer="1"/>
+<smd name="2" x="2.5" y="0" dx="2" dy="3.18" layer="1" rot="R180"/>
+</package>
 <package name="EVQPUJ02K">
 <smd name="3" x="-2.625" y="0.85" dx="1.55" dy="1" layer="1"/>
 <smd name="1" x="2.625" y="0.85" dx="1.55" dy="1" layer="1"/>
 <smd name="4" x="-2.625" y="-0.85" dx="1.55" dy="1" layer="1"/>
 <smd name="2" x="2.625" y="-0.85" dx="1.55" dy="1" layer="1"/>
-</package>
-<package name="CB61F">
-<smd name="1" x="-2.5" y="0" dx="2" dy="3.18" layer="1"/>
-<smd name="2" x="2.5" y="0" dx="2" dy="3.18" layer="1" rot="R180"/>
+<wire x1="-2.35" y1="1.75" x2="2.35" y2="1.75" width="0.127" layer="21"/>
+<wire x1="2.35" y1="1.75" x2="2.35" y2="-1.75" width="0.127" layer="21"/>
+<wire x1="2.35" y1="-1.75" x2="-2.35" y2="-1.75" width="0.127" layer="21"/>
+<wire x1="-2.35" y1="-1.75" x2="-2.35" y2="1.75" width="0.127" layer="21"/>
+<wire x1="-1.3" y1="-1.8" x2="-1.3" y2="-2.75" width="0.127" layer="21"/>
+<wire x1="-1.3" y1="-2.75" x2="1.3" y2="-2.75" width="0.127" layer="21"/>
+<wire x1="1.3" y1="-2.75" x2="1.3" y2="-1.8" width="0.127" layer="21"/>
 </package>
 </packages>
 <symbols>
@@ -8717,12 +8724,6 @@ Allows current flow when high potential at base.</description>
 <text x="18.1356" y="9.1186" size="2.0828" layer="95" ratio="6" rot="SR0">&gt;Name</text>
 <text x="17.5006" y="6.5786" size="2.0828" layer="96" ratio="6" rot="SR0">&gt;Value</text>
 </symbol>
-<symbol name="EVQPUJ02K">
-<pin name="1" x="-6.62" y="0" length="short"/>
-<pin name="2" x="6.62" y="0" length="short" rot="R180"/>
-<wire x1="-5" y1="2" x2="5" y2="2" width="0.254" layer="94"/>
-<rectangle x1="-2" y1="2" x2="2" y2="4" layer="94"/>
-</symbol>
 <symbol name="CB61F">
 <pin name="1" x="-6.35" y="0" visible="off" length="short" direction="pas"/>
 <pin name="2" x="6.35" y="0" visible="off" length="short" direction="pas" rot="R180"/>
@@ -8732,6 +8733,12 @@ Allows current flow when high potential at base.</description>
 <wire x1="3.81" y1="1.27" x2="-3.81" y2="1.27" width="0.254" layer="94"/>
 <text x="-2.54" y="2.54" size="1.27" layer="96">&gt;Value</text>
 <text x="-2.54" y="-2.54" size="1.27" layer="95">&gt;Name</text>
+</symbol>
+<symbol name="EVQPUJ02K">
+<pin name="1" x="-6.62" y="0" length="short"/>
+<pin name="2" x="6.62" y="0" length="short" rot="R180"/>
+<wire x1="-5" y1="2" x2="5" y2="2" width="0.254" layer="94"/>
+<rectangle x1="-2" y1="2" x2="2" y2="4" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -8826,22 +8833,6 @@ Allows current flow when high potential at base.</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="EVQPUJ02K">
-<gates>
-<gate name="A" symbol="EVQPUJ02K" x="10.16" y="-10.16"/>
-</gates>
-<devices>
-<device name="" package="EVQPUJ02K">
-<connects>
-<connect gate="A" pin="1" pad="1 3"/>
-<connect gate="A" pin="2" pad="2 4"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="CB61F">
 <gates>
 <gate name="G$1" symbol="CB61F" x="0" y="0"/>
@@ -8851,6 +8842,22 @@ Allows current flow when high potential at base.</description>
 <connects>
 <connect gate="G$1" pin="1" pad="1"/>
 <connect gate="G$1" pin="2" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="EVQPUJ02K">
+<gates>
+<gate name="A" symbol="EVQPUJ02K" x="10.16" y="-10.16"/>
+</gates>
+<devices>
+<device name="" package="EVQPUJ02K">
+<connects>
+<connect gate="A" pin="1" pad="1 3"/>
+<connect gate="A" pin="2" pad="2 4"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -11269,7 +11276,6 @@ Source: www.kingbright.com</description>
 <part name="SUPPLY14" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="V_BATT" device="" value="VBAT"/>
 <part name="TP4" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="TEST-POINT" device="3" package3d_urn="urn:adsk.eagle:package:38286/1" value="TEST-POINT3"/>
 <part name="TP5" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="TEST-POINT" device="3" package3d_urn="urn:adsk.eagle:package:38286/1" value="TEST-POINT3"/>
-<part name="U$1" library="chlimax" deviceset="EVQPUJ02K" device=""/>
 <part name="C12" library="SparkFun-Capacitors" deviceset="0.1UF" device="-0603-25V-5%" package3d_urn="urn:adsk.eagle:package:37414/1" value="0.1uF"/>
 <part name="C14" library="SparkFun-Capacitors" library_urn="urn:adsk.eagle:library:510" deviceset="10UF-POLAR" device="-EIA3216-16V-10%(TANT)" package3d_urn="urn:adsk.eagle:package:37418/1" value="10uF"/>
 <part name="M1" library="microbuilder" deviceset="DRV8833" device="" value="DRV8833PWPR"/>
@@ -11375,14 +11381,27 @@ Source: www.kingbright.com</description>
 <part name="J14" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="CONN_03" device="JST-SMD" package3d_urn="urn:adsk.eagle:package:38075/1" value="3-PIN SMD"/>
 <part name="R34" library="chlimax" deviceset="CB61F" device=""/>
 <part name="J2" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="CONN_02" device="PTH4" package3d_urn="urn:adsk.eagle:package:38054/1"/>
-<part name="LED1" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="CHIP-LED0603" package3d_urn="urn:adsk.eagle:package:15819/3"/>
-<part name="LED2" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="CHIP-LED0603" package3d_urn="urn:adsk.eagle:package:15819/3"/>
+<part name="LED1" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="CHIP-LED0603" package3d_urn="urn:adsk.eagle:package:15819/3" value="3.3V"/>
+<part name="LED2" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="CHIP-LED0603" package3d_urn="urn:adsk.eagle:package:15819/3" value="VBAT"/>
 <part name="R35" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:39650/1" value=" "/>
 <part name="R36" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:39650/1" value=" "/>
 <part name="SUPPLY27" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="3.3V" device=""/>
 <part name="SUPPLY28" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="V_BATT" device="" value="VBAT"/>
 <part name="GND39" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND" device=""/>
 <part name="GND40" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND" device=""/>
+<part name="LED3" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="LED" device="CHIP-LED0603" package3d_urn="urn:adsk.eagle:package:15819/3" value="VUSB"/>
+<part name="R37" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:39650/1" value=" "/>
+<part name="GND41" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND" device=""/>
+<part name="SUPPLY29" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="V_USB" device="" value="VUSB"/>
+<part name="J15" library="SparkFun-Connectors" library_urn="urn:adsk.eagle:library:513" deviceset="CONN_03" device="JST-SMD" package3d_urn="urn:adsk.eagle:package:38075/1" value="3-PIN SMD"/>
+<part name="SUPPLY30" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="3.3V" device=""/>
+<part name="GND42" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND" device=""/>
+<part name="U$1" library="chlimax" deviceset="EVQPUJ02K" device=""/>
+<part name="GND43" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND" device=""/>
+<part name="SUPPLY31" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="3.3V" device=""/>
+<part name="GND44" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND" device=""/>
+<part name="GND45" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="GND" device=""/>
+<part name="SUPPLY32" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="3.3V" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -11516,9 +11535,9 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <attribute name="NAME" x="509.524" y="208.661" size="1.778" layer="95" font="vector"/>
 <attribute name="VALUE" x="509.524" y="203.581" size="1.778" layer="96" font="vector"/>
 </instance>
-<instance part="C13" gate="G$1" x="307.34" y="-15.24" smashed="yes">
-<attribute name="NAME" x="308.864" y="-12.319" size="1.778" layer="95" font="vector"/>
-<attribute name="VALUE" x="308.864" y="-17.399" size="1.778" layer="96" font="vector"/>
+<instance part="C13" gate="G$1" x="327.66" y="27.94" smashed="yes">
+<attribute name="NAME" x="329.184" y="30.861" size="1.778" layer="95" font="vector"/>
+<attribute name="VALUE" x="329.184" y="25.781" size="1.778" layer="96" font="vector"/>
 </instance>
 <instance part="C9" gate="G$1" x="325.12" y="180.34" smashed="yes">
 <attribute name="NAME" x="326.644" y="183.261" size="1.778" layer="95" font="vector"/>
@@ -11528,13 +11547,13 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <attribute name="NAME" x="345.44" y="35.814" size="1.778" layer="95"/>
 <attribute name="VALUE" x="345.44" y="-17.272" size="1.778" layer="96"/>
 </instance>
-<instance part="C15" gate="G$1" x="327.66" y="-15.24" smashed="yes">
-<attribute name="NAME" x="329.184" y="-12.319" size="1.778" layer="95" font="vector"/>
-<attribute name="VALUE" x="329.184" y="-17.399" size="1.778" layer="96" font="vector"/>
+<instance part="C15" gate="G$1" x="396.24" y="27.94" smashed="yes">
+<attribute name="NAME" x="397.764" y="30.861" size="1.778" layer="95" font="vector"/>
+<attribute name="VALUE" x="397.764" y="25.781" size="1.778" layer="96" font="vector"/>
 </instance>
-<instance part="C21" gate="G$1" x="317.5" y="-15.24" smashed="yes">
-<attribute name="NAME" x="319.024" y="-12.319" size="1.778" layer="95" font="vector"/>
-<attribute name="VALUE" x="319.024" y="-17.399" size="1.778" layer="96" font="vector"/>
+<instance part="C21" gate="G$1" x="396.24" y="2.54" smashed="yes">
+<attribute name="NAME" x="397.764" y="5.461" size="1.778" layer="95" font="vector"/>
+<attribute name="VALUE" x="397.764" y="0.381" size="1.778" layer="96" font="vector"/>
 </instance>
 <instance part="SUPPLY10" gate="G$1" x="248.92" y="208.28" smashed="yes">
 <attribute name="VALUE" x="248.92" y="211.836" size="1.27" layer="96" align="bottom-center"/>
@@ -11548,8 +11567,8 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <instance part="SUPPLY13" gate="G$1" x="165.1" y="139.7" smashed="yes">
 <attribute name="VALUE" x="165.1" y="143.256" size="1.27" layer="96" align="bottom-center"/>
 </instance>
-<instance part="SUPPLY15" gate="G$1" x="373.38" y="45.72" smashed="yes">
-<attribute name="VALUE" x="373.38" y="49.276" size="1.27" layer="96" align="bottom-center"/>
+<instance part="SUPPLY15" gate="G$1" x="327.66" y="35.56" smashed="yes">
+<attribute name="VALUE" x="327.66" y="39.116" size="1.27" layer="96" align="bottom-center"/>
 </instance>
 <instance part="SUPPLY17" gate="G$1" x="330.2" y="129.54" smashed="yes">
 <attribute name="VALUE" x="330.2" y="133.096" size="1.27" layer="96" align="bottom-center"/>
@@ -11748,7 +11767,6 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 </instance>
 <instance part="TP4" gate="G$1" x="160.02" y="86.36" smashed="yes" rot="R180"/>
 <instance part="TP5" gate="G$1" x="160.02" y="88.9" smashed="yes" rot="R180"/>
-<instance part="U$1" gate="A" x="66.04" y="165.1" smashed="yes" rot="R90"/>
 <instance part="C12" gate="G$1" x="508" y="121.92" smashed="yes">
 <attribute name="NAME" x="509.524" y="124.841" size="1.778" layer="95" font="vector"/>
 <attribute name="VALUE" x="509.524" y="119.761" size="1.778" layer="96" font="vector"/>
@@ -12095,6 +12113,45 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <instance part="GND40" gate="1" x="73.66" y="38.1" smashed="yes">
 <attribute name="VALUE" x="73.66" y="37.846" size="1.27" layer="96" align="top-center"/>
 </instance>
+<instance part="LED3" gate="G$1" x="53.34" y="63.5" smashed="yes" rot="R90">
+<attribute name="NAME" x="57.912" y="67.056" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="57.912" y="69.215" size="1.778" layer="96" rot="R180"/>
+</instance>
+<instance part="R37" gate="G$1" x="63.5" y="63.5" smashed="yes">
+<attribute name="NAME" x="63.5" y="65.024" size="1.778" layer="95" font="vector" align="bottom-center"/>
+<attribute name="VALUE" x="63.5" y="61.976" size="1.778" layer="96" font="vector" align="top-center"/>
+</instance>
+<instance part="GND41" gate="1" x="73.66" y="58.42" smashed="yes">
+<attribute name="VALUE" x="73.66" y="58.166" size="1.27" layer="96" align="top-center"/>
+</instance>
+<instance part="SUPPLY29" gate="G$1" x="40.64" y="66.04" smashed="yes">
+<attribute name="VALUE" x="40.64" y="69.596" size="1.27" layer="96" align="bottom-center"/>
+</instance>
+<instance part="J15" gate="J$1" x="680.72" y="101.6" smashed="yes">
+<attribute name="NAME" x="678.18" y="107.188" size="1.778" layer="95" font="vector"/>
+</instance>
+<instance part="SUPPLY30" gate="G$1" x="690.88" y="104.14" smashed="yes">
+<attribute name="VALUE" x="690.88" y="107.696" size="1.27" layer="96" align="bottom-center"/>
+</instance>
+<instance part="GND42" gate="1" x="690.88" y="91.44" smashed="yes">
+<attribute name="VALUE" x="690.88" y="90.678" size="1.27" layer="96" align="top-center"/>
+</instance>
+<instance part="U$1" gate="A" x="66.04" y="165.1" smashed="yes" rot="R90"/>
+<instance part="GND43" gate="1" x="327.66" y="22.86" smashed="yes">
+<attribute name="VALUE" x="327.66" y="22.098" size="1.27" layer="96" align="top-center"/>
+</instance>
+<instance part="SUPPLY31" gate="G$1" x="396.24" y="35.56" smashed="yes">
+<attribute name="VALUE" x="396.24" y="39.116" size="1.27" layer="96" align="bottom-center"/>
+</instance>
+<instance part="GND44" gate="1" x="396.24" y="22.86" smashed="yes">
+<attribute name="VALUE" x="396.24" y="22.098" size="1.27" layer="96" align="top-center"/>
+</instance>
+<instance part="GND45" gate="1" x="396.24" y="-2.54" smashed="yes">
+<attribute name="VALUE" x="396.24" y="-3.302" size="1.27" layer="96" align="top-center"/>
+</instance>
+<instance part="SUPPLY32" gate="G$1" x="396.24" y="10.16" smashed="yes">
+<attribute name="VALUE" x="396.24" y="13.716" size="1.27" layer="96" align="bottom-center"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -12146,7 +12203,7 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 </segment>
 <segment>
 <pinref part="U5" gate="G$1" pin="GND"/>
-<wire x1="337.82" y1="-22.86" x2="337.82" y2="-12.7" width="0.1524" layer="91"/>
+<wire x1="337.82" y1="-25.4" x2="337.82" y2="-12.7" width="0.1524" layer="91"/>
 <wire x1="342.9" y1="-12.7" x2="337.82" y2="-12.7" width="0.1524" layer="91"/>
 <pinref part="U5" gate="G$1" pin="ADDR0"/>
 <wire x1="342.9" y1="-5.08" x2="337.82" y2="-5.08" width="0.1524" layer="91"/>
@@ -12156,21 +12213,7 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <wire x1="337.82" y1="-7.62" x2="337.82" y2="-12.7" width="0.1524" layer="91"/>
 <wire x1="342.9" y1="-7.62" x2="337.82" y2="-7.62" width="0.1524" layer="91"/>
 <junction x="337.82" y="-7.62"/>
-<pinref part="C15" gate="G$1" pin="2"/>
-<wire x1="327.66" y1="-17.78" x2="327.66" y2="-22.86" width="0.1524" layer="91"/>
-<wire x1="327.66" y1="-22.86" x2="337.82" y2="-22.86" width="0.1524" layer="91"/>
-<junction x="337.82" y="-22.86"/>
-<junction x="337.82" y="-22.86"/>
 <pinref part="GND7" gate="1" pin="GND"/>
-<wire x1="337.82" y1="-22.86" x2="337.82" y2="-25.4" width="0.1524" layer="91"/>
-<pinref part="C13" gate="G$1" pin="2"/>
-<wire x1="307.34" y1="-17.78" x2="307.34" y2="-22.86" width="0.1524" layer="91"/>
-<wire x1="307.34" y1="-22.86" x2="317.5" y2="-22.86" width="0.1524" layer="91"/>
-<junction x="327.66" y="-22.86"/>
-<pinref part="C21" gate="G$1" pin="2"/>
-<wire x1="317.5" y1="-22.86" x2="327.66" y2="-22.86" width="0.1524" layer="91"/>
-<wire x1="317.5" y1="-17.78" x2="317.5" y2="-22.86" width="0.1524" layer="91"/>
-<junction x="317.5" y="-22.86"/>
 </segment>
 <segment>
 <pinref part="U9" gate="G$1" pin="GND@1"/>
@@ -12498,6 +12541,30 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <wire x1="73.66" y1="43.18" x2="73.66" y2="40.64" width="0.1524" layer="91"/>
 <pinref part="GND40" gate="1" pin="GND"/>
 </segment>
+<segment>
+<pinref part="R37" gate="G$1" pin="2"/>
+<wire x1="68.58" y1="63.5" x2="73.66" y2="63.5" width="0.1524" layer="91"/>
+<pinref part="GND41" gate="1" pin="GND"/>
+<wire x1="73.66" y1="63.5" x2="73.66" y2="60.96" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="J15" gate="J$1" pin="1"/>
+<wire x1="688.34" y1="99.06" x2="690.88" y2="99.06" width="0.1524" layer="91"/>
+<wire x1="690.88" y1="99.06" x2="690.88" y2="93.98" width="0.1524" layer="91"/>
+<pinref part="GND42" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="C13" gate="G$1" pin="2"/>
+<pinref part="GND43" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="C21" gate="G$1" pin="2"/>
+<pinref part="GND45" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="C15" gate="G$1" pin="2"/>
+<pinref part="GND44" gate="1" pin="GND"/>
+</segment>
 </net>
 <net name="N$1" class="0">
 <segment>
@@ -12527,32 +12594,12 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 </net>
 <net name="3.3V" class="0">
 <segment>
-<pinref part="U5" gate="G$1" pin="VCC2"/>
-<wire x1="368.3" y1="7.62" x2="373.38" y2="7.62" width="0.1524" layer="91"/>
-<pinref part="U5" gate="G$1" pin="VCC1"/>
-<wire x1="368.3" y1="33.02" x2="373.38" y2="33.02" width="0.1524" layer="91"/>
-<wire x1="373.38" y1="7.62" x2="373.38" y2="33.02" width="0.1524" layer="91"/>
-<wire x1="373.38" y1="33.02" x2="373.38" y2="40.64" width="0.1524" layer="91"/>
-<junction x="373.38" y="33.02"/>
 <pinref part="U5" gate="G$1" pin="VDDM"/>
 <wire x1="342.9" y1="33.02" x2="327.66" y2="33.02" width="0.1524" layer="91"/>
-<wire x1="327.66" y1="33.02" x2="327.66" y2="40.64" width="0.1524" layer="91"/>
-<wire x1="327.66" y1="40.64" x2="373.38" y2="40.64" width="0.1524" layer="91"/>
-<junction x="373.38" y="40.64"/>
-<junction x="327.66" y="33.02"/>
-<wire x1="327.66" y1="33.02" x2="327.66" y2="-5.08" width="0.1524" layer="91"/>
-<pinref part="C15" gate="G$1" pin="1"/>
+<wire x1="327.66" y1="33.02" x2="327.66" y2="35.56" width="0.1524" layer="91"/>
 <pinref part="SUPPLY15" gate="G$1" pin="3.3V"/>
-<wire x1="327.66" y1="-5.08" x2="327.66" y2="-10.16" width="0.1524" layer="91"/>
-<wire x1="373.38" y1="40.64" x2="373.38" y2="45.72" width="0.1524" layer="91"/>
 <pinref part="C13" gate="G$1" pin="1"/>
-<wire x1="307.34" y1="-10.16" x2="307.34" y2="-5.08" width="0.1524" layer="91"/>
-<wire x1="307.34" y1="-5.08" x2="317.5" y2="-5.08" width="0.1524" layer="91"/>
-<junction x="327.66" y="-5.08"/>
-<pinref part="C21" gate="G$1" pin="1"/>
-<wire x1="317.5" y1="-5.08" x2="327.66" y2="-5.08" width="0.1524" layer="91"/>
-<wire x1="317.5" y1="-10.16" x2="317.5" y2="-5.08" width="0.1524" layer="91"/>
-<junction x="317.5" y="-5.08"/>
+<junction x="327.66" y="33.02"/>
 </segment>
 <segment>
 <pinref part="R11" gate="G$1" pin="2"/>
@@ -12619,6 +12666,27 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <wire x1="50.8" y1="43.18" x2="40.64" y2="43.18" width="0.1524" layer="91"/>
 <wire x1="40.64" y1="43.18" x2="40.64" y2="45.72" width="0.1524" layer="91"/>
 <pinref part="SUPPLY27" gate="G$1" pin="3.3V"/>
+</segment>
+<segment>
+<pinref part="J15" gate="J$1" pin="3"/>
+<wire x1="688.34" y1="104.14" x2="690.88" y2="104.14" width="0.1524" layer="91"/>
+<pinref part="SUPPLY30" gate="G$1" pin="3.3V"/>
+</segment>
+<segment>
+<pinref part="C21" gate="G$1" pin="1"/>
+<pinref part="SUPPLY32" gate="G$1" pin="3.3V"/>
+<wire x1="396.24" y1="10.16" x2="396.24" y2="7.62" width="0.1524" layer="91"/>
+<pinref part="U5" gate="G$1" pin="VCC2"/>
+<wire x1="368.3" y1="7.62" x2="396.24" y2="7.62" width="0.1524" layer="91"/>
+<junction x="396.24" y="7.62"/>
+</segment>
+<segment>
+<pinref part="C15" gate="G$1" pin="1"/>
+<pinref part="SUPPLY31" gate="G$1" pin="3.3V"/>
+<wire x1="396.24" y1="35.56" x2="396.24" y2="33.02" width="0.1524" layer="91"/>
+<pinref part="U5" gate="G$1" pin="VCC1"/>
+<wire x1="368.3" y1="33.02" x2="396.24" y2="33.02" width="0.1524" layer="91"/>
+<junction x="396.24" y="33.02"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -12864,6 +12932,12 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <wire x1="177.8" y1="198.12" x2="167.64" y2="198.12" width="0.1524" layer="91"/>
 <junction x="167.64" y="198.12"/>
 <pinref part="SUPPLY2" gate="G$1" pin="V_USB"/>
+</segment>
+<segment>
+<pinref part="SUPPLY29" gate="G$1" pin="V_USB"/>
+<pinref part="LED3" gate="G$1" pin="A"/>
+<wire x1="40.64" y1="66.04" x2="40.64" y2="63.5" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="63.5" x2="50.8" y2="63.5" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="V_BATT" class="0">
@@ -13342,14 +13416,6 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <pinref part="D3" gate="G$1" pin="C"/>
 <wire x1="66.04" y1="175.26" x2="66.04" y2="171.72" width="0.1524" layer="91"/>
 <pinref part="U$1" gate="A" pin="2"/>
-</segment>
-</net>
-<net name="LEDRING" class="0">
-<segment>
-<pinref part="U9" gate="G$1" pin="14-IO"/>
-<wire x1="180.34" y1="88.9" x2="160.02" y2="88.9" width="0.1524" layer="91"/>
-<pinref part="TP5" gate="G$1" pin="1"/>
-<label x="167.64" y="88.9" size="1.27" layer="95"/>
 </segment>
 </net>
 <net name="BAT+" class="0">
@@ -14070,6 +14136,25 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <segment>
 <pinref part="LED1" gate="G$1" pin="C"/>
 <pinref part="R36" gate="G$1" pin="1"/>
+</segment>
+</net>
+<net name="N$17" class="0">
+<segment>
+<pinref part="LED3" gate="G$1" pin="C"/>
+<pinref part="R37" gate="G$1" pin="1"/>
+</segment>
+</net>
+<net name="LEDEXT" class="0">
+<segment>
+<pinref part="J15" gate="J$1" pin="2"/>
+<wire x1="688.34" y1="101.6" x2="693.42" y2="101.6" width="0.1524" layer="91"/>
+<label x="693.42" y="101.6" size="1.778" layer="95" xref="yes"/>
+</segment>
+<segment>
+<pinref part="U9" gate="G$1" pin="14-IO"/>
+<wire x1="180.34" y1="88.9" x2="160.02" y2="88.9" width="0.1524" layer="91"/>
+<pinref part="TP5" gate="G$1" pin="1"/>
+<label x="167.64" y="88.9" size="1.27" layer="95"/>
 </segment>
 </net>
 </nets>
