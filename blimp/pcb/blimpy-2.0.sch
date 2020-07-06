@@ -9228,6 +9228,7 @@ General-purpose diode for high-speed switching</description>
 <part name="S1" library="chlimax" deviceset="EVQPUJ02K" device=""/>
 <part name="R38" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="1MOHM" device="-0603-1/4W-5%" package3d_urn="urn:adsk.eagle:package:39650/1" value="4.7k"/>
 <part name="SUPPLY33" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="3.3V" device=""/>
+<part name="JP2" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" deviceset="JUMPER-SMT_2_NO" device="_SILK" package3d_urn="urn:adsk.eagle:package:39279/1"/>
 </parts>
 <sheets>
 <sheet>
@@ -9988,6 +9989,9 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <instance part="SUPPLY33" gate="G$1" x="43.18" y="187.96" smashed="yes">
 <attribute name="VALUE" x="43.18" y="191.516" size="1.27" layer="96" align="bottom-center"/>
 </instance>
+<instance part="JP2" gate="G$1" x="375.92" y="205.74" smashed="yes" rot="R90">
+<attribute name="NAME" x="373.38" y="203.2" size="1.778" layer="95" font="vector" rot="R90"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -10426,6 +10430,9 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <wire x1="368.3" y1="200.66" x2="368.3" y2="195.58" width="0.1524" layer="91"/>
 <junction x="368.3" y="195.58"/>
 <pinref part="U3" gate="G$1" pin="PROG"/>
+<pinref part="JP2" gate="G$1" pin="1"/>
+<wire x1="368.3" y1="195.58" x2="375.92" y2="195.58" width="0.1524" layer="91"/>
+<wire x1="375.92" y1="195.58" x2="375.92" y2="200.66" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="3.3V" class="0">
@@ -11217,6 +11224,11 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <wire x1="180.34" y1="86.36" x2="160.02" y2="86.36" width="0.1524" layer="91"/>
 <pinref part="TP4" gate="G$1" pin="1"/>
 <label x="167.64" y="86.36" size="1.27" layer="95"/>
+</segment>
+<segment>
+<pinref part="JP2" gate="G$1" pin="2"/>
+<wire x1="375.92" y1="210.82" x2="375.92" y2="218.44" width="0.1524" layer="91"/>
+<label x="375.92" y="218.44" size="1.27" layer="95" rot="R90" xref="yes"/>
 </segment>
 </net>
 <net name="BTN" class="0">
