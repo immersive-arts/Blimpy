@@ -99,7 +99,7 @@ Parameters this device is configured for.
 
 ## Development
 
-[Clion](https://www.jetbrains.com/clion/) is the recomended development environment.
+[Clion](https://www.jetbrains.com/clion/) is the recommended development environment.
 
 open the folder this readme is located.
 
@@ -113,4 +113,4 @@ compilation only with the above described toolchain.
 
 development of firmware, naos and shiftr.io:
 
-Joel Gaehwiler - [https://networkedartifacts.info](https://networkedartifacts.info)
+Joel Gähwiler - [https://networkedartifacts.info](https://networkedartifacts.info)
