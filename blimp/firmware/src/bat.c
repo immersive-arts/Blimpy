@@ -115,7 +115,7 @@ float bat_read_factor() {
   uint16_t value = bat_read16(BAT_ADDR_LOW, 0x06);
 
   // convert to factor
-  return (float)value * 1.0f / 256.0f;
+  return (float)value / 25600.0f;
 }
 
 void bat_data() {

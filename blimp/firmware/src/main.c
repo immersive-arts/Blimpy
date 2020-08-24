@@ -176,10 +176,9 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
 }
 
 static void loop() {
-  // check fault
-  uint8_t fault = exp_fault();
-  if (fault != 0) {
-    naos_log("fault: %x", fault);
+  // check battery
+  if (bat_read_factor() < 0.3) {
+    pwr_off();
   }
 }
 
@@ -213,7 +212,7 @@ static naos_config_t config = {.device_type = "blimpy",
                                .update_callback = update,
                                .message_callback = message,
                                .loop_callback = loop,
-                               .loop_interval = 10,
+                               .loop_interval = 1000,
                                .battery_level = battery,
                                .status_callback = status};
 

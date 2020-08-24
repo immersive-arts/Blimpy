@@ -18,6 +18,8 @@ set(SOURCE_FILES
         src/main.c
         src/mod.c
         src/mod.h
+        src/pwr.c
+        src/pwr.h
         src/srv.c
         src/srv.h)
 

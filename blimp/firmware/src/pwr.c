@@ -39,6 +39,8 @@ static void pwr_task(void *p) {
     if (!pressed) {
       if (naos_millis() - pwr_state > PWR_TIME) {
         ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 0));
+        naos_delay(10);
+        ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 1));
       }
     }
 
@@ -97,4 +99,11 @@ void pwr_init(pwr_callback_t cb) {
 
   // attach isr handler for button pin
   ESP_ERROR_CHECK(gpio_isr_handler_add(GPIO_NUM_34, pwr_handler, NULL));
+}
+
+void pwr_off() {
+  // power off
+  ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 0));
+  naos_delay(10);
+  ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 1));
 }
