@@ -21,24 +21,24 @@ static void status(naos_status_t status) {
   // set last status
   last_status = status;
 
-  // set led accordingly
+  // set status led
   switch (status) {
     case NAOS_NETWORKED:
-      led_set(0, 1024, 0);
+      exp_led(0, 255, 0);
       break;
     case NAOS_CONNECTED:
-      led_set(0, 0, 1024);
+      exp_led(0, 0, 255);
       break;
     case NAOS_DISCONNECTED:
     default:
-      led_set(1024, 0, 0);
+      exp_led(255, 0, 0);
       break;
   }
 }
 
 static void ping() {
   // blink white once
-  led_set(1024, 1024, 1024);
+  exp_led(255, 255, 255);
   naos_delay(300);
 
   // set status led

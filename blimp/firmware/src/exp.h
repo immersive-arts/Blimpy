@@ -2,6 +2,4 @@
 
 void exp_init();
 
-void exp_motor(uint8_t num, bool fwd, uint8_t duty);
-
-uint8_t exp_fault();
+void exp_led(uint8_t r, uint8_t g, uint8_t b);

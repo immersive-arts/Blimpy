@@ -217,104 +217,41 @@ static void exp_pin_pwm(uint8_t addr, uint8_t pin, uint8_t intensity) {
 void exp_init() {
   // prepare reset config
   gpio_config_t rst = {
-      .pin_bit_mask = GPIO_SEL_25 | GPIO_SEL_4,
+      .pin_bit_mask = GPIO_SEL_2,
       .mode = GPIO_MODE_OUTPUT,
       .pull_down_en = GPIO_PULLDOWN_DISABLE,
       .pull_up_en = GPIO_PULLUP_DISABLE,
       .intr_type = GPIO_INTR_DISABLE,
   };
 
-  // configure reset pins
+  // configure reset pin
   gpio_config(&rst);
 
-  // reset chips
-  gpio_set_level(GPIO_NUM_25, 0);
-  gpio_set_level(GPIO_NUM_4, 0);
-  gpio_set_level(GPIO_NUM_25, 1);
-  gpio_set_level(GPIO_NUM_4, 1);
+  // reset chip
+  gpio_set_level(GPIO_NUM_2, 0);
+  gpio_set_level(GPIO_NUM_2, 1);
 
-  // read test register (0)
+  // read test register
   uint16_t bytes = exp_read16(0, 0x13);
-  if (bytes != 0xFF00) {
-    ESP_ERROR_CHECK(ESP_FAIL);
-  }
-
-  // read test register (1)
-  bytes = exp_read16(1, 0x13);
   if (bytes != 0xFF00) {
     ESP_ERROR_CHECK(ESP_FAIL);
   }
 
   // set clock to 2Mhz
   exp_write8(0, 0x1E, 0x40);
-  exp_write8(1, 0x1E, 0x40);
 
   // enable pwm output
   exp_write8(0, 0x1F, 0x70);
-  exp_write8(1, 0x1F, 0x70);
 
-  // configure output pins
-  for (uint8_t addr = 0; addr < 2; addr++) {
-    exp_pin_mode(addr, 2, EXP_OUTPUT_PWM);
-    exp_pin_mode(addr, 3, EXP_OUTPUT_PWM);
-    exp_pin_mode(addr, 4, EXP_OUTPUT_PWM);
-    exp_pin_mode(addr, 5, EXP_OUTPUT_PWM);
-    exp_pin_mode(addr, 10, EXP_OUTPUT_PWM);
-    exp_pin_mode(addr, 11, EXP_OUTPUT_PWM);
-    exp_pin_mode(addr, 12, EXP_OUTPUT_PWM);
-    exp_pin_mode(addr, 13, EXP_OUTPUT_PWM);
-  }
-
-  // disable sleep
-  exp_pin_mode(0, 1, EXP_OUTPUT);
-  exp_pin_mode(0, 9, EXP_OUTPUT);
-  exp_pin_mode(1, 1, EXP_OUTPUT);
-  exp_pin_mode(1, 9, EXP_OUTPUT);
-  exp_pin_set(0, 1, 1);
-  exp_pin_set(0, 9, 1);
-  exp_pin_set(1, 1, 1);
-  exp_pin_set(1, 9, 1);
-
-  // configure fault
-  exp_pin_mode(0, 6, EXP_INPUT_PULL_UP);
-  exp_pin_mode(0, 14, EXP_INPUT_PULL_UP);
-  exp_pin_mode(1, 6, EXP_INPUT_PULL_UP);
-  exp_pin_mode(1, 14, EXP_INPUT_PULL_UP);
+  // configure led pins
+  exp_pin_mode(0, 13, EXP_OUTPUT_PWM);
+  exp_pin_mode(0, 14, EXP_OUTPUT_PWM);
+  exp_pin_mode(0, 15, EXP_OUTPUT_PWM);
 }
 
-uint8_t exp_motor_in1[8] = {13, 10, 5, 2, 13, 10, 5, 2};
-uint8_t exp_motor_in2[8] = {12, 11, 4, 3, 12, 11, 4, 3};
-
-void exp_motor(uint8_t num, bool fwd, uint8_t duty) {
-  // print configuration
-  naos_log("motor: num %d, fwd: %d, duty %d", num, fwd, duty);
-
-  // get addr
-  uint8_t addr = num > 4 ? 1 : 0;
-
-  // check duty
-  if (duty == 0) {
-    exp_pin_pwm(addr, exp_motor_in1[num - 1], 0);
-    exp_pin_pwm(addr, exp_motor_in2[num - 1], 0);
-    return;
-  }
-
-  // configure pwm
-  if (fwd) {
-    exp_pin_pwm(addr, exp_motor_in1[num - 1], duty);
-    exp_pin_pwm(addr, exp_motor_in2[num - 1], 0);
-  } else {
-    exp_pin_pwm(addr, exp_motor_in1[num - 1], 0);
-    exp_pin_pwm(addr, exp_motor_in2[num - 1], duty);
-  }
-}
-
-uint8_t exp_fault() {
-  // read fault pins
-  uint8_t f1 = !exp_pin_get(0, 6);
-  uint8_t f2 = !exp_pin_get(0, 14);
-  uint8_t f3 = !exp_pin_get(1, 6);
-  uint8_t f4 = !exp_pin_get(1, 14);
-
-  return (f4 << 3u) | (f3 << 2u) | (f2 << 1u) | f1;
+void exp_led(uint8_t r, uint8_t g, uint8_t b) {
+  // set pins
+  exp_pin_pwm(0, 13, r);
+  exp_pin_pwm(0, 15, g);
+  exp_pin_pwm(0, 14, b);
 }
