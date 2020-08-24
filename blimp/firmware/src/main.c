@@ -9,6 +9,7 @@
 #include "exp.h"
 #include "led.h"
 #include "mod.h"
+#include "pwr.h"
 #include "srv.h"
 
 static naos_status_t last_status = NAOS_DISCONNECTED;
@@ -33,6 +34,15 @@ static void status(naos_status_t status) {
     default:
       exp_led(255, 0, 0);
       break;
+  }
+}
+
+static void power(bool pressed) {
+  // set led
+  if (pressed) {
+    exp_led(0, 255, 255);
+  } else {
+    status(last_status);
   }
 }
 
@@ -230,6 +240,7 @@ void app_main() {
   ESP_ERROR_CHECK(adc1_config_width(ADC_WIDTH_12Bit));
 
   // initialize components
+  pwr_init(power);
   bat_init();
   led_init();
   exp_init();
