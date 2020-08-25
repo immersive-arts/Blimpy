@@ -130,23 +130,23 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     return;
   }
 
-  // set motors duty cycles "s1,s2,s3,s4" (0 to 1)
+  // set motors duty cycles "s1,s2" (0 to 1)
   if (scope == NAOS_LOCAL && strcmp(topic, "servos") == 0) {
     // prepare positions
-    double positions[4] = {0};
+    double positions[2] = {0};
 
     // parse comma separated speeds
     char *ptr = strtok((char *)payload, ",");
     int i = 0;
-    while (ptr != NULL && i < 4) {
+    while (ptr != NULL && i < 2) {
       positions[i] = a32_constrain_d(a32_str2d(ptr), 0, 1);
       ptr = strtok(NULL, ",");
       i++;
     }
 
     // set servos
-    for (i = 0; i < 4; i++) {
-      // srv_set(i + 1, positions[i]);
+    for (i = 0; i < 2; i++) {
+       srv_set(i + 1, positions[i]);
     }
 
     return;
@@ -244,7 +244,7 @@ void app_main() {
   bat_init();
   exp_init();
   mot_init();
-  //  srv_init();
+  srv_init();
 
   // set led
   status(NAOS_DISCONNECTED);

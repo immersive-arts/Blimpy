@@ -4,16 +4,12 @@
 
 #include "srv.h"
 
-#define S1_PIN GPIO_NUM_33
-#define S2_PIN GPIO_NUM_32
-#define S3_PIN GPIO_NUM_23
-#define S4_PIN GPIO_NUM_16
+#define S1_PIN GPIO_NUM_15
+#define S2_PIN GPIO_NUM_5
 
-static ledc_channel_t pin_map[4] = {
-    LEDC_CHANNEL_3,
-    LEDC_CHANNEL_4,
-    LEDC_CHANNEL_5,
-    LEDC_CHANNEL_6,
+static ledc_channel_t pin_map[] = {
+    LEDC_CHANNEL_0,
+    LEDC_CHANNEL_1,
 };
 
 void srv_init() {
@@ -44,16 +40,6 @@ void srv_init() {
   // configure servo 2
   c.gpio_num = S2_PIN;
   c.channel = pin_map[1];
-  ESP_ERROR_CHECK(ledc_channel_config(&c));
-
-  // configure servo 3
-  c.gpio_num = S3_PIN;
-  c.channel = pin_map[2];
-  ESP_ERROR_CHECK(ledc_channel_config(&c));
-
-  // configure servo 4
-  c.gpio_num = S4_PIN;
-  c.channel = pin_map[3];
   ESP_ERROR_CHECK(ledc_channel_config(&c));
 }
 
