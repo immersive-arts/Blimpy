@@ -27,7 +27,8 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     var motion: Bool = false
     
-    var sensitivity: Double = 0.5
+    var moveSensitivity: Double = 0.5
+    var turnSensitivity: Double = 0.5
     
     var lastSpeeds: Array<Double> = [0, 0, 0, 0, 0, 0]
     
@@ -134,12 +135,12 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     func updateControls() {
         // prepare values
-        let fx = jry * -1 * sensitivity
-        let fy = jrx * -1 * sensitivity
-        let fz = jly * -1 * sensitivity
+        let fx = jry * -1 * moveSensitivity
+        let fy = jrx * -1 * moveSensitivity
+        let fz = jly * -1 * moveSensitivity
         var mx = 0.0
         var my = 0.0
-        let mz = jlx * -0.25 * sensitivity
+        let mz = jlx * -1 * turnSensitivity
         
         // use motion if enabled
         if motion {
@@ -152,10 +153,9 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         
         // get difference
         let diff = difference(a: speeds, b: lastSpeeds)
-        print(diff)
         
         // skip if difference didn't change much
-        if abs(diff) < 0.025 {
+        if abs(diff) < 0.05 {
             return
         }
         
@@ -179,9 +179,14 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         motion = (sender.isOn)
     }
     
-    @IBAction func sensitivitySlider(_ sender: UISlider) {
+    @IBAction func moveSensitivitySlider(_ sender: UISlider) {
         // set value
-        sensitivity = Double(sender.value)
+        moveSensitivity = Double(sender.value)
+    }
+    
+    @IBAction func turnSensitivitySlider(_ sender: UISlider) {
+        // set value
+        turnSensitivity = Double(sender.value)
     }
     
     // Utilities

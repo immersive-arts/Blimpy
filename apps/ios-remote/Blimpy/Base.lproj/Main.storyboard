@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="ipad9_7" orientation="landscape" layout="fullscreen" appearance="light"/>
+    <device id="ipad9_7" orientation="landscape" layout="fullscreen" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -100,20 +100,31 @@
                                 </constraints>
                             </view>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="hbO-0M-awH">
-                                <rect key="frame" x="435" y="566" width="154" height="31"/>
+                                <rect key="frame" x="435" y="511" width="154" height="31"/>
+                                <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="hFb-qg-XXu"/>
                                 </constraints>
                                 <connections>
-                                    <action selector="sensitivitySlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="wq6-nO-Gtc"/>
+                                    <action selector="moveSensitivitySlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="vph-Ke-iGl"/>
                                 </connections>
                             </slider>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SENSITIVITY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LI1-WV-q8m">
-                                <rect key="frame" x="470.5" y="525" width="83" height="16"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SENSITIVITY (M/T)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LI1-WV-q8m">
+                                <rect key="frame" x="450.5" y="470" width="123" height="16"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="0ft-dl-Umt">
+                                <rect key="frame" x="435" y="566" width="154" height="31"/>
+                                <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="eQ6-Rm-c6Y"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="turnSensitivitySlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="caf-9G-HGk"/>
+                                </connections>
+                            </slider>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
@@ -122,7 +133,6 @@
                             <constraint firstAttribute="trailingMargin" secondItem="6sR-fy-Unf" secondAttribute="trailing" constant="55" id="BQv-Ln-maw"/>
                             <constraint firstItem="Gu7-rc-wQb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DSv-Zo-DqP"/>
                             <constraint firstItem="Xcq-NQ-fxz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="42" id="Kqf-wn-6DW"/>
-                            <constraint firstItem="bMs-1d-GQU" firstAttribute="top" secondItem="hbO-0M-awH" secondAttribute="bottom" constant="50" id="Nk5-Sf-fcL"/>
                             <constraint firstItem="6sR-fy-Unf" firstAttribute="top" secondItem="GeA-O7-hUi" secondAttribute="bottom" constant="8" id="Paj-mX-NGt"/>
                             <constraint firstItem="LI1-WV-q8m" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Q8L-AO-R37"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qYG-I8-TJi" secondAttribute="bottom" constant="50" id="SxA-q4-6jg"/>
@@ -132,6 +142,7 @@
                             <constraint firstItem="FV5-Tl-Mcz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="50" id="Zeq-Vc-zQc"/>
                             <constraint firstItem="bMs-1d-GQU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="aVf-nr-PYc"/>
                             <constraint firstItem="qYG-I8-TJi" firstAttribute="top" secondItem="bMs-1d-GQU" secondAttribute="bottom" constant="25" id="atU-fo-hUG"/>
+                            <constraint firstItem="bMs-1d-GQU" firstAttribute="top" secondItem="0ft-dl-Umt" secondAttribute="bottom" constant="50" id="fv0-Dy-Rzh"/>
                             <constraint firstItem="CaR-ui-RLR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="hMJ-HV-uDR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CaR-ui-RLR" secondAttribute="trailing" constant="50" id="lcF-Hf-hB4"/>
                             <constraint firstItem="Xcq-NQ-fxz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="m0D-Ca-5v5"/>
@@ -140,7 +151,9 @@
                             <constraint firstItem="xjz-Jp-TU8" firstAttribute="leading" secondItem="DhB-tZ-aPr" secondAttribute="leading" id="rwE-Pg-5wa"/>
                             <constraint firstItem="qYG-I8-TJi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="teG-El-BTc"/>
                             <constraint firstItem="xjz-Jp-TU8" firstAttribute="top" secondItem="DhB-tZ-aPr" secondAttribute="bottom" constant="8" id="uqg-X5-e9J"/>
+                            <constraint firstItem="0ft-dl-Umt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vZc-Q9-cIi"/>
                             <constraint firstItem="xjz-Jp-TU8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="55" id="y2W-E0-aJG"/>
+                            <constraint firstItem="0ft-dl-Umt" firstAttribute="top" secondItem="hbO-0M-awH" secondAttribute="bottom" constant="25" id="zP8-m6-EfE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
