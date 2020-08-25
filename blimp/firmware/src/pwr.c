@@ -8,15 +8,11 @@
 
 #define PWR_BIT (1 << 0)
 
-#define PWR_DELAY 1
-
-#define PWR_TIME 2000
+#define PWR_TIME 1000
 
 static EventGroupHandle_t pwr_group;
 
 static pwr_callback_t pwr_callback;
-
-static uint32_t pwr_state;
 
 static void pwr_handler(void *args) {
   // send event
@@ -32,28 +28,40 @@ static void pwr_task(void *p) {
       continue;
     }
 
-    // read button
-    bool pressed = gpio_get_level(GPIO_NUM_34) == 0;
-
-    // check time when released
-    if (!pressed) {
-      if (naos_millis() - pwr_state > PWR_TIME) {
-        ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 0));
-        naos_delay(10);
-        ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 1));
-      }
-    }
-
-    // set state
-    pwr_state = naos_millis();
+    // get time
+    uint32_t now = naos_millis();
 
     // call callback
     naos_acquire();
-    pwr_callback(pressed);
+    pwr_callback(true);
     naos_release();
 
-    // delay next reading
-    naos_delay(PWR_DELAY);
+    // check button
+    for (;;) {
+      // wait a bit
+      naos_delay(100);
+
+      // power off if held for some time
+      if (naos_millis() - now > PWR_TIME) {
+        // power off
+        ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 0));
+        naos_delay(10);
+        ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 1));
+
+        // clear
+        break;
+      }
+
+      // clear if released
+      if (gpio_get_level(GPIO_NUM_34) == 1) {
+        break;
+      }
+    }
+
+    // call callback
+    naos_acquire();
+    pwr_callback(false);
+    naos_release();
 
     // clear bit
     xEventGroupClearBits(pwr_group, PWR_BIT);
@@ -88,7 +96,7 @@ void pwr_init(pwr_callback_t cb) {
       .mode = GPIO_MODE_INPUT,
       .pull_down_en = GPIO_PULLDOWN_DISABLE,
       .pull_up_en = GPIO_PULLUP_DISABLE,
-      .intr_type = GPIO_PIN_INTR_ANYEDGE,
+      .intr_type = GPIO_PIN_INTR_NEGEDGE,
   };
 
   // configure button pin
