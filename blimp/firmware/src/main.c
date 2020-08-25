@@ -15,6 +15,8 @@
 
 static naos_status_t last_status = NAOS_DISCONNECTED;
 
+static double safety_off = 0;
+
 static double motor_map[6] = {0};
 
 static void status(naos_status_t status) {
@@ -148,11 +150,9 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
   }
 }
 
-// TODO: Add param.
-
 static void loop() {
   // check battery
-  if (bat_read_factor() < 0.3) {
+  if (bat_read_factor() < safety_off) {
     pwr_off();
   }
 }
@@ -163,6 +163,7 @@ static float battery() {
 }
 
 static naos_param_t params[] = {
+    {.name = "safety-off", .type = NAOS_DOUBLE, .default_d = 0.3, .sync_d = &safety_off},
     {.name = "motor-map1", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[0]},
     {.name = "motor-map2", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[1]},
     {.name = "motor-map3", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[2]},
@@ -180,7 +181,7 @@ static naos_param_t params[] = {
 static naos_config_t config = {.device_type = "blimpy",
                                .firmware_version = "0.3.0",
                                .parameters = params,
-                               .num_parameters = 12,
+                               .num_parameters = 13,
                                .ping_callback = ping,
                                .online_callback = online,
                                .update_callback = update,
