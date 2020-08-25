@@ -41,12 +41,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt; MOTION &gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qYG-I8-TJi">
-                                <rect key="frame" x="472.5" y="702" width="79" height="16"/>
+                                <rect key="frame" x="472.5" y="661" width="79" height="16"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BATTERY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhB-tZ-aPr">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BATTERY 42%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DhB-tZ-aPr">
                                 <rect key="frame" x="75" y="727" width="150" height="11"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="szA-jG-v7K"/>
@@ -56,7 +56,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="bMs-1d-GQU">
-                                <rect key="frame" x="487.5" y="646" width="51" height="31"/>
+                                <rect key="frame" x="487.5" y="605" width="51" height="31"/>
                                 <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="onTintColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="thumbTintColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -82,7 +82,7 @@
                                 <color key="progressTintColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <color key="trackTintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </progressView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WiFI" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GeA-O7-hUi">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WIFI 42%" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GeA-O7-hUi">
                                 <rect key="frame" x="799" y="727" width="150" height="11"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="n9G-wE-4ME"/>
@@ -100,7 +100,7 @@
                                 </constraints>
                             </view>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="hbO-0M-awH">
-                                <rect key="frame" x="435" y="511" width="154" height="31"/>
+                                <rect key="frame" x="435" y="470" width="154" height="31"/>
                                 <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="hFb-qg-XXu"/>
@@ -110,13 +110,13 @@
                                 </connections>
                             </slider>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SENSITIVITY (M/T)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LI1-WV-q8m">
-                                <rect key="frame" x="450.5" y="470" width="123" height="16"/>
+                                <rect key="frame" x="450.5" y="429" width="123" height="16"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="0ft-dl-Umt">
-                                <rect key="frame" x="435" y="566" width="154" height="31"/>
+                                <rect key="frame" x="435" y="525" width="154" height="31"/>
                                 <color key="tintColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="150" id="eQ6-Rm-c6Y"/>
@@ -125,17 +125,27 @@
                                     <action selector="turnSensitivitySlider:" destination="BYZ-38-t0r" eventType="valueChanged" id="caf-9G-HGk"/>
                                 </connections>
                             </slider>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" 3.84V (3.94V) / 1.23A (1.45A)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LBI-9v-ROU">
+                                <rect key="frame" x="362" y="727" width="300" height="11"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="3eo-NJ-ci1"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="9"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="LBI-9v-ROU" firstAttribute="top" secondItem="qYG-I8-TJi" secondAttribute="bottom" constant="50" id="5uU-9N-y25"/>
                             <constraint firstItem="GeA-O7-hUi" firstAttribute="trailing" secondItem="6sR-fy-Unf" secondAttribute="trailing" id="6Ni-KL-hXs"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="6sR-fy-Unf" secondAttribute="bottom" constant="20" id="AeQ-7G-bzf"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6sR-fy-Unf" secondAttribute="trailing" constant="55" id="BQv-Ln-maw"/>
                             <constraint firstItem="Gu7-rc-wQb" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="DSv-Zo-DqP"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="LBI-9v-ROU" secondAttribute="bottom" constant="30" id="Jhx-7X-e9K"/>
                             <constraint firstItem="Xcq-NQ-fxz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="42" id="Kqf-wn-6DW"/>
                             <constraint firstItem="6sR-fy-Unf" firstAttribute="top" secondItem="GeA-O7-hUi" secondAttribute="bottom" constant="8" id="Paj-mX-NGt"/>
                             <constraint firstItem="LI1-WV-q8m" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Q8L-AO-R37"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="qYG-I8-TJi" secondAttribute="bottom" constant="50" id="SxA-q4-6jg"/>
                             <constraint firstItem="Gu7-rc-wQb" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="100" id="WVp-Mz-lgJ"/>
                             <constraint firstItem="FV5-Tl-Mcz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="YjI-35-UQG"/>
                             <constraint firstItem="hbO-0M-awH" firstAttribute="top" secondItem="LI1-WV-q8m" secondAttribute="bottom" constant="25" id="Ymj-J8-TgQ"/>
@@ -146,6 +156,7 @@
                             <constraint firstItem="CaR-ui-RLR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="hMJ-HV-uDR"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CaR-ui-RLR" secondAttribute="trailing" constant="50" id="lcF-Hf-hB4"/>
                             <constraint firstItem="Xcq-NQ-fxz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="m0D-Ca-5v5"/>
+                            <constraint firstItem="LBI-9v-ROU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="mS7-5y-ueT"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xjz-Jp-TU8" secondAttribute="bottom" constant="20" id="ox6-sn-Ylr"/>
                             <constraint firstItem="hbO-0M-awH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qFq-ud-XOa"/>
                             <constraint firstItem="xjz-Jp-TU8" firstAttribute="leading" secondItem="DhB-tZ-aPr" secondAttribute="leading" id="rwE-Pg-5wa"/>
@@ -159,8 +170,11 @@
                     </view>
                     <connections>
                         <outlet property="battery" destination="xjz-Jp-TU8" id="cg6-lG-QgJ"/>
+                        <outlet property="batteryLabel" destination="DhB-tZ-aPr" id="AGz-Ku-YsT"/>
                         <outlet property="status" destination="Xcq-NQ-fxz" id="Tg2-AC-APC"/>
+                        <outlet property="systemLabel" destination="LBI-9v-ROU" id="kbx-4g-jU6"/>
                         <outlet property="wifi" destination="6sR-fy-Unf" id="9WO-hs-3YR"/>
+                        <outlet property="wifiLabel" destination="GeA-O7-hUi" id="sYY-M1-4ZA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

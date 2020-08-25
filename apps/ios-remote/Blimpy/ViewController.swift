@@ -36,6 +36,10 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     @IBOutlet weak var wifi: UIProgressView!
     @IBOutlet weak var status: UIView!
     
+    @IBOutlet weak var batteryLabel: UILabel!
+    @IBOutlet weak var wifiLabel: UILabel!
+    @IBOutlet weak var systemLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -217,8 +221,12 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
             // get info
             let info = data?.split(separator: ",")
             
-            // set battery level
-            battery.progress = Float(info?[6] ?? "0") ?? 0
+            // map charge to percentage
+            let ch = (Float(info?[6] ?? "0") ?? 0) * 100
+            
+            // set battery level and label
+            battery.progress = ch / 100
+            batteryLabel.text = String(format: "BATTERY %.0f%%", ch)
             
             // map signal strength to percentage
             var ss = (100 - ((Float(info?[7] ?? "0") ?? 0) * -1)) * 2
@@ -228,8 +236,26 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
                 ss = 0
             }
             
-            // set wifi strength
+            // set wifi strength and label
             wifi.progress = ss / 100
+            wifiLabel.text = String(format: "WIFI %.0f%%", ss)
+        }
+        
+        // check for battery
+        if message.topic == baseTopic + "/battery" {
+            // get info
+            let info = data?.split(separator: ",")
+            
+            // get voltages
+            let voltage = Float(info?[1] ?? "0") ?? 0
+            let avgVoltage = Float(info?[2] ?? "0") ?? 0
+            
+            // get currents
+            let current = Float(info?[3] ?? "0") ?? 0
+            let avgCurrent = Float(info?[4] ?? "0") ?? 0
+            
+            // set label
+            systemLabel.text = String(format: "%.3fV (%.3fV) / %.3fA (%.3fA)", voltage, avgVoltage, current, avgCurrent)
         }
     }
     
