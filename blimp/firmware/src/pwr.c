@@ -36,20 +36,23 @@ static void pwr_task(void *p) {
     pwr_callback(true);
     naos_release();
 
+    // prepare flag
+    bool shutdown = false;
+
     // check button
     for (;;) {
       // wait a bit
       naos_delay(100);
 
-      // power off if held for some time
-      if (naos_millis() - now > PWR_TIME) {
-        // power off
-        ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 0));
-        naos_delay(10);
-        ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 1));
+      // set flag if held for some time
+      if (!shutdown && naos_millis() - now > PWR_TIME) {
+        // set flag
+        shutdown = true;
 
-        // clear
-        break;
+        // call callback
+        naos_acquire();
+        pwr_callback(false);
+        naos_release();
       }
 
       // clear if released
@@ -59,9 +62,19 @@ static void pwr_task(void *p) {
     }
 
     // call callback
-    naos_acquire();
-    pwr_callback(false);
-    naos_release();
+    if (!shutdown) {
+      naos_acquire();
+      pwr_callback(false);
+      naos_release();
+    }
+
+    // shutdown if flag is set
+    if (shutdown) {
+      naos_log("pwr: shutdown");
+      ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 0));
+      naos_delay(1000);
+      ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 1));
+    }
 
     // clear bit
     xEventGroupClearBits(pwr_group, PWR_BIT);
@@ -112,6 +125,6 @@ void pwr_init(pwr_callback_t cb) {
 void pwr_off() {
   // power off
   ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 0));
-  naos_delay(10);
+  naos_delay(1000);
   ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_12, 1));
 }
