@@ -7,9 +7,9 @@
 
 #include "bat.h"
 #include "exp.h"
-#include "led.h"
 #include "mod.h"
 #include "mot.h"
+#include "neo.h"
 #include "pwr.h"
 #include "srv.h"
 
@@ -18,6 +18,9 @@ static naos_status_t last_status = NAOS_DISCONNECTED;
 static double safety_off = 0;
 
 static double motor_map[6] = {0};
+
+static int32_t led_size = 0;
+static bool led_white = false;
 
 static void status(naos_status_t status) {
   // set last status
@@ -148,6 +151,27 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
 
     return;
   }
+
+  // set lights "r,g,b,w" (0 to 255)
+  if (scope == NAOS_LOCAL && strcmp(topic, "lights") == 0) {
+    // prepare colors
+    int colors[4] = {0};
+
+    // parse comma separated colors
+    char *ptr = strtok((char *)payload, ",");
+    int i = 0;
+    while (ptr != NULL && i < 4) {
+      colors[i] = a32_constrain_i(a32_str2i(ptr), 0, 255);
+      ptr = strtok(NULL, ",");
+      i++;
+    }
+
+    // set lights
+    neo_set_all(colors[0], colors[1], colors[2], colors[3]);
+    neo_show();
+
+    return;
+  }
 }
 
 static void loop() {
@@ -176,12 +200,14 @@ static naos_param_t params[] = {
     {.name = "model-m4", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
     {.name = "model-m5", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
     {.name = "model-m6", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
+    {.name = "led-size", .type = NAOS_LONG, .default_l = 0, .sync_l = &led_size},
+    {.name = "led-white", .type = NAOS_BOOL, .default_b = false, .sync_b = &led_white},
 };
 
 static naos_config_t config = {.device_type = "blimpy",
                                .firmware_version = "0.3.0",
                                .parameters = params,
-                               .num_parameters = 13,
+                               .num_parameters = 15,
                                .ping_callback = ping,
                                .online_callback = online,
                                .update_callback = update,
@@ -218,7 +244,6 @@ void app_main() {
   bat_init();
   exp_init();
   mot_init();
-  //  led_init();
   //  srv_init();
 
   // set led
@@ -226,6 +251,9 @@ void app_main() {
 
   // initialize naos
   naos_init(&config);
+
+  // initialize neo pixels
+  neo_init(led_size, led_white);
 
   // prepare model
   mod_calculate();

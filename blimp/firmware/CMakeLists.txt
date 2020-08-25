@@ -13,13 +13,13 @@ set(SOURCE_FILES
         src/bat.h
         src/exp.c
         src/exp.h
-        src/led.c
-        src/led.h
         src/main.c
         src/mod.c
         src/mod.h
         src/mot.c
         src/mot.h
+        src/neo.c
+        src/neo.h
         src/pwr.c
         src/pwr.h
         src/srv.c
