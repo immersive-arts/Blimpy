@@ -182,8 +182,8 @@ static void loop() {
 
   // debug battery
   bat_data_t data = bat_data();
-  naos_log("SOC: %.1f%% | Cell: %.1fmV | Avg Cell: %.1fmV | Current: %.1fmA | Avg Current: %.1fmA", data.rep_soc,
-           data.voltage, data.avg_voltage, data.current, data.avg_current);
+  naos_log("Charge: %.1f%% | V: %.1fmV | AV: %.1fmV | C: %.1fmA | AC: %.1fmA", data.charge, data.voltage,
+           data.avg_voltage, data.current, data.avg_current);
 }
 
 static float battery() {

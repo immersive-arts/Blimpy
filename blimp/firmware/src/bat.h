@@ -1,5 +1,5 @@
 typedef struct {
-  float rep_soc;
+  float charge;
   float voltage;
   float avg_voltage;
   float current;

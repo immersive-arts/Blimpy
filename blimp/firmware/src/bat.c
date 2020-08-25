@@ -120,11 +120,13 @@ bat_data_t bat_data() {
   float avg_current = (float)bat_read16i(BAT_ADDR_LOW, 0x0B) * 0.0015625f / 0.005f;
 
   // get data
-  bat_data_t data = {.rep_soc = rep_soc,
-                     .voltage = voltage,
-                     .avg_voltage = avg_voltage,
-                     .current = current,
-                     .avg_current = avg_current};
+  bat_data_t data = {
+      .charge = rep_soc,
+      .voltage = voltage,
+      .avg_voltage = avg_voltage,
+      .current = current,
+      .avg_current = avg_current,
+  };
 
   return data;
 }
