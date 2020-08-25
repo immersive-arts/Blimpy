@@ -27,6 +27,8 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     var motion: Bool = false
     
+    var sensitivity: Double = 0.5
+    
     var lastSpeeds: Array<Double> = [0, 0, 0, 0, 0, 0]
     
     @IBOutlet weak var battery: UIProgressView!
@@ -132,12 +134,12 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     func updateControls() {
         // prepare values
-        let fx = jry * -1
-        let fy = jrx * -1
-        let fz = jly * -1
+        let fx = jry * -1 * sensitivity
+        let fy = jrx * -1 * sensitivity
+        let fz = jly * -1 * sensitivity
         var mx = 0.0
         var my = 0.0
-        let mz = jlx * -1
+        let mz = jlx * -0.25 * sensitivity
         
         // use motion if enabled
         if motion {
@@ -148,11 +150,12 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         // calculate motor speeds
         let speeds = [fx, fy, fz, mx, my, mz]
         
-        // get hash
-        let dist = distance(a: speeds, b: lastSpeeds)
+        // get difference
+        let diff = difference(a: speeds, b: lastSpeeds)
+        print(diff)
         
-        // skip if distance didn't change much
-        if abs(dist) < 0.1 {
+        // skip if difference didn't change much
+        if abs(diff) < 0.025 {
             return
         }
         
@@ -176,16 +179,19 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         motion = (sender.isOn)
     }
     
+    @IBAction func sensitivitySlider(_ sender: UISlider) {
+        // set value
+        sensitivity = Double(sender.value)
+    }
+    
     // Utilities
     
-    func distance(a: Array<Double>, b: Array<Double>) -> Double {
+    func difference(a: Array<Double>, b: Array<Double>) -> Double {
         var total = 0.0
-        var diff = 0.0
         for (i, _) in a.enumerated() {
-            diff = b[i] - a[i];
-            total += diff * diff;
+            total += abs(b[i] - a[i]);
         }
-        return sqrt(Double(total))
+        return total
     }
     
     // CocoaMQTTDelegate
