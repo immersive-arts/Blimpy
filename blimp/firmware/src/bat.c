@@ -103,7 +103,7 @@ void bat_init() {
   bat_write16(BAT_ADDR_LOW, 0xBB, 0x0001, true);  // fuel gauge reset
 }
 
-float bat_read_factor() {
+float bat_charge() {
   // read value from SOC register
   uint16_t value = bat_read16(BAT_ADDR_LOW, 0x06);
 
@@ -113,7 +113,7 @@ float bat_read_factor() {
 
 bat_data_t bat_data() {
   // gather data
-  float rep_soc = (float)bat_read16(BAT_ADDR_LOW, 0x06) / 256.0f;
+  float charge = (float)bat_read16(BAT_ADDR_LOW, 0x06) / 256.0f;
   float voltage = (float)bat_read16(BAT_ADDR_LOW, 0x09) * 0.078125f;
   float avg_voltage = (float)bat_read16(BAT_ADDR_LOW, 0x19) * 0.078125f;
   float current = (float)bat_read16i(BAT_ADDR_LOW, 0x0A) * 0.0015625f / 0.005f;
@@ -121,11 +121,11 @@ bat_data_t bat_data() {
 
   // get data
   bat_data_t data = {
-      .charge = rep_soc,
-      .voltage = voltage,
-      .avg_voltage = avg_voltage,
-      .current = current,
-      .avg_current = avg_current,
+      .charge = charge / 100.f,
+      .voltage = voltage/ 1000.f,
+      .avg_voltage = avg_voltage/ 1000.f,
+      .current = current/ 1000.f,
+      .avg_current = avg_current/ 1000.f,
   };
 
   return data;

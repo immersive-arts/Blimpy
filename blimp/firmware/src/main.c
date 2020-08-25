@@ -175,20 +175,27 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
 }
 
 static void loop() {
+  // get battery data
+  bat_data_t data = bat_data();
+
   // check battery
-  if (bat_read_factor() < safety_off) {
+  if (data.charge < safety_off) {
     pwr_off();
   }
 
-  // debug battery
-  bat_data_t data = bat_data();
-  naos_log("Charge: %.1f%% | V: %.1fmV | AV: %.1fmV | C: %.1fmA | AC: %.1fmA", data.charge, data.voltage,
+  // print battery
+  naos_log("Battery: %.1f%% | %.3fV (%.3fV) | %.3fA (%.3fA)", data.charge * 100.f, data.voltage,
            data.avg_voltage, data.current, data.avg_current);
+
+  // publish data
+  char str[128];
+  sprintf(str, "%f,%f,%f,%f,%f", data.charge, data.voltage, data.avg_voltage, data.current, data.avg_current);
+  naos_publish("battery", str, 0, false, NAOS_LOCAL);
 }
 
 static float battery() {
   // read battery
-  return bat_read_factor();
+  return bat_charge();
 }
 
 static naos_param_t params[] = {

@@ -16,6 +16,6 @@ void bat_init();
  *
  * @return The battery level.
  */
-float bat_read_factor();
+float bat_charge();
 
 bat_data_t bat_data();
