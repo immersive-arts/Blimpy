@@ -72,33 +72,26 @@ static void bat_read(uint8_t addr, uint8_t reg, uint8_t *buf, uint8_t len) {
   i2c_cmd_link_delete(cmd);
 }
 
-void bat_write16(uint8_t addr, uint8_t reg, uint16_t value, bool ack) {
-  // get bytes MSB first
+static void bat_write16(uint8_t addr, uint8_t reg, uint16_t value, bool ack) {
+  // get bytes LSB first
   uint8_t bytes[] = {(uint8_t)value & 0xFFu, (uint8_t)(value >> 8u) & 0xFFu};
 
   // write bytes
   bat_write(addr, reg, bytes, 2, ack);
 }
 
-uint16_t bat_read16(uint8_t addr, uint8_t reg) {
+static uint16_t bat_read16(uint8_t addr, uint8_t reg) {
   // read bytes
   uint8_t bytes[2];
   bat_read(addr, reg, bytes, 2);
 
-  // convert to value MSB first
-  uint16_t value = (uint16_t)(bytes[1]) << 8u;
-  value |= (uint16_t)(bytes[0]);
+  // convert to value LSB first
+  uint16_t value = (uint16_t)bytes[0] | (uint16_t)bytes[1] << 8u;
 
   return value;
 }
 
-uint8_t bat_read8(uint8_t addr, uint8_t reg) {
-  // read data
-  uint8_t value;
-  bat_read(addr, reg, &value, 1);
-
-  return value;
-}
+static int16_t bat_read16i(uint8_t addr, uint8_t reg) { return (int16_t)bat_read16(addr, reg); }
 
 void bat_init() {
   // configure
@@ -118,36 +111,20 @@ float bat_read_factor() {
   return (float)value / 25600.0f;
 }
 
-void bat_data() {
-  printf("Battery feedback\n");
-  uint16_t word = bat_read16(BAT_ADDR_LOW, 0x21);
-  printf("Device ID: %x \n", word);
-  word = bat_read16(BAT_ADDR_HIGH, 0xB5);
-  printf("Config: %x \n", word);
-  word = bat_read16(BAT_ADDR_HIGH, 0xB3);
-  printf("nDesignCap: %x \n", word);
-  word = bat_read16(BAT_ADDR_HIGH, 0xA5);
-  printf("nFullCapNom: %x \n", word);
-  word = bat_read16(BAT_ADDR_HIGH, 0xA9);
-  printf("nFullCapRep: %x \n", word);
-  word = bat_read16(BAT_ADDR_HIGH, 0xCF);
-  printf("nRSense: %x \n", word);
-  word = bat_read16(BAT_ADDR_LOW, 0x06);
-  float RepSOC = word * 1.0f / 256.0f;
-  printf("RepSOC: %.3f (%x) \n", word * 1.0f / 256.0f, word);
-  word = bat_read16(BAT_ADDR_LOW, 0x09);
-  printf("VCell: %.3f (%x) \n", word * 0.078125f, word);
-  word = bat_read16(BAT_ADDR_LOW, 0x19);
-  printf("Avg VCell: %.3f (%x) \n", word * 0.078125f, word);
-  word = bat_read16(BAT_ADDR_LOW, 0x0A);
-  printf("Current: %.3f (%x) \n", ((int16_t)word) * 1.5625e-6f / 5000e-6f * 1000.0f, (int16_t)word);
-  word = bat_read16(BAT_ADDR_LOW, 0x0B);
-  printf("Avg Current: %.3f %.3f (%x) \n", ((int16_t)word) * 1.5625e-6f / 5000e-6f * 1000.0f,
-         ((int16_t)word) * 1.5625e-6f / 5000e-6f * 1000.0f, (int16_t)word);
+bat_data_t bat_data() {
+  // gather data
+  float rep_soc = (float)bat_read16(BAT_ADDR_LOW, 0x06) / 256.0f;
+  float voltage = (float)bat_read16(BAT_ADDR_LOW, 0x09) * 0.078125f;
+  float avg_voltage = (float)bat_read16(BAT_ADDR_LOW, 0x19) * 0.078125f;
+  float current = (float)bat_read16i(BAT_ADDR_LOW, 0x0A) * 0.0015625f / 0.005f;
+  float avg_current = (float)bat_read16i(BAT_ADDR_LOW, 0x0B) * 0.0015625f / 0.005f;
 
-  if (RepSOC < 30.0f) {
-    gpio_set_level(GPIO_NUM_12, 0);
-  } else {
-    gpio_set_level(GPIO_NUM_12, 1);
-  }
+  // get data
+  bat_data_t data = {.rep_soc = rep_soc,
+                     .voltage = voltage,
+                     .avg_voltage = avg_voltage,
+                     .current = current,
+                     .avg_current = avg_current};
+
+  return data;
 }

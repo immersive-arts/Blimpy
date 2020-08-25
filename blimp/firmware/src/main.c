@@ -146,7 +146,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
 
     // set servos
     for (i = 0; i < 2; i++) {
-       srv_set(i + 1, positions[i]);
+      srv_set(i + 1, positions[i]);
     }
 
     return;
@@ -179,6 +179,11 @@ static void loop() {
   if (bat_read_factor() < safety_off) {
     pwr_off();
   }
+
+  // debug battery
+  bat_data_t data = bat_data();
+  naos_log("SOC: %.1f%% | Cell: %.1fmV | Avg Cell: %.1fmV | Current: %.1fmA | Avg Current: %.1fmA", data.rep_soc,
+           data.voltage, data.avg_voltage, data.current, data.avg_current);
 }
 
 static float battery() {
