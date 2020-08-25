@@ -51,45 +51,22 @@ void mot_init() {
   mcpwm_init(MCPWM_UNIT_1, MCPWM_TIMER_2, &cfg);
 }
 
-void mot_fwd(int num, float duty_cycle) {
-  // get unit and timer
-  mcpwm_unit_t unit = mot_units[num];
-  mcpwm_timer_t timer = mot_timers[num];
-
-  // set signals
-  mcpwm_set_signal_low(unit, timer, MCPWM_OPR_B);
-  mcpwm_set_duty(unit, timer, MCPWM_OPR_A, duty_cycle);
-  mcpwm_set_duty_type(unit, timer, MCPWM_OPR_A, MCPWM_DUTY_MODE_0);
-}
-
-void mot_bwd(int num, float duty_cycle) {
-  // get unit and timer
-  mcpwm_unit_t unit = mot_units[num];
-  mcpwm_timer_t timer = mot_timers[num];
-
-  // set signals
-  mcpwm_set_signal_low(unit, timer, MCPWM_OPR_A);
-  mcpwm_set_duty(unit, timer, MCPWM_OPR_B, duty_cycle);
-  mcpwm_set_duty_type(unit, timer, MCPWM_OPR_B, MCPWM_DUTY_MODE_0);
-}
-
-void mot_stop(int num) {
-  // get unit and timer
-  mcpwm_unit_t unit = mot_units[num];
-  mcpwm_timer_t timer = mot_timers[num];
-
-  // set signals
-  mcpwm_set_signal_low(unit, timer, MCPWM_OPR_A);
-  mcpwm_set_signal_low(unit, timer, MCPWM_OPR_B);
-}
-
 void mot_set(int num, float speed) {
-  // set state
+  // get unit and timer
+  mcpwm_unit_t unit = mot_units[num];
+  mcpwm_timer_t timer = mot_timers[num];
+
+  // set signals
   if (speed == 0) {
-    mot_stop(num);
+    mcpwm_set_signal_low(unit, timer, MCPWM_OPR_A);
+    mcpwm_set_signal_low(unit, timer, MCPWM_OPR_B);
   } else if (speed < 0) {
-    mot_fwd(num, speed * 100);
+    mcpwm_set_signal_low(unit, timer, MCPWM_OPR_B);
+    mcpwm_set_duty(unit, timer, MCPWM_OPR_A, speed * 100);
+    mcpwm_set_duty_type(unit, timer, MCPWM_OPR_A, MCPWM_DUTY_MODE_0);
   } else {
-    mot_bwd(num, speed * -100);
+    mcpwm_set_signal_low(unit, timer, MCPWM_OPR_A);
+    mcpwm_set_duty(unit, timer, MCPWM_OPR_B, speed * -100);
+    mcpwm_set_duty_type(unit, timer, MCPWM_OPR_B, MCPWM_DUTY_MODE_0);
   }
 }
