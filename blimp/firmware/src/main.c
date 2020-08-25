@@ -225,7 +225,7 @@ static naos_config_t config = {.device_type = "blimpy",
                                .update_callback = update,
                                .message_callback = message,
                                .loop_callback = loop,
-                               .loop_interval = 1000,
+                               .loop_interval = 300,
                                .battery_level = battery,
                                .status_callback = status};
 
