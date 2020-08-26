@@ -9224,6 +9224,7 @@ General-purpose diode for high-speed switching</description>
 <part name="S1" library="chlimax" deviceset="EVQPUJ02K" device=""/>
 <part name="R38" library="SparkFun-Resistors" library_urn="urn:adsk.eagle:library:532" deviceset="1MOHM" device="-0603-1/4W-5%" package3d_urn="urn:adsk.eagle:package:39650/1" value="4.7k"/>
 <part name="SUPPLY33" library="SparkFun-PowerSymbols" library_urn="urn:adsk.eagle:library:530" deviceset="3.3V" device=""/>
+<part name="JP2" library="SparkFun-Jumpers" library_urn="urn:adsk.eagle:library:528" deviceset="JUMPER-SMT_2_NO" device="_SILK" package3d_urn="urn:adsk.eagle:package:39279/1"/>
 </parts>
 <sheets>
 <sheet>
@@ -9390,8 +9391,8 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <instance part="SUPPLY1" gate="G$1" x="317.5" y="129.54" smashed="yes">
 <attribute name="VALUE" x="317.5" y="133.096" size="1.27" layer="96" align="bottom-center"/>
 </instance>
-<instance part="SUPPLY2" gate="G$1" x="167.64" y="208.28" smashed="yes">
-<attribute name="VALUE" x="167.64" y="211.836" size="1.27" layer="96" align="bottom-center"/>
+<instance part="SUPPLY2" gate="G$1" x="160.02" y="210.82" smashed="yes">
+<attribute name="VALUE" x="160.02" y="214.376" size="1.27" layer="96" align="bottom-center"/>
 </instance>
 <instance part="SUPPLY3" gate="G$1" x="299.72" y="208.28" smashed="yes">
 <attribute name="VALUE" x="299.72" y="211.836" size="1.27" layer="96" align="bottom-center"/>
@@ -9977,6 +9978,9 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 </instance>
 <instance part="SUPPLY33" gate="G$1" x="43.18" y="187.96" smashed="yes">
 <attribute name="VALUE" x="43.18" y="191.516" size="1.27" layer="96" align="bottom-center"/>
+</instance>
+<instance part="JP2" gate="G$1" x="160.02" y="203.2" smashed="yes" rot="R90">
+<attribute name="NAME" x="157.48" y="200.66" size="1.778" layer="95" font="vector" rot="R90"/>
 </instance>
 </instances>
 <busses>
@@ -10748,23 +10752,15 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <pinref part="U3" gate="G$1" pin="VDD"/>
 </segment>
 <segment>
-<pinref part="R12" gate="G$1" pin="2"/>
-<wire x1="167.64" y1="185.42" x2="167.64" y2="193.04" width="0.1524" layer="91"/>
-<pinref part="D1" gate="G$1" pin="A"/>
-<wire x1="167.64" y1="193.04" x2="167.64" y2="198.12" width="0.1524" layer="91"/>
-<wire x1="167.64" y1="198.12" x2="167.64" y2="208.28" width="0.1524" layer="91"/>
-<wire x1="172.72" y1="193.04" x2="167.64" y2="193.04" width="0.1524" layer="91"/>
-<junction x="167.64" y="193.04"/>
-<pinref part="Q3" gate="G$1" pin="G"/>
-<wire x1="177.8" y1="198.12" x2="167.64" y2="198.12" width="0.1524" layer="91"/>
-<junction x="167.64" y="198.12"/>
-<pinref part="SUPPLY2" gate="G$1" pin="V_USB"/>
-</segment>
-<segment>
 <pinref part="SUPPLY29" gate="G$1" pin="V_USB"/>
 <wire x1="40.64" y1="66.04" x2="40.64" y2="63.5" width="0.1524" layer="91"/>
 <wire x1="40.64" y1="63.5" x2="50.8" y2="63.5" width="0.1524" layer="91"/>
 <pinref part="D4" gate="G$1" pin="A"/>
+</segment>
+<segment>
+<pinref part="SUPPLY2" gate="G$1" pin="V_USB"/>
+<wire x1="160.02" y1="210.82" x2="160.02" y2="208.28" width="0.1524" layer="91"/>
+<pinref part="JP2" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="V_BATT" class="0">
@@ -11989,6 +11985,21 @@ ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <pinref part="U9" gate="G$1" pin="36-I"/>
 <pinref part="TP10" gate="G$1" pin="1"/>
 <wire x1="180.34" y1="111.76" x2="160.02" y2="111.76" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$20" class="0">
+<segment>
+<pinref part="R12" gate="G$1" pin="2"/>
+<wire x1="167.64" y1="185.42" x2="167.64" y2="193.04" width="0.1524" layer="91"/>
+<pinref part="D1" gate="G$1" pin="A"/>
+<wire x1="167.64" y1="193.04" x2="167.64" y2="198.12" width="0.1524" layer="91"/>
+<wire x1="172.72" y1="193.04" x2="167.64" y2="193.04" width="0.1524" layer="91"/>
+<junction x="167.64" y="193.04"/>
+<pinref part="Q3" gate="G$1" pin="G"/>
+<wire x1="177.8" y1="198.12" x2="167.64" y2="198.12" width="0.1524" layer="91"/>
+<wire x1="160.02" y1="198.12" x2="167.64" y2="198.12" width="0.1524" layer="91"/>
+<junction x="167.64" y="198.12"/>
+<pinref part="JP2" gate="G$1" pin="1"/>
 </segment>
 </net>
 </nets>
