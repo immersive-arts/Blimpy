@@ -166,5 +166,71 @@
 		}
 
 	}
+,
+	"bs_gui_win_Blimp_b01_pathdata_P_Tfm" : 	{
+		"_pin" : 0,
+		"_type" : "Tfm",
+		"_slotsize" : 45
+	}
+,
+	"bs_gui_win_Blimp_01_P_Model" : 	{
+		"_pin" : 0,
+		"_type" : "Model",
+		"_slotsize" : 45
+	}
+,
+	"bs_gui_win_Blimp_02_P_Model" : 	{
+		"_pin" : 0,
+		"_type" : "Model",
+		"_slotsize" : 45
+	}
+,
+	"bs_gui_win_Blimp_b02_pathdata_P_Tfm" : 	{
+		"_pin" : 0,
+		"_type" : "Tfm",
+		"_slotsize" : 45
+	}
+,
+	"bs_gui_win_Blimp_b03_pathdata_P_Tfm" : 	{
+		"_pin" : 0,
+		"_type" : "Tfm",
+		"_slotsize" : 45
+	}
+,
+	"bs_gui_win_Blimp_03_P_Model" : 	{
+		"_pin" : 0,
+		"_type" : "Model",
+		"_slotsize" : 45
+	}
+,
+	"bs_gui_win_Blimp_b02_path_P_Canvas" : 	{
+		"_pin" : 0,
+		"_type" : "Canvas",
+		"_slotsize" : 45
+	}
+,
+	"bs_gui_win_Blimp_b01_path_P_Canvas" : 	{
+		"_pin" : 0,
+		"_type" : "Canvas",
+		"_slotsize" : 45
+	}
+,
+	"bs_gui_win_Blimp_b03_path_P_Canvas" : 	{
+		"_pin" : 0,
+		"_type" : "Canvas",
+		"_slotsize" : 45
+	}
+,
+	"bs_gui_win_Blimp_b04_pathdata_P_Tfm" : 	{
+		"_pin" : 0,
+		"_type" : "Tfm",
+		"_slotsize" : 45
+	}
+,
+	"bs_gui_win_Blimp_04_P_Model" : 	{
+		"_pin" : 0,
+		"_type" : "Model",
+		"_slotsize" : 45
+	}
 
 }
