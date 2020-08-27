@@ -45,15 +45,15 @@ class Blimp:
     c_z_filt = 0
     c_a_filt = 0
 
-    k_p_z = 2.0
+    k_p_z = 1.8
     k_d_z = 1.5
     k_i_z = 0.2
 
-    k_p_xy = 0.8
-    k_d_xy = 0.2
+    k_p_xy = 1.0
+    k_d_xy = 0.4
 
-    k_p_a = 0.8
-    k_d_a = 2.0
+    k_p_a = 0.2
+    k_d_a = 1.0
 
     max_command = 1.0
     max_i_e = 3.0
@@ -215,14 +215,14 @@ class Blimp:
 
     def turn_off(self):
         command = "0,0,0,0,0,0"
-        mi = self.client.publish(str(self.blimp_base_topic) + str(self.blimp_id) + "/motors", command, 0, False)
+        mi = self.client.publish(str(self.blimp_base_topic) + "/" + str(self.blimp_id) + "/motors", command, 0, False)
         mi.wait_for_publish()
 
     def control(self):
-        c_x = (self.x_ref - self.x) * self.k_p_xy - (self.dx_ref - self.dx) * self.k_d_xy
+        c_x = (self.x_ref - self.x) * self.k_p_xy + (self.dx_ref - self.dx) * self.k_d_xy
         self.c_x_filt = self.filt_const * c_x + (1 - self.filt_const) * self.c_x_filt
 
-        c_y = (self.y_ref - self.y) * self.k_p_xy - (self.dy_ref - self.dy) *self.k_d_xy
+        c_y = (self.y_ref - self.y) * self.k_p_xy + (self.dy_ref - self.dy) *self.k_d_xy
         self.c_y_filt = self.filt_const * c_y + (1 - self.filt_const) * self.c_y_filt
 
         # altitude control
@@ -263,7 +263,7 @@ class Blimp:
             c_a_body = np.sign(c_a_body) * self.max_command
 
         command = '{:.3f},{:.3f},{:.3f},{:.3f},{:.3f},{:.3f}'.format(c_x_body, c_y_body, c_z_body, 0.0, 0.0, c_a_body)
-        self.client.publish(str(self.blimp_base_topic) + str(self.blimp_id) + "/forces", command, 0, False)
+        self.client.publish(str(self.blimp_base_topic) + "/" + str(self.blimp_id) + "/forces", command, 0, False)
         print("Command: fx: %.3f fy: %.3f fz: %.3f mx: %.3f my: %.3f mz: %.3f" % (c_x_body, c_y_body, c_z_body, 0, 0, c_a_body))
         print("State: x: %.3f/%.3f y: %.3f/%.3f z: %.3f/%.3f alpha: %.3f/%.3f" % (self.x, self.x_ref, self.y, self.y_ref, self.z, self.z_ref, self.alpha, self.alpha_ref))
 
@@ -394,7 +394,7 @@ run = True
 mqtt_host = "localhost"
 mqtt_port = 1883
 osc_server = "localhost"
-osc_port = 1880
+osc_port = 54321
 base_topic = "manager"
 
 if __name__ == "__main__":
