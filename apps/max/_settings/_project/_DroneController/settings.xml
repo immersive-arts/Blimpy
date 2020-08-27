@@ -5,7 +5,7 @@
 		<patcher name = "Application_sparck">
 			<pattr name = "editor" value = "0" />
 			<pattr name = "mainMetro" value = "&quot;15 hz&quot;" />
-			<pattr name = "mainSwitch" value = "0" />
+			<pattr name = "mainSwitch" value = "1" />
 			<patcher name = "_properties">
 				<pattr name = "preferences" value = "1" />
 			</patcher>
@@ -21,9 +21,9 @@
 				<pattr name = "_enable" value = "1" />
 				<patcher name = "_orbiter">
 					<pattr name = "orbitOnePosition" value = "position -0.438233 -1.131498 1.993437" />
-					<pattr name = "orbitOneQuat" value = "quat 0. 0. -0.993503 0.113192" />
-					<pattr name = "orbitThreePosition" value = "position 0. 0. 12.05" />
-					<pattr name = "orbitTwoQuat" value = "quat 0.608723 0. 0. 0.793298" />
+					<pattr name = "orbitOneQuat" value = "quat 0. 0. -0.760352 0.649397" />
+					<pattr name = "orbitThreePosition" value = "position 0. 0. 6." />
+					<pattr name = "orbitTwoQuat" value = "quat 0.333786 0. 0. 0.942575" />
 				</patcher>
 				<patcher name = "_setgroupstage">
 					<pattr name = "matrix" value = "0 0 1 1 0 1 2 0 1" />
@@ -31,10 +31,10 @@
 				</patcher>
 				<patcher name = "_storePosition">
 					<patcher name = "_storePosition">
-						<pattr name = "lowerRightX" value = "544" />
-						<pattr name = "lowerRightY" value = "379" />
-						<pattr name = "upperLeftX" value = "4" />
-						<pattr name = "upperLeftY" value = "47" />
+						<pattr name = "lowerRightX" value = "558" />
+						<pattr name = "lowerRightY" value = "394" />
+						<pattr name = "upperLeftX" value = "18" />
+						<pattr name = "upperLeftY" value = "62" />
 					</patcher>
 				</patcher>
 			</patcher>
@@ -718,7 +718,7 @@
 			</patcher>
 			<patcher name = "Blimp_b02_path">
 				<pattr name = "enable" value = "1" />
-				<pattr name = "playbar" value = "0.799733" />
+				<pattr name = "playbar" value = "0.417422" />
 				<patcher name = "vpl_nodelogic">
 					<pattr name = "vpl_titleEdit" value = "Blimp_b02_path" />
 				</patcher>
@@ -865,7 +865,7 @@
 			</patcher>
 			<patcher name = "Blimp_b01_path">
 				<pattr name = "enable" value = "1" />
-				<pattr name = "playbar" value = "0.799733" />
+				<pattr name = "playbar" value = "0.417422" />
 				<patcher name = "vpl_nodelogic">
 					<pattr name = "vpl_titleEdit" value = "Blimp_b01_path" />
 				</patcher>
@@ -907,7 +907,7 @@
 			</patcher>
 			<patcher name = "Blimp_b03_path">
 				<pattr name = "enable" value = "1" />
-				<pattr name = "playbar" value = "0.799733" />
+				<pattr name = "playbar" value = "0.417422" />
 				<patcher name = "vpl_nodelogic">
 					<pattr name = "vpl_titleEdit" value = "Blimp_b03_path" />
 				</patcher>

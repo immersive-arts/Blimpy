@@ -232,5 +232,11 @@
 		"_type" : "Model",
 		"_slotsize" : 45
 	}
+,
+	"bs_gui_win_Blimp_01_real_P_Model" : 	{
+		"_pin" : 0,
+		"_type" : "Model",
+		"_slotsize" : 45
+	}
 
 }
