@@ -152,6 +152,26 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     return;
   }
 
+  // set servo motion "num,min,max,step" (0 to 1)
+  if (scope == NAOS_LOCAL && strcmp(topic, "motion") == 0) {
+    // prepare values
+    double values[4] = {0};
+
+    // parse comma separated speeds
+    char *ptr = strtok((char *)payload, ",");
+    int i = 0;
+    while (ptr != NULL && i < 4) {
+      values[i] = a32_constrain_d(a32_str2d(ptr), 0, 1);
+      ptr = strtok(NULL, ",");
+      i++;
+    }
+
+    // set motion
+    srv_motion((uint8_t)values[0], values[1], values[2], values[3]);
+
+    return;
+  }
+
   // set lights "r,g,b,w" (0 to 255)
   if (scope == NAOS_LOCAL && strcmp(topic, "lights") == 0) {
     // prepare colors

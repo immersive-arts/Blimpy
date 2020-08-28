@@ -1,5 +1,7 @@
 #include <art32/numbers.h>
 #include <driver/ledc.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 #include <naos.h>
 
 #include "srv.h"
@@ -7,10 +9,78 @@
 #define S1_PIN GPIO_NUM_15
 #define S2_PIN GPIO_NUM_5
 
-static ledc_channel_t pin_map[] = {
+static ledc_channel_t srv_chans[] = {
     LEDC_CHANNEL_0,
     LEDC_CHANNEL_1,
 };
+
+typedef struct {
+  bool on;
+  double min;
+  double max;
+  double step;
+  double pos;
+  bool rev;
+} srv_state_t;
+
+static srv_state_t srv_motions[2] = {0};
+
+static void srv_write(uint8_t num, double pos) {
+  // print configuration
+  naos_log("servo: num %d, pos %+.3f", num, pos);
+
+  // calculate duty cycle range
+  double min_us = a32_map_d(750, 0, 20000, 0, 1024);
+  double max_us = a32_map_d(2250, 0, 20000, 0, 1024);
+
+  // calculate duty
+  uint32_t duty = a32_safe_map_d(pos, 0, 1, min_us, max_us);
+
+  // configure pwm
+  ESP_ERROR_CHECK(ledc_set_duty(LEDC_HIGH_SPEED_MODE, srv_chans[num - 1], duty));
+  ESP_ERROR_CHECK(ledc_update_duty(LEDC_HIGH_SPEED_MODE, srv_chans[num - 1]));
+}
+
+static void srv_task(void *p) {
+  // loop forever
+  for (;;) {
+    // check all motions
+    for (int i = 0; i < 2; i++) {
+      // get motion
+      srv_state_t *state = srv_motions + i;
+
+      // check state
+      if (!state->on) {
+        continue;
+      }
+
+      // get target
+      double target = state->pos + state->step;
+      if (state->rev) {
+        target = state->pos - state->step;
+      }
+
+      // check overshoots
+      if (target < state->min) {
+        target = state->min;
+        state->rev = false;
+      } else if (target > state->max) {
+        target = state->max;
+        state->rev = true;
+      }
+
+      // set position
+      naos_log("srv: %d %f", i, target);
+      srv_write(i + 1, target);
+
+      // store position
+      state->pos = target;
+    }
+
+    // delay
+    naos_delay(20);  // 50Hz
+  }
+}
 
 void srv_init() {
   // prepare ledc timer config
@@ -34,27 +104,38 @@ void srv_init() {
 
   // configure servo 1
   c.gpio_num = S1_PIN;
-  c.channel = pin_map[0];
+  c.channel = srv_chans[0];
   ESP_ERROR_CHECK(ledc_channel_config(&c));
 
   // configure servo 2
   c.gpio_num = S2_PIN;
-  c.channel = pin_map[1];
+  c.channel = srv_chans[1];
   ESP_ERROR_CHECK(ledc_channel_config(&c));
+
+  // start task
+  xTaskCreatePinnedToCore(&srv_task, "srv", 8192, NULL, 2, NULL, 1);
 }
 
 void srv_set(uint8_t num, double pos) {
-  // print configuration
-  naos_log("servo: num %d, pos %+.3f", num, pos);
+  // adjust
+  num -= 1;
 
-  // calculate duty cycle range
-  double min_us = a32_map_d(750, 0, 20000, 0, 1024);
-  double max_us = a32_map_d(2250, 0, 20000, 0, 1024);
+  // disable motion and update state
+  srv_motions[num].on = false;
+  srv_motions[num].rev = pos < srv_motions[num].pos;
+  srv_motions[num].pos = pos;
 
-  // calculate duty
-  uint32_t duty = a32_safe_map_d(pos, 0, 1, min_us, max_us);
+  // write position
+  srv_write(num + 1, pos);
+}
 
-  // configure pwm
-  ESP_ERROR_CHECK(ledc_set_duty(LEDC_HIGH_SPEED_MODE, pin_map[num - 1], duty));
-  ESP_ERROR_CHECK(ledc_update_duty(LEDC_HIGH_SPEED_MODE, pin_map[num - 1]));
+void srv_motion(uint8_t num, double min, double max, double step) {
+  // adjust
+  num -= 1;
+
+  // enable motion
+  srv_motions[num].on = true;
+  srv_motions[num].min = min;
+  srv_motions[num].max = max;
+  srv_motions[num].step = step;
 }
