@@ -57,7 +57,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 105.0, 435.0, 46.0, 22.0 ],
-					"text" : "rate 50"
+					"text" : "rate 40"
 				}
 
 			}
@@ -619,7 +619,7 @@
  ],
 		"dependency_cache" : [ 			{
 				"name" : "rate.maxpat",
-				"bootpath" : "~/Desktop",
+				"bootpath" : "~/Development/GitHub/Other/blimpy/apps/max-remote",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
