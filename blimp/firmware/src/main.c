@@ -72,7 +72,7 @@ static void update(const char *param, const char *value) {
 }
 
 static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_t scope) {
-  // set motors duty cycles "m1,m2,m3,m4,m5,m6" (-1 to 1)
+  // set motor duty cycles "m1,m2,m3,m4,m5,m6" (-1 to 1)
   if (scope == NAOS_LOCAL && strcmp(topic, "motors") == 0) {
     // prepare speeds
     float speeds[6] = {0};
@@ -130,7 +130,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     return;
   }
 
-  // set motors duty cycles "s1,s2" (0 to 1)
+  // set servo duty cycles "s1,s2" (0 to 1)
   if (scope == NAOS_LOCAL && strcmp(topic, "servos") == 0) {
     // prepare positions
     double positions[2] = {0};
@@ -184,8 +184,8 @@ static void loop() {
   }
 
   // print battery
-  naos_log("Battery: %.1f%% | %.3fV (%.3fV) | %.3fA (%.3fA)", data.charge * 100.f, data.voltage,
-           data.avg_voltage, data.current, data.avg_current);
+  naos_log("Battery: %.1f%% | %.3fV (%.3fV) | %.3fA (%.3fA)", data.charge * 100.f, data.voltage, data.avg_voltage,
+           data.current, data.avg_current);
 
   // publish data
   char str[128];
