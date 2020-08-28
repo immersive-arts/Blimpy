@@ -45,14 +45,14 @@ class Blimp:
     c_z_filt = 0
     c_a_filt = 0
 
-    k_p_z = 1.8
-    k_d_z = 1.5
+    k_p_z = 2.0
+    k_d_z = 2.0
     k_i_z = 0.2
 
     k_p_xy = 1.0
     k_d_xy = 0.4
 
-    k_p_a = 0.2
+    k_p_a = 0.4
     k_d_a = 1.0
 
     max_command = 1.0
