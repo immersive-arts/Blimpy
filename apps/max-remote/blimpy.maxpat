@@ -253,7 +253,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 90.0, 810.0, 578.0, 22.0 ],
-					"text" : "publish blimps/b01/forces -0.030824\\,-0.000183\\,-0.017640\\,0.000000\\,0.000000\\,-0.057253"
+					"text" : "publish blimps/b05/forces -0.061403\\,0.000000\\,-0.065096\\,0.000000\\,0.000000\\,-0.062868"
 				}
 
 			}
@@ -313,7 +313,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 90.0, 765.0, 101.0, 22.0 ],
-					"text" : "drone blimps b01"
+					"text" : "drone blimps b05"
 				}
 
 			}

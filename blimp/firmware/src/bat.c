@@ -122,10 +122,10 @@ bat_data_t bat_data() {
   // get data
   bat_data_t data = {
       .charge = charge / 100.f,
-      .voltage = voltage/ 1000.f,
-      .avg_voltage = avg_voltage/ 1000.f,
-      .current = current/ 1000.f,
-      .avg_current = avg_current/ 1000.f,
+      .voltage = voltage / 1000.f,
+      .avg_voltage = avg_voltage / 1000.f,
+      .current = current / 1000.f,
+      .avg_current = avg_current / 1000.f,
   };
 
   return data;

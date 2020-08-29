@@ -72,7 +72,7 @@ static void update(const char *param, const char *value) {
 }
 
 static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_t scope) {
-  // set motors duty cycles "m1,m2,m3,m4,m5,m6" (-1 to 1)
+  // set motor duty cycles "m1,m2,m3,m4,m5,m6" (-1 to 1)
   if (scope == NAOS_LOCAL && strcmp(topic, "motors") == 0) {
     // prepare speeds
     float speeds[6] = {0};
@@ -130,7 +130,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     return;
   }
 
-  // set motors duty cycles "s1,s2" (0 to 1)
+  // set servo duty cycles "s1,s2" (0 to 1)
   if (scope == NAOS_LOCAL && strcmp(topic, "servos") == 0) {
     // prepare positions
     double positions[2] = {0};
@@ -148,6 +148,26 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     for (i = 0; i < 2; i++) {
       srv_set(i + 1, positions[i]);
     }
+
+    return;
+  }
+
+  // set servo motion "num,min,max,step" (0 to 1)
+  if (scope == NAOS_LOCAL && strcmp(topic, "motion") == 0) {
+    // prepare values
+    double values[4] = {0};
+
+    // parse comma separated speeds
+    char *ptr = strtok((char *)payload, ",");
+    int i = 0;
+    while (ptr != NULL && i < 4) {
+      values[i] = a32_constrain_d(a32_str2d(ptr), 0, 1);
+      ptr = strtok(NULL, ",");
+      i++;
+    }
+
+    // set motion
+    srv_motion((uint8_t)values[0], values[1], values[2], values[3]);
 
     return;
   }
@@ -184,8 +204,8 @@ static void loop() {
   }
 
   // print battery
-  naos_log("Battery: %.1f%% | %.3fV (%.3fV) | %.3fA (%.3fA)", data.charge * 100.f, data.voltage,
-           data.avg_voltage, data.current, data.avg_current);
+  naos_log("Battery: %.1f%% | %.3fV (%.3fV) | %.3fA (%.3fA)", data.charge * 100.f, data.voltage, data.avg_voltage,
+           data.current, data.avg_current);
 
   // publish data
   char str[128];
