@@ -1,6 +1,6 @@
 <script>
     <que name="Animation" loop="no">
-        <anim name="runAround" duration="90s" fadeout="2s" loop="normal">
+        <anim name="runAround" duration="30s" fadeout="2s" loop="normal">
              <track name="t1">0. 1.</track>
              <send>/sparck/node ::Blimp_b01_path::playbar {t1}</send>
              <send>/sparck/node ::Blimp_b02_path::playbar {t1}</send>

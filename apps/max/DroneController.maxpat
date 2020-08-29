@@ -142,7 +142,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 209.0, 254.0, 1250.0, 572.0 ],
+						"rect" : [ 156.0, 254.0, 1250.0, 572.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -173,17 +173,6 @@
 						"globalpatchername" : "u468013290",
 						"visible" : 1,
 						"boxes" : [ 							{
-								"box" : 								{
-									"id" : "obj-38",
-									"maxclass" : "newobj",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 175.0, 443.0, 32.0, 22.0 ],
-									"text" : "print"
-								}
-
-							}
-, 							{
 								"box" : 								{
 									"bgmode" : 0,
 									"border" : 0,
@@ -325,6 +314,17 @@
 									"presentation_rect" : [ 125.0, 91.0, 163.0, 130.0 ],
 									"varname" : "Grid",
 									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-38",
+									"maxclass" : "newobj",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 175.0, 443.0, 32.0, 22.0 ],
+									"text" : "print"
 								}
 
 							}
