@@ -171,8 +171,177 @@
 						"subpatcher_template" : "",
 						"assistshowspatchername" : 0,
 						"globalpatchername" : "u468013290",
-						"visible" : 1,
 						"boxes" : [ 							{
+								"box" : 								{
+									"id" : "obj-12",
+									"maxclass" : "newobj",
+									"numinlets" : 0,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patcher" : 									{
+										"fileversion" : 1,
+										"appversion" : 										{
+											"major" : 8,
+											"minor" : 1,
+											"revision" : 6,
+											"architecture" : "x64",
+											"modernui" : 1
+										}
+,
+										"classnamespace" : "box",
+										"rect" : [ 59.0, 104.0, 640.0, 480.0 ],
+										"bglocked" : 0,
+										"openinpresentation" : 0,
+										"default_fontsize" : 12.0,
+										"default_fontface" : 0,
+										"default_fontname" : "Arial",
+										"gridonopen" : 1,
+										"gridsize" : [ 15.0, 15.0 ],
+										"gridsnaponopen" : 1,
+										"objectsnaponopen" : 1,
+										"statusbarvisible" : 2,
+										"toolbarvisible" : 1,
+										"lefttoolbarpinned" : 0,
+										"toptoolbarpinned" : 0,
+										"righttoolbarpinned" : 0,
+										"bottomtoolbarpinned" : 0,
+										"toolbars_unpinned_last_save" : 0,
+										"tallnewobj" : 0,
+										"boxanimatetime" : 200,
+										"enablehscroll" : 1,
+										"enablevscroll" : 1,
+										"devicewidth" : 0.0,
+										"description" : "",
+										"digest" : "",
+										"tags" : "",
+										"style" : "",
+										"subpatcher_template" : "",
+										"assistshowspatchername" : 0,
+										"boxes" : [ 											{
+												"box" : 												{
+													"format" : 6,
+													"id" : "obj-7",
+													"maxclass" : "flonum",
+													"numinlets" : 1,
+													"numoutlets" : 2,
+													"outlettype" : [ "", "bang" ],
+													"parameter_enable" : 0,
+													"patching_rect" : [ 169.0, 98.0, 50.0, 22.0 ]
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"comment" : "",
+													"id" : "obj-5",
+													"index" : 1,
+													"maxclass" : "outlet",
+													"numinlets" : 1,
+													"numoutlets" : 0,
+													"patching_rect" : [ 61.0, 289.0, 30.0, 30.0 ]
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"id" : "obj-3",
+													"maxclass" : "newobj",
+													"numinlets" : 1,
+													"numoutlets" : 1,
+													"outlettype" : [ "" ],
+													"patching_rect" : [ 61.0, 249.0, 94.0, 22.0 ],
+													"text" : "prepend publish"
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"id" : "obj-2",
+													"maxclass" : "newobj",
+													"numinlets" : 1,
+													"numoutlets" : 1,
+													"outlettype" : [ "" ],
+													"patching_rect" : [ 61.0, 211.0, 196.0, 22.0 ],
+													"text" : "prepend manager/blimps/b01/stack"
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"id" : "obj-1",
+													"maxclass" : "newobj",
+													"numinlets" : 7,
+													"numoutlets" : 1,
+													"outlettype" : [ "" ],
+													"patching_rect" : [ 61.0, 132.0, 121.0, 22.0 ],
+													"text" : "pak 0. 0. 1. 0. 0. 0. 0."
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"id" : "obj-37",
+													"maxclass" : "newobj",
+													"numinlets" : 7,
+													"numoutlets" : 1,
+													"outlettype" : [ "" ],
+													"patching_rect" : [ 61.0, 170.0, 388.0, 22.0 ],
+													"text" : "sprintf symout move x=%s y=%s z=%s vx=%s vy=%s vz=%s alpha=%s"
+												}
+
+											}
+ ],
+										"lines" : [ 											{
+												"patchline" : 												{
+													"destination" : [ "obj-37", 0 ],
+													"source" : [ "obj-1", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-3", 0 ],
+													"source" : [ "obj-2", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-5", 0 ],
+													"source" : [ "obj-3", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-2", 0 ],
+													"source" : [ "obj-37", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-1", 6 ],
+													"source" : [ "obj-7", 0 ]
+												}
+
+											}
+ ]
+									}
+,
+									"patching_rect" : [ 55.875, 378.0, 48.0, 22.0 ],
+									"saved_object_attributes" : 									{
+										"description" : "",
+										"digest" : "",
+										"globalpatchername" : "",
+										"tags" : ""
+									}
+,
+									"text" : "p alpha"
+								}
+
+							}
+, 							{
 								"box" : 								{
 									"bgmode" : 0,
 									"border" : 0,
@@ -227,7 +396,7 @@
 									"numoutlets" : 11,
 									"offset" : [ 0.0, 0.0 ],
 									"outlettype" : [ "", "", "", "", "", "", "", "", "", "", "" ],
-									"patching_rect" : [ 781.0, 292.0, 180.0, 244.0 ],
+									"patching_rect" : [ 973.0, 253.0, 180.0, 244.0 ],
 									"varname" : "OptiTrack",
 									"viewvisibility" : 1
 								}
@@ -248,7 +417,7 @@
 									"numoutlets" : 4,
 									"offset" : [ 0.0, 0.0 ],
 									"outlettype" : [ "", "", "", "" ],
-									"patching_rect" : [ 781.0, 191.0, 180.0, 99.0 ],
+									"patching_rect" : [ 973.0, 152.0, 180.0, 99.0 ],
 									"varname" : "QueScript",
 									"viewvisibility" : 1
 								}
@@ -387,567 +556,6 @@
 							}
 , 							{
 								"box" : 								{
-									"id" : "obj-4",
-									"maxclass" : "newobj",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patcher" : 									{
-										"fileversion" : 1,
-										"appversion" : 										{
-											"major" : 8,
-											"minor" : 1,
-											"revision" : 6,
-											"architecture" : "x64",
-											"modernui" : 1
-										}
-,
-										"classnamespace" : "box",
-										"rect" : [ 59.0, 104.0, 640.0, 480.0 ],
-										"bglocked" : 0,
-										"openinpresentation" : 0,
-										"default_fontsize" : 12.0,
-										"default_fontface" : 0,
-										"default_fontname" : "Arial",
-										"gridonopen" : 1,
-										"gridsize" : [ 15.0, 15.0 ],
-										"gridsnaponopen" : 1,
-										"objectsnaponopen" : 1,
-										"statusbarvisible" : 2,
-										"toolbarvisible" : 1,
-										"lefttoolbarpinned" : 0,
-										"toptoolbarpinned" : 0,
-										"righttoolbarpinned" : 0,
-										"bottomtoolbarpinned" : 0,
-										"toolbars_unpinned_last_save" : 0,
-										"tallnewobj" : 0,
-										"boxanimatetime" : 200,
-										"enablehscroll" : 1,
-										"enablevscroll" : 1,
-										"devicewidth" : 0.0,
-										"description" : "",
-										"digest" : "",
-										"tags" : "",
-										"style" : "",
-										"subpatcher_template" : "",
-										"assistshowspatchername" : 0,
-										"boxes" : [ 											{
-												"box" : 												{
-													"bgmode" : 0,
-													"border" : 0,
-													"clickthrough" : 0,
-													"enablehscroll" : 0,
-													"enablevscroll" : 0,
-													"id" : "obj-38",
-													"lockeddragscroll" : 0,
-													"maxclass" : "bpatcher",
-													"name" : "bs.node.pop.shape.1.maxpat",
-													"numinlets" : 4,
-													"numoutlets" : 4,
-													"offset" : [ 0.0, 0.0 ],
-													"outlettype" : [ "", "", "", "jit_matrix" ],
-													"patching_rect" : [ 230.0, 192.0, 180.0, 82.0 ],
-													"varname" : "Blimp_04",
-													"viewvisibility" : 1
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"bgmode" : 0,
-													"border" : 0,
-													"clickthrough" : 0,
-													"enablehscroll" : 0,
-													"enablevscroll" : 0,
-													"id" : "obj-33",
-													"lockeddragscroll" : 0,
-													"maxclass" : "bpatcher",
-													"name" : "bs.node.tfm.node.info.1.maxpat",
-													"numinlets" : 1,
-													"numoutlets" : 2,
-													"offset" : [ 0.0, 0.0 ],
-													"outlettype" : [ "", "" ],
-													"patching_rect" : [ 230.0, 87.0, 180.0, 78.0 ],
-													"varname" : "Blimp_b04_pathdata",
-													"viewvisibility" : 1
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"id" : "obj-35",
-													"maxclass" : "newobj",
-													"numinlets" : 3,
-													"numoutlets" : 2,
-													"outlettype" : [ "", "" ],
-													"patching_rect" : [ 50.0, 443.0, 225.0, 22.0 ],
-													"text" : "pathGenerator manager blimps b04 4 10"
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"comment" : "",
-													"id" : "obj-115",
-													"index" : 1,
-													"maxclass" : "inlet",
-													"numinlets" : 0,
-													"numoutlets" : 1,
-													"outlettype" : [ "int" ],
-													"patching_rect" : [ 50.0, 40.0, 30.0, 30.0 ]
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"comment" : "",
-													"id" : "obj-116",
-													"index" : 2,
-													"maxclass" : "inlet",
-													"numinlets" : 0,
-													"numoutlets" : 1,
-													"outlettype" : [ "" ],
-													"patching_rect" : [ 148.0, 40.0, 30.0, 30.0 ]
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"comment" : "",
-													"id" : "obj-117",
-													"index" : 1,
-													"maxclass" : "outlet",
-													"numinlets" : 1,
-													"numoutlets" : 0,
-													"patching_rect" : [ 50.0, 525.0, 30.0, 30.0 ]
-												}
-
-											}
- ],
-										"lines" : [ 											{
-												"patchline" : 												{
-													"destination" : [ "obj-35", 0 ],
-													"source" : [ "obj-115", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-35", 1 ],
-													"source" : [ "obj-116", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-35", 2 ],
-													"source" : [ "obj-33", 1 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-117", 0 ],
-													"source" : [ "obj-35", 0 ]
-												}
-
-											}
- ]
-									}
-,
-									"patching_rect" : [ 483.0, 338.0, 67.0, 22.0 ],
-									"saved_object_attributes" : 									{
-										"description" : "",
-										"digest" : "",
-										"globalpatchername" : "",
-										"tags" : ""
-									}
-,
-									"text" : "p blimp_04",
-									"varname" : "patcher[3]"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-5",
-									"maxclass" : "toggle",
-									"numinlets" : 1,
-									"numoutlets" : 1,
-									"outlettype" : [ "int" ],
-									"parameter_enable" : 0,
-									"patching_rect" : [ 483.0, 296.0, 24.0, 24.0 ]
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-118",
-									"maxclass" : "newobj",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patcher" : 									{
-										"fileversion" : 1,
-										"appversion" : 										{
-											"major" : 8,
-											"minor" : 1,
-											"revision" : 6,
-											"architecture" : "x64",
-											"modernui" : 1
-										}
-,
-										"classnamespace" : "box",
-										"rect" : [ 59.0, 104.0, 640.0, 480.0 ],
-										"bglocked" : 0,
-										"openinpresentation" : 0,
-										"default_fontsize" : 12.0,
-										"default_fontface" : 0,
-										"default_fontname" : "Arial",
-										"gridonopen" : 1,
-										"gridsize" : [ 15.0, 15.0 ],
-										"gridsnaponopen" : 1,
-										"objectsnaponopen" : 1,
-										"statusbarvisible" : 2,
-										"toolbarvisible" : 1,
-										"lefttoolbarpinned" : 0,
-										"toptoolbarpinned" : 0,
-										"righttoolbarpinned" : 0,
-										"bottomtoolbarpinned" : 0,
-										"toolbars_unpinned_last_save" : 0,
-										"tallnewobj" : 0,
-										"boxanimatetime" : 200,
-										"enablehscroll" : 1,
-										"enablevscroll" : 1,
-										"devicewidth" : 0.0,
-										"description" : "",
-										"digest" : "",
-										"tags" : "",
-										"style" : "",
-										"subpatcher_template" : "",
-										"assistshowspatchername" : 0,
-										"boxes" : [ 											{
-												"box" : 												{
-													"bgmode" : 0,
-													"border" : 0,
-													"clickthrough" : 0,
-													"enablehscroll" : 0,
-													"enablevscroll" : 0,
-													"id" : "obj-38",
-													"lockeddragscroll" : 0,
-													"maxclass" : "bpatcher",
-													"name" : "bs.node.pop.shape.1.maxpat",
-													"numinlets" : 4,
-													"numoutlets" : 4,
-													"offset" : [ 0.0, 0.0 ],
-													"outlettype" : [ "", "", "", "jit_matrix" ],
-													"patching_rect" : [ 230.0, 192.0, 180.0, 82.0 ],
-													"varname" : "Blimp_03",
-													"viewvisibility" : 1
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"bgmode" : 0,
-													"border" : 0,
-													"clickthrough" : 0,
-													"enablehscroll" : 0,
-													"enablevscroll" : 0,
-													"id" : "obj-33",
-													"lockeddragscroll" : 0,
-													"maxclass" : "bpatcher",
-													"name" : "bs.node.tfm.node.info.1.maxpat",
-													"numinlets" : 1,
-													"numoutlets" : 2,
-													"offset" : [ 0.0, 0.0 ],
-													"outlettype" : [ "", "" ],
-													"patching_rect" : [ 230.0, 87.0, 180.0, 78.0 ],
-													"varname" : "Blimp_b03_pathdata",
-													"viewvisibility" : 1
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"id" : "obj-35",
-													"maxclass" : "newobj",
-													"numinlets" : 3,
-													"numoutlets" : 2,
-													"outlettype" : [ "", "" ],
-													"patching_rect" : [ 50.0, 443.0, 225.0, 22.0 ],
-													"text" : "pathGenerator manager blimps b03 3 10"
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"comment" : "",
-													"id" : "obj-115",
-													"index" : 1,
-													"maxclass" : "inlet",
-													"numinlets" : 0,
-													"numoutlets" : 1,
-													"outlettype" : [ "int" ],
-													"patching_rect" : [ 50.0, 40.0, 30.0, 30.0 ]
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"comment" : "",
-													"id" : "obj-116",
-													"index" : 2,
-													"maxclass" : "inlet",
-													"numinlets" : 0,
-													"numoutlets" : 1,
-													"outlettype" : [ "" ],
-													"patching_rect" : [ 148.0, 40.0, 30.0, 30.0 ]
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"comment" : "",
-													"id" : "obj-117",
-													"index" : 1,
-													"maxclass" : "outlet",
-													"numinlets" : 1,
-													"numoutlets" : 0,
-													"patching_rect" : [ 50.0, 525.0, 30.0, 30.0 ]
-												}
-
-											}
- ],
-										"lines" : [ 											{
-												"patchline" : 												{
-													"destination" : [ "obj-35", 0 ],
-													"source" : [ "obj-115", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-35", 1 ],
-													"source" : [ "obj-116", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-35", 2 ],
-													"source" : [ "obj-33", 1 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-117", 0 ],
-													"source" : [ "obj-35", 0 ]
-												}
-
-											}
- ]
-									}
-,
-									"patching_rect" : [ 409.0, 338.0, 67.0, 22.0 ],
-									"saved_object_attributes" : 									{
-										"description" : "",
-										"digest" : "",
-										"globalpatchername" : "",
-										"tags" : ""
-									}
-,
-									"text" : "p blimp_03",
-									"varname" : "patcher[2]"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-22",
-									"maxclass" : "newobj",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patcher" : 									{
-										"fileversion" : 1,
-										"appversion" : 										{
-											"major" : 8,
-											"minor" : 1,
-											"revision" : 6,
-											"architecture" : "x64",
-											"modernui" : 1
-										}
-,
-										"classnamespace" : "box",
-										"rect" : [ 474.0, 205.0, 640.0, 480.0 ],
-										"bglocked" : 0,
-										"openinpresentation" : 0,
-										"default_fontsize" : 12.0,
-										"default_fontface" : 0,
-										"default_fontname" : "Arial",
-										"gridonopen" : 1,
-										"gridsize" : [ 15.0, 15.0 ],
-										"gridsnaponopen" : 1,
-										"objectsnaponopen" : 1,
-										"statusbarvisible" : 2,
-										"toolbarvisible" : 1,
-										"lefttoolbarpinned" : 0,
-										"toptoolbarpinned" : 0,
-										"righttoolbarpinned" : 0,
-										"bottomtoolbarpinned" : 0,
-										"toolbars_unpinned_last_save" : 0,
-										"tallnewobj" : 0,
-										"boxanimatetime" : 200,
-										"enablehscroll" : 1,
-										"enablevscroll" : 1,
-										"devicewidth" : 0.0,
-										"description" : "",
-										"digest" : "",
-										"tags" : "",
-										"style" : "",
-										"subpatcher_template" : "",
-										"assistshowspatchername" : 0,
-										"boxes" : [ 											{
-												"box" : 												{
-													"bgmode" : 0,
-													"border" : 0,
-													"clickthrough" : 0,
-													"enablehscroll" : 0,
-													"enablevscroll" : 0,
-													"id" : "obj-5",
-													"lockeddragscroll" : 0,
-													"maxclass" : "bpatcher",
-													"name" : "bs.node.tfm.node.info.1.maxpat",
-													"numinlets" : 1,
-													"numoutlets" : 2,
-													"offset" : [ 0.0, 0.0 ],
-													"outlettype" : [ "", "" ],
-													"patching_rect" : [ 240.0, 100.0, 180.0, 78.0 ],
-													"varname" : "Blimp_b02_pathdata",
-													"viewvisibility" : 1
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"bgmode" : 0,
-													"border" : 0,
-													"clickthrough" : 0,
-													"enablehscroll" : 0,
-													"enablevscroll" : 0,
-													"id" : "obj-37",
-													"lockeddragscroll" : 0,
-													"maxclass" : "bpatcher",
-													"name" : "bs.node.pop.shape.1.maxpat",
-													"numinlets" : 4,
-													"numoutlets" : 4,
-													"offset" : [ 0.0, 0.0 ],
-													"outlettype" : [ "", "", "", "jit_matrix" ],
-													"patching_rect" : [ 240.0, 199.0, 180.0, 82.0 ],
-													"varname" : "Blimp_02",
-													"viewvisibility" : 1
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"id" : "obj-27",
-													"maxclass" : "newobj",
-													"numinlets" : 3,
-													"numoutlets" : 2,
-													"outlettype" : [ "", "" ],
-													"patching_rect" : [ 50.0, 380.0, 225.0, 22.0 ],
-													"text" : "pathGenerator manager blimps b02 2 10"
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"comment" : "",
-													"id" : "obj-17",
-													"index" : 1,
-													"maxclass" : "inlet",
-													"numinlets" : 0,
-													"numoutlets" : 1,
-													"outlettype" : [ "int" ],
-													"patching_rect" : [ 50.0, 40.0, 30.0, 30.0 ]
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"comment" : "",
-													"id" : "obj-18",
-													"index" : 2,
-													"maxclass" : "inlet",
-													"numinlets" : 0,
-													"numoutlets" : 1,
-													"outlettype" : [ "" ],
-													"patching_rect" : [ 148.0, 40.0, 30.0, 30.0 ]
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"comment" : "",
-													"id" : "obj-19",
-													"index" : 1,
-													"maxclass" : "outlet",
-													"numinlets" : 1,
-													"numoutlets" : 0,
-													"patching_rect" : [ 50.0, 462.0, 30.0, 30.0 ]
-												}
-
-											}
- ],
-										"lines" : [ 											{
-												"patchline" : 												{
-													"destination" : [ "obj-27", 0 ],
-													"source" : [ "obj-17", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-27", 1 ],
-													"source" : [ "obj-18", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-19", 0 ],
-													"source" : [ "obj-27", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-27", 2 ],
-													"source" : [ "obj-5", 1 ]
-												}
-
-											}
- ]
-									}
-,
-									"patching_rect" : [ 330.0, 338.0, 67.0, 22.0 ],
-									"saved_object_attributes" : 									{
-										"description" : "",
-										"digest" : "",
-										"globalpatchername" : "",
-										"tags" : ""
-									}
-,
-									"text" : "p blimp_02",
-									"varname" : "patcher[1]"
-								}
-
-							}
-, 							{
-								"box" : 								{
 									"id" : "obj-16",
 									"maxclass" : "comment",
 									"numinlets" : 1,
@@ -1004,48 +612,6 @@
 										"subpatcher_template" : "",
 										"assistshowspatchername" : 0,
 										"boxes" : [ 											{
-												"box" : 												{
-													"bgmode" : 0,
-													"border" : 0,
-													"clickthrough" : 0,
-													"enablehscroll" : 0,
-													"enablevscroll" : 0,
-													"id" : "obj-1",
-													"lockeddragscroll" : 0,
-													"maxclass" : "bpatcher",
-													"name" : "bs.node.pop.shape.1.maxpat",
-													"numinlets" : 4,
-													"numoutlets" : 4,
-													"offset" : [ 0.0, 0.0 ],
-													"outlettype" : [ "", "", "", "jit_matrix" ],
-													"patching_rect" : [ 426.0, 182.0, 180.0, 82.0 ],
-													"varname" : "Blimp_01_real",
-													"viewvisibility" : 1
-												}
-
-											}
-, 											{
-												"box" : 												{
-													"bgmode" : 0,
-													"border" : 0,
-													"clickthrough" : 0,
-													"enablehscroll" : 0,
-													"enablevscroll" : 0,
-													"id" : "obj-4",
-													"lockeddragscroll" : 0,
-													"maxclass" : "bpatcher",
-													"name" : "bs.node.pop.shape.1.maxpat",
-													"numinlets" : 4,
-													"numoutlets" : 4,
-													"offset" : [ 0.0, 0.0 ],
-													"outlettype" : [ "", "", "", "jit_matrix" ],
-													"patching_rect" : [ 229.0, 182.0, 180.0, 82.0 ],
-													"varname" : "Blimp_01",
-													"viewvisibility" : 1
-												}
-
-											}
-, 											{
 												"box" : 												{
 													"bgmode" : 0,
 													"border" : 0,
@@ -1134,15 +700,6 @@
 , 											{
 												"patchline" : 												{
 													"destination" : [ "obj-30", 0 ],
-													"order" : 0,
-													"source" : [ "obj-7", 0 ]
-												}
-
-											}
-, 											{
-												"patchline" : 												{
-													"destination" : [ "obj-4", 0 ],
-													"order" : 1,
 													"source" : [ "obj-7", 0 ]
 												}
 
@@ -1179,18 +736,6 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 251.0, 388.0, 19.0, 22.0 ],
 									"text" : "t l"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-36",
-									"maxclass" : "toggle",
-									"numinlets" : 1,
-									"numoutlets" : 1,
-									"outlettype" : [ "int" ],
-									"parameter_enable" : 0,
-									"patching_rect" : [ 409.0, 296.0, 24.0, 24.0 ]
 								}
 
 							}
@@ -1281,23 +826,20 @@
 								}
 
 							}
-, 							{
-								"box" : 								{
-									"id" : "obj-14",
-									"maxclass" : "toggle",
-									"numinlets" : 1,
-									"numoutlets" : 1,
-									"outlettype" : [ "int" ],
-									"parameter_enable" : 0,
-									"patching_rect" : [ 330.0, 296.0, 24.0, 24.0 ]
-								}
-
-							}
  ],
 						"lines" : [ 							{
 								"patchline" : 								{
-									"destination" : [ "obj-40", 0 ],
-									"source" : [ "obj-118", 0 ]
+									"destination" : [ "obj-38", 0 ],
+									"order" : 1,
+									"source" : [ "obj-12", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-9", 0 ],
+									"order" : 0,
+									"source" : [ "obj-12", 0 ]
 								}
 
 							}
@@ -1305,20 +847,6 @@
 								"patchline" : 								{
 									"destination" : [ "obj-40", 0 ],
 									"source" : [ "obj-13", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-22", 0 ],
-									"source" : [ "obj-14", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-40", 0 ],
-									"source" : [ "obj-22", 0 ]
 								}
 
 							}
@@ -1345,24 +873,7 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-118", 1 ],
-									"order" : 0,
-									"source" : [ "obj-31", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
 									"destination" : [ "obj-13", 1 ],
-									"order" : 2,
-									"source" : [ "obj-31", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-22", 1 ],
-									"order" : 1,
 									"source" : [ "obj-31", 0 ]
 								}
 
@@ -1371,20 +882,6 @@
 								"patchline" : 								{
 									"destination" : [ "obj-13", 0 ],
 									"source" : [ "obj-32", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-118", 0 ],
-									"source" : [ "obj-36", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-40", 0 ],
-									"source" : [ "obj-4", 0 ]
 								}
 
 							}
@@ -1399,13 +896,6 @@
 								"patchline" : 								{
 									"destination" : [ "obj-40", 0 ],
 									"source" : [ "obj-46", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-4", 0 ],
-									"source" : [ "obj-5", 0 ]
 								}
 
 							}
@@ -1511,16 +1001,11 @@
 		"parameters" : 		{
 			"obj-1::obj-1::obj-72" : [ "toggle[1]", "toggle", 0 ],
 			"obj-2::obj-10::obj-99::obj-10::obj-72" : [ "toggle[4]", "toggle", 0 ],
-			"obj-2::obj-118::obj-38::obj-15::obj-60" : [ "lighting_enable[6]", "lighting_enable", 0 ],
 			"obj-2::obj-11::obj-51::obj-10::obj-72" : [ "toggle[3]", "toggle", 0 ],
-			"obj-2::obj-13::obj-1::obj-15::obj-60" : [ "lighting_enable[8]", "lighting_enable", 0 ],
-			"obj-2::obj-13::obj-4::obj-15::obj-60" : [ "lighting_enable[4]", "lighting_enable", 0 ],
-			"obj-2::obj-22::obj-37::obj-15::obj-60" : [ "lighting_enable[5]", "lighting_enable", 0 ],
 			"obj-2::obj-2::obj-15::obj-60" : [ "lighting_enable", "lighting_enable", 0 ],
 			"obj-2::obj-2::obj-99::obj-10::obj-72" : [ "toggle", "toggle", 0 ],
 			"obj-2::obj-34::obj-99::obj-10::obj-72" : [ "toggle[5]", "toggle", 0 ],
 			"obj-2::obj-3::obj-99::obj-10::obj-72" : [ "toggle[2]", "toggle", 0 ],
-			"obj-2::obj-4::obj-38::obj-15::obj-60" : [ "lighting_enable[7]", "lighting_enable", 0 ],
 			"parameterbanks" : 			{
 
 			}
@@ -1568,13 +1053,6 @@
 				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/_package",
 				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/_package",
 				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "patcher_preferences.xml",
-				"bootpath" : "~/Library/Application Support/SPARCK/setup",
-				"patcherrelativepath" : "../../../../../../../../../Library/Application Support/SPARCK/setup",
-				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
@@ -2033,14 +1511,7 @@
 				"implicit" : 1
 			}
 , 			{
-				"name" : "bs.node.pop.shape.1.maxpat",
-				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/nodes/3Dee",
-				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/nodes/3Dee",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "bs.node.pop.shape.1.properties.maxpat",
+				"name" : "bs.node.pop.grid.1.maxpat",
 				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/nodes/3Dee",
 				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/nodes/3Dee",
 				"type" : "JSON",
@@ -2050,20 +1521,6 @@
 				"name" : "bs.rendergroup.recv.maxpat",
 				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/_obsolete",
 				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/_obsolete",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "bs.util.render.pass.reciever.maxpat",
-				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/utils",
-				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/utils",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "bs.node.pop.grid.1.maxpat",
-				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/nodes/3Dee",
-				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/nodes/3Dee",
 				"type" : "JSON",
 				"implicit" : 1
 			}
@@ -2106,6 +1563,13 @@
 				"name" : "bs.node.pop.model.1.properties.maxpat",
 				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/nodes/3Dee",
 				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/nodes/3Dee",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "bs.util.render.pass.reciever.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/utils",
+				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/utils",
 				"type" : "JSON",
 				"implicit" : 1
 			}
