@@ -52,7 +52,7 @@ class Blimp:
     k_p_xy = 1.0
     k_d_xy = 0.4
 
-    k_p_a = 0.4
+    k_p_a = 1.5
     k_d_a = 1.0
 
     max_command = 1.0

@@ -44,7 +44,7 @@ count = 0
 t0 = time.time()
 dt = 0.1
 R = 2.0
-freq = 1/60
+freq = 1/30
 z_ref = 2.0
 
 run = True
