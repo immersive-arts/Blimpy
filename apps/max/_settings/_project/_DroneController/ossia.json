@@ -1,6 +1,34 @@
 {
 	"current" : 	{
-
+		"node/Blimp_b01_path/closeSegment" : 1.0,
+		"node/Blimp_b01_path/color" : [ 0.991689, 1.0, 0.999977, 1.0 ],
+		"node/Blimp_b01_path/direction" : 0.0,
+		"node/Blimp_b01_path/enable" : 1.0,
+		"node/Blimp_b01_path/playbar" : 1.0,
+		"node/Blimp_b01_path/segment" : "CircleLarge",
+		"node/Blimp_b01_path/internal/body" : "collapse",
+		"node/Blimp_b01_path/internal/nodeid" : "1460_id",
+		"node/Blimp_b01_path/path/filewatch" : 0.0,
+		"node/Blimp_b01_path/path/file" : "Paths2.xml",
+		"node/Blimp_b01_path/path/file/path" : "*",
+		"MacintoshHD" : "/Users/maybites/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/apps/max/_assets/_paths/_animations",
+		"node/Blimp_b01_path/render/renderGroup" : [ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ],
+		"node/Blimp_b01_path/tfm/orientToPath" : 0.0,
+		"node/Blimp_b01_path/tfm/parent" : "<none>",
+		"node/Blimp_b01_path/tfm/local/matrix" : [ "transform", 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.439998, 1.0 ],
+		"node/Blimp_b01_path/tfm/local/posX" : 0.0,
+		"node/Blimp_b01_path/tfm/local/posY" : 0.0,
+		"node/Blimp_b01_path/tfm/local/posZ" : 0.439998,
+		"node/Blimp_b01_path/tfm/local/rotX" : 0.0,
+		"node/Blimp_b01_path/tfm/local/rotY" : 0.0,
+		"node/Blimp_b01_path/tfm/local/rotZ" : 0.0,
+		"node/Blimp_b01_path/tfm/local/scaleX" : 1.0,
+		"node/Blimp_b01_path/tfm/local/scaleY" : 1.0,
+		"node/Blimp_b01_path/tfm/local/scaleZ" : 1.0,
+		"node/Blimp_b01_path/tfm/local/pos" : [ 0.0, 0.0, 0.439998 ],
+		"node/Blimp_b01_path/tfm/local/rot" : [ 0.0, 0.0, 0.0 ],
+		"node/Blimp_b01_path/tfm/local/scale" : [ 1.0, 1.0, 1.0 ],
+		"node/Blimp_b01_path/tfm/local/scale/inherit" : 0.0
 	}
 
 }
