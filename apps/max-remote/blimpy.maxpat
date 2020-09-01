@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 144.0, 83.0, 824.0, 663.0 ],
+		"rect" : [ 116.0, 179.0, 824.0, 663.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -40,23 +40,39 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-3",
+					"maxclass" : "toggle",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "int" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 564.0, 577.0, 24.0, 24.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-9",
+					"linecount" : 4,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 430.5, 595.0, 50.0, 22.0 ]
+					"patching_rect" : [ 431.0, 577.0, 50.0, 64.0 ],
+					"text" : "0.0335 -0.0864 -0.3889 0.9166"
 				}
 
 			}
 , 			{
 				"box" : 				{
 					"id" : "obj-8",
+					"linecount" : 3,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 364.0, 566.0, 50.0, 22.0 ]
+					"patching_rect" : [ 329.0, 577.0, 50.0, 50.0 ],
+					"text" : "-2.0708 -4.4447 1.4436"
 				}
 
 			}
@@ -64,11 +80,11 @@
 				"box" : 				{
 					"id" : "obj-6",
 					"maxclass" : "newobj",
-					"numinlets" : 3,
-					"numoutlets" : 3,
-					"outlettype" : [ "", "", "" ],
-					"patching_rect" : [ 360.0, 526.0, 222.0, 22.0 ],
-					"text" : "route position quat"
+					"numinlets" : 4,
+					"numoutlets" : 4,
+					"outlettype" : [ "", "", "", "" ],
+					"patching_rect" : [ 360.0, 517.0, 325.0, 22.0 ],
+					"text" : "route position quat tracked"
 				}
 
 			}
@@ -201,7 +217,7 @@
 			}
 , 			{
 				"box" : 				{
-					"args" : [ "blimps", "b05" ],
+					"args" : [ "blimps", "b02" ],
 					"bgmode" : 0,
 					"border" : 0,
 					"clickthrough" : 0,
@@ -432,6 +448,13 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-3", 0 ],
+					"source" : [ "obj-6", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-8", 1 ],
 					"source" : [ "obj-6", 0 ]
 				}
@@ -447,24 +470,28 @@
  ],
 		"dependency_cache" : [ 			{
 				"name" : "drone.maxpat",
-				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/apps/max-remote",
+				"bootpath" : "D:/00_core/IAServer/Blimpy/apps/max-remote",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "rate.maxpat",
-				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/apps/max-remote",
+				"bootpath" : "D:/00_core/IAServer/Blimpy/apps/max-remote",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "xbox.maxpat",
-				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/apps/max-remote",
+				"bootpath" : "D:/00_core/IAServer/Blimpy/apps/max-remote",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
+			}
+, 			{
+				"name" : "mxj.mxe64",
+				"type" : "mx64"
 			}
  ],
 		"autosave" : 0
