@@ -1,6 +1,6 @@
 <script>
     <que name="Animation" loop="no">
-        <anim name="runAround" duration="20s" fadeout="2s" loop="normal">
+        <anim name="runAround" duration="40s" fadeout="2s" loop="normal">
              <track name="t1">0. 1.</track>
              <send>/ossia set node/Blimp_b01_path/playbar {t1}</send>
         </anim>
