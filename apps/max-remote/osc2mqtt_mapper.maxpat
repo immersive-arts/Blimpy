@@ -165,8 +165,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 479.5, 196.0, 159.0, 22.0 ],
-					"text" : "combine prefix /tracked/quat"
+					"patching_rect" : [ 479.5, 196.0, 117.0, 22.0 ],
+					"text" : "combine prefix /quat"
 				}
 
 			}
@@ -177,8 +177,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 280.0, 196.0, 177.0, 22.0 ],
-					"text" : "combine prefix /tracked/position"
+					"patching_rect" : [ 280.0, 196.0, 135.0, 22.0 ],
+					"text" : "combine prefix /position"
 				}
 
 			}
@@ -198,11 +198,11 @@
 				"box" : 				{
 					"id" : "obj-33",
 					"maxclass" : "newobj",
-					"numinlets" : 3,
+					"numinlets" : 5,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 280.0, 145.0, 122.0, 22.0 ],
-					"text" : "combine #1 / #2"
+					"patching_rect" : [ 280.0, 145.0, 149.0, 22.0 ],
+					"text" : "combine optitrack / #1 / #2"
 				}
 
 			}

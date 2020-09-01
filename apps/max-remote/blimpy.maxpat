@@ -46,7 +46,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 564.0, 577.0, 24.0, 24.0 ]
+					"patching_rect" : [ 599.0, 558.0, 24.0, 24.0 ]
 				}
 
 			}
@@ -58,7 +58,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 431.0, 577.0, 50.0, 64.0 ],
+					"patching_rect" : [ 463.0, 558.0, 53.0, 62.0 ],
 					"text" : "0.0335 -0.0864 -0.3889 0.9166"
 				}
 
@@ -71,7 +71,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 329.0, 577.0, 50.0, 50.0 ],
+					"patching_rect" : [ 361.0, 558.0, 53.0, 49.0 ],
 					"text" : "-2.0708 -4.4447 1.4436"
 				}
 
@@ -83,7 +83,7 @@
 					"numinlets" : 4,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 360.0, 517.0, 325.0, 22.0 ],
+					"patching_rect" : [ 395.0, 521.0, 325.0, 22.0 ],
 					"text" : "route position quat tracked"
 				}
 
@@ -231,7 +231,7 @@
 					"numoutlets" : 2,
 					"offset" : [ 0.0, 0.0 ],
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 88.0, 472.0, 221.0, 31.0 ],
+					"patching_rect" : [ 88.0, 472.0, 243.0, 33.0 ],
 					"viewvisibility" : 1
 				}
 
@@ -328,7 +328,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-14", 3 ],
-					"midpoints" : [ 198.5, 590.0, 326.0, 590.0, 326.0, 458.0, 299.5, 458.0 ],
+					"midpoints" : [ 198.5, 590.0, 339.0, 590.0, 339.0, 458.0, 321.5, 458.0 ],
 					"source" : [ "obj-22", 1 ]
 				}
 
@@ -470,28 +470,24 @@
  ],
 		"dependency_cache" : [ 			{
 				"name" : "drone.maxpat",
-				"bootpath" : "D:/00_core/IAServer/Blimpy/apps/max-remote",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/apps/max-remote",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "rate.maxpat",
-				"bootpath" : "D:/00_core/IAServer/Blimpy/apps/max-remote",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/apps/max-remote",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "xbox.maxpat",
-				"bootpath" : "D:/00_core/IAServer/Blimpy/apps/max-remote",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/apps/max-remote",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
-			}
-, 			{
-				"name" : "mxj.mxe64",
-				"type" : "mx64"
 			}
  ],
 		"autosave" : 0
