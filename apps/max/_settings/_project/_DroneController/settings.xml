@@ -5,7 +5,7 @@
 		<patcher name = "Application_sparck">
 			<pattr name = "editor" value = "0" />
 			<pattr name = "mainMetro" value = "&quot;60 hz&quot;" />
-			<pattr name = "mainSwitch" value = "1" />
+			<pattr name = "mainSwitch" value = "0" />
 			<patcher name = "_properties">
 				<pattr name = "preferences" value = "1" />
 			</patcher>
@@ -18,16 +18,16 @@
 				</patcher>
 			</patcher>
 			<patcher name = "3DViewer">
-				<pattr name = "_enable" value = "1" />
+				<pattr name = "_enable" value = "0" />
 				<patcher name = "_orbiter">
 					<pattr name = "orbitOnePosition" value = "position -0.385545 -1.027359 1.33392" />
-					<pattr name = "orbitOneQuat" value = "quat 0. 0. 0.713168 0.700834" />
+					<pattr name = "orbitOneQuat" value = "quat 0. 0. 0.514979 -0.857062" />
 					<pattr name = "orbitThreePosition" value = "position 0. 0. 10." />
-					<pattr name = "orbitTwoQuat" value = "quat 0.52987 0. 0. 0.847962" />
+					<pattr name = "orbitTwoQuat" value = "quat 0.430469 0. 0. 0.902487" />
 				</patcher>
 				<patcher name = "_setgroupstage">
 					<pattr name = "matrix" value = "0 0 1 1 0 1 2 0 1" />
-					<pattr name = "stagebutton" value = "0" />
+					<pattr name = "stagebutton" value = "1" />
 				</patcher>
 				<patcher name = "_storePosition">
 					<patcher name = "_storePosition">
@@ -48,6 +48,42 @@
 					</patcher>
 					<patcher name = "parentTransformation">
 						<pattr name = "address" value = "Blimp_b01_path" />
+					</patcher>
+					<patcher name = "property">
+						<pattr name = "blend" value = "alphablend" />
+						<pattr name = "blend_enable" value = "0" />
+						<pattr name = "drawParentLink" value = "0" />
+						<pattr name = "drawPosition" value = "0" />
+						<pattr name = "drawRotation" value = "0" />
+						<pattr name = "publishLocalTfm" value = "0" />
+						<pattr name = "publishParentTfm" value = "0" />
+						<pattr name = "publishWorldInvTransform" value = "0" />
+						<pattr name = "publishWorldTfm" value = "1" />
+						<pattr name = "publishWorldTransform" value = "0" />
+						<pattr name = "useLowFreqUpdate" value = "0" />
+						<patcher name = "setlayer">
+							<pattr name = "groupOne" value = "0 0 0" />
+							<pattr name = "groupShady" value = "0 0 0" />
+							<pattr name = "groupStage" value = "0 0 0" />
+							<pattr name = "groupTwo" value = "0 0 0" />
+						</patcher>
+						<patcher name = "color">
+							<pattr name = "alpha" value = "1." />
+							<pattr name = "blue" value = "1." />
+							<pattr name = "green" value = "1." />
+							<pattr name = "red" value = "1." />
+						</patcher>
+					</patcher>
+				</patcher>
+			</patcher>
+			<patcher name = "patcher[1]">
+				<patcher name = "Blimp_b02_pathdata">
+					<pattr name = "enable" value = "1" />
+					<patcher name = "vpl_nodelogic">
+						<pattr name = "vpl_titleEdit" value = "Blimp_b02_pathdata" />
+					</patcher>
+					<patcher name = "parentTransformation">
+						<pattr name = "address" value = "Blimp_b02_path" />
 					</patcher>
 					<patcher name = "property">
 						<pattr name = "blend" value = "alphablend" />
@@ -220,10 +256,10 @@
 			<patcher name = "OptiTrack">
 				<pattr name = "bodyID01" value = "1" />
 				<pattr name = "bodyID010" value = "0" />
-				<pattr name = "bodyID02" value = "42" />
-				<pattr name = "bodyID03" value = "43" />
-				<pattr name = "bodyID04" value = "0" />
-				<pattr name = "bodyID05" value = "0" />
+				<pattr name = "bodyID02" value = "2" />
+				<pattr name = "bodyID03" value = "3" />
+				<pattr name = "bodyID04" value = "4" />
+				<pattr name = "bodyID05" value = "5" />
 				<pattr name = "bodyID06" value = "0" />
 				<pattr name = "bodyID07" value = "0" />
 				<pattr name = "bodyID08" value = "0" />
@@ -301,6 +337,114 @@
 				<patcher name = "body10">
 					<pattr name = "bodyTag" value = "body10" />
 					<pattr name = "bodyTagDump" value = "0" />
+				</patcher>
+			</patcher>
+			<patcher name = "patcher[2]">
+				<patcher name = "Blimp_b03_pathdata">
+					<pattr name = "enable" value = "1" />
+					<patcher name = "vpl_nodelogic">
+						<pattr name = "vpl_titleEdit" value = "Blimp_b03_pathdata" />
+					</patcher>
+					<patcher name = "parentTransformation">
+						<pattr name = "address" value = "Blimp_b03_path" />
+					</patcher>
+					<patcher name = "property">
+						<pattr name = "blend" value = "alphablend" />
+						<pattr name = "blend_enable" value = "0" />
+						<pattr name = "drawParentLink" value = "0" />
+						<pattr name = "drawPosition" value = "0" />
+						<pattr name = "drawRotation" value = "0" />
+						<pattr name = "publishLocalTfm" value = "0" />
+						<pattr name = "publishParentTfm" value = "0" />
+						<pattr name = "publishWorldInvTransform" value = "0" />
+						<pattr name = "publishWorldTfm" value = "1" />
+						<pattr name = "publishWorldTransform" value = "0" />
+						<pattr name = "useLowFreqUpdate" value = "0" />
+						<patcher name = "setlayer">
+							<pattr name = "groupOne" value = "0 0 0" />
+							<pattr name = "groupShady" value = "0 0 0" />
+							<pattr name = "groupStage" value = "0 0 0" />
+							<pattr name = "groupTwo" value = "0 0 0" />
+						</patcher>
+						<patcher name = "color">
+							<pattr name = "alpha" value = "1." />
+							<pattr name = "blue" value = "1." />
+							<pattr name = "green" value = "1." />
+							<pattr name = "red" value = "1." />
+						</patcher>
+					</patcher>
+				</patcher>
+			</patcher>
+			<patcher name = "patcher[3]">
+				<patcher name = "Blimp_b04_pathdata_1">
+					<pattr name = "enable" value = "1" />
+					<patcher name = "vpl_nodelogic">
+						<pattr name = "vpl_titleEdit" value = "Blimp_b04_pathdata_1" />
+					</patcher>
+					<patcher name = "parentTransformation">
+						<pattr name = "address" value = "Blimp_b04_path" />
+					</patcher>
+					<patcher name = "property">
+						<pattr name = "blend" value = "alphablend" />
+						<pattr name = "blend_enable" value = "0" />
+						<pattr name = "drawParentLink" value = "0" />
+						<pattr name = "drawPosition" value = "0" />
+						<pattr name = "drawRotation" value = "0" />
+						<pattr name = "publishLocalTfm" value = "0" />
+						<pattr name = "publishParentTfm" value = "0" />
+						<pattr name = "publishWorldInvTransform" value = "0" />
+						<pattr name = "publishWorldTfm" value = "1" />
+						<pattr name = "publishWorldTransform" value = "0" />
+						<pattr name = "useLowFreqUpdate" value = "0" />
+						<patcher name = "setlayer">
+							<pattr name = "groupOne" value = "0 0 0" />
+							<pattr name = "groupShady" value = "0 0 0" />
+							<pattr name = "groupStage" value = "0 0 0" />
+							<pattr name = "groupTwo" value = "0 0 0" />
+						</patcher>
+						<patcher name = "color">
+							<pattr name = "alpha" value = "1." />
+							<pattr name = "blue" value = "1." />
+							<pattr name = "green" value = "1." />
+							<pattr name = "red" value = "1." />
+						</patcher>
+					</patcher>
+				</patcher>
+			</patcher>
+			<patcher name = "patcher[4]">
+				<patcher name = "Blimp_b05_pathdata">
+					<pattr name = "enable" value = "1" />
+					<patcher name = "vpl_nodelogic">
+						<pattr name = "vpl_titleEdit" value = "Blimp_b05_pathdata" />
+					</patcher>
+					<patcher name = "parentTransformation">
+						<pattr name = "address" value = "Blimp_b05_path" />
+					</patcher>
+					<patcher name = "property">
+						<pattr name = "blend" value = "alphablend" />
+						<pattr name = "blend_enable" value = "0" />
+						<pattr name = "drawParentLink" value = "0" />
+						<pattr name = "drawPosition" value = "0" />
+						<pattr name = "drawRotation" value = "0" />
+						<pattr name = "publishLocalTfm" value = "0" />
+						<pattr name = "publishParentTfm" value = "0" />
+						<pattr name = "publishWorldInvTransform" value = "0" />
+						<pattr name = "publishWorldTfm" value = "1" />
+						<pattr name = "publishWorldTransform" value = "0" />
+						<pattr name = "useLowFreqUpdate" value = "0" />
+						<patcher name = "setlayer">
+							<pattr name = "groupOne" value = "0 0 0" />
+							<pattr name = "groupShady" value = "0 0 0" />
+							<pattr name = "groupStage" value = "0 0 0" />
+							<pattr name = "groupTwo" value = "0 0 0" />
+						</patcher>
+						<patcher name = "color">
+							<pattr name = "alpha" value = "1." />
+							<pattr name = "blue" value = "1." />
+							<pattr name = "green" value = "1." />
+							<pattr name = "red" value = "1." />
+						</patcher>
+					</patcher>
 				</patcher>
 			</patcher>
 		</patcher>

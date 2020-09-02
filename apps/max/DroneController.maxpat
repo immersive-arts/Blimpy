@@ -40,6 +40,18 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-9",
+					"maxclass" : "button",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 370.0, 11.0, 24.0, 24.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-20",
 					"maxclass" : "message",
 					"numinlets" : 2,
@@ -71,18 +83,6 @@
 					"outlettype" : [ "bang" ],
 					"patching_rect" : [ 420.0, 5.0, 61.0, 22.0 ],
 					"text" : "savebang"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-6",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 340.0, 5.0, 63.0, 22.0 ],
-					"text" : "closebang"
 				}
 
 			}
@@ -166,7 +166,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 266.0, 336.0, 986.0, 572.0 ],
+						"rect" : [ 193.0, 117.0, 1213.0, 771.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -195,7 +195,719 @@
 						"subpatcher_template" : "",
 						"assistshowspatchername" : 0,
 						"globalpatchername" : "u468013290",
+						"visible" : 1,
 						"boxes" : [ 							{
+								"box" : 								{
+									"id" : "obj-23",
+									"maxclass" : "newobj",
+									"numinlets" : 2,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patcher" : 									{
+										"fileversion" : 1,
+										"appversion" : 										{
+											"major" : 8,
+											"minor" : 1,
+											"revision" : 6,
+											"architecture" : "x64",
+											"modernui" : 1
+										}
+,
+										"classnamespace" : "box",
+										"rect" : [ 756.0, 109.0, 645.0, 455.0 ],
+										"bglocked" : 0,
+										"openinpresentation" : 0,
+										"default_fontsize" : 12.0,
+										"default_fontface" : 0,
+										"default_fontname" : "Arial",
+										"gridonopen" : 1,
+										"gridsize" : [ 15.0, 15.0 ],
+										"gridsnaponopen" : 1,
+										"objectsnaponopen" : 1,
+										"statusbarvisible" : 2,
+										"toolbarvisible" : 1,
+										"lefttoolbarpinned" : 0,
+										"toptoolbarpinned" : 0,
+										"righttoolbarpinned" : 0,
+										"bottomtoolbarpinned" : 0,
+										"toolbars_unpinned_last_save" : 0,
+										"tallnewobj" : 0,
+										"boxanimatetime" : 200,
+										"enablehscroll" : 1,
+										"enablevscroll" : 1,
+										"devicewidth" : 0.0,
+										"description" : "",
+										"digest" : "",
+										"tags" : "",
+										"style" : "",
+										"subpatcher_template" : "",
+										"assistshowspatchername" : 0,
+										"boxes" : [ 											{
+												"box" : 												{
+													"bgmode" : 0,
+													"border" : 0,
+													"clickthrough" : 0,
+													"enablehscroll" : 0,
+													"enablevscroll" : 0,
+													"id" : "obj-28",
+													"lockeddragscroll" : 0,
+													"maxclass" : "bpatcher",
+													"name" : "bs.node.tfm.node.info.1.maxpat",
+													"numinlets" : 1,
+													"numoutlets" : 2,
+													"offset" : [ 0.0, 0.0 ],
+													"outlettype" : [ "", "" ],
+													"patching_rect" : [ 205.0, 64.0, 180.0, 78.0 ],
+													"varname" : "Blimp_b05_pathdata",
+													"viewvisibility" : 1
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"id" : "obj-30",
+													"linecount" : 7,
+													"maxclass" : "newobj",
+													"numinlets" : 3,
+													"numoutlets" : 2,
+													"outlettype" : [ "", "" ],
+													"patching_rect" : [ 55.0, 259.0, 156.0, 102.0 ],
+													"text" : "pathGenerator @update_rate 10 @base_topic manager @blimp_base_topic blimps @blimp_id b05 @rigidBody_id 5 @velolcity_filter 0.2"
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"comment" : "",
+													"id" : "obj-7",
+													"index" : 1,
+													"maxclass" : "inlet",
+													"numinlets" : 0,
+													"numoutlets" : 1,
+													"outlettype" : [ "int" ],
+													"patching_rect" : [ 55.0, 40.0, 30.0, 30.0 ]
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"comment" : "",
+													"id" : "obj-8",
+													"index" : 2,
+													"maxclass" : "inlet",
+													"numinlets" : 0,
+													"numoutlets" : 1,
+													"outlettype" : [ "" ],
+													"patching_rect" : [ 123.5, 40.0, 30.0, 30.0 ]
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"comment" : "",
+													"id" : "obj-12",
+													"index" : 1,
+													"maxclass" : "outlet",
+													"numinlets" : 1,
+													"numoutlets" : 0,
+													"patching_rect" : [ 55.0, 386.0, 30.0, 30.0 ]
+												}
+
+											}
+ ],
+										"lines" : [ 											{
+												"patchline" : 												{
+													"destination" : [ "obj-30", 2 ],
+													"source" : [ "obj-28", 1 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-12", 0 ],
+													"source" : [ "obj-30", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-30", 0 ],
+													"source" : [ "obj-7", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-30", 1 ],
+													"source" : [ "obj-8", 0 ]
+												}
+
+											}
+ ]
+									}
+,
+									"patching_rect" : [ 476.0, 458.0, 61.0, 22.0 ],
+									"saved_object_attributes" : 									{
+										"description" : "",
+										"digest" : "",
+										"globalpatchername" : "",
+										"tags" : ""
+									}
+,
+									"text" : "p blimp_5",
+									"varname" : "patcher[4]"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-25",
+									"maxclass" : "toggle",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "int" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 476.0, 416.0, 24.0, 24.0 ]
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-17",
+									"maxclass" : "newobj",
+									"numinlets" : 2,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patcher" : 									{
+										"fileversion" : 1,
+										"appversion" : 										{
+											"major" : 8,
+											"minor" : 1,
+											"revision" : 6,
+											"architecture" : "x64",
+											"modernui" : 1
+										}
+,
+										"classnamespace" : "box",
+										"rect" : [ 756.0, 109.0, 645.0, 455.0 ],
+										"bglocked" : 0,
+										"openinpresentation" : 0,
+										"default_fontsize" : 12.0,
+										"default_fontface" : 0,
+										"default_fontname" : "Arial",
+										"gridonopen" : 1,
+										"gridsize" : [ 15.0, 15.0 ],
+										"gridsnaponopen" : 1,
+										"objectsnaponopen" : 1,
+										"statusbarvisible" : 2,
+										"toolbarvisible" : 1,
+										"lefttoolbarpinned" : 0,
+										"toptoolbarpinned" : 0,
+										"righttoolbarpinned" : 0,
+										"bottomtoolbarpinned" : 0,
+										"toolbars_unpinned_last_save" : 0,
+										"tallnewobj" : 0,
+										"boxanimatetime" : 200,
+										"enablehscroll" : 1,
+										"enablevscroll" : 1,
+										"devicewidth" : 0.0,
+										"description" : "",
+										"digest" : "",
+										"tags" : "",
+										"style" : "",
+										"subpatcher_template" : "",
+										"assistshowspatchername" : 0,
+										"boxes" : [ 											{
+												"box" : 												{
+													"bgmode" : 0,
+													"border" : 0,
+													"clickthrough" : 0,
+													"enablehscroll" : 0,
+													"enablevscroll" : 0,
+													"id" : "obj-28",
+													"lockeddragscroll" : 0,
+													"maxclass" : "bpatcher",
+													"name" : "bs.node.tfm.node.info.1.maxpat",
+													"numinlets" : 1,
+													"numoutlets" : 2,
+													"offset" : [ 0.0, 0.0 ],
+													"outlettype" : [ "", "" ],
+													"patching_rect" : [ 205.0, 64.0, 180.0, 78.0 ],
+													"varname" : "Blimp_b04_pathdata_1",
+													"viewvisibility" : 1
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"id" : "obj-30",
+													"linecount" : 7,
+													"maxclass" : "newobj",
+													"numinlets" : 3,
+													"numoutlets" : 2,
+													"outlettype" : [ "", "" ],
+													"patching_rect" : [ 55.0, 259.0, 156.0, 102.0 ],
+													"text" : "pathGenerator @update_rate 10 @base_topic manager @blimp_base_topic blimps @blimp_id b04 @rigidBody_id 4 @velolcity_filter 0.2"
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"comment" : "",
+													"id" : "obj-7",
+													"index" : 1,
+													"maxclass" : "inlet",
+													"numinlets" : 0,
+													"numoutlets" : 1,
+													"outlettype" : [ "int" ],
+													"patching_rect" : [ 55.0, 40.0, 30.0, 30.0 ]
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"comment" : "",
+													"id" : "obj-8",
+													"index" : 2,
+													"maxclass" : "inlet",
+													"numinlets" : 0,
+													"numoutlets" : 1,
+													"outlettype" : [ "" ],
+													"patching_rect" : [ 123.5, 40.0, 30.0, 30.0 ]
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"comment" : "",
+													"id" : "obj-12",
+													"index" : 1,
+													"maxclass" : "outlet",
+													"numinlets" : 1,
+													"numoutlets" : 0,
+													"patching_rect" : [ 55.0, 386.0, 30.0, 30.0 ]
+												}
+
+											}
+ ],
+										"lines" : [ 											{
+												"patchline" : 												{
+													"destination" : [ "obj-30", 2 ],
+													"source" : [ "obj-28", 1 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-12", 0 ],
+													"source" : [ "obj-30", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-30", 0 ],
+													"source" : [ "obj-7", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-30", 1 ],
+													"source" : [ "obj-8", 0 ]
+												}
+
+											}
+ ]
+									}
+,
+									"patching_rect" : [ 406.0, 458.0, 61.0, 22.0 ],
+									"saved_object_attributes" : 									{
+										"description" : "",
+										"digest" : "",
+										"globalpatchername" : "",
+										"tags" : ""
+									}
+,
+									"text" : "p blimp_4",
+									"varname" : "patcher[3]"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-18",
+									"maxclass" : "toggle",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "int" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 406.0, 416.0, 24.0, 24.0 ]
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-12",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.TfmNodePath.maxpat",
+									"numinlets" : 2,
+									"numoutlets" : 0,
+									"offset" : [ 0.0, 0.0 ],
+									"patching_rect" : [ 821.0, 152.0, 242.0, 146.0 ],
+									"varname" : "Blimp_b04_path",
+									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-8",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.TfmNodePath.maxpat",
+									"numinlets" : 2,
+									"numoutlets" : 0,
+									"offset" : [ 0.0, 0.0 ],
+									"patching_rect" : [ 577.0, 152.0, 242.0, 146.0 ],
+									"varname" : "Blimp_b03_path",
+									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-4",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.TfmNodePath.maxpat",
+									"numinlets" : 2,
+									"numoutlets" : 0,
+									"offset" : [ 0.0, 0.0 ],
+									"patching_rect" : [ 577.0, 300.0, 242.0, 146.0 ],
+									"varname" : "Blimp_b05_path",
+									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-3",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.TfmNodePath.maxpat",
+									"numinlets" : 2,
+									"numoutlets" : 0,
+									"offset" : [ 0.0, 0.0 ],
+									"patching_rect" : [ 823.0, 4.0, 242.0, 146.0 ],
+									"varname" : "Blimp_b02_path",
+									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-10",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.TfmNodePath.maxpat",
+									"numinlets" : 2,
+									"numoutlets" : 0,
+									"offset" : [ 0.0, 0.0 ],
+									"patching_rect" : [ 577.0, 4.0, 242.0, 146.0 ],
+									"varname" : "Blimp_b01_path",
+									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-6",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.tfm.optitrack.1.maxpat",
+									"numinlets" : 1,
+									"numoutlets" : 11,
+									"offset" : [ 0.0, 0.0 ],
+									"outlettype" : [ "", "", "", "", "", "", "", "", "", "", "" ],
+									"patching_rect" : [ 217.0, 144.0, 180.0, 244.0 ],
+									"varname" : "OptiTrack",
+									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-11",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.script.que.1.maxpat",
+									"numinlets" : 2,
+									"numoutlets" : 4,
+									"offset" : [ 0.0, 0.0 ],
+									"outlettype" : [ "", "", "", "" ],
+									"patching_rect" : [ 214.0, 27.0, 180.0, 99.0 ],
+									"varname" : "QueScript",
+									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-2",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.pop.model.1.maxpat",
+									"numinlets" : 4,
+									"numoutlets" : 1,
+									"offset" : [ 0.0, 0.0 ],
+									"outlettype" : [ "jit_matrix" ],
+									"patching_rect" : [ 18.0, 138.0, 180.0, 82.0 ],
+									"varname" : "SpaceModel",
+									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bgmode" : 0,
+									"border" : 0,
+									"clickthrough" : 0,
+									"enablehscroll" : 0,
+									"enablevscroll" : 0,
+									"id" : "obj-1",
+									"lockeddragscroll" : 0,
+									"maxclass" : "bpatcher",
+									"name" : "bs.node.pop.grid.1.maxpat",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"offset" : [ 0.0, 0.0 ],
+									"patching_rect" : [ 18.0, 27.0, 180.0, 100.0 ],
+									"presentation" : 1,
+									"presentation_rect" : [ 125.0, 91.0, 163.0, 130.0 ],
+									"varname" : "Grid",
+									"viewvisibility" : 1
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-14",
+									"maxclass" : "newobj",
+									"numinlets" : 2,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patcher" : 									{
+										"fileversion" : 1,
+										"appversion" : 										{
+											"major" : 8,
+											"minor" : 1,
+											"revision" : 6,
+											"architecture" : "x64",
+											"modernui" : 1
+										}
+,
+										"classnamespace" : "box",
+										"rect" : [ 756.0, 109.0, 645.0, 455.0 ],
+										"bglocked" : 0,
+										"openinpresentation" : 0,
+										"default_fontsize" : 12.0,
+										"default_fontface" : 0,
+										"default_fontname" : "Arial",
+										"gridonopen" : 1,
+										"gridsize" : [ 15.0, 15.0 ],
+										"gridsnaponopen" : 1,
+										"objectsnaponopen" : 1,
+										"statusbarvisible" : 2,
+										"toolbarvisible" : 1,
+										"lefttoolbarpinned" : 0,
+										"toptoolbarpinned" : 0,
+										"righttoolbarpinned" : 0,
+										"bottomtoolbarpinned" : 0,
+										"toolbars_unpinned_last_save" : 0,
+										"tallnewobj" : 0,
+										"boxanimatetime" : 200,
+										"enablehscroll" : 1,
+										"enablevscroll" : 1,
+										"devicewidth" : 0.0,
+										"description" : "",
+										"digest" : "",
+										"tags" : "",
+										"style" : "",
+										"subpatcher_template" : "",
+										"assistshowspatchername" : 0,
+										"visible" : 1,
+										"boxes" : [ 											{
+												"box" : 												{
+													"bgmode" : 0,
+													"border" : 0,
+													"clickthrough" : 0,
+													"enablehscroll" : 0,
+													"enablevscroll" : 0,
+													"id" : "obj-28",
+													"lockeddragscroll" : 0,
+													"maxclass" : "bpatcher",
+													"name" : "bs.node.tfm.node.info.1.maxpat",
+													"numinlets" : 1,
+													"numoutlets" : 2,
+													"offset" : [ 0.0, 0.0 ],
+													"outlettype" : [ "", "" ],
+													"patching_rect" : [ 205.0, 64.0, 180.0, 78.0 ],
+													"varname" : "Blimp_b03_pathdata",
+													"viewvisibility" : 1
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"id" : "obj-30",
+													"linecount" : 7,
+													"maxclass" : "newobj",
+													"numinlets" : 3,
+													"numoutlets" : 2,
+													"outlettype" : [ "", "" ],
+													"patching_rect" : [ 55.0, 259.0, 156.0, 102.0 ],
+													"text" : "pathGenerator @update_rate 10 @base_topic manager @blimp_base_topic blimps @blimp_id b03 @rigidBody_id 3 @velolcity_filter 0.2"
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"comment" : "",
+													"id" : "obj-7",
+													"index" : 1,
+													"maxclass" : "inlet",
+													"numinlets" : 0,
+													"numoutlets" : 1,
+													"outlettype" : [ "int" ],
+													"patching_rect" : [ 55.0, 40.0, 30.0, 30.0 ]
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"comment" : "",
+													"id" : "obj-8",
+													"index" : 2,
+													"maxclass" : "inlet",
+													"numinlets" : 0,
+													"numoutlets" : 1,
+													"outlettype" : [ "" ],
+													"patching_rect" : [ 123.5, 40.0, 30.0, 30.0 ]
+												}
+
+											}
+, 											{
+												"box" : 												{
+													"comment" : "",
+													"id" : "obj-12",
+													"index" : 1,
+													"maxclass" : "outlet",
+													"numinlets" : 1,
+													"numoutlets" : 0,
+													"patching_rect" : [ 55.0, 386.0, 30.0, 30.0 ]
+												}
+
+											}
+ ],
+										"lines" : [ 											{
+												"patchline" : 												{
+													"destination" : [ "obj-30", 2 ],
+													"source" : [ "obj-28", 1 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-12", 0 ],
+													"source" : [ "obj-30", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-30", 0 ],
+													"source" : [ "obj-7", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-30", 1 ],
+													"source" : [ "obj-8", 0 ]
+												}
+
+											}
+ ]
+									}
+,
+									"patching_rect" : [ 330.0, 458.0, 67.0, 22.0 ],
+									"saved_object_attributes" : 									{
+										"description" : "",
+										"digest" : "",
+										"globalpatchername" : "",
+										"tags" : ""
+									}
+,
+									"text" : "p blimp_03",
+									"varname" : "patcher[2]"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-15",
+									"maxclass" : "toggle",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "int" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 330.0, 416.0, 24.0, 24.0 ]
+								}
+
+							}
+, 							{
 								"box" : 								{
 									"id" : "obj-5",
 									"maxclass" : "newobj",
@@ -241,6 +953,7 @@
 										"style" : "",
 										"subpatcher_template" : "",
 										"assistshowspatchername" : 0,
+										"visible" : 1,
 										"boxes" : [ 											{
 												"box" : 												{
 													"bgmode" : 0,
@@ -345,7 +1058,7 @@
  ]
 									}
 ,
-									"patching_rect" : [ 327.0, 338.0, 67.0, 22.0 ],
+									"patching_rect" : [ 254.0, 458.0, 67.0, 22.0 ],
 									"saved_object_attributes" : 									{
 										"description" : "",
 										"digest" : "",
@@ -366,112 +1079,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "int" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 327.0, 296.0, 24.0, 24.0 ]
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"bgmode" : 0,
-									"border" : 0,
-									"clickthrough" : 0,
-									"enablehscroll" : 0,
-									"enablevscroll" : 0,
-									"id" : "obj-10",
-									"lockeddragscroll" : 0,
-									"maxclass" : "bpatcher",
-									"name" : "bs.node.TfmNodePath.maxpat",
-									"numinlets" : 2,
-									"numoutlets" : 0,
-									"offset" : [ 0.0, 0.0 ],
-									"patching_rect" : [ 228.0, 31.0, 180.0, 36.0 ],
-									"varname" : "Blimp_b01_path",
-									"viewvisibility" : 1
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"bgmode" : 0,
-									"border" : 0,
-									"clickthrough" : 0,
-									"enablehscroll" : 0,
-									"enablevscroll" : 0,
-									"id" : "obj-6",
-									"lockeddragscroll" : 0,
-									"maxclass" : "bpatcher",
-									"name" : "bs.node.tfm.optitrack.1.maxpat",
-									"numinlets" : 1,
-									"numoutlets" : 11,
-									"offset" : [ 0.0, 0.0 ],
-									"outlettype" : [ "", "", "", "", "", "", "", "", "", "", "" ],
-									"patching_rect" : [ 567.0, 225.0, 180.0, 244.0 ],
-									"varname" : "OptiTrack",
-									"viewvisibility" : 1
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"bgmode" : 0,
-									"border" : 0,
-									"clickthrough" : 0,
-									"enablehscroll" : 0,
-									"enablevscroll" : 0,
-									"id" : "obj-11",
-									"lockeddragscroll" : 0,
-									"maxclass" : "bpatcher",
-									"name" : "bs.node.script.que.1.maxpat",
-									"numinlets" : 2,
-									"numoutlets" : 4,
-									"offset" : [ 0.0, 0.0 ],
-									"outlettype" : [ "", "", "", "" ],
-									"patching_rect" : [ 567.0, 124.0, 180.0, 99.0 ],
-									"varname" : "QueScript",
-									"viewvisibility" : 1
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"bgmode" : 0,
-									"border" : 0,
-									"clickthrough" : 0,
-									"enablehscroll" : 0,
-									"enablevscroll" : 0,
-									"id" : "obj-2",
-									"lockeddragscroll" : 0,
-									"maxclass" : "bpatcher",
-									"name" : "bs.node.pop.model.1.maxpat",
-									"numinlets" : 4,
-									"numoutlets" : 1,
-									"offset" : [ 0.0, 0.0 ],
-									"outlettype" : [ "jit_matrix" ],
-									"patching_rect" : [ 18.0, 138.0, 180.0, 82.0 ],
-									"varname" : "SpaceModel",
-									"viewvisibility" : 1
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"bgmode" : 0,
-									"border" : 0,
-									"clickthrough" : 0,
-									"enablehscroll" : 0,
-									"enablevscroll" : 0,
-									"id" : "obj-1",
-									"lockeddragscroll" : 0,
-									"maxclass" : "bpatcher",
-									"name" : "bs.node.pop.grid.1.maxpat",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"offset" : [ 0.0, 0.0 ],
-									"patching_rect" : [ 18.0, 27.0, 180.0, 100.0 ],
-									"presentation" : 1,
-									"presentation_rect" : [ 125.0, 91.0, 163.0, 130.0 ],
-									"varname" : "Grid",
-									"viewvisibility" : 1
+									"patching_rect" : [ 254.0, 416.0, 24.0, 24.0 ]
 								}
 
 							}
@@ -483,7 +1091,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "bang" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 315.0, 188.0, 24.0, 24.0 ]
+									"patching_rect" : [ 74.0, 396.0, 24.0, 24.0 ]
 								}
 
 							}
@@ -495,7 +1103,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "bang" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 281.0, 225.0, 24.0, 24.0 ]
+									"patching_rect" : [ 40.0, 433.0, 24.0, 24.0 ]
 								}
 
 							}
@@ -505,7 +1113,7 @@
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 315.0, 229.0, 94.0, 22.0 ],
+									"patching_rect" : [ 74.0, 437.0, 94.0, 22.0 ],
 									"text" : "s removeBlimps"
 								}
 
@@ -516,7 +1124,7 @@
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 281.0, 260.0, 74.0, 22.0 ],
+									"patching_rect" : [ 40.0, 468.0, 74.0, 22.0 ],
 									"text" : "s addBlimps"
 								}
 
@@ -527,7 +1135,7 @@
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 348.0, 399.0, 32.0, 22.0 ],
+									"patching_rect" : [ 275.0, 519.0, 32.0, 22.0 ],
 									"text" : "print"
 								}
 
@@ -538,7 +1146,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 18.0, 236.0, 150.0, 20.0 ],
+									"patching_rect" : [ 18.0, 304.0, 150.0, 20.0 ],
 									"text" : "update frequency"
 								}
 
@@ -589,6 +1197,7 @@
 										"style" : "",
 										"subpatcher_template" : "",
 										"assistshowspatchername" : 0,
+										"visible" : 1,
 										"boxes" : [ 											{
 												"box" : 												{
 													"bgmode" : 0,
@@ -604,7 +1213,7 @@
 													"numoutlets" : 2,
 													"offset" : [ 0.0, 0.0 ],
 													"outlettype" : [ "", "" ],
-													"patching_rect" : [ 229.0, 67.0, 180.0, 78.0 ],
+													"patching_rect" : [ 180.0, 70.0, 180.0, 78.0 ],
 													"varname" : "Blimp_b01_pathdata",
 													"viewvisibility" : 1
 												}
@@ -619,7 +1228,7 @@
 													"numoutlets" : 2,
 													"outlettype" : [ "", "" ],
 													"patching_rect" : [ 55.0, 259.0, 156.0, 102.0 ],
-													"text" : "pathGenerator @update_rate 10 @base_topic manager @blimp_base_topic blimps @blimp_id b01 @rigidBody_id 1 @velolcity_filter 0.s"
+													"text" : "pathGenerator @update_rate 10 @base_topic manager @blimp_base_topic blimps @blimp_id b01 @rigidBody_id 1 @velolcity_filter 0.2"
 												}
 
 											}
@@ -693,7 +1302,7 @@
  ]
 									}
 ,
-									"patching_rect" : [ 251.0, 338.0, 67.0, 22.0 ],
+									"patching_rect" : [ 178.0, 458.0, 67.0, 22.0 ],
 									"saved_object_attributes" : 									{
 										"description" : "",
 										"digest" : "",
@@ -713,7 +1322,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 251.0, 388.0, 19.0, 22.0 ],
+									"patching_rect" : [ 178.0, 508.0, 19.0, 22.0 ],
 									"text" : "t l"
 								}
 
@@ -726,7 +1335,7 @@
 									"numoutlets" : 2,
 									"outlettype" : [ "", "bang" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 174.75, 236.0, 50.0, 22.0 ]
+									"patching_rect" : [ 168.75, 357.0, 50.0, 22.0 ]
 								}
 
 							}
@@ -738,7 +1347,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "int" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 251.0, 296.0, 24.0, 24.0 ]
+									"patching_rect" : [ 178.0, 416.0, 24.0, 24.0 ]
 								}
 
 							}
@@ -749,7 +1358,7 @@
 									"numinlets" : 1,
 									"numoutlets" : 3,
 									"outlettype" : [ "int", "", "" ],
-									"patching_rect" : [ 251.0, 430.0, 219.0, 22.0 ],
+									"patching_rect" : [ 178.0, 550.0, 219.0, 22.0 ],
 									"text" : "mxj mqtt mqtt://10.128.96.204 SPARCK"
 								}
 
@@ -763,7 +1372,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 224.5, 498.0, 72.0, 52.0 ],
+									"patching_rect" : [ 151.5, 618.0, 72.0, 52.0 ],
 									"style" : "default",
 									"text" : "connection state"
 								}
@@ -777,7 +1386,7 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "int" ],
 									"parameter_enable" : 0,
-									"patching_rect" : [ 251.0, 468.0, 24.0, 24.0 ]
+									"patching_rect" : [ 178.0, 588.0, 24.0, 24.0 ]
 								}
 
 							}
@@ -788,7 +1397,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 80.0, 292.0, 68.0, 22.0 ],
+									"patching_rect" : [ 80.0, 338.0, 68.0, 22.0 ],
 									"text" : "disconnect"
 								}
 
@@ -800,7 +1409,7 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 25.0, 292.0, 53.0, 22.0 ],
+									"patching_rect" : [ 25.0, 338.0, 53.0, 22.0 ],
 									"text" : "connect"
 								}
 
@@ -810,6 +1419,48 @@
 								"patchline" : 								{
 									"destination" : [ "obj-40", 0 ],
 									"source" : [ "obj-13", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-40", 0 ],
+									"source" : [ "obj-14", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-14", 0 ],
+									"source" : [ "obj-15", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-40", 0 ],
+									"source" : [ "obj-17", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-17", 0 ],
+									"source" : [ "obj-18", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-40", 0 ],
+									"source" : [ "obj-23", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-23", 0 ],
+									"source" : [ "obj-25", 0 ]
 								}
 
 							}
@@ -976,23 +1627,16 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-1", 2 ],
-					"source" : [ "obj-6", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-1", 2 ],
-					"source" : [ "obj-7", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-1", 4 ],
 					"midpoints" : [ 618.5, 148.0, 733.5, 148.0, 733.5, 36.0, 712.5, 36.0 ],
 					"source" : [ "obj-8", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 2 ],
+					"source" : [ "obj-9", 0 ]
 				}
 
 			}
@@ -1001,8 +1645,12 @@
 			"obj-1::obj-1::obj-72" : [ "toggle[1]", "toggle", 0 ],
 			"obj-2::obj-10::obj-40::obj-12::obj-47::obj-20::obj-72" : [ "toggle[5]", "toggle", 0 ],
 			"obj-2::obj-11::obj-51::obj-10::obj-72" : [ "toggle[3]", "toggle", 0 ],
+			"obj-2::obj-12::obj-40::obj-12::obj-47::obj-20::obj-72" : [ "toggle[7]", "toggle", 0 ],
 			"obj-2::obj-2::obj-15::obj-60" : [ "lighting_enable", "lighting_enable", 0 ],
 			"obj-2::obj-2::obj-99::obj-10::obj-72" : [ "toggle", "toggle", 0 ],
+			"obj-2::obj-3::obj-40::obj-12::obj-47::obj-20::obj-72" : [ "toggle[2]", "toggle", 0 ],
+			"obj-2::obj-4::obj-40::obj-12::obj-47::obj-20::obj-72" : [ "toggle[4]", "toggle", 0 ],
+			"obj-2::obj-8::obj-40::obj-12::obj-47::obj-20::obj-72" : [ "toggle[6]", "toggle", 0 ],
 			"parameterbanks" : 			{
 
 			}
@@ -1669,6 +2317,83 @@
 				"implicit" : 1
 			}
 , 			{
+				"name" : "bs.props.TfmNodePath.p.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/nodes/ossia",
+				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/nodes/ossia",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "bs.ossia.remote.rendergroup.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia/rendergroup",
+				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia/rendergroup",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "bs.ossia.remote.js",
+				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/javascript/ossia",
+				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/javascript/ossia",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "bs.ossia.remote.menu.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia",
+				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "bs.ossia.remote.tfm.local.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia/transforms",
+				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia/transforms",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "bs.ossia.remote.vec3f.XYZ.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia/transforms",
+				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia/transforms",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "bs.ossia.remote.float.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia",
+				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "bs.ossia.remote.vec3f.XYZ.set.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia/transforms",
+				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia/transforms",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "bs.ossia.remote.toggle.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia",
+				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "bs.ossia.remote.color.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia",
+				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "bs.ossia.remote.playbar.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia",
+				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/patchers/ossia",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
 				"name" : "bs.vpl.node.pbody.js",
 				"bootpath" : "~/Arbeiten/01_projekte/150816_SPARCK/01_dev/app_sparck/sparck/javascript/vpl",
 				"patcherrelativepath" : "../../../../../../../150816_SPARCK/01_dev/app_sparck/sparck/javascript/vpl",
@@ -1735,6 +2460,18 @@
 			}
 , 			{
 				"name" : "ossia.parameter.mxo",
+				"type" : "iLaX"
+			}
+, 			{
+				"name" : "ossia.view.mxo",
+				"type" : "iLaX"
+			}
+, 			{
+				"name" : "ossia.remote.mxo",
+				"type" : "iLaX"
+			}
+, 			{
+				"name" : "icst.floatui.mxo",
 				"type" : "iLaX"
 			}
 , 			{
