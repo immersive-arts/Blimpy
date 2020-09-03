@@ -238,5 +238,17 @@
 		"_type" : "Model",
 		"_slotsize" : 45
 	}
+,
+	"bs_gui_win_Blimp_b04_pathdata_1_P_Tfm" : 	{
+		"_pin" : 0,
+		"_type" : "Tfm",
+		"_slotsize" : 45
+	}
+,
+	"bs_gui_win_Blimp_b05_pathdata_P_Tfm" : 	{
+		"_pin" : 0,
+		"_type" : "Tfm",
+		"_slotsize" : 45
+	}
 
 }
