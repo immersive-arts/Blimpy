@@ -239,7 +239,7 @@ static naos_param_t params[] = {
 };
 
 static naos_config_t config = {.device_type = "blimpy",
-                               .firmware_version = "0.3.0",
+                               .firmware_version = "0.4.0",
                                .parameters = params,
                                .num_parameters = 17,
                                .ping_callback = ping,
