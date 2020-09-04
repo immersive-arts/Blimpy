@@ -4,19 +4,19 @@
 
 The following message can be sent to a drone (prefixed with base topic):
 
-### `/motors`: `m1,m2,m3,m4,m5,m6`
+### `motors`: `m1,m2,m3,m4,m5,m6`
 
 Raw motor speeds between -1 and 1.
 
-### `/forces`: `fx,fy,fz,mx,my,mz`
+### `forces`: `fx,fy,fz,mx,my,mz`
 
 Motor forces between -1 and 1.
 
-### `/servos`: `s1,s2,s3,s4,s5,s6`
+### `servos`: `s1,s2,s3,s4,s5,s6`
 
 Servo angles between 0 and 1.
 
-### `/motion`: `num,min,max,step`
+### `motion`: `num,min,max,step`
 
 Individual servo motion for number (1 to 6) with a min and max angle and step from 0 to 1.
 
