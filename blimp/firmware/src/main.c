@@ -61,7 +61,11 @@ static void ping() {
 
 static void online() {
   // subscribe to all local messages
-  naos_subscribe("#", 0, NAOS_LOCAL);
+  naos_subscribe("motors", 0, NAOS_LOCAL);
+  naos_subscribe("forces", 0, NAOS_LOCAL);
+  naos_subscribe("servos", 0, NAOS_LOCAL);
+  naos_subscribe("motion", 0, NAOS_LOCAL);
+  naos_subscribe("light", 0, NAOS_LOCAL);
 }
 
 static void update(const char *param, const char *value) {
@@ -148,7 +152,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     return;
   }
 
-  // set servo motion "num,min,max,step" (0 to 1)
+  // set servo motion "num,min,max,step" (1 to 6, 0 to 1...)
   if (scope == NAOS_LOCAL && strcmp(topic, "motion") == 0) {
     // get num
     char *ptr = strtok((char *)payload, ",");
@@ -171,7 +175,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
   }
 
   // set lights "r,g,b,w" (0 to 255)
-  if (scope == NAOS_LOCAL && strcmp(topic, "lights") == 0) {
+  if (scope == NAOS_LOCAL && strcmp(topic, "light") == 0) {
     // parse comma separated colors
     int colors[4] = {0};
     char *ptr = strtok((char *)payload, ",");

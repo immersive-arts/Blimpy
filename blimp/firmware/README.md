@@ -1,16 +1,28 @@
 # Firmware
 
-## Compilation for OSX and Linux (and maybe Windows)
+## MQTT API
 
-### API
+The following message can be sent to a drone (prefixed with base topic):
 
-- `/motors`: `m1,m2,m3,m4,m5,m6` (-1 to 1)
-- `/forces`: `fx,fy,fz,mx,my,mz` (-1 to 1)
-- `/servos`: `s1,s2` (0 to 1)
-- `/motion`: `num,min,max,step` (num: 1 to 6, other: 0 to 1)
-- `/lights`: `r,g,b,w` (0 to 255)
+### `/motors`: `m1,m2,m3,m4,m5,m6`
 
-TODO: MQTT protocol description...
+Raw motor speeds between -1 and 1.
+
+### `/forces`: `fx,fy,fz,mx,my,mz`
+
+Motor forces between -1 and 1.
+
+### `/servos`: `s1,s2,s3,s4,s5,s6`
+
+Servo angles between 0 and 1.
+
+### `/motion`: `num,min,max,step`
+
+Individual servo motion for number (1 to 6) with a min and max angle and step from 0 to 1.
+
+### `/light`: `r,g,b,w`
+
+Light colors from 0 to 255.
 
 ## Compilation and Installation
 
