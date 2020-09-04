@@ -75,19 +75,19 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
   // set motor duty cycles "m1,m2,m3,m4,m5,m6" (-1 to 1)
   if (scope == NAOS_LOCAL && strcmp(topic, "motors") == 0) {
     // prepare speeds
-    float speeds[6] = {0};
+    float speeds[MOT_NUM] = {0};
 
     // parse comma separated speeds
     char *ptr = strtok((char *)payload, ",");
     int i = 0;
-    while (ptr != NULL && i < 6) {
+    while (ptr != NULL && i < MOT_NUM) {
       speeds[i] = a32_constrain_f(a32_str2f(ptr), -1, 1);
       ptr = strtok(NULL, ",");
       i++;
     }
 
     // set motors
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < MOT_NUM; i++) {
       mot_set(i, speeds[i]);
     }
 
@@ -96,10 +96,8 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
 
   // set model forces and torques "fx,fy,fz,mx,my,mz" (-1 to 1)
   if (scope == NAOS_LOCAL && strcmp(topic, "forces") == 0) {
-    // prepare factors
-    a32_vector_t factors = a32_vector_new(6);
-
     // parse comma separated speeds
+    a32_vector_t factors = a32_vector_new(6);
     char *ptr = strtok((char *)payload, ",");
     int i = 0;
     while (ptr != NULL && i < factors.length) {
@@ -130,23 +128,21 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     return;
   }
 
-  // set servo duty cycles "s1,s2" (0 to 1)
+  // set servo duty cycles "s1,s2,s3,s4,s5,s6" (0 to 1)
   if (scope == NAOS_LOCAL && strcmp(topic, "servos") == 0) {
-    // prepare positions
-    double positions[2] = {0};
-
     // parse comma separated speeds
+    double positions[SRV_NUM] = {0};
     char *ptr = strtok((char *)payload, ",");
     int i = 0;
-    while (ptr != NULL && i < 2) {
+    while (ptr != NULL && i < SRV_NUM) {
       positions[i] = a32_constrain_d(a32_str2d(ptr), 0, 1);
       ptr = strtok(NULL, ",");
       i++;
     }
 
     // set servos
-    for (i = 0; i < 2; i++) {
-      srv_set(i + 1, positions[i]);
+    for (i = 0; i < SRV_NUM; i++) {
+      srv_set(i, positions[i]);
     }
 
     return;
@@ -154,30 +150,30 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
 
   // set servo motion "num,min,max,step" (0 to 1)
   if (scope == NAOS_LOCAL && strcmp(topic, "motion") == 0) {
-    // prepare values
-    double values[4] = {0};
+    // get num
+    char *ptr = strtok((char *)payload, ",");
+    uint8_t num = a32_str2i(ptr);
 
     // parse comma separated speeds
-    char *ptr = strtok((char *)payload, ",");
+    double values[3] = {0};
+    ptr = strtok(NULL, ",");
     int i = 0;
-    while (ptr != NULL && i < 4) {
+    while (ptr != NULL && i < 3) {
       values[i] = a32_constrain_d(a32_str2d(ptr), 0, 1);
       ptr = strtok(NULL, ",");
       i++;
     }
 
     // set motion
-    srv_motion((uint8_t)values[0], values[1], values[2], values[3]);
+    srv_motion(num - 1, values[0], values[1], values[2]);
 
     return;
   }
 
   // set lights "r,g,b,w" (0 to 255)
   if (scope == NAOS_LOCAL && strcmp(topic, "lights") == 0) {
-    // prepare colors
-    int colors[4] = {0};
-
     // parse comma separated colors
+    int colors[4] = {0};
     char *ptr = strtok((char *)payload, ",");
     int i = 0;
     while (ptr != NULL && i < 4) {
@@ -220,6 +216,8 @@ static float battery() {
 
 static naos_param_t params[] = {
     {.name = "safety-off", .type = NAOS_DOUBLE, .default_d = 0.3, .sync_d = &safety_off},
+    {.name = "disable-m1", .type = NAOS_BOOL, .default_b = false},
+    {.name = "disable-m2", .type = NAOS_BOOL, .default_b = false},
     {.name = "motor-map1", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[0]},
     {.name = "motor-map2", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[1]},
     {.name = "motor-map3", .type = NAOS_DOUBLE, .default_d = 1, .sync_d = &motor_map[2]},
@@ -239,7 +237,7 @@ static naos_param_t params[] = {
 static naos_config_t config = {.device_type = "blimpy",
                                .firmware_version = "0.3.0",
                                .parameters = params,
-                               .num_parameters = 15,
+                               .num_parameters = 17,
                                .ping_callback = ping,
                                .online_callback = online,
                                .update_callback = update,
@@ -275,14 +273,20 @@ void app_main() {
   pwr_init(power);
   bat_init();
   exp_init();
-  mot_init();
-  srv_init();
 
   // set led
   status(NAOS_DISCONNECTED);
 
   // initialize naos
   naos_init(&config);
+
+  // get motor config
+  bool dm1 = naos_get_b("disable-m1");
+  bool dm2 = naos_get_b("disable-m2");
+
+  // initialize servos and motors
+  mot_init(!dm1, !dm2);
+  srv_init(dm1, dm2);
 
   // initialize neo pixels
   neo_init(led_size, led_white);

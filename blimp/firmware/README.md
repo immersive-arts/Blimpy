@@ -7,6 +7,7 @@
 - `/motors`: `m1,m2,m3,m4,m5,m6` (-1 to 1)
 - `/forces`: `fx,fy,fz,mx,my,mz` (-1 to 1)
 - `/servos`: `s1,s2` (0 to 1)
+- `/motion`: `num,min,max,step` (num: 1 to 6, other: 0 to 1)
 - `/lights`: `r,g,b,w` (0 to 255)
 
 TODO: MQTT protocol description...
