@@ -20,9 +20,37 @@ Servo angles between 0 and 1.
 
 Individual servo motion for number (1 to 6) with a min and max angle and step from 0 to 1.
 
-### `/light`: `r,g,b,w`
+### `light`: `r,g,b,w`
 
 Light colors from 0 to 255.
+
+## Configuration
+
+The following parameters can be configured via Bluetooth:
+
+### `safety-off`
+
+The battery level between 0 and 1 that causes the controller to turn off.
+
+### `disable-mx`
+
+Disable motors to enable two more servos each.
+
+### `motor-mapx`
+
+The individual motor mapping between -1 and 1 to invert or reduce power.
+
+### `model-mx`
+
+The individual motor configuration in the form of `fx,fy,fz,dx,dy,dz`.
+
+### `led-size`
+
+The count of LEDs on the connected neo pixel strip.
+
+### `led-white`
+
+Whether the connected neo pixel strip has a white channel.
 
 ## Compilation and Installation
 
