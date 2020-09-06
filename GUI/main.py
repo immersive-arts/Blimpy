@@ -1,0 +1,293 @@
+from gui import Ui_MainWindow
+from PyQt5 import QtWidgets, QtCore
+import sys
+from collections import deque
+import pyqtgraph as pg
+import numpy as np
+import socket
+import struct
+import threading
+import time
+import feedback_pb2
+
+class BlimpData():
+    def __init__(self, L, group, port):
+        self._x = deque([], maxlen=L)
+        self._y = deque([], maxlen=L)
+        self._z = deque([], maxlen=L)
+        self._a = deque([], maxlen=L)
+        self._vx = deque([], maxlen=L)
+        self._vy = deque([], maxlen=L)
+        self._vz = deque([], maxlen=L)
+        self._va = deque([], maxlen=L)
+        self._x_ref = deque([], maxlen=L)
+        self._y_ref = deque([], maxlen=L)
+        self._z_ref = deque([], maxlen=L)
+        self._a_ref = deque([], maxlen=L)
+        self._vx_ref = deque([], maxlen=L)
+        self._vy_ref = deque([], maxlen=L)
+        self._vz_ref = deque([], maxlen=L)
+        self._va_ref = deque([], maxlen=L)
+        self._fx = deque([], maxlen=L)
+        self._fy = deque([], maxlen=L)
+        self._fz = deque([], maxlen=L)
+        self._ma = deque([], maxlen=L)
+        self._t = deque([], maxlen=L)
+        
+        self._group = group
+        self._port = port
+        self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        self._sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self._sock.bind((group, port))
+        mreq = struct.pack("4sl", socket.inet_aton(group), socket.INADDR_ANY)
+        self._sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+        self._data = np.zeros(6)
+        
+        self._lock = threading.Lock()
+        self._run = True
+        
+        self._thread = threading.Thread(target=self.subscribe)
+        self._thread.start()
+        self._data_available = False
+        
+        self.t0 = time.time()
+        
+    def subscribe(self):
+        while self._run:
+            try:
+                self._sock.settimeout(1.0)
+                data, address = self._sock.recvfrom(10000)
+                with self._lock:
+                    message = feedback_pb2.feedback()
+                    message.ParseFromString(data)
+                    self.message = message
+                    self._x.append(message.x)
+                    self._y.append(message.y)
+                    self._z.append(message.z)
+                    self._a.append(message.alpha)
+                    self._vx.append(message.vx)
+                    self._vy.append(message.vy)
+                    self._vz.append(message.vz)
+                    self._va.append(message.valpha)
+                    self._x_ref.append(message.x_ref)
+                    self._y_ref.append(message.y_ref)
+                    self._z_ref.append(message.z_ref)
+                    self._a_ref.append(message.alpha_ref)
+                    self._vx_ref.append(message.vx_ref)
+                    self._vy_ref.append(message.vy_ref)
+                    self._vz_ref.append(message.vz_ref)
+                    self._va_ref.append(message.valpha_ref)
+                    self._fx.append(message.fx)
+                    self._fy.append(message.fy)
+                    self._fz.append(message.fz)
+                    self._ma.append(message.malpha)
+                    self._t.append(time.time() - self.t0)
+                    self._data_available = True    
+            except:
+                pass
+                        
+    def get_data(self):
+        with self._lock:
+            self._data_available = False
+            return self._x, self._y, self._z, self._a, self._vx, self._vy, self._vz, self._va, self._x_ref, self._y_ref, self._z_ref, self._a_ref, self._vx_ref, self._vy_ref, self._vz_ref, self._va_ref, self._fx, self._fy, self._fz, self._ma, self._t
+        
+    def data_available(self):
+        return self._data_available      
+        
+    def stop(self):
+        self._run = False
+
+
+class Ui(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(Ui, self).__init__()
+        self.ui = Ui_MainWindow()        
+        self.ui.setupUi(self)    
+            
+        self.plotItem_x = self.ui.graphicsView.addPlot(row = 0, col = 0)
+        self.plotItem_x.setLabel('left', 'X', 'm')
+        self.plotItem_x.setXRange(-70, 0)
+        self.plotItem_x.setYRange(-10, 10)
+
+        self.plotDataItem_x = self.plotItem_x.plot([], pen=None, 
+            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        self.plotDataItem_x_ref = self.plotItem_x.plot([], pen=None, 
+            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+        
+        self.plotItem_y = self.ui.graphicsView.addPlot(row = 1, col = 0)
+        self.plotItem_y.setLabel('left', 'Y', 'm')
+        self.plotItem_y.setXRange(-70, 0)
+        self.plotItem_y.setYRange(-10, 10)
+
+        self.plotDataItem_y = self.plotItem_y.plot([], pen=None, 
+            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        self.plotDataItem_y_ref = self.plotItem_y.plot([], pen=None, 
+            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+                
+        self.plotItem_z = self.ui.graphicsView.addPlot(row = 2, col = 0)
+        self.plotItem_z.setLabel('left', 'Z', 'm')
+        self.plotItem_z.setXRange(-70, 0)
+        self.plotItem_z.setYRange(-10, 10)
+
+        self.plotDataItem_z = self.plotItem_z.plot([], pen=None, 
+            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        self.plotDataItem_z_ref = self.plotItem_z.plot([], pen=None, 
+            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+                
+        self.plotItem_a = self.ui.graphicsView.addPlot(row = 3, col = 0)
+        self.plotItem_a.setLabel('left', 'Alpha', '°')
+        self.plotItem_a.setLabel('bottom', 'Time', 's')
+        self.plotItem_a.setXRange(-70, 0)
+        self.plotItem_a.setYRange(-10, 10)
+
+        self.plotDataItem_a = self.plotItem_a.plot([], pen=None, 
+            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        self.plotDataItem_a_ref = self.plotItem_a.plot([], pen=None, 
+            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+        
+        self.plotItem_vx = self.ui.graphicsView.addPlot(row = 0, col = 1)
+        self.plotItem_vx.setLabel('left', 'Vx', 'm/s')
+        self.plotItem_vx.setXRange(-70, 0)
+        self.plotItem_vx.setYRange(-10, 10)
+
+        self.plotDataItem_vx = self.plotItem_vx.plot([], pen=None, 
+            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        self.plotDataItem_vx_ref = self.plotItem_vx.plot([], pen=None, 
+            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+        
+        self.plotItem_vy = self.ui.graphicsView.addPlot(row = 1, col = 1)
+        self.plotItem_vy.setLabel('left', 'Vy', 'm/s')
+        self.plotItem_vy.setXRange(-70, 0)
+        self.plotItem_vy.setYRange(-10, 10)
+
+        self.plotDataItem_vy = self.plotItem_vy.plot([], pen=None, 
+            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        self.plotDataItem_vy_ref = self.plotItem_vy.plot([], pen=None, 
+            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+                
+        self.plotItem_vz = self.ui.graphicsView.addPlot(row = 2, col = 1)
+        self.plotItem_vz.setLabel('left', 'Vz', 'm/s')
+        self.plotItem_vz.setXRange(-70, 0)
+        self.plotItem_vz.setYRange(-10, 10)
+
+        self.plotDataItem_vz = self.plotItem_vz.plot([], pen=None, 
+            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        self.plotDataItem_vz_ref = self.plotItem_vz.plot([], pen=None, 
+            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+                
+        self.plotItem_va = self.ui.graphicsView.addPlot(row = 3, col = 1)
+        self.plotItem_va.setLabel('left', 'Va', '°/s')
+        self.plotItem_va.setLabel('bottom', 'Time', 's')
+        self.plotItem_va.setXRange(-70, 0)
+        self.plotItem_va.setYRange(-10, 10)
+
+        self.plotDataItem_va = self.plotItem_va.plot([], pen=None, 
+            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        self.plotDataItem_va_ref = self.plotItem_va.plot([], pen=None, 
+            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+        
+        self.plotItem_fx = self.ui.graphicsView.addPlot(row = 0, col = 2)
+        self.plotItem_fx.setLabel('left', 'Fx', '-')
+        self.plotItem_fx.setXRange(-70, 0)
+        self.plotItem_fx.setYRange(-1, 1)
+
+        self.plotDataItem_fx = self.plotItem_fx.plot([], pen=None, 
+            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        
+        self.plotItem_fy = self.ui.graphicsView.addPlot(row = 1, col = 2)
+        self.plotItem_fy.setLabel('left', 'Fy', '-')
+        self.plotItem_fy.setXRange(-70, 0)
+        self.plotItem_fy.setYRange(-1, 1)
+
+        self.plotDataItem_fy = self.plotItem_fy.plot([], pen=None, 
+            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        
+        self.plotItem_fz = self.ui.graphicsView.addPlot(row = 2, col = 2)
+        self.plotItem_fz.setLabel('left', 'Fz', '-')
+        self.plotItem_fz.setXRange(-70, 0)
+        self.plotItem_fz.setYRange(-1, 1)
+
+        self.plotDataItem_fz = self.plotItem_fz.plot([], pen=None, 
+            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+
+        self.plotItem_ma = self.ui.graphicsView.addPlot(row = 3, col = 2)
+        self.plotItem_ma.setLabel('left', 'Fa', '-')
+        self.plotItem_ma.setLabel('bottom', 'Time', 's')
+        self.plotItem_ma.setXRange(-70, 0)
+        self.plotItem_ma.setYRange(-1, 1)
+
+        self.plotDataItem_ma = self.plotItem_ma.plot([], pen=None, 
+            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+               
+        self.startTime = pg.ptime.time()
+
+        self.timer = QtCore.QTimer(self)
+        self.timer.setInterval(250) # in milliseconds
+        self.timer.start()
+        self.timer.timeout.connect(self.updateData)
+        self.now = 0
+        self.show()
+        
+        self.blimp = BlimpData(10*60*1, '224.1.1.1', 5001)
+        
+    def updateData(self):
+        #print(pg.ptime.time() - self.now)
+        self.now = pg.ptime.time()
+
+        x, y, z, alpha, vx, vy, vz, valpha, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref, fx, fy, fz, malpha, t = self.blimp.get_data()
+        #print(x, x_ref, t)
+        if t:
+            #print("PLOT", x, x_ref)
+            self.plotDataItem_x.setData(t, x)
+            self.plotDataItem_x.setPos(-t[-1], 0)
+            self.plotDataItem_y.setData(t, y)
+            self.plotDataItem_y.setPos(-t[-1], 0)
+            self.plotDataItem_z.setData(t, z)
+            self.plotDataItem_z.setPos(-t[-1], 0)
+            self.plotDataItem_a.setData(t, alpha)
+            self.plotDataItem_a.setPos(-t[-1], 0)
+            
+            self.plotDataItem_x_ref.setData(t, x_ref)
+            self.plotDataItem_x_ref.setPos(-t[-1], 0)
+            self.plotDataItem_y_ref.setData(t, y_ref)
+            self.plotDataItem_y_ref.setPos(-t[-1], 0)
+            self.plotDataItem_z_ref.setData(t, z_ref)
+            self.plotDataItem_z_ref.setPos(-t[-1], 0)
+            self.plotDataItem_a_ref.setData(t, alpha_ref)
+            self.plotDataItem_a_ref.setPos(-t[-1], 0)
+            
+            self.plotDataItem_vx.setData(t, vx)
+            self.plotDataItem_vx.setPos(-t[-1], 0)
+            self.plotDataItem_vy.setData(t, vy)
+            self.plotDataItem_vy.setPos(-t[-1], 0)
+            self.plotDataItem_vz.setData(t, vz)
+            self.plotDataItem_vz.setPos(-t[-1], 0)
+            self.plotDataItem_va.setData(t, valpha)
+            self.plotDataItem_va.setPos(-t[-1], 0)
+            
+            self.plotDataItem_vx_ref.setData(t, vx_ref)
+            self.plotDataItem_vx_ref.setPos(-t[-1], 0)
+            self.plotDataItem_vy_ref.setData(t, vy_ref)
+            self.plotDataItem_vy_ref.setPos(-t[-1], 0)
+            self.plotDataItem_vz_ref.setData(t, vz_ref)
+            self.plotDataItem_vz_ref.setPos(-t[-1], 0)
+            self.plotDataItem_va_ref.setData(t, valpha_ref)
+            self.plotDataItem_va_ref.setPos(-t[-1], 0)
+            
+            self.plotDataItem_fx.setData(t, fx)
+            self.plotDataItem_fx.setPos(-t[-1], 0)
+            self.plotDataItem_fy.setData(t, fy)
+            self.plotDataItem_fy.setPos(-t[-1], 0)
+            self.plotDataItem_fz.setData(t, fz)
+            self.plotDataItem_fz.setPos(-t[-1], 0)
+            self.plotDataItem_ma.setData(t, malpha)
+            self.plotDataItem_ma.setPos(-t[-1], 0)
+    
+    def closeEvent(self, event):
+        self.timer.stop()
+        event.accept()
+        
+
+app = QtWidgets.QApplication(sys.argv)
+window = Ui()
+app.exec_()
