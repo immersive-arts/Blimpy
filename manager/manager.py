@@ -9,6 +9,8 @@ import numpy as np
 from osc4py3.as_comthreads import osc_method, osc_udp_server, osc_startup, osc_process, osc_terminate
 from scipy import signal
 import sys, getopt
+import socket
+import feedback_pb2
 
 def signal_handler(sig, frame):
     global run
@@ -24,20 +26,24 @@ class Blimp:
     x = 0
     y = 0
     z = 0
-    dx = 0
-    dy = 0
-    dz = 0
+    vx = 0
+    vy = 0
+    vz = 0
     alpha = 0
-    dalpha = 0
+    valpha = 0
 
     x_ref = 0
     y_ref = 0
     z_ref = 0
-    dx_ref = 0
-    dy_ref = 0
-    dz_ref = 0
+    vx_ref = 0
+    vy_ref = 0
+    vz_ref = 0
     alpha_ref = 0
-    dalpha_ref = 0
+    valpha_ref = 0
+    
+    fx = 0
+    fy = 0
+    fz = 0
 
     i_e_z = 0
     c_x_filt = 0
@@ -83,12 +89,12 @@ class Blimp:
         osc_method("/rigidbody/" + str(self.tracking_id) + "/position", self.set_position)
 
         zi = signal.lfilter_zi(self.b, self.a)
-        _, self.dx_zf = signal.lfilter(self.b, self.a, [self.dx], zi=zi*self.dx)
-        _, self.dy_zf = signal.lfilter(self.b, self.a, [self.dy], zi=zi*self.dy)
-        _, self.dz_zf = signal.lfilter(self.b, self.a, [self.dz], zi=zi*self.dz)
-        _, self.dalpha_zf = signal.lfilter(self.b, self.a, [self.dalpha], zi=zi*self.dalpha)
-
-        self.command_queue = queue.Queue(10)
+        _, self.vx_zf = signal.lfilter(self.b, self.a, [self.vx], zi=zi*self.vy)
+        _, self.vy_zf = signal.lfilter(self.b, self.a, [self.vy], zi=zi*self.vy)
+        _, self.vz_zf = signal.lfilter(self.b, self.a, [self.vz], zi=zi*self.vz)
+        _, self.valpha_zf = signal.lfilter(self.b, self.a, [self.valpha], zi=zi*self.valpha)
+        
+        self.command_queue = queue.Queue(1000)
         self.t0 = time.time()
         self.event = Event()
         self.thread = Thread(target=self.run)
@@ -96,6 +102,13 @@ class Blimp:
         self.thread.start()
         
         self.filt_const = dt / (dt + self.time_const)
+        
+        self.group = '224.1.1.1'
+        self.port = 5000 + int(self.tracking_id)
+        MULTICAST_TTL = 2
+
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
+        self.sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, MULTICAST_TTL)
 
         print("%s started" % self.blimp_id)
 
@@ -114,6 +127,62 @@ class Blimp:
             ms = re.search("z=[-+]?\d*\.\d+", command)
             if ms is None:
                 return
+            try:
+                self.command_queue.put_nowait(command)
+            except queue.Full:
+                pass
+
+        if command.split()[0]  == 'hold':
+
+            ms = re.search("x=[-+]?\d*\.\d+", command)
+            if ms is None:
+                return
+
+            ms = re.search("y=[-+]?\d*\.\d+", command)
+            if ms is None:
+                return
+
+            ms = re.search("z=[-+]?\d*\.\d+", command)
+            if ms is None:
+                return
+            try:
+                self.command_queue.put_nowait(command)
+            except queue.Full:
+                pass
+            
+        if command.split()[0]  == 'goto':
+            ms = re.search("x=[-+]?\d*\.\d+", command)
+            if ms is None:
+                return
+            xf = float(command[ms.span()[0]+2:ms.span()[1]])
+            xf = xf - self.x
+
+            ms = re.search("y=[-+]?\d*\.\d+", command)
+            if ms is None:
+                return
+            yf = float(command[ms.span()[0]+2:ms.span()[1]])
+            yf = yf - self.y
+
+            ms = re.search("z=[-+]?\d*\.\d+", command)
+            if ms is None:
+                return
+            zf = float(command[ms.span()[0]+2:ms.span()[1]])
+            zf = zf - self.z
+
+            ms = re.search("t=[-+]?\d*\.\d+", command)
+            if ms is None:
+                return
+            tf = float(command[ms.span()[0]+2:ms.span()[1]])
+
+            t, x, dx = self.compute_min_jerk(xf, tf)      
+            t, y, dy = self.compute_min_jerk(yf, tf)      
+            t, z, dz = self.compute_min_jerk(zf, tf)
+            
+            for i in range(len(t)):
+                command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], 0.0)
+                self.command_queue.put_nowait(command)
+                
+            print(t,x,dx)  
             try:
                 self.command_queue.put_nowait(command)
             except queue.Full:
@@ -141,36 +210,62 @@ class Blimp:
                 command = self.command_queue.get(block=True, timeout=1.0)
                 print(self.blimp_id, "Drone run", time.time() - self.t0, self.command_queue.qsize())
                 print(self.blimp_id, command)
-                ms = re.search("x=[-+]?\d*\.\d+", command)
-                x_ref = float(command[ms.span()[0]+2:ms.span()[1]])
-                ms = re.search("y=[-+]?\d*\.\d+", command)
-                y_ref = float(command[ms.span()[0]+2:ms.span()[1]])
-                ms = re.search("z=[-+]?\d*\.\d+", command)
-                z_ref = float(command[ms.span()[0]+2:ms.span()[1]])
-                ms = re.search("vx=[-+]?\d*\.\d+", command)
-                if ms is not None:
-                    dx_ref = float(command[ms.span()[0]+3:ms.span()[1]])
-                else:
-                    dx_ref = 0
-                ms = re.search("vy=[-+]?\d*\.\d+", command)
-                if ms is not None:
-                    dy_ref = float(command[ms.span()[0]+3:ms.span()[1]])
-                else:
-                    dy_ref = 0
-                ms = re.search("vz=[-+]?\d*\.\d+", command)
-                if ms is not None:
-                    dz_ref = float(command[ms.span()[0]+3:ms.span()[1]])
-                else:
-                    dz_ref = 0
+                if command.split()[0]  == 'move' or command.split()[0] == 'hold':
+                    ms = re.search("x=[-+]?\d*\.\d+", command)
+                    x_ref = float(command[ms.span()[0]+2:ms.span()[1]])
+                    ms = re.search("y=[-+]?\d*\.\d+", command)
+                    y_ref = float(command[ms.span()[0]+2:ms.span()[1]])
+                    ms = re.search("z=[-+]?\d*\.\d+", command)
+                    z_ref = float(command[ms.span()[0]+2:ms.span()[1]])
+                    ms = re.search("vx=[-+]?\d*\.\d+", command)
+                    if ms is not None:
+                        vx_ref = float(command[ms.span()[0]+3:ms.span()[1]])
+                    else:
+                        vx_ref = 0
+                    ms = re.search("vy=[-+]?\d*\.\d+", command)
+                    if ms is not None:
+                        vy_ref = float(command[ms.span()[0]+3:ms.span()[1]])
+                    else:
+                        vy_ref = 0
+                    ms = re.search("vz=[-+]?\d*\.\d+", command)
+                    if ms is not None:
+                        vz_ref = float(command[ms.span()[0]+3:ms.span()[1]])
+                    else:
+                        vz_ref = 0
 
-                ms = re.search("alpha=[-+]?\d*\.\d+", command)
-                if ms is not None:
-                    alpha_ref = float(command[ms.span()[0]+6:ms.span()[1]])
-                else:
-                    alpha_ref = 0
+                    ms = re.search("alpha=[-+]?\d*\.\d+", command)
+                    if ms is not None:
+                        alpha_ref = float(command[ms.span()[0]+6:ms.span()[1]])
+                    else:
+                        alpha_ref = 0
 
-                self.set_reference(x_ref, y_ref, z_ref, alpha_ref, dx_ref, dy_ref, dz_ref, 0.0)
+                    self.set_reference(x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, 0.0)
 
+                if command.split()[0] == 'hold':
+                    self.command_queue.put_nowait(command)
+
+                message = feedback_pb2.feedback()
+                message.x = self.x
+                message.y = self.y
+                message.z = self.z
+                message.alpha = self.alpha
+                message.vx = self.vx
+                message.vy = self.vy
+                message.vz = self.vz
+                message.valpha = self.valpha
+                message.x_ref = self.x_ref
+                message.y_ref = self.y_ref
+                message.z_ref = self.z_ref
+                message.alpha_ref = self.alpha_ref
+                message.vx_ref = self.vx_ref
+                message.vy_ref = self.vy_ref
+                message.vz_ref = self.vz_ref
+                message.valpha_ref = self.valpha_ref
+                message.fx = self.fx
+                message.fy = self.fy
+                message.fz = self.fz
+                data = message.SerializeToString()
+                self.sock.sendto(data, (self.group, self.port))
                 if self.tracked:
                     self.control()
                 else:
@@ -193,25 +288,25 @@ class Blimp:
         self.turn_off()
         print("%s stopped" % self.blimp_id)
 
-    def set_state(self, x, y, z, alpha, dx, dy, dz, dalpha):
+    def set_state(self, x, y, z, alpha, vx, vy, vz, valpha):
         self.x = x
         self.y = y
         self.z = z
-        self.dx = dx
-        self.dy = dy
-        self.dz = dz
+        self.vx = vx
+        self.vy = vy
+        self.vz = vz
         self.alpha = alpha
-        self.dalpha = dalpha
+        self.valpha = valpha
 
-    def set_reference(self, x_ref, y_ref, z_ref, alpha_ref, dx_ref, dy_ref, dz_ref, dalpha_ref):
+    def set_reference(self, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref):
         self.x_ref = x_ref
         self.y_ref = y_ref
         self.z_ref = z_ref
         self.alpha_ref = alpha_ref
-        self.dx_ref = dx_ref
-        self.dy_ref = dy_ref
-        self.dz_ref = dz_ref
-        self.dalpha_ref = dalpha_ref
+        self.vx_ref = vx_ref
+        self.vy_ref = vy_ref
+        self.vz_ref = vz_ref
+        self.valpha_ref = valpha_ref
 
     def turn_off(self):
         command = "0,0,0,0,0,0"
@@ -219,10 +314,10 @@ class Blimp:
         mi.wait_for_publish()
 
     def control(self):
-        c_x = (self.x_ref - self.x) * self.k_p_xy + (self.dx_ref - self.dx) * self.k_d_xy
+        c_x = (self.x_ref - self.x) * self.k_p_xy + (self.vx_ref - self.vx) * self.k_d_xy
         self.c_x_filt = self.filt_const * c_x + (1 - self.filt_const) * self.c_x_filt
 
-        c_y = (self.y_ref - self.y) * self.k_p_xy + (self.dy_ref - self.dy) *self.k_d_xy
+        c_y = (self.y_ref - self.y) * self.k_p_xy + (self.vy_ref - self.vy) *self.k_d_xy
         self.c_y_filt = self.filt_const * c_y + (1 - self.filt_const) * self.c_y_filt
 
         # altitude control
@@ -231,7 +326,7 @@ class Blimp:
         if (np.abs(self.i_e_z + e_z*dt) < self.max_i_e):
             self.i_e_z = e_z*dt + self.i_e_z
 
-        c_z = e_z * self.k_p_z - self.dz * self.k_d_z + self.i_e_z * self.k_i_z
+        c_z = e_z * self.k_p_z + (self.vz_ref - self.vz) * self.k_d_z + self.i_e_z * self.k_i_z
         self.c_z_filt = self.filt_const * c_z + (1 - self.filt_const) * self.c_z_filt
 
         # heading control
@@ -241,7 +336,7 @@ class Blimp:
         elif e_alpha < -np.pi:
             e_alpha = e_alpha + 2 * np.pi
 
-        c_a = e_alpha * self.k_p_a - self.dalpha * self.k_d_a
+        c_a = e_alpha * self.k_p_a - self.valpha * self.k_d_a
         self.c_a_filt = self.filt_const * c_a + (1 - self.filt_const) * self.c_a_filt
 
         # send commands
@@ -261,6 +356,11 @@ class Blimp:
 
         if np.abs(c_a_body) > self.max_command:
             c_a_body = np.sign(c_a_body) * self.max_command
+            
+        self.fx = c_x_body
+        self.fy = c_y_body
+        self.fz = c_z_body
+        self.malpha = c_a_body
 
         command = '{:.3f},{:.3f},{:.3f},{:.3f},{:.3f},{:.3f}'.format(c_x_body, c_y_body, c_z_body, 0.0, 0.0, c_a_body)
         self.client.publish(str(self.blimp_base_topic) + "/" + str(self.blimp_id) + "/forces", command, 0, False)
@@ -273,13 +373,13 @@ class Blimp:
         self.t_pos = t_now
 
         if dt >= 0.008 and dt < 0.1:
-            dx_filt, self.dx_zf = signal.lfilter(self.b, self.a, [(x - self.x)/dt], zi = self.dx_zf)
-            dy_filt, self.dy_zf = signal.lfilter(self.b, self.a, [(y - self.y)/dt], zi = self.dy_zf)
-            dz_filt, self.dz_zf = signal.lfilter(self.b, self.a, [(z - self.z)/dt], zi = self.dz_zf)
+            vx_filt, self.vx_zf = signal.lfilter(self.b, self.a, [(x - self.x)/dt], zi = self.vx_zf)
+            vy_filt, self.vy_zf = signal.lfilter(self.b, self.a, [(y - self.y)/dt], zi = self.vy_zf)
+            vz_filt, self.vz_zf = signal.lfilter(self.b, self.a, [(z - self.z)/dt], zi = self.vz_zf)
 
-            self.dx = dx_filt[0]
-            self.dy = dy_filt[0]
-            self.dz = dz_filt[0]
+            self.vx = vx_filt[0]
+            self.vy = vy_filt[0]
+            self.vz = vz_filt[0]
 
         self.x = x
         self.y = y
@@ -295,19 +395,37 @@ class Blimp:
         alpha = np.arctan2(siny_cosp, cosy_cosp)
 
         if dt >= 0.008 and dt < 0.1:
-            dalpha = alpha - self.alpha
-            if dalpha > np.pi:
-                dalpha = dalpha - 2 * np.pi
-            elif dalpha < -np.pi:
-                dalpha = dalpha + 2 * np.pi
+            valpha = alpha - self.alpha
+            if valpha > np.pi:
+                valpha = valpha - 2 * np.pi
+            elif valpha < -np.pi:
+                valpha = valpha + 2 * np.pi
 
-            dalpha_filt, self.dalpha_zf = signal.lfilter(self.b, self.a, [dalpha / dt], zi = self.dalpha_zf)
-            self.dalpha = dalpha_filt[0]
+            valpha_filt, self.valpha_zf = signal.lfilter(self.b, self.a, [valpha / dt], zi = self.valpha_zf)
+            self.valpha = valpha_filt[0]
 
         self.alpha = alpha
 
     def set_track(self, tracked):
         self.tracked = tracked
+        
+    def compute_min_jerk(self, xf, tf):       
+        A = np.array([[tf**3, tf**4, tf**5],
+                      [3*tf**2, 4*tf**3, 5*tf**4],
+                      [6*tf, 12*tf**2, 20*tf**3]])
+        
+        B = np.array([[xf, 0, 0]]).T
+        
+        a = np.dot(np.linalg.inv(A), B)
+        a3 = a[0]
+        a4 = a[1]
+        a5 = a[2]
+        N = tf/0.1
+        t = np.linspace(0, tf, int(N))
+        x = a3*t**3 + a4*t**4 + a5*t**5
+        dx = 3*a3*t**2 + 4*a4*t**3 + 5*a5*t**4
+        
+        return t, x, dx
 
 def stop_blimp(blimp_id):
     global blimps

@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package blimpy;
+
+message feedback {
+  float x = 1;
+  float y = 2;
+  float z = 3;
+  float alpha = 4;
+  float vx = 5;
+  float vy = 6;
+  float vz = 7;
+  float valpha = 8;
+  float x_ref = 9;
+  float y_ref = 10;
+  float z_ref = 11;
+  float alpha_ref = 12;
+  float vx_ref = 13;
+  float vy_ref = 14;
+  float vz_ref = 15;
+  float valpha_ref = 16;
+  float fx = 17;
+  float fy = 18;
+  float fz = 19;
+  float malpha = 20;
+}
+

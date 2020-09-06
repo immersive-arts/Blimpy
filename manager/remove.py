@@ -9,7 +9,7 @@ def signal_handler(sig, frame):
     
 signal.signal(signal.SIGINT, signal_handler)
         
-host = "10.128.96.204"
+host = "localhost"
 port = 1883
 client = mqtt.Client()
 client.username_pw_set(username="testtest",password="testtest")
