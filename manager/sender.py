@@ -75,7 +75,7 @@ z_ref = 2.0
 
 run = True
 sender = Sender()
-while run:
+while run and time.time() - t0 < 20.0:
     print("Run sender")
     sender.clear()
     sender.stack()
