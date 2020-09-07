@@ -37,7 +37,7 @@ class BlimpData():
         self._port = port
         self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
         self._sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self._sock.bind((group, port))
+        self._sock.bind(('', port))
         mreq = struct.pack("4sl", socket.inet_aton(group), socket.INADDR_ANY)
         self._sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
         self._data = np.zeros(6)
