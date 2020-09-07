@@ -8,7 +8,6 @@ import socket
 import struct
 import threading
 import time
-import feedback_pb2
 
 class BlimpData():
     def __init__(self, L, group, port):
@@ -58,29 +57,27 @@ class BlimpData():
                 self._sock.settimeout(1.0)
                 data, address = self._sock.recvfrom(10000)
                 with self._lock:
-                    message = feedback_pb2.feedback()
-                    message.ParseFromString(data)
-                    self.message = message
-                    self._x.append(message.x)
-                    self._y.append(message.y)
-                    self._z.append(message.z)
-                    self._a.append(message.alpha)
-                    self._vx.append(message.vx)
-                    self._vy.append(message.vy)
-                    self._vz.append(message.vz)
-                    self._va.append(message.valpha)
-                    self._x_ref.append(message.x_ref)
-                    self._y_ref.append(message.y_ref)
-                    self._z_ref.append(message.z_ref)
-                    self._a_ref.append(message.alpha_ref)
-                    self._vx_ref.append(message.vx_ref)
-                    self._vy_ref.append(message.vy_ref)
-                    self._vz_ref.append(message.vz_ref)
-                    self._va_ref.append(message.valpha_ref)
-                    self._fx.append(message.fx)
-                    self._fy.append(message.fy)
-                    self._fz.append(message.fz)
-                    self._ma.append(message.malpha)
+                    data = struct.unpack('<20f',data)
+                    self._x.append(data[0])
+                    self._y.append(data[1])
+                    self._z.append(data[2])
+                    self._a.append(data[3])
+                    self._vx.append(data[4])
+                    self._vy.append(data[5])
+                    self._vz.append(data[6])
+                    self._va.append(data[7])
+                    self._x_ref.append(data[8])
+                    self._y_ref.append(data[9])
+                    self._z_ref.append(data[10])
+                    self._a_ref.append(data[11])
+                    self._vx_ref.append(data[12])
+                    self._vy_ref.append(data[13])
+                    self._vz_ref.append(data[14])
+                    self._va_ref.append(data[15])
+                    self._fx.append(data[16])
+                    self._fy.append(data[17])
+                    self._fz.append(data[18])
+                    self._ma.append(data[19])
                     self._t.append(time.time() - self.t0)
                     self._data_available = True    
             except:
@@ -107,7 +104,6 @@ class Ui(QtWidgets.QMainWindow):
         self.plotItem_x = self.ui.graphicsView.addPlot(row = 0, col = 0)
         self.plotItem_x.setLabel('left', 'X', 'm')
         self.plotItem_x.setXRange(-70, 0)
-        self.plotItem_x.setYRange(-10, 10)
 
         self.plotDataItem_x = self.plotItem_x.plot([], pen=None, 
             symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
@@ -117,7 +113,6 @@ class Ui(QtWidgets.QMainWindow):
         self.plotItem_y = self.ui.graphicsView.addPlot(row = 1, col = 0)
         self.plotItem_y.setLabel('left', 'Y', 'm')
         self.plotItem_y.setXRange(-70, 0)
-        self.plotItem_y.setYRange(-10, 10)
 
         self.plotDataItem_y = self.plotItem_y.plot([], pen=None, 
             symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
@@ -127,7 +122,6 @@ class Ui(QtWidgets.QMainWindow):
         self.plotItem_z = self.ui.graphicsView.addPlot(row = 2, col = 0)
         self.plotItem_z.setLabel('left', 'Z', 'm')
         self.plotItem_z.setXRange(-70, 0)
-        self.plotItem_z.setYRange(-10, 10)
 
         self.plotDataItem_z = self.plotItem_z.plot([], pen=None, 
             symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
@@ -138,7 +132,6 @@ class Ui(QtWidgets.QMainWindow):
         self.plotItem_a.setLabel('left', 'Alpha', '°')
         self.plotItem_a.setLabel('bottom', 'Time', 's')
         self.plotItem_a.setXRange(-70, 0)
-        self.plotItem_a.setYRange(-10, 10)
 
         self.plotDataItem_a = self.plotItem_a.plot([], pen=None, 
             symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
@@ -148,7 +141,6 @@ class Ui(QtWidgets.QMainWindow):
         self.plotItem_vx = self.ui.graphicsView.addPlot(row = 0, col = 1)
         self.plotItem_vx.setLabel('left', 'Vx', 'm/s')
         self.plotItem_vx.setXRange(-70, 0)
-        self.plotItem_vx.setYRange(-10, 10)
 
         self.plotDataItem_vx = self.plotItem_vx.plot([], pen=None, 
             symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
@@ -158,7 +150,6 @@ class Ui(QtWidgets.QMainWindow):
         self.plotItem_vy = self.ui.graphicsView.addPlot(row = 1, col = 1)
         self.plotItem_vy.setLabel('left', 'Vy', 'm/s')
         self.plotItem_vy.setXRange(-70, 0)
-        self.plotItem_vy.setYRange(-10, 10)
 
         self.plotDataItem_vy = self.plotItem_vy.plot([], pen=None, 
             symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
@@ -168,7 +159,6 @@ class Ui(QtWidgets.QMainWindow):
         self.plotItem_vz = self.ui.graphicsView.addPlot(row = 2, col = 1)
         self.plotItem_vz.setLabel('left', 'Vz', 'm/s')
         self.plotItem_vz.setXRange(-70, 0)
-        self.plotItem_vz.setYRange(-10, 10)
 
         self.plotDataItem_vz = self.plotItem_vz.plot([], pen=None, 
             symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
@@ -179,7 +169,6 @@ class Ui(QtWidgets.QMainWindow):
         self.plotItem_va.setLabel('left', 'Va', '°/s')
         self.plotItem_va.setLabel('bottom', 'Time', 's')
         self.plotItem_va.setXRange(-70, 0)
-        self.plotItem_va.setYRange(-10, 10)
 
         self.plotDataItem_va = self.plotItem_va.plot([], pen=None, 
             symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
@@ -189,7 +178,6 @@ class Ui(QtWidgets.QMainWindow):
         self.plotItem_fx = self.ui.graphicsView.addPlot(row = 0, col = 2)
         self.plotItem_fx.setLabel('left', 'Fx', '-')
         self.plotItem_fx.setXRange(-70, 0)
-        self.plotItem_fx.setYRange(-1, 1)
 
         self.plotDataItem_fx = self.plotItem_fx.plot([], pen=None, 
             symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
@@ -197,7 +185,6 @@ class Ui(QtWidgets.QMainWindow):
         self.plotItem_fy = self.ui.graphicsView.addPlot(row = 1, col = 2)
         self.plotItem_fy.setLabel('left', 'Fy', '-')
         self.plotItem_fy.setXRange(-70, 0)
-        self.plotItem_fy.setYRange(-1, 1)
 
         self.plotDataItem_fy = self.plotItem_fy.plot([], pen=None, 
             symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
@@ -205,16 +192,14 @@ class Ui(QtWidgets.QMainWindow):
         self.plotItem_fz = self.ui.graphicsView.addPlot(row = 2, col = 2)
         self.plotItem_fz.setLabel('left', 'Fz', '-')
         self.plotItem_fz.setXRange(-70, 0)
-        self.plotItem_fz.setYRange(-1, 1)
 
         self.plotDataItem_fz = self.plotItem_fz.plot([], pen=None, 
             symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
 
         self.plotItem_ma = self.ui.graphicsView.addPlot(row = 3, col = 2)
-        self.plotItem_ma.setLabel('left', 'Fa', '-')
+        self.plotItem_ma.setLabel('left', 'Ma', '-')
         self.plotItem_ma.setLabel('bottom', 'Time', 's')
         self.plotItem_ma.setXRange(-70, 0)
-        self.plotItem_ma.setYRange(-1, 1)
 
         self.plotDataItem_ma = self.plotItem_ma.plot([], pen=None, 
             symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
@@ -228,16 +213,13 @@ class Ui(QtWidgets.QMainWindow):
         self.now = 0
         self.show()
         
-        self.blimp = BlimpData(10*60*1, '224.1.1.1', 5001)
+        self.blimp = BlimpData(10*60*1, '224.1.1.1', 7001)
         
     def updateData(self):
-        #print(pg.ptime.time() - self.now)
         self.now = pg.ptime.time()
 
         x, y, z, alpha, vx, vy, vz, valpha, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref, fx, fy, fz, malpha, t = self.blimp.get_data()
-        #print(x, x_ref, t)
         if t:
-            #print("PLOT", x, x_ref)
             self.plotDataItem_x.setData(t, x)
             self.plotDataItem_x.setPos(-t[-1], 0)
             self.plotDataItem_y.setData(t, y)

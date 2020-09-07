@@ -10,7 +10,7 @@ from osc4py3.as_comthreads import osc_method, osc_udp_server, osc_startup, osc_p
 from scipy import signal
 import sys, getopt
 import socket
-import feedback_pb2
+import struct
 
 def signal_handler(sig, frame):
     global run
@@ -44,6 +44,7 @@ class Blimp:
     fx = 0
     fy = 0
     fz = 0
+    malpha = 0
 
     i_e_z = 0
     c_x_filt = 0
@@ -104,7 +105,7 @@ class Blimp:
         self.filt_const = dt / (dt + self.time_const)
         
         self.group = '224.1.1.1'
-        self.port = 5000 + int(self.tracking_id)
+        self.port = 7000 + int(self.tracking_id)
         MULTICAST_TTL = 2
 
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
@@ -177,12 +178,10 @@ class Blimp:
             t, x, dx = self.compute_min_jerk(xf, tf)      
             t, y, dy = self.compute_min_jerk(yf, tf)      
             t, z, dz = self.compute_min_jerk(zf, tf)
-            
             for i in range(len(t)):
                 command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], 0.0)
                 self.command_queue.put_nowait(command)
                 
-            print(t,x,dx)  
             try:
                 self.command_queue.put_nowait(command)
             except queue.Full:
@@ -244,27 +243,10 @@ class Blimp:
                 if command.split()[0] == 'hold':
                     self.command_queue.put_nowait(command)
 
-                message = feedback_pb2.feedback()
-                message.x = self.x
-                message.y = self.y
-                message.z = self.z
-                message.alpha = self.alpha
-                message.vx = self.vx
-                message.vy = self.vy
-                message.vz = self.vz
-                message.valpha = self.valpha
-                message.x_ref = self.x_ref
-                message.y_ref = self.y_ref
-                message.z_ref = self.z_ref
-                message.alpha_ref = self.alpha_ref
-                message.vx_ref = self.vx_ref
-                message.vy_ref = self.vy_ref
-                message.vz_ref = self.vz_ref
-                message.valpha_ref = self.valpha_ref
-                message.fx = self.fx
-                message.fy = self.fy
-                message.fz = self.fz
-                data = message.SerializeToString()
+                sample = np.array([self.x, self.y, self.z, self.alpha, self.vx, self.vy, self.vz, self.valpha, 
+                                   self.x_ref, self.y_ref, self.z_ref, self.alpha_ref, self.vx_ref, self.vy_ref, self.vz_ref, 
+                                   self.valpha_ref, self.fx, self.fy, self.fz, self.malpha])
+                data = struct.pack('<20f',*sample)
                 self.sock.sendto(data, (self.group, self.port))
                 if self.tracked:
                     self.control()
