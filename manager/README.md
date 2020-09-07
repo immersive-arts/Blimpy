@@ -63,9 +63,17 @@ To send motion commands to a registered blimp, a message to the following topic 
 ```bash
 <base_topic>/<blimp_base_topic>/<blimp_id>/stack
 ```
-The payload of this message holds the desired position, orientation and velocity of the blimp
+The payload of this message can either contain a desired position, orientation and velocity of the blimp, which the manager tries to follow with
 ```bash
 "move x=<position x[m]> y=<position y[m]> z=<position z[m]> vx=<velocity x[m/s]> vy=\velocity y[m/s]> vz=<velocity z[m/s]> alpha=<orientation [rad]>"
+```
+or similarly a desired position and orientation, which manager tries to maintain until a clear command is sent (beware that if this position is far from the current position it will go there with a large velocity) with
+```bash
+"hold x=<position x[m]> y=<position y[m]> z=<position z[m]> alpha=<orientation [rad]>"
+```
+or a more high level motion command with a desired final position, orientation and time to reach this position, where the manager plans a smooth trajectory to reach it, with
+```bash
+"hold goto x=<position x[m]> y=<position y[m]> z=<position z[m]> alpha=<orientation [rad]> t=<time [s]>"
 ```
 The motion commands are put in a FIFO queue and executed periodally with 10 Hz. In order to clear the queue, a message to the following topic needs to be sent:
 ```bash
@@ -79,6 +87,6 @@ The payload of this message describes the desired blimp
 ```bash
 "blimp_id=<blimp id>"
 ```
-
+The manager folder contains an example demonstrating all of above commands. First start the manager (manager.py), then add a blimp (add.py), execute a several commands (sender.py) and last remove the blimp (remove.py). For a real demonstration, this requires a blimp which is tracked by the motion capture system with tracking ID 1.
 ## Credits
 Max Kriegleder - max.kriegleder@gmail.com
