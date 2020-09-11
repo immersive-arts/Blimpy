@@ -54,22 +54,22 @@ class Sender:
 count = 0
 t0 = time.time()
 dt = 0.1
-R = 2.0
+R = 3.0
 freq = 1/60
 z_ref = 2.0
 
 run = True
 sender = Sender()
 sender.clear()
-sender.stack_goto(2.0, 0.0, 2.0, 0.0, 20.0)
+sender.stack_goto(3.0, 0.0, 2.0, 0.0, 20.0)
 time.sleep(20.0)
 sender.clear()
-sender.stack_hold(2.0, 0.0, 2.0, 0.0)
-time.sleep(3.0)
+sender.stack_hold(3.0, 0.0, 2.0, 0.0)
+time.sleep(10.0)
 sender.clear()
 
 t0 = time.time()
-while run and time.time() - t0 < 20.0:
+while run and time.time() - t0 < 120.0:
     print("Run sender")
     sender.clear()
     sender.stack()

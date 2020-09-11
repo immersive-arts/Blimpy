@@ -9,8 +9,8 @@ import struct
 import threading
 import time
 
-LINE = 0
-SIZE = 1
+LINE = 1
+SIZE = 2
 
 class BlimpData():
     def __init__(self, L, group, port):
