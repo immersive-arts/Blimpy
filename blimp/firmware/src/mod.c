@@ -42,7 +42,7 @@ void mod_calculate() {
   // parse individual motor configuration
   for (int i = 0; i < 6; i++) {
     // get param name
-    char param[6] = {0};
+    char param[16] = {0};
     sprintf(param, "model-m%d", i + 1);
 
     // parse string config
