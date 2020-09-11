@@ -15,14 +15,14 @@ import struct
 def signal_handler(sig, frame):
     global run
     run = False
-    
+
 sig.signal(sig.SIGINT, signal_handler)
-        
+
 class Blimp:
     count = 0
     t0 = 0
     run_thread = False
-    
+
     x = 0
     y = 0
     z = 0
@@ -40,7 +40,7 @@ class Blimp:
     vz_ref = 0
     alpha_ref = 0
     valpha_ref = 0
-    
+
     fx = 0
     fy = 0
     fz = 0
@@ -61,7 +61,7 @@ class Blimp:
 
     k_p_a = 1.0
     k_d_a = 1.0
-    
+
     m1 = 0.0
     m2 = 0.0
     m3 = 0.0
@@ -90,12 +90,12 @@ class Blimp:
         self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/stack", self.stack)
         self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/clear", self.clear)
         self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/config", self.config)
-        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/model", self.model)
+        self.client.message_callback_add( str(blimp_base_topic) + "/" + str(self.blimp_id) + "/model", self.model)
         self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/stack")
         self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/clear")
         self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/config")
-        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/model")
-        
+        self.client.subscribe(str(blimp_base_topic) + "/" + str(self.blimp_id) + "/model")
+
         osc_method("/rigidbody/" + str(self.tracking_id) + "/tracked", self.set_track)
         osc_method("/rigidbody/" + str(self.tracking_id) + "/quat", self.set_attitude)
         osc_method("/rigidbody/" + str(self.tracking_id) + "/position", self.set_position)
@@ -105,16 +105,16 @@ class Blimp:
         _, self.vy_zf = signal.lfilter(self.b, self.a, [self.vy], zi=zi*self.vy)
         _, self.vz_zf = signal.lfilter(self.b, self.a, [self.vz], zi=zi*self.vz)
         _, self.valpha_zf = signal.lfilter(self.b, self.a, [self.valpha], zi=zi*self.valpha)
-        
+
         self.command_queue = queue.Queue(1000)
         self.t0 = time.time()
         self.event = Event()
         self.thread = Thread(target=self.run)
         self.run_thread = True
         self.thread.start()
-        
+
         self.filt_const = dt / (dt + self.time_const)
-        
+
         self.group = '224.1.1.1'
         self.port = 7000 + int(self.tracking_id)
         MULTICAST_TTL = 2
@@ -127,7 +127,7 @@ class Blimp:
     def parse_command(self, payload):
         command = payload.decode()
         if command.split()[0]  == 'move':
-            
+
             ms = re.search("x=[-+]?\d*\.\d+", command)
             if ms is None:
                 return
@@ -161,7 +161,7 @@ class Blimp:
                 self.command_queue.put_nowait(command)
             except queue.Full:
                 pass
-            
+
         if command.split()[0]  == 'goto':
             ms = re.search("x=[-+]?\d*\.\d+", command)
             if ms is None:
@@ -186,13 +186,13 @@ class Blimp:
                 return
             tf = float(command[ms.span()[0]+2:ms.span()[1]])
 
-            t, x, dx = self.compute_min_jerk(xf, tf)      
-            t, y, dy = self.compute_min_jerk(yf, tf)      
+            t, x, dx = self.compute_min_jerk(xf, tf)
+            t, y, dy = self.compute_min_jerk(yf, tf)
             t, z, dz = self.compute_min_jerk(zf, tf)
             for i in range(len(t)):
                 command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], 0.0)
                 self.command_queue.put_nowait(command)
-                
+
             try:
                 self.command_queue.put_nowait(command)
             except queue.Full:
@@ -238,10 +238,20 @@ class Blimp:
         if ms is None:
             return
         self.k_d_xy = float(command[ms.span()[0]+7:ms.span()[1]])
-        
+
     def model(self, client, userdata, msg):
         command = msg.payload.decode()
-        
+
+        seg = command.split(",")
+        self.m1 = float(seg[0])
+        self.m2 = float(seg[1])
+        self.m3 = float(seg[2])
+        self.m4 = float(seg[3])
+        self.m5 = float(seg[4])
+        self.m6 = float(seg[5])
+
+        return
+
         ms = re.search("(.+?)(?:,|$)", command)
         self.m1 = float(ms.group()[:ms.span()[1]-1])
         command = command[ms.span()[1]:]
@@ -258,19 +268,19 @@ class Blimp:
         self.m5 = float(ms.group()[:ms.span()[1]-1])
         command = command[ms.span()[1]:]
         ms = re.search("(.+?)(?:,|$)", command)
-        self.m6 = float(ms.group()[:ms.span()[1]-1])     
-    
+        self.m6 = float(ms.group()[:ms.span()[1]-1])
+
     def clear(self, client, userdata, msg):
         self.command_stack = []
         self.event.clear()
-        
+
         while not self.command_queue.empty():
             try:
                 self.command_queue.get(False)
             except queue.Empty:
                 continue
             self.command_queue.task_done()
-        
+
     def run(self):
         while self.run_thread:
             print(self.blimp_id, "Drone wait")
@@ -312,8 +322,8 @@ class Blimp:
                 if command.split()[0] == 'hold':
                     self.command_queue.put_nowait(command)
 
-                sample = np.array([self.x, self.y, self.z, self.alpha, self.vx, self.vy, self.vz, self.valpha, 
-                                   self.x_ref, self.y_ref, self.z_ref, self.alpha_ref, self.vx_ref, self.vy_ref, self.vz_ref, 
+                sample = np.array([self.x, self.y, self.z, self.alpha, self.vx, self.vy, self.vz, self.valpha,
+                                   self.x_ref, self.y_ref, self.z_ref, self.alpha_ref, self.vx_ref, self.vy_ref, self.vz_ref,
                                    self.valpha_ref, self.fx, self.fy, self.fz, self.malpha, self.m1, self.m2, self.m3, self.m4, self.m5, self.m6])
                 data = struct.pack('<26f',*sample)
                 self.sock.sendto(data, (self.group, self.port))
@@ -322,17 +332,17 @@ class Blimp:
                 else:
                     print("Not tracked")
                     self.turn_off()
-                
-                t = time.time() - self.t0                
-                count = math.ceil(t / self.dt)    
+
+                t = time.time() - self.t0
+                count = math.ceil(t / self.dt)
                 time.sleep(max(0, (count)*self.dt - t))
             except queue.Empty:
                 print(self.blimp_id, "Queue empty")
                 self.turn_off()
                 continue
-            
+
         print(self.blimp_id, "Drone done")
-    
+
     def stop(self):
         self.run_thread = False
         self.thread.join()
@@ -407,7 +417,7 @@ class Blimp:
 
         if np.abs(c_a_body) > self.max_command:
             c_a_body = np.sign(c_a_body) * self.max_command
-            
+
         self.fx = c_x_body
         self.fy = c_y_body
         self.fz = c_z_body
@@ -459,14 +469,14 @@ class Blimp:
 
     def set_track(self, tracked):
         self.tracked = tracked
-        
-    def compute_min_jerk(self, xf, tf):       
+
+    def compute_min_jerk(self, xf, tf):
         A = np.array([[tf**3, tf**4, tf**5],
                       [3*tf**2, 4*tf**3, 5*tf**4],
                       [6*tf, 12*tf**2, 20*tf**3]])
-        
+
         B = np.array([[xf, 0, 0]]).T
-        
+
         a = np.dot(np.linalg.inv(A), B)
         a3 = a[0]
         a4 = a[1]
@@ -475,7 +485,7 @@ class Blimp:
         t = np.linspace(0, tf, int(N))
         x = a3*t**3 + a4*t**4 + a5*t**5
         dx = 3*a3*t**2 + 4*a4*t**3 + 5*a5*t**4
-        
+
         return t, x, dx
 
 def stop_blimp(blimp_id):
