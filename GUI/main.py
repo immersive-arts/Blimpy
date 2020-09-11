@@ -32,6 +32,12 @@ class BlimpData():
         self._fz = deque([], maxlen=L)
         self._ma = deque([], maxlen=L)
         self._t = deque([], maxlen=L)
+        self._m1 = deque([], maxlen=L)
+        self._m2 = deque([], maxlen=L)
+        self._m3 = deque([], maxlen=L)
+        self._m4 = deque([], maxlen=L)
+        self._m5 = deque([], maxlen=L)
+        self._m6 = deque([], maxlen=L)
         
         self._group = group
         self._port = port
@@ -57,7 +63,7 @@ class BlimpData():
                 self._sock.settimeout(1.0)
                 data, address = self._sock.recvfrom(10000)
                 with self._lock:
-                    data = struct.unpack('<20f',data)
+                    data = struct.unpack('<26f',data)
                     self._x.append(data[0])
                     self._y.append(data[1])
                     self._z.append(data[2])
@@ -78,6 +84,13 @@ class BlimpData():
                     self._fy.append(data[17])
                     self._fz.append(data[18])
                     self._ma.append(data[19])
+                    self._m1.append(data[20])
+                    self._m2.append(data[21])
+                    self._m3.append(data[22])
+                    self._m4.append(data[23])
+                    self._m5.append(data[24])
+                    self._m6.append(data[25])
+
                     self._t.append(time.time() - self.t0)
                     self._data_available = True    
             except:
@@ -86,7 +99,7 @@ class BlimpData():
     def get_data(self):
         with self._lock:
             self._data_available = False
-            return self._x, self._y, self._z, self._a, self._vx, self._vy, self._vz, self._va, self._x_ref, self._y_ref, self._z_ref, self._a_ref, self._vx_ref, self._vy_ref, self._vz_ref, self._va_ref, self._fx, self._fy, self._fz, self._ma, self._t
+            return self._x, self._y, self._z, self._a, self._vx, self._vy, self._vz, self._va, self._x_ref, self._y_ref, self._z_ref, self._a_ref, self._vx_ref, self._vy_ref, self._vz_ref, self._va_ref, self._fx, self._fy, self._fz, self._ma, self._m1, self._m2, self._m3, self._m4, self._m5, self._m6, self._t
         
     def data_available(self):
         return self._data_available      
@@ -203,7 +216,24 @@ class Ui(QtWidgets.QMainWindow):
 
         self.plotDataItem_ma = self.plotItem_ma.plot([], pen=None, 
             symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
-               
+        
+        self.plotItem_motors = self.ui.graphicsView.addPlot(row = 0, col = 3, rowspan=4)
+        self.plotItem_motors.addLegend()
+        self.plotDataItem_motors = []
+        
+        col = np.array([[240, 20, 0],
+               [30, 244, 10],
+               [190, 190, 0], 
+               [120, 210, 130],
+               [10, 120, 230],
+               [150, 70, 200]])
+        
+        for i in range(6):
+            self.plotDataItem_motors.append(self.plotItem_motors.plot([], pen=None, symbolSize=5, symbolBrush=(col[i,0],col[i,1],col[i,2]), symbolPen=None, name='motor ' + str(i + 1)))
+        self.plotItem_motors.setLabel('bottom', 'Time', 's')
+        self.plotItem_motors.setXRange(-70, 0)
+        self.plotItem_motors.setYRange(-1, 1)
+
         self.startTime = pg.ptime.time()
 
         self.timer = QtCore.QTimer(self)
@@ -218,7 +248,7 @@ class Ui(QtWidgets.QMainWindow):
     def updateData(self):
         self.now = pg.ptime.time()
 
-        x, y, z, alpha, vx, vy, vz, valpha, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref, fx, fy, fz, malpha, t = self.blimp.get_data()
+        x, y, z, alpha, vx, vy, vz, valpha, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref, fx, fy, fz, malpha, m1, m2, m3, m4, m5, m6, t = self.blimp.get_data()
         if t:
             self.plotDataItem_x.setData(t, x)
             self.plotDataItem_x.setPos(-t[-1], 0)
@@ -264,11 +294,26 @@ class Ui(QtWidgets.QMainWindow):
             self.plotDataItem_fz.setPos(-t[-1], 0)
             self.plotDataItem_ma.setData(t, malpha)
             self.plotDataItem_ma.setPos(-t[-1], 0)
+            
+            self.plotDataItem_motors[0].setData(t, m1)
+            self.plotDataItem_motors[1].setData(t, m2)
+            self.plotDataItem_motors[2].setData(t, m3)
+            self.plotDataItem_motors[3].setData(t, m4)
+            self.plotDataItem_motors[4].setData(t, m5)
+            self.plotDataItem_motors[5].setData(t, m6)
+
+            self.plotDataItem_motors[0].setPos(-t[-1], 0)
+            self.plotDataItem_motors[1].setPos(-t[-1], 0)
+            self.plotDataItem_motors[2].setPos(-t[-1], 0)
+            self.plotDataItem_motors[3].setPos(-t[-1], 0)
+            self.plotDataItem_motors[4].setPos(-t[-1], 0)
+            self.plotDataItem_motors[5].setPos(-t[-1], 0)
+
     
     def closeEvent(self, event):
         self.timer.stop()
-        event.accept()
-        
+        self.blimp.stop()
+        event.accept()        
 
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()

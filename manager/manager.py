@@ -61,6 +61,13 @@ class Blimp:
 
     k_p_a = 1.0
     k_d_a = 1.0
+    
+    m1 = 0.0
+    m2 = 0.0
+    m3 = 0.0
+    m4 = 0.0
+    m5 = 0.0
+    m6 = 0.0
 
     max_command = 1.0
     max_i_e = 3.0
@@ -83,9 +90,11 @@ class Blimp:
         self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/stack", self.stack)
         self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/clear", self.clear)
         self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/config", self.config)
+        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/model", self.model)
         self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/stack")
         self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/clear")
         self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/config")
+        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/model")
         
         osc_method("/rigidbody/" + str(self.tracking_id) + "/tracked", self.set_track)
         osc_method("/rigidbody/" + str(self.tracking_id) + "/quat", self.set_attitude)
@@ -229,7 +238,28 @@ class Blimp:
         if ms is None:
             return
         self.k_d_xy = float(command[ms.span()[0]+7:ms.span()[1]])
-
+        
+    def model(self, client, userdata, msg):
+        command = msg.payload.decode()
+        
+        ms = re.search("(.+?)(?:,|$)", command)
+        self.m1 = float(ms.group()[:ms.span()[1]-1])
+        command = command[ms.span()[1]:]
+        ms = re.search("(.+?)(?:,|$)", command)
+        self.m2 = float(ms.group()[:ms.span()[1]-1])
+        command = command[ms.span()[1]:]
+        ms = re.search("(.+?)(?:,|$)", command)
+        self.m3 = float(ms.group()[:ms.span()[1]-1])
+        command = command[ms.span()[1]:]
+        ms = re.search("(.+?)(?:,|$)", command)
+        self.m4 = float(ms.group()[:ms.span()[1]-1])
+        command = command[ms.span()[1]:]
+        ms = re.search("(.+?)(?:,|$)", command)
+        self.m5 = float(ms.group()[:ms.span()[1]-1])
+        command = command[ms.span()[1]:]
+        ms = re.search("(.+?)(?:,|$)", command)
+        self.m6 = float(ms.group()[:ms.span()[1]-1])     
+    
     def clear(self, client, userdata, msg):
         self.command_stack = []
         self.event.clear()
@@ -284,8 +314,8 @@ class Blimp:
 
                 sample = np.array([self.x, self.y, self.z, self.alpha, self.vx, self.vy, self.vz, self.valpha, 
                                    self.x_ref, self.y_ref, self.z_ref, self.alpha_ref, self.vx_ref, self.vy_ref, self.vz_ref, 
-                                   self.valpha_ref, self.fx, self.fy, self.fz, self.malpha])
-                data = struct.pack('<20f',*sample)
+                                   self.valpha_ref, self.fx, self.fy, self.fz, self.malpha, self.m1, self.m2, self.m3, self.m4, self.m5, self.m6])
+                data = struct.pack('<26f',*sample)
                 self.sock.sendto(data, (self.group, self.port))
                 if self.tracked:
                     self.control()
