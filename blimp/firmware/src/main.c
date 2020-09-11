@@ -115,15 +115,14 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
 
     // set motors
     for (i = 0; i < 6; i++) {
-      // get factor
-      double factor = result.values[i];
-
-      // apply modifier
-      factor = factor * motor_map[i];
-
-      // set motor
-      mot_set(i, (float)factor);
+      double speed = result.values[i] * motor_map[i];
+      mot_set(i, (float)speed);
     }
+
+    // publish model
+    char model[255];
+    sprintf(model, "%f,%f,%f,%f,%f,%f", result.values[0], result.values[1], result.values[2], result.values[3], result.values[4], result.values[5]);
+    naos_publish("model", model, 0, false, NAOS_LOCAL);
 
     // free vectors
     a32_vector_free(result);
@@ -239,7 +238,7 @@ static naos_param_t params[] = {
 };
 
 static naos_config_t config = {.device_type = "blimpy",
-                               .firmware_version = "0.4.0",
+                               .firmware_version = "0.4.1",
                                .parameters = params,
                                .num_parameters = 17,
                                .ping_callback = ping,
