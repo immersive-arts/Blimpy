@@ -9,6 +9,9 @@ import struct
 import threading
 import time
 
+LINE = 0
+SIZE = 1
+
 class BlimpData():
     def __init__(self, L, group, port):
         self._x = deque([], maxlen=L)
@@ -107,6 +110,13 @@ class BlimpData():
     def stop(self):
         self._run = False
 
+def generatePlot(item, line, color, size, name = ''):
+    if line == 1:
+        return item.plot([],  pen={'color': color, 'width': size})
+    else:
+        return item.plot([], pen=None, 
+            symbolBrush=color, symbolSize=size, symbolPen=None)
+
 
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
@@ -118,104 +128,84 @@ class Ui(QtWidgets.QMainWindow):
         self.plotItem_x.setLabel('left', 'X', 'm')
         self.plotItem_x.setXRange(-70, 0)
 
-        self.plotDataItem_x = self.plotItem_x.plot([], pen=None, 
-            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
-        self.plotDataItem_x_ref = self.plotItem_x.plot([], pen=None, 
-            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+        self.plotDataItem_x = generatePlot(self.plotItem_x, LINE, (204, 0, 0), SIZE)
+        self.plotDataItem_x_ref = generatePlot(self.plotItem_x, LINE, (11, 220, 13), SIZE)
         
         self.plotItem_y = self.ui.graphicsView.addPlot(row = 1, col = 0)
         self.plotItem_y.setLabel('left', 'Y', 'm')
         self.plotItem_y.setXRange(-70, 0)
 
-        self.plotDataItem_y = self.plotItem_y.plot([], pen=None, 
-            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
-        self.plotDataItem_y_ref = self.plotItem_y.plot([], pen=None, 
-            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
-                
+        self.plotDataItem_y = generatePlot(self.plotItem_y, LINE, (204, 0, 0), SIZE)
+        self.plotDataItem_y_ref = generatePlot(self.plotItem_y, LINE, (11, 220, 13), SIZE)
+
         self.plotItem_z = self.ui.graphicsView.addPlot(row = 2, col = 0)
         self.plotItem_z.setLabel('left', 'Z', 'm')
         self.plotItem_z.setXRange(-70, 0)
 
-        self.plotDataItem_z = self.plotItem_z.plot([], pen=None, 
-            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
-        self.plotDataItem_z_ref = self.plotItem_z.plot([], pen=None, 
-            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+        self.plotDataItem_z = generatePlot(self.plotItem_z, LINE, (204, 0, 0), SIZE)
+        self.plotDataItem_z_ref = generatePlot(self.plotItem_z, LINE, (11, 220, 13), SIZE)
                 
         self.plotItem_a = self.ui.graphicsView.addPlot(row = 3, col = 0)
         self.plotItem_a.setLabel('left', 'Alpha', '°')
         self.plotItem_a.setLabel('bottom', 'Time', 's')
         self.plotItem_a.setXRange(-70, 0)
 
-        self.plotDataItem_a = self.plotItem_a.plot([], pen=None, 
-            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
-        self.plotDataItem_a_ref = self.plotItem_a.plot([], pen=None, 
-            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+        self.plotDataItem_a = generatePlot(self.plotItem_a, LINE, (204, 0, 0), SIZE)
+        self.plotDataItem_a_ref = generatePlot(self.plotItem_a, LINE, (11, 220, 13), SIZE)
         
         self.plotItem_vx = self.ui.graphicsView.addPlot(row = 0, col = 1)
         self.plotItem_vx.setLabel('left', 'Vx', 'm/s')
         self.plotItem_vx.setXRange(-70, 0)
 
-        self.plotDataItem_vx = self.plotItem_vx.plot([], pen=None, 
-            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
-        self.plotDataItem_vx_ref = self.plotItem_vx.plot([], pen=None, 
-            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+        self.plotDataItem_vx = generatePlot(self.plotItem_vx, LINE, (204, 0, 0), SIZE)
+        self.plotDataItem_vx_ref = generatePlot(self.plotItem_vx, LINE, (11, 220, 13), SIZE)
         
         self.plotItem_vy = self.ui.graphicsView.addPlot(row = 1, col = 1)
         self.plotItem_vy.setLabel('left', 'Vy', 'm/s')
         self.plotItem_vy.setXRange(-70, 0)
 
-        self.plotDataItem_vy = self.plotItem_vy.plot([], pen=None, 
-            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
-        self.plotDataItem_vy_ref = self.plotItem_vy.plot([], pen=None, 
-            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+        self.plotDataItem_vy = generatePlot(self.plotItem_vy, LINE, (204, 0, 0), SIZE)
+        self.plotDataItem_vy_ref = generatePlot(self.plotItem_vy, LINE, (11, 220, 13), SIZE)
                 
         self.plotItem_vz = self.ui.graphicsView.addPlot(row = 2, col = 1)
         self.plotItem_vz.setLabel('left', 'Vz', 'm/s')
         self.plotItem_vz.setXRange(-70, 0)
 
-        self.plotDataItem_vz = self.plotItem_vz.plot([], pen=None, 
-            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
-        self.plotDataItem_vz_ref = self.plotItem_vz.plot([], pen=None, 
-            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+        self.plotDataItem_vz = generatePlot(self.plotItem_vz, LINE, (204, 0, 0), SIZE)
+        self.plotDataItem_vz_ref = generatePlot(self.plotItem_vz, LINE, (11, 220, 13), SIZE)
                 
         self.plotItem_va = self.ui.graphicsView.addPlot(row = 3, col = 1)
         self.plotItem_va.setLabel('left', 'Va', '°/s')
         self.plotItem_va.setLabel('bottom', 'Time', 's')
         self.plotItem_va.setXRange(-70, 0)
 
-        self.plotDataItem_va = self.plotItem_va.plot([], pen=None, 
-            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
-        self.plotDataItem_va_ref = self.plotItem_va.plot([], pen=None, 
-            symbolBrush=(11,220,13), symbolSize=5, symbolPen=None)
+        self.plotDataItem_va = generatePlot(self.plotItem_va, LINE, (204, 0, 0), SIZE)
+        self.plotDataItem_va_ref = generatePlot(self.plotItem_va, LINE, (11, 220, 13), SIZE)
         
         self.plotItem_fx = self.ui.graphicsView.addPlot(row = 0, col = 2)
         self.plotItem_fx.setLabel('left', 'Fx', '-')
         self.plotItem_fx.setXRange(-70, 0)
 
-        self.plotDataItem_fx = self.plotItem_fx.plot([], pen=None, 
-            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        self.plotDataItem_fx = generatePlot(self.plotItem_fx, LINE, (204, 0, 0), SIZE)
         
         self.plotItem_fy = self.ui.graphicsView.addPlot(row = 1, col = 2)
         self.plotItem_fy.setLabel('left', 'Fy', '-')
         self.plotItem_fy.setXRange(-70, 0)
 
-        self.plotDataItem_fy = self.plotItem_fy.plot([], pen=None, 
-            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        self.plotDataItem_fy = generatePlot(self.plotItem_fy, LINE, (204, 0, 0), SIZE)
         
         self.plotItem_fz = self.ui.graphicsView.addPlot(row = 2, col = 2)
         self.plotItem_fz.setLabel('left', 'Fz', '-')
         self.plotItem_fz.setXRange(-70, 0)
 
-        self.plotDataItem_fz = self.plotItem_fz.plot([], pen=None, 
-            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        self.plotDataItem_fz = generatePlot(self.plotItem_fz, LINE, (204, 0, 0), SIZE)
 
         self.plotItem_ma = self.ui.graphicsView.addPlot(row = 3, col = 2)
         self.plotItem_ma.setLabel('left', 'Ma', '-')
         self.plotItem_ma.setLabel('bottom', 'Time', 's')
         self.plotItem_ma.setXRange(-70, 0)
 
-        self.plotDataItem_ma = self.plotItem_ma.plot([], pen=None, 
-            symbolBrush=(204,0,0), symbolSize=5, symbolPen=None)
+        self.plotDataItem_ma = generatePlot(self.plotItem_ma, LINE, (204, 0, 0), SIZE)
         
         self.plotItem_motors = self.ui.graphicsView.addPlot(row = 0, col = 3, rowspan=4)
         self.plotItem_motors.addLegend()
@@ -229,7 +219,8 @@ class Ui(QtWidgets.QMainWindow):
                [150, 70, 200]])
         
         for i in range(6):
-            self.plotDataItem_motors.append(self.plotItem_motors.plot([], pen=None, symbolSize=5, symbolBrush=(col[i,0],col[i,1],col[i,2]), symbolPen=None, name='motor ' + str(i + 1)))
+            self.plotDataItem_motors.append(generatePlot(self.plotItem_motors, LINE, (col[i,0],col[i,1],col[i,2]), SIZE, 'motor ' + str(i + 1)))
+
         self.plotItem_motors.setLabel('bottom', 'Time', 's')
         self.plotItem_motors.setXRange(-70, 0)
         self.plotItem_motors.setYRange(-1, 1)
@@ -375,6 +366,19 @@ class Ui(QtWidgets.QMainWindow):
         for blimp in self.blimps:
             blimp.stop()
         event.accept()        
+
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--line", help="plot lines (0: dots, 1: lines)")
+parser.add_argument("--size", help="plot size")
+
+args = parser.parse_args()
+if args.line:
+    print("Line plotting turned on")
+    LINE = int(args.line)
+if args.size:
+    print("Set plot size")
+    SIZE = int(args.size)  
 
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()
