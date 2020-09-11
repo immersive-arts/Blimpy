@@ -56,7 +56,7 @@ class BlimpData():
         self._data_available = False
         
         self.t0 = time.time()
-        
+                
     def subscribe(self):
         while self._run:
             try:
@@ -243,12 +243,29 @@ class Ui(QtWidgets.QMainWindow):
         self.now = 0
         self.show()
         
-        self.blimp = BlimpData(10*60*1, '224.1.1.1', 7001)
+        self.blimps = []
+        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7001))
+        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7002))
+        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7003))
+        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7004))
+        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7005))
+        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7006))
+        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7007))
+        
+        self.active_blimp = 1
+        
+        self.ui.pushButton.clicked.connect(self.handleButton1)
+        self.ui.pushButton_2.clicked.connect(self.handleButton2)
+        self.ui.pushButton_3.clicked.connect(self.handleButton3)
+        self.ui.pushButton_4.clicked.connect(self.handleButton4)
+        self.ui.pushButton_5.clicked.connect(self.handleButton5)
+        self.ui.pushButton_6.clicked.connect(self.handleButton6)
+        self.ui.pushButton_7.clicked.connect(self.handleButton7)
         
     def updateData(self):
         self.now = pg.ptime.time()
 
-        x, y, z, alpha, vx, vy, vz, valpha, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref, fx, fy, fz, malpha, m1, m2, m3, m4, m5, m6, t = self.blimp.get_data()
+        x, y, z, alpha, vx, vy, vz, valpha, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref, fx, fy, fz, malpha, m1, m2, m3, m4, m5, m6, t = self.blimps[self.active_blimp-1].get_data()
         if t:
             self.plotDataItem_x.setData(t, x)
             self.plotDataItem_x.setPos(-t[-1], 0)
@@ -309,10 +326,54 @@ class Ui(QtWidgets.QMainWindow):
             self.plotDataItem_motors[4].setPos(-t[-1], 0)
             self.plotDataItem_motors[5].setPos(-t[-1], 0)
 
+    def handleButton1(self):
+        self.active_blimp = 1
+        self.clearButtons()
+        self.ui.pushButton.setStyleSheet("background-color:rgb(11, 220, 13);")
+            
+    def handleButton2(self):
+        self.active_blimp = 2
+        self.clearButtons()
+        self.ui.pushButton_2.setStyleSheet("background-color:rgb(11, 220, 13);")
+                
+    def handleButton3(self):
+        self.active_blimp = 3
+        self.clearButtons()
+        self.ui.pushButton_3.setStyleSheet("background-color:rgb(11, 220, 13);")
+                
+    def handleButton4(self):
+        self.active_blimp = 4
+        self.clearButtons()
+        self.ui.pushButton_4.setStyleSheet("background-color:rgb(11, 220, 13);")
+                
+    def handleButton5(self):
+        self.active_blimp = 5
+        self.clearButtons()
+        self.ui.pushButton_5.setStyleSheet("background-color:rgb(11, 220, 13);")
+            
+    def handleButton6(self):
+        self.active_blimp = 6
+        self.clearButtons()
+        self.ui.pushButton_6.setStyleSheet("background-color:rgb(11, 220, 13);")
+                
+    def handleButton7(self):
+        self.active_blimp = 7
+        self.clearButtons()
+        self.ui.pushButton_7.setStyleSheet("background-color:rgb(11, 220, 13);")
+        
+    def clearButtons(self):
+        self.ui.pushButton.setStyleSheet("")
+        self.ui.pushButton_2.setStyleSheet("")
+        self.ui.pushButton_3.setStyleSheet("")
+        self.ui.pushButton_4.setStyleSheet("")
+        self.ui.pushButton_5.setStyleSheet("")
+        self.ui.pushButton_6.setStyleSheet("")
+        self.ui.pushButton_7.setStyleSheet("")
     
     def closeEvent(self, event):
         self.timer.stop()
-        self.blimp.stop()
+        for blimp in self.blimps:
+            blimp.stop()
         event.accept()        
 
 app = QtWidgets.QApplication(sys.argv)

@@ -44,9 +44,15 @@ while True:
     fy = 2.0
     fz = 3.0
     malpha = 1.1
+    m1 = 0.1
+    m2 = 0.2
+    m3 = 0.3
+    m4 = 0.4
+    m5 = 0.5
+    m6 = 0.6
     
-    sample = np.array([x, y, z, alpha, vx, vy, vz, valpha, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref, fx, fy, fz, malpha])
-    data = struct.pack('<20f',*sample)
+    sample = np.array([x, y, z, alpha, vx, vy, vz, valpha, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref, fx, fy, fz, malpha, m1, m2, m3, m4, m5, m6])
+    data = struct.pack('<26f',*sample)
     sock.sendto(data, (MCAST_GRP, MCAST_PORT))
     
     t = time.time() - t0
