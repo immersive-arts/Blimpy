@@ -82,8 +82,10 @@ class Blimp:
         self.client = client
         self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/stack", self.stack)
         self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/clear", self.clear)
+        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/config", self.config)
         self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/stack")
         self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/clear")
+        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/config")
         
         osc_method("/rigidbody/" + str(self.tracking_id) + "/tracked", self.set_track)
         osc_method("/rigidbody/" + str(self.tracking_id) + "/quat", self.set_attitude)
@@ -190,7 +192,44 @@ class Blimp:
     def stack(self, client, userdata, msg):
         self.parse_command(msg.payload)
         self.event.set()
- 
+
+    def config(self, client, userdata, msg):
+        command = msg.payload.decode()
+
+        ms = re.search("k_p_z=[-+]?\d*\.\d+", command)
+        if ms is None:
+            return
+        self.k_p_z = float(command[ms.span()[0]+6:ms.span()[1]])
+
+        ms = re.search("k_d_z=[-+]?\d*\.\d+", command)
+        if ms is None:
+            return
+        self.k_d_z = float(command[ms.span()[0]+6:ms.span()[1]])
+
+        ms = re.search("k_i_z=[-+]?\d*\.\d+", command)
+        if ms is None:
+            return
+        self.k_i_z = float(command[ms.span()[0]+6:ms.span()[1]])
+
+        ms = re.search("k_p_a=[-+]?\d*\.\d+", command)
+        if ms is None:
+            return
+        self.k_p_a = float(command[ms.span()[0]+6:ms.span()[1]])
+
+        ms = re.search("k_d_a=[-+]?\d*\.\d+", command)
+        if ms is None:
+            return
+        self.k_d_a = float(command[ms.span()[0]+6:ms.span()[1]])
+        ms = re.search("k_p_xy=[-+]?\d*\.\d+", command)
+        if ms is None:
+            return
+        self.k_p_xy = float(command[ms.span()[0]+7:ms.span()[1]])
+
+        ms = re.search("k_d_xy=[-+]?\d*\.\d+", command)
+        if ms is None:
+            return
+        self.k_d_xy = float(command[ms.span()[0]+7:ms.span()[1]])
+
     def clear(self, client, userdata, msg):
         self.command_stack = []
         self.event.clear()
