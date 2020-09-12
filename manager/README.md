@@ -73,7 +73,7 @@ or similarly a desired position and orientation, which manager tries to maintain
 ```
 or a more high level motion command with a desired final position, orientation and time to reach this position, where the manager plans a smooth trajectory to reach it, with
 ```bash
-"hold goto x=<position x[m]> y=<position y[m]> z=<position z[m]> alpha=<orientation [rad]> t=<time [s]>"
+"goto x=<position x[m]> y=<position y[m]> z=<position z[m]> alpha=<orientation [rad]> t=<time [s]>"
 ```
 The motion commands are put in a FIFO queue and executed periodally with 10 Hz. In order to clear the queue, a message to the following topic needs to be sent:
 ```bash
