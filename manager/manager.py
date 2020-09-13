@@ -90,7 +90,7 @@ class Blimp:
         self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/stack", self.stack)
         self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/clear", self.clear)
         self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/config", self.config)
-        self.client.message_callback_add( str(blimp_base_topic) + "/" + str(self.blimp_id) + "/model", self.model)
+        self.client.message_callback_add(str(blimp_base_topic) + "/" + str(self.blimp_id) + "/model", self.model)
         self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/stack")
         self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/clear")
         self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/config")
@@ -181,21 +181,33 @@ class Blimp:
             zf = float(command[ms.span()[0]+2:ms.span()[1]])
             zf = zf - self.z
 
-            ms = re.search("t=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
-            tf = float(command[ms.span()[0]+2:ms.span()[1]])
-
             ms = re.search("alpha=[-+]?\d*\.\d+", command)
             if ms is None:
                 return
             af = float(command[ms.span()[0]+6:ms.span()[1]])
 
+            phi = np.abs(af - self.alpha) % (2 * np.pi)
+            if phi > np.pi:
+                distance = 2 * np.pi - phi
+                if self.alpha < af:
+                    distance = -distance
+            else:
+                distance = phi
+                if self.alpha > af:
+                    distance = -distance
+
+            ms = re.search("t=[-+]?\d*\.\d+", command)
+            if ms is None:
+                return
+            tf = float(command[ms.span()[0]+2:ms.span()[1]])
+
             t, x, dx = self.compute_min_jerk(xf, tf)
             t, y, dy = self.compute_min_jerk(yf, tf)
             t, z, dz = self.compute_min_jerk(zf, tf)
+            t, a, da = self.compute_min_jerk(distance, tf)
+
             for i in range(len(t)):
-                command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], af)
+                command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
                 self.command_queue.put_nowait(command)
 
             try:
@@ -254,26 +266,6 @@ class Blimp:
         self.m4 = float(seg[3])
         self.m5 = float(seg[4])
         self.m6 = float(seg[5])
-
-        return
-
-        ms = re.search("(.+?)(?:,|$)", command)
-        self.m1 = float(ms.group()[:ms.span()[1]-1])
-        command = command[ms.span()[1]:]
-        ms = re.search("(.+?)(?:,|$)", command)
-        self.m2 = float(ms.group()[:ms.span()[1]-1])
-        command = command[ms.span()[1]:]
-        ms = re.search("(.+?)(?:,|$)", command)
-        self.m3 = float(ms.group()[:ms.span()[1]-1])
-        command = command[ms.span()[1]:]
-        ms = re.search("(.+?)(?:,|$)", command)
-        self.m4 = float(ms.group()[:ms.span()[1]-1])
-        command = command[ms.span()[1]:]
-        ms = re.search("(.+?)(?:,|$)", command)
-        self.m5 = float(ms.group()[:ms.span()[1]-1])
-        command = command[ms.span()[1]:]
-        ms = re.search("(.+?)(?:,|$)", command)
-        self.m6 = float(ms.group()[:ms.span()[1]-1])
 
     def clear(self, client, userdata, msg):
         self.command_stack = []
