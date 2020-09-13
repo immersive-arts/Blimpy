@@ -53,14 +53,14 @@ class Blimp:
     c_a_filt = 0
 
     k_p_z = 2.0
-    k_d_z = 2.0
-    k_i_z = 0.2
+    k_d_z = 2.5
+    k_i_z = 0.0
 
-    k_p_xy = 1.0
-    k_d_xy = 0.4
+    k_p_xy = 0.8
+    k_d_xy = 0.8
 
-    k_p_a = 1.0
-    k_d_a = 1.0
+    k_p_a = 0.9
+    k_d_a = 1.2
 
     m1 = 0.0
     m2 = 0.0
