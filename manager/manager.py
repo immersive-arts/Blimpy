@@ -186,11 +186,16 @@ class Blimp:
                 return
             tf = float(command[ms.span()[0]+2:ms.span()[1]])
 
+            ms = re.search("alpha=[-+]?\d*\.\d+", command)
+            if ms is None:
+                return
+            af = float(command[ms.span()[0]+6:ms.span()[1]])
+
             t, x, dx = self.compute_min_jerk(xf, tf)
             t, y, dy = self.compute_min_jerk(yf, tf)
             t, z, dz = self.compute_min_jerk(zf, tf)
             for i in range(len(t)):
-                command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], 0.0)
+                command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], af)
                 self.command_queue.put_nowait(command)
 
             try:
