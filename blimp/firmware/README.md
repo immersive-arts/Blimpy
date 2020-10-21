@@ -24,6 +24,12 @@ Individual servo motion for number (1 to 6) with a min and max angle and step fr
 
 Light colors from 0 to 255.
 
+## MQTT Events
+
+### `model`: `m1,m2,m3,m4,m5,m6`
+
+The motor speeds calculated by the model.
+
 ## Configuration
 
 The following parameters can be configured via Bluetooth:
