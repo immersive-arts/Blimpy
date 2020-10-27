@@ -1,0 +1,43 @@
+{
+	"author" : "Zurich University of the Arts",
+	"authors" : [ "Martin Froehlich" ],
+	"description" : "Blimpy 4 Max. Usefull tools for developing apps to control 'blimpy-blimps'.",
+	"displayname" : "",
+	"extends" : "",
+	"extensible" : 0,
+	"homepatcher" : "overview.maxpat",
+	"max_version_max" : "none",
+	"max_version_min" : "8.1.2",
+	"name" : "BLIMPY",
+	"os" : 	{
+		"macintosh" : 		{
+			"platform" : [ "x64" ],
+			"min_version" : "none"
+		}
+,
+		"windows" : 		{
+			"platform" : [ "x64" ],
+			"min_version" : "none"
+		}
+
+	}
+,
+	"package_extra" : 	{
+		"reverse_domain" : "ch.immersive-arts",
+		"copyright" : "Copyright (c) 2020 Zurich University of the Arts"
+	}
+,
+	"tags" : ["framework", "interactive"],
+	"version" : "1.0.0",
+	"website" : "https://github.com/immersive-arts/blimpy",
+	"filelist" : 	{
+		"examples" : [],
+		"externals" : [],
+		"patchers" : [],
+		"help" : ["blimp.maxhelp"],
+		"docs" : [],
+		"code" : [],
+		"extras" : [ "overview.maxpat" ]
+	}
+
+}
