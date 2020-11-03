@@ -1,5 +1,20 @@
 # Firmware
 
+## MQTT address space
+
+to address a blimp device the following path is required:
+
+```bash
+<blimp_base_topic>/<blimp_name>/<message_name> "message_body"
+```
+
+example:
+
+```bash
+blimps/b43/min-duty
+```
+
+
 ## MQTT API
 
 The following message can be sent to a drone (prefixed with base topic):
@@ -123,7 +138,7 @@ menu > shitfr.io > 1(2..) Device > deviceName
 
 * Host: broker IP
 * Port: broker Port (1883 default port for * MQTT brokers, i.e. mosquitto)
-* Client ID: this device ID
+* Client ID: this device ID (also know as <blimp_name>)
 * Username: broker Username
 * Password: broker password
 * Use shiftr.io: autocomplete for shiftr.io broker

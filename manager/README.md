@@ -57,11 +57,11 @@ To register a new blimp with the manager, a message to the following topic needs
 ```
 The payload of this message configures the blimp as
 ```bash
-"blimp_base_topic=<base topic of the blimp> blimp_id=<blimp id> tracking_id=<tracking id as per the motion capture system>"
+"blimp_base_topic=<base topic of the blimp> blimp_name=<blimp device name> tracking_id=<tracking id as per the motion capture system>"
 ```
 To send motion commands to a registered blimp, a message to the following topic needs to be sent:
 ```bash
-<base_topic>/<blimp_base_topic>/<blimp_id>/stack
+<base_topic>/<blimp_base_topic>/<blimp_name>/stack
 ```
 The payload of this message can either contain a desired position, orientation and velocity of the blimp, which the manager tries to follow with
 ```bash
@@ -77,7 +77,7 @@ or a more high level motion command with a desired final position, orientation a
 ```
 The motion commands are put in a FIFO queue and executed periodally with 10 Hz. In order to clear the queue, a message to the following topic needs to be sent:
 ```bash
-<base_topic>/<blimp_base_topic>/<blimp_id>/clear
+<base_topic>/<blimp_base_topic>/<blimp_name>/clear
 ```
 To deregister a blimp from the manager, message to the following topic needs to be sent:
 ```bash
@@ -85,7 +85,7 @@ To deregister a blimp from the manager, message to the following topic needs to 
 ```
 The payload of this message describes the desired blimp
 ```bash
-"blimp_id=<blimp id>"
+"blimp_name=<blimp name>"
 ```
 The manager folder contains an example demonstrating all of above commands. First start the manager (manager.py), then add a blimp (add.py), execute a several commands (sender.py) and last remove the blimp (remove.py). For a real demonstration, this requires a blimp which is tracked by the motion capture system with tracking ID 1.
 ## Credits

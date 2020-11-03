@@ -3,14 +3,14 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 8,
-			"minor" : 1,
-			"revision" : 6,
+			"minor" : 2,
+			"revision" : 0,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 468.0, 122.0, 1042.0, 367.0 ],
+		"rect" : [ 364.0, 122.0, 642.0, 367.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -40,13 +40,37 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-7",
+					"linecount" : 6,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 25.0, 50.0, 593.0, 87.0 ],
+					"text" : "Usage: \n0. Optitrack Motive is running and streaming data\n0. A MQTT broker is running on the specified IP address.\n1. specify the <blimpBaseTopic>, the <blimpName> and the trackingID (which is the rigidbody ID of the blimp)\n1. Run a NatNetThree2OSC app and route the OSC data to this machine and port\n2. connect to MQTT broker"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontsize" : 18.0,
+					"id" : "obj-2",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 25.0, 12.0, 430.0, 27.0 ],
+					"text" : "Bridge patch making tracking data available via mqtt "
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-20",
 					"maxclass" : "led",
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 33.0, 200.0, 24.0, 24.0 ]
+					"patching_rect" : [ 25.0, 303.0, 24.0, 24.0 ]
 				}
 
 			}
@@ -57,7 +81,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 109.5, 118.0, 68.0, 22.0 ],
+					"patching_rect" : [ 101.5, 221.0, 68.0, 22.0 ],
 					"text" : "disconnect"
 				}
 
@@ -69,7 +93,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 51.0, 118.0, 53.0, 22.0 ],
+					"patching_rect" : [ 43.0, 221.0, 53.0, 22.0 ],
 					"text" : "connect"
 				}
 
@@ -81,7 +105,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "int", "", "" ],
-					"patching_rect" : [ 33.0, 159.0, 254.0, 22.0 ],
+					"patching_rect" : [ 25.0, 262.0, 254.0, 22.0 ],
 					"text" : "mxj mqtt mqtt://10.128.96.204 osc2mqttBridge"
 				}
 
@@ -93,8 +117,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 33.0, 70.0, 176.0, 22.0 ],
-					"text" : "osc2mqtt_mapper blimps b02 1"
+					"patching_rect" : [ 25.0, 185.0, 148.0, 22.0 ],
+					"text" : "blp.osc2mqtt blimps b02 1"
 				}
 
 			}
@@ -105,7 +129,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 33.0, 27.0, 104.0, 22.0 ],
+					"patching_rect" : [ 25.0, 153.0, 104.0, 22.0 ],
 					"text" : "udpreceive 54321"
 				}
 
@@ -148,15 +172,11 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "osc2mqtt_mapper.maxpat",
-				"bootpath" : "D:/00_core/IAServer/Blimpy/apps/max-remote",
-				"patcherrelativepath" : ".",
+				"name" : "blp.osc2mqtt.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/txrx",
+				"patcherrelativepath" : "./txrx",
 				"type" : "JSON",
 				"implicit" : 1
-			}
-, 			{
-				"name" : "mxj.mxe64",
-				"type" : "mx64"
 			}
  ],
 		"autosave" : 0

@@ -3,14 +3,14 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 8,
-			"minor" : 1,
-			"revision" : 6,
+			"minor" : 2,
+			"revision" : 0,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 116.0, 179.0, 824.0, 663.0 ],
+		"rect" : [ 335.0, 116.0, 690.0, 734.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -40,13 +40,37 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-7",
+					"linecount" : 15,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 49.0, 50.0, 422.0, 208.0 ],
+					"text" : "Usage: \n1. connect your Xbox Wireless Controller via BlueTooth.\n2. press refresh button (hover over the UI to see the function of each element)\n3. enable main switch\n4. select the operating system you are using.\n5. select 'Xbox Wireless Controller' from the menu.\n\nIf the controller doesn't appear, repeat all above steps\n\n6. enter the blimp-base-topic and blimp-name\n7. connect to running mqtt broker\n8. subscribe to broker and link up with blimp\n\nThe position feedback from the tracking system works only if the osc2MQTT patch is running."
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"fontsize" : 18.0,
+					"id" : "obj-2",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 49.0, 12.0, 545.0, 27.0 ],
+					"text" : "Blimpy patch for direct control of blimp via Xbox Wireless Controller"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-3",
 					"maxclass" : "toggle",
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 599.0, 558.0, 24.0, 24.0 ]
+					"patching_rect" : [ 562.617647058823536, 649.0, 24.0, 24.0 ]
 				}
 
 			}
@@ -58,7 +82,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 463.0, 558.0, 53.0, 62.0 ],
+					"patching_rect" : [ 426.617647058823536, 649.0, 53.0, 62.0 ],
 					"text" : "0.0335 -0.0864 -0.3889 0.9166"
 				}
 
@@ -71,7 +95,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 361.0, 558.0, 53.0, 49.0 ],
+					"patching_rect" : [ 324.617647058823536, 649.0, 53.0, 49.0 ],
 					"text" : "-2.0708 -4.4447 1.4436"
 				}
 
@@ -83,19 +107,8 @@
 					"numinlets" : 4,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 395.0, 521.0, 325.0, 22.0 ],
+					"patching_rect" : [ 358.617647058823536, 612.0, 325.0, 22.0 ],
 					"text" : "route position quat tracked"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-5",
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 335.0, 477.5, 242.0, 20.0 ],
-					"text" : "<- set arguments: <blimp_topic> <blimp_id>"
 				}
 
 			}
@@ -109,12 +122,12 @@
 					"id" : "obj-47",
 					"lockeddragscroll" : 0,
 					"maxclass" : "bpatcher",
-					"name" : "xbox.maxpat",
-					"numinlets" : 2,
-					"numoutlets" : 18,
+					"name" : "blp.xbox.maxpat",
+					"numinlets" : 0,
+					"numoutlets" : 17,
 					"offset" : [ 0.0, 0.0 ],
-					"outlettype" : [ "int", "float", "float", "float", "float", "float", "int", "float", "int", "int", "int", "int", "int", "int", "int", "int", "int", "" ],
-					"patching_rect" : [ 81.5, 67.0, 534.0, 138.0 ],
+					"outlettype" : [ "float", "float", "float", "float", "float", "int", "float", "int", "int", "int", "int", "int", "int", "int", "int", "int", "" ],
+					"patching_rect" : [ 49.0, 266.0, 507.0, 135.0 ],
 					"viewvisibility" : 1
 				}
 
@@ -125,7 +138,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 364.0, 378.0, 53.0, 20.0 ],
+					"patching_rect" : [ 301.823529411764696, 504.0, 53.0, 20.0 ],
 					"text" : "s1,s2"
 				}
 
@@ -137,7 +150,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 319.0, 378.0, 41.0, 22.0 ],
+					"patching_rect" : [ 256.823529411764696, 504.0, 41.0, 22.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 0.0, 0.0, 100.0, 22.0 ],
 					"text" : "pak f f"
@@ -151,7 +164,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "float" ],
-					"patching_rect" : [ 111.794117647058826, 289.0, 31.0, 22.0 ],
+					"patching_rect" : [ 49.617647058823536, 415.0, 31.0, 22.0 ],
 					"text" : "* -1."
 				}
 
@@ -163,7 +176,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "float" ],
-					"patching_rect" : [ 142.088235294117652, 322.0, 31.0, 22.0 ],
+					"patching_rect" : [ 79.911764705882362, 448.0, 31.0, 22.0 ],
 					"text" : "* -1."
 				}
 
@@ -175,7 +188,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "float" ],
-					"patching_rect" : [ 172.382352941176464, 293.0, 31.0, 22.0 ],
+					"patching_rect" : [ 110.20588235294116, 419.0, 31.0, 22.0 ],
 					"text" : "* -1."
 				}
 
@@ -187,7 +200,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "float" ],
-					"patching_rect" : [ 202.676470588235304, 322.0, 31.0, 22.0 ],
+					"patching_rect" : [ 140.5, 448.0, 31.0, 22.0 ],
 					"text" : "* -1."
 				}
 
@@ -198,7 +211,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 196.088235294117652, 378.0, 110.0, 20.0 ],
+					"patching_rect" : [ 133.911764705882376, 504.0, 110.0, 20.0 ],
 					"text" : "fx,fy,fz,mx,my,mz"
 				}
 
@@ -210,7 +223,7 @@
 					"numinlets" : 6,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 121.088235294117652, 378.0, 71.5, 22.0 ],
+					"patching_rect" : [ 58.911764705882362, 504.0, 71.5, 22.0 ],
 					"text" : "pak f f f f f f"
 				}
 
@@ -226,12 +239,12 @@
 					"id" : "obj-14",
 					"lockeddragscroll" : 0,
 					"maxclass" : "bpatcher",
-					"name" : "drone.maxpat",
+					"name" : "blp.txrx.drone.maxpat",
 					"numinlets" : 4,
 					"numoutlets" : 2,
 					"offset" : [ 0.0, 0.0 ],
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 88.0, 472.0, 243.0, 33.0 ],
+					"patching_rect" : [ 51.617647058823536, 563.0, 243.0, 33.0 ],
 					"viewvisibility" : 1
 				}
 
@@ -244,7 +257,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 88.0, 603.0, 24.0, 24.0 ]
+					"patching_rect" : [ 51.617647058823536, 694.0, 24.0, 24.0 ]
 				}
 
 			}
@@ -255,7 +268,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 164.5, 521.0, 68.0, 22.0 ],
+					"patching_rect" : [ 128.117647058823536, 612.0, 68.0, 22.0 ],
 					"text" : "disconnect"
 				}
 
@@ -267,7 +280,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 106.0, 521.0, 53.0, 22.0 ],
+					"patching_rect" : [ 69.617647058823536, 612.0, 53.0, 22.0 ],
 					"text" : "connect"
 				}
 
@@ -279,39 +292,13 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "int", "", "" ],
-					"patching_rect" : [ 88.0, 558.0, 221.0, 22.0 ],
+					"patching_rect" : [ 51.617647058823536, 649.0, 221.0, 22.0 ],
 					"text" : "mxj mqtt mqtt://10.128.96.204 max-mqtt"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-1",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 2,
-					"outlettype" : [ "list", "" ],
-					"patching_rect" : [ 81.5, 34.0, 29.5, 22.0 ],
-					"text" : "hi"
 				}
 
 			}
  ],
 		"lines" : [ 			{
-				"patchline" : 				{
-					"destination" : [ "obj-47", 1 ],
-					"source" : [ "obj-1", 1 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-47", 0 ],
-					"source" : [ "obj-1", 0 ]
-				}
-
-			}
-, 			{
 				"patchline" : 				{
 					"destination" : [ "obj-22", 0 ],
 					"source" : [ "obj-14", 0 ]
@@ -328,7 +315,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-14", 3 ],
-					"midpoints" : [ 198.5, 590.0, 339.0, 590.0, 339.0, 458.0, 321.5, 458.0 ],
+					"midpoints" : [ 162.117647058823536, 681.0, 302.617647058823536, 681.0, 302.617647058823536, 549.0, 285.117647058823536, 549.0 ],
 					"source" : [ "obj-22", 1 ]
 				}
 
@@ -398,51 +385,43 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-1", 0 ],
-					"midpoints" : [ 91.0, 219.0, 52.75, 219.0, 52.75, 23.0, 91.0, 23.0 ],
-					"source" : [ "obj-47", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
 					"destination" : [ "obj-32", 0 ],
-					"source" : [ "obj-47", 4 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-34", 0 ],
 					"source" : [ "obj-47", 3 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-35", 0 ],
+					"destination" : [ "obj-34", 0 ],
 					"source" : [ "obj-47", 2 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-36", 0 ],
+					"destination" : [ "obj-35", 0 ],
 					"source" : [ "obj-47", 1 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-36", 0 ],
+					"source" : [ "obj-47", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-37", 1 ],
-					"source" : [ "obj-47", 8 ]
+					"source" : [ "obj-47", 7 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-37", 0 ],
-					"source" : [ "obj-47", 5 ]
+					"source" : [ "obj-47", 4 ]
 				}
 
 			}
@@ -469,23 +448,23 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "drone.maxpat",
-				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/apps/max-remote",
-				"patcherrelativepath" : ".",
+				"name" : "blp.txrx.drone.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/txrx",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/txrx",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
-				"name" : "rate.maxpat",
-				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/apps/max-remote",
-				"patcherrelativepath" : ".",
+				"name" : "blp.rate.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/utils",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/utils",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
-				"name" : "xbox.maxpat",
-				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/apps/max-remote",
-				"patcherrelativepath" : ".",
+				"name" : "blp.xbox.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/utils",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/utils",
 				"type" : "JSON",
 				"implicit" : 1
 			}

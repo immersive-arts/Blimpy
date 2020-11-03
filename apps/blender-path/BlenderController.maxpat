@@ -3,8 +3,8 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 8,
-			"minor" : 1,
-			"revision" : 9,
+			"minor" : 2,
+			"revision" : 0,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
@@ -45,7 +45,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 332.5, 418.0, 397.0, 22.0 ],
+					"patching_rect" : [ 386.5, 412.0, 397.0, 22.0 ],
 					"text" : "subscribe manager/blimps/b01/state {move, park, hold, untracked, ready}"
 				}
 
@@ -70,8 +70,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 1,
-							"revision" : 9,
+							"minor" : 2,
+							"revision" : 0,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -161,8 +161,8 @@
 										"fileversion" : 1,
 										"appversion" : 										{
 											"major" : 8,
-											"minor" : 1,
-											"revision" : 9,
+											"minor" : 2,
+											"revision" : 0,
 											"architecture" : "x64",
 											"modernui" : 1
 										}
@@ -1567,7 +1567,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 242.0, 17.0, 628.0, 32.0 ],
+					"patching_rect" : [ 226.5, 47.0, 628.0, 32.0 ],
 					"viewvisibility" : 1
 				}
 
@@ -1659,7 +1659,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 232.625, 205.0, 41.0, 22.0 ],
+					"patching_rect" : [ 236.625, 168.0, 41.0, 22.0 ],
 					"text" : "s park"
 				}
 
@@ -1683,7 +1683,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 446.75, 177.0, 24.0, 24.0 ]
+					"patching_rect" : [ 446.75, 140.0, 24.0, 24.0 ]
 				}
 
 			}
@@ -1695,7 +1695,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 349.5, 177.0, 24.0, 24.0 ]
+					"patching_rect" : [ 349.5, 140.0, 24.0, 24.0 ]
 				}
 
 			}
@@ -1705,7 +1705,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 383.0, 205.0, 94.0, 22.0 ],
+					"patching_rect" : [ 383.0, 168.0, 94.0, 22.0 ],
 					"text" : "s removeBlimps"
 				}
 
@@ -1716,7 +1716,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 300.25, 205.0, 74.0, 22.0 ],
+					"patching_rect" : [ 300.25, 168.0, 74.0, 22.0 ],
 					"text" : "s addBlimps"
 				}
 
@@ -1815,7 +1815,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 160.0, 281.0, 111.0, 22.0 ],
+					"patching_rect" : [ 165.333333333333343, 281.0, 111.0, 22.0 ],
 					"text" : "r blenderMessages"
 				}
 
@@ -1823,13 +1823,13 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-30",
-					"linecount" : 7,
+					"linecount" : 6,
 					"maxclass" : "newobj",
 					"numinlets" : 4,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 114.0, 338.0, 157.0, 102.0 ],
-					"text" : "blp.path @update_rate 10 @base_topic manager @blimp_base_topic blimps @blimp_id b01 @rigidBody_id 1 @velolcity_filter 0.2 @blender_fps 20"
+					"patching_rect" : [ 114.0, 338.0, 173.0, 89.0 ],
+					"text" : "blp.txrx.path @update_rate 10 @base_topic manager @blimp_base_topic blimps @blimp_name b01 @blender_fps 20 @tracking_id 1"
 				}
 
 			}
@@ -1874,6 +1874,14 @@
 				"patchline" : 				{
 					"destination" : [ "obj-30", 0 ],
 					"source" : [ "obj-33", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-30", 3 ],
+					"midpoints" : [ 223.5, 552.0, 368.5, 552.0, 368.5, 327.0, 277.5, 327.0 ],
+					"source" : [ "obj-34", 1 ]
 				}
 
 			}
@@ -1945,9 +1953,9 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "blp.path.maxpat",
-				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers",
-				"patcherrelativepath" : "../../libs/blimpy4max/patchers",
+				"name" : "blp.txrx.path.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/txrx",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/txrx",
 				"type" : "JSON",
 				"implicit" : 1
 			}

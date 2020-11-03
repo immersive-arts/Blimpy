@@ -3,14 +3,14 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 8,
-			"minor" : 1,
-			"revision" : 6,
+			"minor" : 2,
+			"revision" : 0,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 27.0, 173.0, 1379.0, 612.0 ],
+		"rect" : [ 34.0, 173.0, 1018.0, 612.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -112,6 +112,7 @@
 			}
 , 			{
 				"box" : 				{
+					"hint" : "blimp Base Topic / blimp Name",
 					"id" : "obj-35",
 					"keymode" : 1,
 					"lines" : 1,
@@ -249,7 +250,7 @@
 			}
 , 			{
 				"box" : 				{
-					"comment" : "subscribed messages",
+					"comment" : "subscribed messages. expects /optitrack/blimoBaseTopic/BlimpID messages",
 					"id" : "obj-52",
 					"index" : 0,
 					"maxclass" : "inlet",
@@ -262,6 +263,7 @@
 			}
 , 			{
 				"box" : 				{
+					"bgoncolor" : [ 0.0, 0.905882352941176, 0.043137254901961, 1.0 ],
 					"id" : "obj-47",
 					"maxclass" : "textbutton",
 					"mode" : 1,
@@ -272,9 +274,11 @@
 					"patching_rect" : [ 373.0, 286.0, 100.0, 20.0 ],
 					"presentation" : 1,
 					"presentation_rect" : [ 139.5, 4.0, 100.0, 22.0 ],
-					"text" : "unsubscribe",
-					"texton" : "subscribe",
-					"textoncolor" : [ 0.0, 0.905882352941176, 0.043137254901961, 1.0 ]
+					"text" : "subscribe",
+					"textcolor" : [ 0.0, 0.905882352941176, 0.043137254901961, 1.0 ],
+					"texton" : "unsubscribe",
+					"textoncolor" : [ 0.501960784313725, 0.501960784313725, 0.501960784313725, 1.0 ],
+					"usebgoncolor" : 1
 				}
 
 			}
@@ -368,7 +372,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 106.0, 354.0, 67.0, 20.0 ],
+					"patching_rect" : [ 111.0, 355.0, 67.0, 20.0 ],
 					"text" : "25 msg/s"
 				}
 
@@ -380,8 +384,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 46.0, 354.0, 46.0, 22.0 ],
-					"text" : "rate 40"
+					"patching_rect" : [ 46.0, 354.0, 65.0, 22.0 ],
+					"text" : "blp.rate 40"
 				}
 
 			}
@@ -583,8 +587,8 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 840.0, 63.0, 135.0, 20.0 ],
-					"text" : "Base Topic / Blimp ID"
+					"patching_rect" : [ 865.0, 107.0, 173.0, 20.0 ],
+					"text" : "blimp Base Topic / blimp Name"
 				}
 
 			}
@@ -614,7 +618,7 @@
 			}
 , 			{
 				"box" : 				{
-					"comment" : "Forces",
+					"comment" : "Forces (list fo 6 floats)",
 					"id" : "obj-7",
 					"index" : 0,
 					"maxclass" : "inlet",
@@ -627,7 +631,7 @@
 			}
 , 			{
 				"box" : 				{
-					"comment" : "Servos",
+					"comment" : "Servos (list fo 6 floats)",
 					"id" : "obj-3",
 					"index" : 0,
 					"maxclass" : "inlet",
@@ -652,7 +656,7 @@
 			}
 , 			{
 				"box" : 				{
-					"comment" : "Motors",
+					"comment" : "Motors (list fo 6 floats)",
 					"id" : "obj-2",
 					"index" : 0,
 					"maxclass" : "inlet",
@@ -1208,9 +1212,9 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "rate.maxpat",
-				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/apps/max-remote",
-				"patcherrelativepath" : ".",
+				"name" : "blp.rate.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/utils",
+				"patcherrelativepath" : "../utils",
 				"type" : "JSON",
 				"implicit" : 1
 			}

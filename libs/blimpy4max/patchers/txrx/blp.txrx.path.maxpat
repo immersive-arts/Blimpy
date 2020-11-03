@@ -3,14 +3,14 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 8,
-			"minor" : 1,
-			"revision" : 9,
+			"minor" : 2,
+			"revision" : 0,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 301.0, 79.0, 1114.0, 732.0 ],
+		"rect" : [ 292.0, 79.0, 1114.0, 732.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -59,7 +59,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 72.0, 29.0, 150.0, 87.0 ],
-					"text" : "update_rate \nblender_fps \nbase_topic blimp_base_topic\nblimp_id \nrigidBody_id"
+					"text" : "update_rate \nblender_fps \nbase_topic blimp_base_topic\nblimp_name\ntracking_id"
 				}
 
 			}
@@ -74,8 +74,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 1,
-							"revision" : 9,
+							"minor" : 2,
+							"revision" : 0,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -264,8 +264,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 1,
-							"revision" : 9,
+							"minor" : 2,
+							"revision" : 0,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -473,8 +473,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 1,
-							"revision" : 9,
+							"minor" : 2,
+							"revision" : 0,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -701,8 +701,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 1,
-							"revision" : 9,
+							"minor" : 2,
+							"revision" : 0,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -879,8 +879,8 @@
 										"fileversion" : 1,
 										"appversion" : 										{
 											"major" : 8,
-											"minor" : 1,
-											"revision" : 9,
+											"minor" : 2,
+											"revision" : 0,
 											"architecture" : "x64",
 											"modernui" : 1
 										}
@@ -1591,8 +1591,8 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 1,
-							"revision" : 9,
+							"minor" : 2,
+							"revision" : 0,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -1905,14 +1905,14 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 1,
-							"revision" : 9,
+							"minor" : 2,
+							"revision" : 0,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 374.0, 103.0, 983.0, 635.0 ],
+						"rect" : [ 524.0, 101.0, 983.0, 635.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -2056,8 +2056,8 @@
 									"numinlets" : 8,
 									"numoutlets" : 8,
 									"outlettype" : [ "", "", "", "", "", "", "", "" ],
-									"patching_rect" : [ 67.149999999999977, 74.0, 475.0, 22.0 ],
-									"text" : "route update_rate blender_fps base_topic blimp_base_topic blimp_id rigidBody_id done"
+									"patching_rect" : [ 67.149999999999977, 74.0, 487.0, 22.0 ],
+									"text" : "route update_rate blender_fps base_topic blimp_base_topic blimp_name tracking_id done"
 								}
 
 							}
@@ -2140,21 +2140,21 @@
 									"numinlets" : 3,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 662.899999999999977, 320.0, 136.0, 22.0 ],
-									"text" : "combine blimp_id = b01"
+									"patching_rect" : [ 662.899999999999977, 320.0, 156.0, 22.0 ],
+									"text" : "combine blimp_name = b01"
 								}
 
 							}
 , 							{
 								"box" : 								{
 									"id" : "obj-42",
-									"linecount" : 5,
+									"linecount" : 4,
 									"maxclass" : "newobj",
 									"numinlets" : 11,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 497.5, 320.0, 124.0, 76.0 ],
-									"text" : "combine blimp_base_topic = blimps \" \" blimp_id = b01 \" \" tracking_id = 1"
+									"patching_rect" : [ 497.5, 320.0, 145.0, 62.0 ],
+									"text" : "combine blimp_base_topic = blimps \" \" blimp_name = b01 \" \" tracking_id = 1"
 								}
 
 							}
@@ -2177,8 +2177,8 @@
 									"numinlets" : 5,
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 193.999999999999886, 223.0, 273.0, 22.0 ],
-									"text" : "combine base_topic / blimp_base_topic / blimp_id"
+									"patching_rect" : [ 193.999999999999886, 223.0, 294.0, 22.0 ],
+									"text" : "combine base_topic / blimp_base_topic / blimp_name"
 								}
 
 							}
