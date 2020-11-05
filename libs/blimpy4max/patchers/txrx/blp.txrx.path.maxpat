@@ -1629,12 +1629,12 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-105",
-					"linecount" : 6,
+					"linecount" : 7,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 797.5, 72.0, 150.0, 87.0 ],
-					"text" : "update_rate \nblender_fps \nbase_topic blimp_base_topic\nblimp_name\ntracking_id"
+					"patching_rect" : [ 797.5, 72.0, 150.0, 100.0 ],
+					"text" : "update_rate \ndata_fps \nbase_topic blimp_base_topic\nblimp_name\ntracking_id\nvelocity_max"
 				}
 
 			}
@@ -1763,8 +1763,8 @@
 									"numinlets" : 3,
 									"numoutlets" : 3,
 									"outlettype" : [ "", "", "" ],
-									"patching_rect" : [ 314.0, 80.0, 175.0, 22.0 ],
-									"text" : "route blender_fps velocity_max"
+									"patching_rect" : [ 314.0, 80.0, 158.0, 22.0 ],
+									"text" : "route data_fps velocity_max"
 								}
 
 							}

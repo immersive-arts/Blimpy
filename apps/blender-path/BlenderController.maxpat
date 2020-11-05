@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 264.0, 191.0, 927.0, 644.0 ],
+		"rect" : [ 222.0, 107.0, 1022.0, 644.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -39,6 +39,33 @@
 		"subpatcher_template" : "",
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-19",
+					"linecount" : 9,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 669.5, 160.0, 285.0, 127.0 ],
+					"presentation_linecount" : 32,
+					"text" : "\n\nthe rate in which MQTT data is send to the manager\nthe rate transformation data is beeing received\nbase topic of the manager\nbase topic of the blimp\ndevice name of the blimp\nrigidbody id from optitrack\nmaximum allowed velocity - if it goes beyond -> 0"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-8",
+					"linecount" : 9,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 611.5, 160.0, 53.0, 127.0 ],
+					"presentation_linecount" : 9,
+					"text" : "\n\n[fps]\n[fps]\n[symbol]\n[symbol]\n[symbol]\n[int]\n[m/s]",
+					"textjustification" : 0
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-1",
 					"maxclass" : "newobj",
@@ -104,7 +131,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 601.5, 143.5, 290.0, 154.0 ],
+					"patching_rect" : [ 669.5, 439.5, 290.0, 154.0 ],
 					"text" : "receives following messages on\n\nhold: <blimp_name> 0...1\nhold: 0...1\npark: <blimp_name> bang\npark: bang\naddBlimps: <blimp_name> bang\naddBlimps: bang\nremoveBlimps: <blimp_name> bang\nremoveBlimps: bang\n"
 				}
 
@@ -116,7 +143,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 601.5, 313.5, 314.0, 141.0 ],
+					"patching_rect" : [ 669.5, 296.5, 314.0, 141.0 ],
 					"text" : "understands following messages send to the first inlet:\n\nconnected 0...1\nenable 0...1\ntransform <blimp_name> <position> <rotation>\ntopics <topic> <data>\nhold <blimp_name> 0...1\nhold 0...1\npark <blimp_name> bang\npark bang"
 				}
 
@@ -128,8 +155,9 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 601.5, 473.0, 163.0, 127.0 ],
-					"text" : "expects following attributes:\n\n@update_rate [fps]\n@blender_fps [fps]\n@base_topic [symbol] @blimp_base_topic [symbol]\n@blimp_name [symbol]\n@tracking_id [int]\n@velocity_max [m/s]"
+					"patching_rect" : [ 451.5, 160.0, 163.0, 127.0 ],
+					"text" : "expects following attributes:\n\n@update_rate\n@data_fps\n@base_topic\n@blimp_base_topic\n@blimp_name\n@tracking_id\n@velocity_max",
+					"textjustification" : 2
 				}
 
 			}
@@ -2065,7 +2093,7 @@
 			}
 , 			{
 				"box" : 				{
-					"args" : [ "@update_rate", 10, "@base_topic", "manager", "@blimp_base_topic", "blimps", "@blimp_name", "b01", "@blender_fps", 20, "@tracking_id", 1, "@velocity_max", 1 ],
+					"args" : [ "@update_rate", 10, "@base_topic", "manager", "@blimp_base_topic", "blimps", "@blimp_name", "b01", "@data_fps", 25, "@tracking_id", 1, "@velocity_max", 1 ],
 					"bgmode" : 0,
 					"border" : 0,
 					"clickthrough" : 0,
