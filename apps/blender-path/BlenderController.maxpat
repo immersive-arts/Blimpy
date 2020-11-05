@@ -378,6 +378,18 @@
 										"assistshowspatchername" : 0,
 										"boxes" : [ 											{
 												"box" : 												{
+													"id" : "obj-27",
+													"maxclass" : "newobj",
+													"numinlets" : 1,
+													"numoutlets" : 1,
+													"outlettype" : [ "" ],
+													"patching_rect" : [ 151.5, 172.5, 70.0, 22.0 ],
+													"text" : "loadmess 0"
+												}
+
+											}
+, 											{
+												"box" : 												{
 													"id" : "obj-26",
 													"maxclass" : "newobj",
 													"numinlets" : 1,
@@ -564,7 +576,6 @@
 											}
 , 											{
 												"box" : 												{
-													"hidden" : 1,
 													"id" : "obj-63",
 													"maxclass" : "message",
 													"numinlets" : 2,
@@ -631,7 +642,6 @@
 												"box" : 												{
 													"autoscroll" : 0,
 													"fontsize" : 14.0,
-													"hidden" : 1,
 													"id" : "obj-45",
 													"keymode" : 1,
 													"lines" : 1,
@@ -687,7 +697,6 @@
 , 											{
 												"box" : 												{
 													"fontface" : 0,
-													"hidden" : 1,
 													"iconbackground" : 4,
 													"iconsize" : 25.0,
 													"iconstyle" : 10,
@@ -734,6 +743,7 @@
 , 											{
 												"box" : 												{
 													"fontface" : 0,
+													"hidden" : 1,
 													"iconbackground" : 4,
 													"iconsize" : 25.0,
 													"iconstyle" : 6,
@@ -768,7 +778,6 @@
 , 											{
 												"box" : 												{
 													"fontface" : 0,
-													"hidden" : 1,
 													"iconbackground" : 4,
 													"iconsize" : 25.0,
 													"iconstyle" : 5,
@@ -1240,6 +1249,13 @@
 												"patchline" : 												{
 													"destination" : [ "obj-23", 0 ],
 													"source" : [ "obj-26", 0 ]
+												}
+
+											}
+, 											{
+												"patchline" : 												{
+													"destination" : [ "obj-16", 0 ],
+													"source" : [ "obj-27", 0 ]
 												}
 
 											}
