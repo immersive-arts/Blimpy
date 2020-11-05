@@ -40,11 +40,23 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-1",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 2,
+					"outlettype" : [ "", "" ],
+					"patching_rect" : [ 50.0, 97.0, 60.0, 22.0 ],
+					"text" : "zl.change"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-3",
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 151.6875, 308.0, 150.0, 20.0 ],
+					"patching_rect" : [ 151.6875, 348.0, 150.0, 20.0 ],
 					"text" : "< filter out to fast velocities"
 				}
 
@@ -55,7 +67,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 142.339293999999995, 167.0, 150.0, 20.0 ],
+					"patching_rect" : [ 142.339293999999995, 207.0, 150.0, 20.0 ],
 					"text" : "< calculating delta position"
 				}
 
@@ -67,7 +79,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "bang", "" ],
-					"patching_rect" : [ 115.6875, 281.0, 34.0, 22.0 ],
+					"patching_rect" : [ 115.6875, 321.0, 34.0, 22.0 ],
 					"text" : "sel 1"
 				}
 
@@ -79,7 +91,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 115.6875, 308.0, 29.5, 22.0 ],
+					"patching_rect" : [ 115.6875, 348.0, 29.5, 22.0 ],
 					"text" : "0."
 				}
 
@@ -91,8 +103,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 204.0, 263.0, 38.0, 22.0 ],
-					"text" : "zl.reg"
+					"patching_rect" : [ 204.0, 303.0, 55.0, 22.0 ],
+					"text" : "zl.reg #1"
 				}
 
 			}
@@ -103,7 +115,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 50.1875, 195.0, 84.5, 22.0 ],
+					"patching_rect" : [ 50.1875, 235.0, 84.5, 22.0 ],
 					"text" : "t l l"
 				}
 
@@ -115,7 +127,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
-					"patching_rect" : [ 115.6875, 253.0, 36.0, 22.0 ],
+					"patching_rect" : [ 115.6875, 293.0, 36.0, 22.0 ],
 					"text" : "> 0.1"
 				}
 
@@ -127,7 +139,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 115.6875, 226.0, 43.0, 22.0 ],
+					"patching_rect" : [ 115.6875, 266.0, 43.0, 22.0 ],
 					"text" : "zl.sum"
 				}
 
@@ -138,7 +150,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 233.25, 349.0, 150.0, 20.0 ],
+					"patching_rect" : [ 233.25, 389.0, 150.0, 20.0 ],
 					"text" : "< calculating speed vector"
 				}
 
@@ -150,7 +162,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 50.0, 347.0, 173.0, 22.0 ],
+					"patching_rect" : [ 50.0, 387.0, 173.0, 22.0 ],
 					"text" : "vexpr $f1 * $f2 @scalarmode 1"
 				}
 
@@ -162,7 +174,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 50.1875, 167.0, 85.0, 22.0 ],
+					"patching_rect" : [ 50.1875, 207.0, 85.0, 22.0 ],
 					"text" : "vexpr $f2 - $f1"
 				}
 
@@ -174,7 +186,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 4,
 					"outlettype" : [ "", "bang", "", "bang" ],
-					"patching_rect" : [ 50.1875, 100.0, 118.0, 22.0 ],
+					"patching_rect" : [ 50.1875, 140.0, 118.0, 22.0 ],
 					"text" : "t l b l b"
 				}
 
@@ -186,7 +198,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 50.1875, 138.0, 43.5, 22.0 ],
+					"patching_rect" : [ 50.1875, 178.0, 43.5, 22.0 ],
 					"text" : "zl.reg"
 				}
 
@@ -199,7 +211,7 @@
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "float" ],
 					"patching_rect" : [ 50.1875, 40.0, 30.0, 30.0 ]
 				}
 
@@ -233,6 +245,13 @@
 		"lines" : [ 			{
 				"patchline" : 				{
 					"destination" : [ "obj-16", 0 ],
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
 					"source" : [ "obj-10", 0 ]
 				}
 

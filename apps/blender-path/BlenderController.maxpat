@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 40.0, 222.0, 927.0, 644.0 ],
+		"rect" : [ 264.0, 191.0, 927.0, 644.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -39,6 +39,17 @@
 		"subpatcher_template" : "",
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-1",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 402.0, 452.0, 88.0, 22.0 ],
+					"text" : "blp.show.panel"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-65",
 					"maxclass" : "newobj",
@@ -81,7 +92,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 58.0, 146.0, 150.0, 20.0 ],
+					"patching_rect" : [ 58.0, 143.5, 150.0, 20.0 ],
 					"text" : "Blender data receiver:"
 				}
 
@@ -141,7 +152,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 312.0, 482.0, 218.0, 22.0 ],
+					"patching_rect" : [ 312.0, 488.0, 218.0, 22.0 ],
 					"text" : "jit.gl.sketch @layer 0 @depth_enable 0"
 				}
 
@@ -867,7 +878,7 @@
 													"patching_rect" : [ 557.5, 294.5, 50.0, 22.0 ],
 													"presentation" : 1,
 													"presentation_rect" : [ 116.0, 2.5, 50.0, 22.0 ],
-													"text" : "3:34"
+													"text" : "7:45"
 												}
 
 											}
@@ -2127,6 +2138,14 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"order" : 0,
+					"source" : [ "obj-30", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-40", 0 ],
 					"source" : [ "obj-30", 0 ]
 				}
@@ -2135,6 +2154,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-65", 0 ],
+					"order" : 1,
 					"source" : [ "obj-30", 1 ]
 				}
 
@@ -2266,6 +2286,20 @@
 			}
 , 			{
 				"name" : "bpl.visualizer.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/utils",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/utils",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "blp.show.panel.maxpat",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/utils",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/utils",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "blp.plot.maxpat",
 				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/utils",
 				"patcherrelativepath" : "../../libs/blimpy4max/patchers/utils",
 				"type" : "JSON",
