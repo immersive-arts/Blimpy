@@ -4,36 +4,48 @@ import sys
 from collections import deque
 import pyqtgraph as pg
 import numpy as np
-import socket
-import struct
 import threading
+import paho.mqtt.client as mqtt 
+import re
 import time
 
 LINE = 1
 SIZE = 2
+MQTT_HOST = 'localhost'
+MQTT_PORT = 1883
+
+def parseFloat(string, message):
+    try:
+        ms = re.search(string+"=[-+]?\d*\.\d+", message)
+        data = float(message[ms.span()[0]+(len(string)+1):ms.span()[1]])
+    except:
+        pass
+        return None
+    
+    return data
 
 class BlimpData():
-    def __init__(self, L, group, port):
+    def __init__(self, id, L):
         self._x = deque([], maxlen=L)
         self._y = deque([], maxlen=L)
         self._z = deque([], maxlen=L)
-        self._a = deque([], maxlen=L)
+        self._alpha = deque([], maxlen=L)
         self._vx = deque([], maxlen=L)
         self._vy = deque([], maxlen=L)
         self._vz = deque([], maxlen=L)
-        self._va = deque([], maxlen=L)
+        self._valpha = deque([], maxlen=L)
         self._x_ref = deque([], maxlen=L)
         self._y_ref = deque([], maxlen=L)
         self._z_ref = deque([], maxlen=L)
-        self._a_ref = deque([], maxlen=L)
+        self._alpha_ref = deque([], maxlen=L)
         self._vx_ref = deque([], maxlen=L)
         self._vy_ref = deque([], maxlen=L)
         self._vz_ref = deque([], maxlen=L)
-        self._va_ref = deque([], maxlen=L)
+        self._valpha_ref = deque([], maxlen=L)
         self._fx = deque([], maxlen=L)
         self._fy = deque([], maxlen=L)
         self._fz = deque([], maxlen=L)
-        self._ma = deque([], maxlen=L)
+        self._malpha = deque([], maxlen=L)
         self._t = deque([], maxlen=L)
         self._m1 = deque([], maxlen=L)
         self._m2 = deque([], maxlen=L)
@@ -42,67 +54,90 @@ class BlimpData():
         self._m5 = deque([], maxlen=L)
         self._m6 = deque([], maxlen=L)
         
-        self._group = group
-        self._port = port
-        self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-        self._sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self._sock.bind(('', port))
-        mreq = struct.pack("4sl", socket.inet_aton(group), socket.INADDR_ANY)
-        self._sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
         self._data = np.zeros(6)
-        
-        self._lock = threading.Lock()
-        self._run = True
-        
-        self._thread = threading.Thread(target=self.subscribe)
-        self._thread.start()
-        self._data_available = False
-        
-        self.t0 = time.time()
+        self._lock = threading.Lock()    
                 
-    def subscribe(self):
-        while self._run:
-            try:
-                self._sock.settimeout(1.0)
-                data, address = self._sock.recvfrom(10000)
-                with self._lock:
-                    data = struct.unpack('<26f',data)
-                    self._x.append(data[0])
-                    self._y.append(data[1])
-                    self._z.append(data[2])
-                    self._a.append(data[3])
-                    self._vx.append(data[4])
-                    self._vy.append(data[5])
-                    self._vz.append(data[6])
-                    self._va.append(data[7])
-                    self._x_ref.append(data[8])
-                    self._y_ref.append(data[9])
-                    self._z_ref.append(data[10])
-                    self._a_ref.append(data[11])
-                    self._vx_ref.append(data[12])
-                    self._vy_ref.append(data[13])
-                    self._vz_ref.append(data[14])
-                    self._va_ref.append(data[15])
-                    self._fx.append(data[16])
-                    self._fy.append(data[17])
-                    self._fz.append(data[18])
-                    self._ma.append(data[19])
-                    self._m1.append(data[20])
-                    self._m2.append(data[21])
-                    self._m3.append(data[22])
-                    self._m4.append(data[23])
-                    self._m5.append(data[24])
-                    self._m6.append(data[25])
-
-                    self._t.append(time.time() - self.t0)
-                    self._data_available = True    
-            except:
-                pass
+        self._id = id
+        self._t0 = time.time()
+        
+        self._client = mqtt.Client(client_id='GUI'+id)
+        self._client.username_pw_set(username="testtest",password="testtest")
+        self._client.connect(MQTT_HOST, MQTT_PORT, 60)
+        print("Added blimp %s to GUI" % self._id)
+        self._client.loop_start()
+        
+        self._client.message_callback_add("manager/blimps/" + id + "/feedback", self.add_data)
+        self._client.subscribe("manager/blimps/" + id + "/feedback")
+                
+    def add_data(self, client, userdata, msg):
+        with self._lock:
+    
+            message = msg.payload.decode()
+            
+            x = parseFloat('x', message)
+            y = parseFloat('y', message)
+            z = parseFloat('z', message)
+            alpha = parseFloat('alpha', message)
+            vx = parseFloat('vx', message)
+            vy = parseFloat('vy', message)
+            vz = parseFloat('vz', message)
+            valpha = parseFloat('valpha', message)
+            
+            x_ref = parseFloat('x_ref', message)
+            y_ref = parseFloat('y_ref', message)
+            z_ref = parseFloat('z_ref', message)
+            alpha_ref = parseFloat('alpha_ref', message)
+            vx_ref = parseFloat('vx_ref', message)
+            vy_ref = parseFloat('vy_ref', message)
+            vz_ref = parseFloat('vz_ref', message)
+            valpha_ref = parseFloat('valpha_ref', message)
+            
+            fx = parseFloat('fx', message)
+            fy = parseFloat('fy', message)
+            fz = parseFloat('fz', message)
+            malpha = parseFloat('malpha', message)
+            
+            m1 = parseFloat('m1', message)
+            m2 = parseFloat('m2', message)
+            m3 = parseFloat('m3', message)
+            m4 = parseFloat('m4', message)
+            m5 = parseFloat('m5', message)
+            m6 = parseFloat('m6', message)
+            
+            self._x.append(x)
+            self._y.append(y)
+            self._z.append(z)
+            self._alpha.append(alpha)
+            self._vx.append(vx)
+            self._vy.append(vy)
+            self._vz.append(vz)
+            self._valpha.append(valpha)
+            self._x_ref.append(x_ref)
+            self._y_ref.append(y_ref)
+            self._z_ref.append(z_ref)
+            self._alpha_ref.append(alpha_ref)
+            self._vx_ref.append(vx_ref)
+            self._vy_ref.append(vy_ref)
+            self._vz_ref.append(vz_ref)
+            self._valpha_ref.append(valpha_ref)
+            self._fx.append(fx)
+            self._fy.append(fy)
+            self._fz.append(fz)
+            self._malpha.append(malpha)
+            self._m1.append(m1)
+            self._m2.append(m2)
+            self._m3.append(m3)
+            self._m4.append(m4)
+            self._m5.append(m5)
+            self._m6.append(m6)
+            
+            self._t.append(time.time() - self._t0)
+            self._data_available = True 
                         
     def get_data(self):
         with self._lock:
             self._data_available = False
-            return self._x, self._y, self._z, self._a, self._vx, self._vy, self._vz, self._va, self._x_ref, self._y_ref, self._z_ref, self._a_ref, self._vx_ref, self._vy_ref, self._vz_ref, self._va_ref, self._fx, self._fy, self._fz, self._ma, self._m1, self._m2, self._m3, self._m4, self._m5, self._m6, self._t
+            return self._x, self._y, self._z, self._alpha, self._vx, self._vy, self._vz, self._valpha, self._x_ref, self._y_ref, self._z_ref, self._alpha_ref, self._vx_ref, self._vy_ref, self._vz_ref, self._valpha_ref, self._fx, self._fy, self._fz, self._malpha, self._m1, self._m2, self._m3, self._m4, self._m5, self._m6, self._t
         
     def data_available(self):
         return self._data_available      
@@ -119,6 +154,9 @@ def generatePlot(item, line, color, size, name = ''):
 
 
 class Ui(QtWidgets.QMainWindow):
+    
+    updated = QtCore.pyqtSignal(str)
+
     def __init__(self):
         super(Ui, self).__init__()
         self.ui = Ui_MainWindow()        
@@ -234,29 +272,62 @@ class Ui(QtWidgets.QMainWindow):
         self.now = 0
         self.show()
         
-        self.blimps = []
-        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7001))
-        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7002))
-        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7003))
-        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7004))
-        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7005))
-        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7006))
-        self.blimps.append(BlimpData(10*60*1, '224.1.1.1', 7007))
+        self.blimps = {}
         
-        self.active_blimp = 1
+        self.active_blimp = ''
         
-        self.ui.pushButton.clicked.connect(self.handleButton1)
-        self.ui.pushButton_2.clicked.connect(self.handleButton2)
-        self.ui.pushButton_3.clicked.connect(self.handleButton3)
-        self.ui.pushButton_4.clicked.connect(self.handleButton4)
-        self.ui.pushButton_5.clicked.connect(self.handleButton5)
-        self.ui.pushButton_6.clicked.connect(self.handleButton6)
-        self.ui.pushButton_7.clicked.connect(self.handleButton7)
+        self.client = mqtt.Client(client_id='GUI')
+        self.client.username_pw_set(username="testtest",password="testtest")
+        self.client.connect(MQTT_HOST, MQTT_PORT, 60)
+        print("MQTT client connected to %s on port %d" % ('localhost', 1883))
+        self.client.loop_start()
+        
+        self.client.message_callback_add("manager/blimps/+/state", self.addBlimp)
+        self.client.subscribe("manager/blimps/+/state")
+        
+        self.blimpsactive = []
+        
+        self.updated.connect(self.addPushButton)
+        
+        self.sem = threading.Semaphore()
+        self.t0 = time.time()
+                        
+    def addPushButton(self, id):
+
+        if not hasattr(self.ui, 'pushButtons'):
+            self.ui.pushButtons = []
+
+        i = len(self.ui.pushButtons)
+        self.ui.pushButtons.append(QtWidgets.QPushButton(self.ui.groupBox))
+        self.ui.pushButtons[i].setGeometry(QtCore.QRect(10, 30 + (len(self.blimpsactive)-1)*90, 131, 81))
+        self.ui.pushButtons[i].setStyleSheet("")
+        self.ui.pushButtons[i].setFlat(False)
+        self.ui.pushButtons[i].setObjectName(id)
+        self.ui.pushButtons[i].setText(id)
+        self.ui.pushButtons[i].show()
+        self.ui.pushButtons[i].clicked.connect(lambda: self.handleButton(self.ui.pushButtons[i]))
+        self.sem.release()
+
+        
+    def addBlimp(self, client, userdata, msg):
+        ident = msg.topic.split('/')[-2]
+        
+        if ident in self.blimpsactive:
+            pass
+        else:
+            self.sem.acquire()
+            self.blimpsactive.append(ident)
+            self.blimps[ident] = BlimpData(ident, 10*60*1)
+            self.updated.emit(ident)
         
     def updateData(self):
         self.now = pg.ptime.time()
-
-        x, y, z, alpha, vx, vy, vz, valpha, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref, fx, fy, fz, malpha, m1, m2, m3, m4, m5, m6, t = self.blimps[self.active_blimp-1].get_data()
+                
+        try:
+            x, y, z, alpha, vx, vy, vz, valpha, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref, fx, fy, fz, malpha, m1, m2, m3, m4, m5, m6, t = self.blimps[self.active_blimp].get_data()
+        except:
+            return
+        
         if t:
             self.plotDataItem_x.setData(t, x)
             self.plotDataItem_x.setPos(-t[-1], 0)
@@ -316,54 +387,18 @@ class Ui(QtWidgets.QMainWindow):
             self.plotDataItem_motors[3].setPos(-t[-1], 0)
             self.plotDataItem_motors[4].setPos(-t[-1], 0)
             self.plotDataItem_motors[5].setPos(-t[-1], 0)
-
-    def handleButton1(self):
-        self.active_blimp = 1
-        self.clearButtons()
-        self.ui.pushButton.setStyleSheet("background-color:rgb(11, 220, 13);")
             
-    def handleButton2(self):
-        self.active_blimp = 2
-        self.clearButtons()
-        self.ui.pushButton_2.setStyleSheet("background-color:rgb(11, 220, 13);")
-                
-    def handleButton3(self):
-        self.active_blimp = 3
-        self.clearButtons()
-        self.ui.pushButton_3.setStyleSheet("background-color:rgb(11, 220, 13);")
-                
-    def handleButton4(self):
-        self.active_blimp = 4
-        self.clearButtons()
-        self.ui.pushButton_4.setStyleSheet("background-color:rgb(11, 220, 13);")
-                
-    def handleButton5(self):
-        self.active_blimp = 5
-        self.clearButtons()
-        self.ui.pushButton_5.setStyleSheet("background-color:rgb(11, 220, 13);")
+    def handleButton(self, btn):       
+        self.active_blimp = btn.text()
             
-    def handleButton6(self):
-        self.active_blimp = 6
-        self.clearButtons()
-        self.ui.pushButton_6.setStyleSheet("background-color:rgb(11, 220, 13);")
-                
-    def handleButton7(self):
-        self.active_blimp = 7
-        self.clearButtons()
-        self.ui.pushButton_7.setStyleSheet("background-color:rgb(11, 220, 13);")
-        
-    def clearButtons(self):
-        self.ui.pushButton.setStyleSheet("")
-        self.ui.pushButton_2.setStyleSheet("")
-        self.ui.pushButton_3.setStyleSheet("")
-        self.ui.pushButton_4.setStyleSheet("")
-        self.ui.pushButton_5.setStyleSheet("")
-        self.ui.pushButton_6.setStyleSheet("")
-        self.ui.pushButton_7.setStyleSheet("")
+        for i, button in enumerate(self.ui.pushButtons):
+            self.ui.pushButtons[i].setStyleSheet("")
+            if button.text() == btn.text():
+                self.ui.pushButtons[i].setStyleSheet("background-color:rgb(11, 220, 13);")
     
     def closeEvent(self, event):
         self.timer.stop()
-        for blimp in self.blimps:
+        for key, blimp in self.blimps.items():
             blimp.stop()
         event.accept()        
 
@@ -371,6 +406,8 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--line", help="plot lines (0: dots, 1: lines)")
 parser.add_argument("--size", help="plot size")
+parser.add_argument("--mqtt_host", help="IP of MQTT host")
+parser.add_argument("--mqtt_port", help="port of MQTT host")
 
 args = parser.parse_args()
 if args.line:
@@ -379,6 +416,12 @@ if args.line:
 if args.size:
     print("Set plot size")
     SIZE = int(args.size)  
+if args.mqtt_host:
+    print("Set mqtt host", args.mqtt_host)
+    MQTT_HOST = str(args.mqtt_host)
+if args.mqtt_port:
+    print("Set mqtt port", args.mqtt_port)
+    MQTT_PORT = int(args.mqtt_port)
 
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()

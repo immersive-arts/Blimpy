@@ -1,22 +1,29 @@
 import paho.mqtt.client as mqtt
 import time
 import re
-from threading import Event, Thread
+from threading import Thread
 import signal as sig
 import math
 import queue
 import numpy as np
 from osc4py3.as_comthreads import osc_method, osc_udp_server, osc_startup, osc_process, osc_terminate
 from scipy import signal
+from enum import Enum
 import sys, getopt
-import socket
-import struct
 
 def signal_handler(sig, frame):
     global run
     run = False
 
 sig.signal(sig.SIGINT, signal_handler)
+
+class State(Enum):
+    nottracked = 0
+    ready = 1
+    move = 2
+    park = 3
+    hold = 4
+    freeze = 5
 
 class Blimp:
     count = 0
@@ -79,22 +86,26 @@ class Blimp:
     b, a = signal.butter(3, 5.0, fs = 120.0)
 
     tracked = False
+    missed_ticks = 0
+    
+    state = State.nottracked
 
-    def __init__(self, dt, client, base_topic, blimp_base_topic, blimp_id, tracking_id):
+    def __init__(self, dt, client, base_topic, blimp_base_topic, blimp_name, tracking_id):
 
         self.tracking_id = tracking_id
-        self.blimp_id = blimp_id
+        self.blimp_name = blimp_name
         self.blimp_base_topic = blimp_base_topic
+        self.base_topic = base_topic
         self.dt = dt
         self.client = client
-        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/stack", self.stack)
-        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/clear", self.clear)
-        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/config", self.config)
-        self.client.message_callback_add(str(blimp_base_topic) + "/" + str(self.blimp_id) + "/model", self.model)
-        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/stack")
-        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/clear")
-        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_id) + "/config")
-        self.client.subscribe(str(blimp_base_topic) + "/" + str(self.blimp_id) + "/model")
+        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_name) + "/stack", self.stack)
+        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_name) + "/clear", self.clear)
+        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_name) + "/config", self.config)
+        self.client.message_callback_add(str(blimp_base_topic) + "/" + str(self.blimp_name) + "/model", self.model)
+        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_name) + "/stack")
+        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_name) + "/clear")
+        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_name) + "/config")
+        self.client.subscribe(str(blimp_base_topic) + "/" + str(self.blimp_name) + "/model")
 
         osc_method("/rigidbody/" + str(self.tracking_id) + "/tracked", self.set_track)
         osc_method("/rigidbody/" + str(self.tracking_id) + "/quat", self.set_attitude)
@@ -108,21 +119,13 @@ class Blimp:
 
         self.command_queue = queue.Queue(1000)
         self.t0 = time.time()
-        self.event = Event()
         self.thread = Thread(target=self.run)
         self.run_thread = True
         self.thread.start()
 
         self.filt_const = dt / (dt + self.time_const)
 
-        self.group = '224.1.1.1'
-        self.port = 7000 + int(self.tracking_id)
-        MULTICAST_TTL = 2
-
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM, socket.IPPROTO_UDP)
-        self.sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, MULTICAST_TTL)
-
-        print("%s started" % self.blimp_id)
+        print("%s started" % self.blimp_name)
 
     def parse_command(self, payload):
         command = payload.decode()
@@ -157,6 +160,12 @@ class Blimp:
             ms = re.search("z=[-+]?\d*\.\d+", command)
             if ms is None:
                 return
+            try:
+                self.command_queue.put_nowait(command)
+            except queue.Full:
+                pass
+
+        if command.split()[0]  == 'freeze':
             try:
                 self.command_queue.put_nowait(command)
             except queue.Full:
@@ -198,8 +207,25 @@ class Blimp:
 
             ms = re.search("t=[-+]?\d*\.\d+", command)
             if ms is None:
+                tf = 0
+            else:
+                tf = float(command[ms.span()[0]+2:ms.span()[1]])
+
+            ms = re.search("vmax=[-+]?\d*\.\d+", command)
+            if ms is None and tf == 0:
                 return
-            tf = float(command[ms.span()[0]+2:ms.span()[1]])
+            else:
+                if ms is not None:
+                    vmax = float(command[ms.span()[0]+5:ms.span()[1]])
+                else:
+                    vmax = 0
+
+            if vmax > 0:
+                tf = np.abs(xf/vmax*1.8746174)
+                if tf < np.abs(yf/vmax*1.8746174):
+                    tf = np.abs(yf/vmax*1.8746174)
+                if tf < np.abs(zf/vmax*1.8746174):
+                    tf = np.abs(zf/vmax*1.8746174)
 
             t, x, dx = self.compute_min_jerk(xf, tf)
             t, y, dy = self.compute_min_jerk(yf, tf)
@@ -215,9 +241,81 @@ class Blimp:
             except queue.Full:
                 pass
 
+        if command.split()[0]  == 'park':
+            ms = re.search("x=[-+]?\d*\.\d+", command)
+            if ms is None:
+                return
+            xf = float(command[ms.span()[0]+2:ms.span()[1]])
+            xf = xf - self.x
+
+            ms = re.search("y=[-+]?\d*\.\d+", command)
+            if ms is None:
+                return
+            yf = float(command[ms.span()[0]+2:ms.span()[1]])
+            yf = yf - self.y
+
+            ms = re.search("z=[-+]?\d*\.\d+", command)
+            if ms is None:
+                return
+            zf = float(command[ms.span()[0]+2:ms.span()[1]])
+            zf = zf - self.z
+
+            ms = re.search("alpha=[-+]?\d*\.\d+", command)
+            if ms is None:
+                return
+            af = float(command[ms.span()[0]+6:ms.span()[1]])
+
+            phi = np.abs(af - self.alpha) % (2 * np.pi)
+            if phi > np.pi:
+                distance = 2 * np.pi - phi
+                if self.alpha < af:
+                    distance = -distance
+            else:
+                distance = phi
+                if self.alpha > af:
+                    distance = -distance
+
+            ms = re.search("t=[-+]?\d*\.\d+", command)
+            if ms is None:
+                tf = 0
+            else:
+                tf = float(command[ms.span()[0]+2:ms.span()[1]])
+
+            ms = re.search("vmax=[-+]?\d*\.\d+", command)
+            if ms is None and tf == 0:
+                return
+            else:
+                if ms is not None:
+                    vmax = float(command[ms.span()[0]+5:ms.span()[1]])
+                else:
+                    vmax = 0
+
+            if vmax > 0:
+                tf = np.abs(xf/vmax*1.8746174)
+                if tf < np.abs(yf/vmax*1.8746174):
+                    tf = np.abs(yf/vmax*1.8746174)
+                if tf < np.abs(zf/vmax*1.8746174):
+                    tf = np.abs(zf/vmax*1.8746174)
+
+            t, x, dx = self.compute_min_jerk(xf, tf)
+            t, y, dy = self.compute_min_jerk(yf, tf)
+            t, z, dz = self.compute_min_jerk(zf, tf)
+            t, a, da = self.compute_min_jerk(distance, tf)
+
+            for i in range(len(t)):
+                command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
+                self.command_queue.put_nowait(command)
+
+            command = 'hold x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
+            self.command_queue.put_nowait(command)
+
+            try:
+                self.command_queue.put_nowait(command)
+            except queue.Full:
+                pass
+
     def stack(self, client, userdata, msg):
         self.parse_command(msg.payload)
-        self.event.set()
 
     def config(self, client, userdata, msg):
         command = msg.payload.decode()
@@ -269,7 +367,6 @@ class Blimp:
 
     def clear(self, client, userdata, msg):
         self.command_stack = []
-        self.event.clear()
 
         while not self.command_queue.empty():
             try:
@@ -280,12 +377,27 @@ class Blimp:
 
     def run(self):
         while self.run_thread:
-            print(self.blimp_id, "Drone wait")
+            if self.state == State.nottracked:
+                if self.tracked:
+                    self.state = State.ready
+                else:
+                    self.turn_off()
+                    
+            if self.state == State.ready:
+                pass
+            
+            print(self.blimp_name, "Drone wait")
+            command = self.state.name
+            self.client.publish(self.base_topic + '/' + self.blimp_base_topic + '/' + self.blimp_name + '/state', command, 0, False)
+            command = "x=%f y=%f z=%f alpha=%f vx=%f vy=%f vz=%f valpha=%f x_ref=%f y_ref=%f z_ref=%f alpha_ref=%f vx_ref=%f vy_ref=%f vz_ref=%f valpha_ref=%f fx=%f fy=%f fz=%f malpha=%f m1=%f m2=%f m3=%f m4=%f m5=%f m6=%f" % (self.x, self.y, self.z, self.alpha, self.vx, self.vy, self.vz, self.valpha, self.x_ref, self.y_ref, self.z_ref, self.alpha_ref, self.vx_ref, self.vy_ref, self.vz_ref, self.valpha_ref, self.fx, self.fy, self.fz, self.malpha, self.m1, self.m2, self.m3, self.m4, self.m5, self.m6)
+            self.client.publish(self.base_topic + '/' + self.blimp_base_topic + '/' + self.blimp_name + '/feedback', command, 0, False)
             try:
                 command = self.command_queue.get(block=True, timeout=1.0)
-                print(self.blimp_id, "Drone run", time.time() - self.t0, self.command_queue.qsize())
-                print(self.blimp_id, command)
+                print(self.blimp_name, "Drone run")
+                print(self.blimp_name, "Missed ticks: ", self.missed_ticks, "Queue size: ", self.command_queue.qsize())
+                print(self.blimp_name, "Command: ", command)
                 if command.split()[0]  == 'move' or command.split()[0] == 'hold':
+                    self.state = State.move
                     ms = re.search("x=[-+]?\d*\.\d+", command)
                     x_ref = float(command[ms.span()[0]+2:ms.span()[1]])
                     ms = re.search("y=[-+]?\d*\.\d+", command)
@@ -317,13 +429,13 @@ class Blimp:
                     self.set_reference(x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, 0.0)
 
                 if command.split()[0] == 'hold':
+                    self.state = State.hold
                     self.command_queue.put_nowait(command)
 
-                sample = np.array([self.x, self.y, self.z, self.alpha, self.vx, self.vy, self.vz, self.valpha,
-                                   self.x_ref, self.y_ref, self.z_ref, self.alpha_ref, self.vx_ref, self.vy_ref, self.vz_ref,
-                                   self.valpha_ref, self.fx, self.fy, self.fz, self.malpha, self.m1, self.m2, self.m3, self.m4, self.m5, self.m6])
-                data = struct.pack('<26f',*sample)
-                self.sock.sendto(data, (self.group, self.port))
+                if command.split()[0] == 'freeze':
+                    self.state = State.freeze
+                    self.command_queue.put_nowait(command)
+
                 if self.tracked:
                     self.control()
                 else:
@@ -332,19 +444,21 @@ class Blimp:
 
                 t = time.time() - self.t0
                 count = math.ceil(t / self.dt)
-                time.sleep(max(0, (count)*self.dt - t))
+                if count*self.dt - t < 0:
+                    self.missed_ticks = self.missed_ticks + 1
+                time.sleep(max(0, count*self.dt - t))
             except queue.Empty:
-                print(self.blimp_id, "Queue empty")
+                print(self.blimp_name, "Queue empty")
                 self.turn_off()
                 continue
 
-        print(self.blimp_id, "Drone done")
+        print(self.blimp_name, "Drone done")
 
     def stop(self):
         self.run_thread = False
         self.thread.join()
         self.turn_off()
-        print("%s stopped" % self.blimp_id)
+        print("%s stopped" % self.blimp_name)
 
     def set_state(self, x, y, z, alpha, vx, vy, vz, valpha):
         self.x = x
@@ -368,7 +482,7 @@ class Blimp:
 
     def turn_off(self):
         command = "0,0,0,0,0,0"
-        mi = self.client.publish(str(self.blimp_base_topic) + "/" + str(self.blimp_id) + "/motors", command, 0, False)
+        mi = self.client.publish(str(self.blimp_base_topic) + "/" + str(self.blimp_name) + "/motors", command, 0, False)
         mi.wait_for_publish()
 
     def control(self):
@@ -421,9 +535,9 @@ class Blimp:
         self.malpha = c_a_body
 
         command = '{:.3f},{:.3f},{:.3f},{:.3f},{:.3f},{:.3f}'.format(c_x_body, c_y_body, c_z_body, 0.0, 0.0, c_a_body)
-        self.client.publish(str(self.blimp_base_topic) + "/" + str(self.blimp_id) + "/forces", command, 0, False)
-        print("Command: fx: %.3f fy: %.3f fz: %.3f mx: %.3f my: %.3f mz: %.3f" % (c_x_body, c_y_body, c_z_body, 0, 0, c_a_body))
-        print("State: x: %.3f/%.3f y: %.3f/%.3f z: %.3f/%.3f alpha: %.3f/%.3f" % (self.x, self.x_ref, self.y, self.y_ref, self.z, self.z_ref, self.alpha, self.alpha_ref))
+        self.client.publish(str(self.blimp_base_topic) + "/" + str(self.blimp_name) + "/forces", command, 0, False)
+        #print("Command: fx: %.3f fy: %.3f fz: %.3f mx: %.3f my: %.3f mz: %.3f" % (c_x_body, c_y_body, c_z_body, 0, 0, c_a_body))
+        #print("State: x: %.3f/%.3f y: %.3f/%.3f z: %.3f/%.3f alpha: %.3f/%.3f" % (self.x, self.x_ref, self.y, self.y_ref, self.z, self.z_ref, self.alpha, self.alpha_ref))
 
     def set_position(self, x, y, z):
         t_now = time.time()
@@ -485,11 +599,11 @@ class Blimp:
 
         return t, x, dx
 
-def stop_blimp(blimp_id):
+def stop_blimp(blimp_name):
     global blimps
 
     for blimp in blimps:
-        if blimp.blimp_id == blimp_id:
+        if blimp.blimp_name == blimp_name:
             blimp.stop()
             blimps.remove(blimp)
 
@@ -503,11 +617,11 @@ def add_blimp(client, userdata, msg):
 
     blimp_base_topic = command[ms.span()[0]+17:ms.span()[1]]
 
-    ms = re.search("blimp_id=[a-zA-Z0-9]*", command)
+    ms = re.search("blimp_name=[a-zA-Z0-9]*", command)
     if ms is None:
         return
 
-    blimp_id = command[ms.span()[0]+9:ms.span()[1]]
+    blimp_name = command[ms.span()[0]+11:ms.span()[1]]
 
     ms = re.search("tracking_id=[0-9]*", command)
     if ms is None:
@@ -515,18 +629,18 @@ def add_blimp(client, userdata, msg):
 
     tracking_id = command[ms.span()[0]+12:ms.span()[1]]
 
-    blimps.append(Blimp(dt, client, base_topic, blimp_base_topic, blimp_id, tracking_id))
+    blimps.append(Blimp(dt, client, base_topic, blimp_base_topic, blimp_name, tracking_id))
 
 def remove_blimp(client, userdata, msg):
     global blimps
     command = msg.payload.decode()
 
-    ms = re.search("blimp_id=[a-zA-Z0-9]*", command)
+    ms = re.search("blimp_name=[a-zA-Z0-9]*", command)
     if ms is None:
         return
-    blimp_id = command[ms.span()[0]+9:ms.span()[1]]
+    blimp_name = command[ms.span()[0]+11:ms.span()[1]]
 
-    thread = Thread(target=stop_blimp, args=(blimp_id,))
+    thread = Thread(target=stop_blimp, args=(blimp_name,))
     thread.start()
 
 def main(mqtt_host, mqtt_port, osc_server, osc_port, base_topic):
