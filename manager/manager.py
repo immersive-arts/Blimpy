@@ -17,8 +17,24 @@ def signal_handler(sig, frame):
 
 sig.signal(sig.SIGINT, signal_handler)
 
+def parseFloat(key, message):
+    ms = re.search(key + "=[-+]?\d*\.\d+", message)
+    if ms is None:
+        return
+    else:
+        data = float(message[ms.span()[0]+(len(key)+1):ms.span()[1]])
+        return data
+
+def parseString(key, message):
+    ms = re.search(key + "=[a-zA-Z0-9]*", message)
+    if ms is None:
+        return
+    else:
+        data = message[ms.span()[0]+(len(key)+1):ms.span()[1]]
+        return data
+
 class State(Enum):
-    nottracked = 0
+    untracked = 0
     ready = 1
     move = 2
     park = 3
@@ -87,8 +103,10 @@ class Blimp:
 
     tracked = False
     missed_ticks = 0
+    count = 0
+    empty_count = 0
     
-    state = State.nottracked
+    state = State.untracked
 
     def __init__(self, dt, client, base_topic, blimp_base_topic, blimp_name, tracking_id):
 
@@ -127,144 +145,51 @@ class Blimp:
 
         print("%s started" % self.blimp_name)
 
-    def parse_command(self, payload):
-        command = payload.decode()
+    def clear_commands(self):
+        while not self.command_queue.empty():
+            try:
+                self.command_queue.get(False)
+            except queue.Empty:
+                continue
+            self.command_queue.task_done()
+
+    def add_command(self, command):
         if command.split()[0]  == 'move':
 
-            ms = re.search("x=[-+]?\d*\.\d+", command)
-            if ms is None:
+            x_ref = parseFloat('x', command)
+            if x_ref == None:
+                return
+            y_ref = parseFloat('y', command)
+            if y_ref == None:
+                return
+            z_ref = parseFloat('z', command)
+            if z_ref == None:
                 return
 
-            ms = re.search("y=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
-
-            ms = re.search("z=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
-            try:
-                self.command_queue.put_nowait(command)
-            except queue.Full:
-                pass
-
-        if command.split()[0]  == 'hold':
-
-            ms = re.search("x=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
-
-            ms = re.search("y=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
-
-            ms = re.search("z=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
             try:
                 self.command_queue.put_nowait(command)
             except queue.Full:
                 pass
 
         if command.split()[0]  == 'freeze':
+            self.clear_commands()
+            command = 'hold x=%f y=%f z=%f alpha=%f state=freeze' % (self.x, self.y, self.z, self.alpha)
             try:
                 self.command_queue.put_nowait(command)
             except queue.Full:
-                pass
-
-        if command.split()[0]  == 'goto':
-            ms = re.search("x=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
-            xf = float(command[ms.span()[0]+2:ms.span()[1]])
-            xf = xf - self.x
-
-            ms = re.search("y=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
-            yf = float(command[ms.span()[0]+2:ms.span()[1]])
-            yf = yf - self.y
-
-            ms = re.search("z=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
-            zf = float(command[ms.span()[0]+2:ms.span()[1]])
-            zf = zf - self.z
-
-            ms = re.search("alpha=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
-            af = float(command[ms.span()[0]+6:ms.span()[1]])
-
-            phi = np.abs(af - self.alpha) % (2 * np.pi)
-            if phi > np.pi:
-                distance = 2 * np.pi - phi
-                if self.alpha < af:
-                    distance = -distance
-            else:
-                distance = phi
-                if self.alpha > af:
-                    distance = -distance
-
-            ms = re.search("t=[-+]?\d*\.\d+", command)
-            if ms is None:
-                tf = 0
-            else:
-                tf = float(command[ms.span()[0]+2:ms.span()[1]])
-
-            ms = re.search("vmax=[-+]?\d*\.\d+", command)
-            if ms is None and tf == 0:
-                return
-            else:
-                if ms is not None:
-                    vmax = float(command[ms.span()[0]+5:ms.span()[1]])
-                else:
-                    vmax = 0
-
-            if vmax > 0:
-                tf = np.abs(xf/vmax*1.8746174)
-                if tf < np.abs(yf/vmax*1.8746174):
-                    tf = np.abs(yf/vmax*1.8746174)
-                if tf < np.abs(zf/vmax*1.8746174):
-                    tf = np.abs(zf/vmax*1.8746174)
-
-            t, x, dx = self.compute_min_jerk(xf, tf)
-            t, y, dy = self.compute_min_jerk(yf, tf)
-            t, z, dz = self.compute_min_jerk(zf, tf)
-            t, a, da = self.compute_min_jerk(distance, tf)
-
-            for i in range(len(t)):
-                command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
-                self.command_queue.put_nowait(command)
-
-            try:
-                self.command_queue.put_nowait(command)
-            except queue.Full:
-                pass
+                print(self.blimp_name, "Error: command queue full")
 
         if command.split()[0]  == 'park':
-            ms = re.search("x=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
-            xf = float(command[ms.span()[0]+2:ms.span()[1]])
+            xf = parseFloat('x', command)
             xf = xf - self.x
 
-            ms = re.search("y=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
-            yf = float(command[ms.span()[0]+2:ms.span()[1]])
+            yf = parseFloat('y', command)
             yf = yf - self.y
 
-            ms = re.search("z=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
-            zf = float(command[ms.span()[0]+2:ms.span()[1]])
+            zf = parseFloat('z', command)
             zf = zf - self.z
 
-            ms = re.search("alpha=[-+]?\d*\.\d+", command)
-            if ms is None:
-                return
-            af = float(command[ms.span()[0]+6:ms.span()[1]])
-
+            af = parseFloat('alpha', command)
             phi = np.abs(af - self.alpha) % (2 * np.pi)
             if phi > np.pi:
                 distance = 2 * np.pi - phi
@@ -275,20 +200,13 @@ class Blimp:
                 if self.alpha > af:
                     distance = -distance
 
-            ms = re.search("t=[-+]?\d*\.\d+", command)
-            if ms is None:
+            tf = parseFloat('t', command)
+            if tf is None:
                 tf = 0
-            else:
-                tf = float(command[ms.span()[0]+2:ms.span()[1]])
 
-            ms = re.search("vmax=[-+]?\d*\.\d+", command)
-            if ms is None and tf == 0:
-                return
-            else:
-                if ms is not None:
-                    vmax = float(command[ms.span()[0]+5:ms.span()[1]])
-                else:
-                    vmax = 0
+            vmax = parseFloat('vmax', command)
+            if vmax is None:
+                vmax = 0
 
             if vmax > 0:
                 tf = np.abs(xf/vmax*1.8746174)
@@ -303,19 +221,66 @@ class Blimp:
             t, a, da = self.compute_min_jerk(distance, tf)
 
             for i in range(len(t)):
-                command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
+                command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f state=park' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
                 self.command_queue.put_nowait(command)
+                try:
+                    self.command_queue.put_nowait(command)
+                except queue.Full:
+                    print(self.blimp_name, "Error: command queue full")
 
-            command = 'hold x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
-            self.command_queue.put_nowait(command)
+            command = 'hold x=%f y=%f z=%f alpha=%f state=hold' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
+            try:
+                self.command_queue.put_nowait(command)
+            except queue.Full:
+                print(self.blimp_name, "Error: command queue full")
+
+    def parse_command(self, command):
+        if command.split()[0]  == 'move':
+            x_ref = parseFloat('x', command)
+            y_ref = parseFloat('y', command)
+            z_ref = parseFloat('z', command)
+            vx_ref = parseFloat('vx', command)
+            if vx_ref == None:
+                vx_ref = 0
+            vy_ref = parseFloat('vy', command)
+            if vy_ref == None:
+                vy_ref = 0
+            vz_ref = parseFloat('vz', command)
+            if vz_ref == None:
+                vz_ref = 0
+            alpha_ref = parseFloat('alpha', command)
+            if alpha_ref == None:
+                alpha_ref = 0
+
+            self.set_reference(x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, 0.0)
+
+            state = parseString('state', command)
+            if state == State.park.name:
+                return State.park
+            else:
+                return State.move
+
+        if command.split()[0]  == 'hold':
+            x_ref = parseFloat('x', command)
+            y_ref = parseFloat('y', command)
+            z_ref = parseFloat('z', command)
+            alpha_ref = parseFloat('alpha', command)
+
+            self.set_reference(x_ref, y_ref, z_ref, alpha_ref, 0.0, 0.0, 0.0, 0.0)
 
             try:
                 self.command_queue.put_nowait(command)
             except queue.Full:
-                pass
+                print(self.blimp_name, "Error: command queue full")
+
+            state = parseString('state', command)
+            if state == State.freeze.name:
+                return State.freeze
+            else:
+                return State.hold
 
     def stack(self, client, userdata, msg):
-        self.parse_command(msg.payload)
+        self.add_command(msg.payload.decode())
 
     def config(self, client, userdata, msg):
         command = msg.payload.decode()
@@ -366,99 +331,57 @@ class Blimp:
         self.m6 = float(seg[5])
 
     def clear(self, client, userdata, msg):
-        self.command_stack = []
-
-        while not self.command_queue.empty():
-            try:
-                self.command_queue.get(False)
-            except queue.Empty:
-                continue
-            self.command_queue.task_done()
+        self.clear_commands()
 
     def run(self):
         while self.run_thread:
-            if self.state == State.nottracked:
-                if self.tracked:
-                    self.state = State.ready
-                else:
-                    self.turn_off()
-                    
-            if self.state == State.ready:
-                pass
             
-            print(self.blimp_name, "Drone wait")
+            if self.tracked == False:
+                self.state = State.untracked
+                print(self.blimp_name, "Error: Not tracked")
+            else:
+                self.state = State.ready
+
+            if self.state == State.untracked:
+                self.turn_off()
+            else:
+                try:
+                    command = self.command_queue.get(block=False)
+                    self.state = self.parse_command(command)
+                    self.empty_count = 0
+                except queue.Empty:
+                    self.empty_count = self.empty_count + 1
+                    print(self.blimp_name, "Warning: Queue empty Count: ", self.empty_count)
+                    if self.empty_count > 10:
+                        self.state = State.ready
+                        self.turn_off()
+
+                if self.state.value > State.ready.value:
+                    print(self.blimp_name, "run")
+                    print(self.blimp_name, "Command: ", command)
+                    self.control()
+
             command = self.state.name
             self.client.publish(self.base_topic + '/' + self.blimp_base_topic + '/' + self.blimp_name + '/state', command, 0, False)
             command = "x=%f y=%f z=%f alpha=%f vx=%f vy=%f vz=%f valpha=%f x_ref=%f y_ref=%f z_ref=%f alpha_ref=%f vx_ref=%f vy_ref=%f vz_ref=%f valpha_ref=%f fx=%f fy=%f fz=%f malpha=%f m1=%f m2=%f m3=%f m4=%f m5=%f m6=%f" % (self.x, self.y, self.z, self.alpha, self.vx, self.vy, self.vz, self.valpha, self.x_ref, self.y_ref, self.z_ref, self.alpha_ref, self.vx_ref, self.vy_ref, self.vz_ref, self.valpha_ref, self.fx, self.fy, self.fz, self.malpha, self.m1, self.m2, self.m3, self.m4, self.m5, self.m6)
             self.client.publish(self.base_topic + '/' + self.blimp_base_topic + '/' + self.blimp_name + '/feedback', command, 0, False)
-            try:
-                command = self.command_queue.get(block=True, timeout=1.0)
-                print(self.blimp_name, "Drone run")
-                print(self.blimp_name, "Missed ticks: ", self.missed_ticks, "Queue size: ", self.command_queue.qsize())
-                print(self.blimp_name, "Command: ", command)
-                if command.split()[0]  == 'move' or command.split()[0] == 'hold':
-                    self.state = State.move
-                    ms = re.search("x=[-+]?\d*\.\d+", command)
-                    x_ref = float(command[ms.span()[0]+2:ms.span()[1]])
-                    ms = re.search("y=[-+]?\d*\.\d+", command)
-                    y_ref = float(command[ms.span()[0]+2:ms.span()[1]])
-                    ms = re.search("z=[-+]?\d*\.\d+", command)
-                    z_ref = float(command[ms.span()[0]+2:ms.span()[1]])
-                    ms = re.search("vx=[-+]?\d*\.\d+", command)
-                    if ms is not None:
-                        vx_ref = float(command[ms.span()[0]+3:ms.span()[1]])
-                    else:
-                        vx_ref = 0
-                    ms = re.search("vy=[-+]?\d*\.\d+", command)
-                    if ms is not None:
-                        vy_ref = float(command[ms.span()[0]+3:ms.span()[1]])
-                    else:
-                        vy_ref = 0
-                    ms = re.search("vz=[-+]?\d*\.\d+", command)
-                    if ms is not None:
-                        vz_ref = float(command[ms.span()[0]+3:ms.span()[1]])
-                    else:
-                        vz_ref = 0
 
-                    ms = re.search("alpha=[-+]?\d*\.\d+", command)
-                    if ms is not None:
-                        alpha_ref = float(command[ms.span()[0]+6:ms.span()[1]])
-                    else:
-                        alpha_ref = 0
+            t = time.time() - self.t0
+            self.count = self.count + 1
 
-                    self.set_reference(x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, 0.0)
+            if self.count*self.dt - t < 0:
+                self.missed_ticks = self.missed_ticks + 1
 
-                if command.split()[0] == 'hold':
-                    self.state = State.hold
-                    self.command_queue.put_nowait(command)
+            print(self.blimp_name, "State: ", self.state.name, "Missed ticks: ", self.missed_ticks, "Queue size: ", self.command_queue.qsize())
 
-                if command.split()[0] == 'freeze':
-                    self.state = State.freeze
-                    self.command_queue.put_nowait(command)
+            time.sleep(max(0.0, self.count * dt - t))
 
-                if self.tracked:
-                    self.control()
-                else:
-                    print("Not tracked")
-                    self.turn_off()
-
-                t = time.time() - self.t0
-                count = math.ceil(t / self.dt)
-                if count*self.dt - t < 0:
-                    self.missed_ticks = self.missed_ticks + 1
-                time.sleep(max(0, count*self.dt - t))
-            except queue.Empty:
-                print(self.blimp_name, "Queue empty")
-                self.turn_off()
-                continue
-
-        print(self.blimp_name, "Drone done")
+        print(self.blimp_name, "stopped")
 
     def stop(self):
         self.run_thread = False
         self.thread.join()
         self.turn_off()
-        print("%s stopped" % self.blimp_name)
 
     def set_state(self, x, y, z, alpha, vx, vy, vz, valpha):
         self.x = x
@@ -609,36 +532,41 @@ def stop_blimp(blimp_name):
 
 def add_blimp(client, userdata, msg):
     global blimps
-    command = msg.payload.decode()
 
-    ms = re.search("blimp_base_topic=[a-zA-Z0-9/]*", command)
-    if ms is None:
+    message = msg.payload.decode()
+
+    blimp_base_topic = parseString("blimp_base_topic", message)
+    if blimp_base_topic is None:
         return
 
-    blimp_base_topic = command[ms.span()[0]+17:ms.span()[1]]
-
-    ms = re.search("blimp_name=[a-zA-Z0-9]*", command)
-    if ms is None:
+    blimp_name = parseString("blimp_name", message)
+    if blimp_name is None:
         return
 
-    blimp_name = command[ms.span()[0]+11:ms.span()[1]]
+    for blimp in blimps:
+        if blimp.blimp_name == blimp_name:
+            print("Error: Blimp with name '%s' exists" % blimp_name)
+            return
 
-    ms = re.search("tracking_id=[0-9]*", command)
-    if ms is None:
+    tracking_id = parseString("tracking_id", message)
+    if tracking_id is None:
         return
 
-    tracking_id = command[ms.span()[0]+12:ms.span()[1]]
+    for blimp in blimps:
+        if blimp.tracking_id == tracking_id:
+            print("Error: Blimp with tracking_id '%s' exists" % tracking_id)
+            return
 
     blimps.append(Blimp(dt, client, base_topic, blimp_base_topic, blimp_name, tracking_id))
 
 def remove_blimp(client, userdata, msg):
     global blimps
-    command = msg.payload.decode()
 
-    ms = re.search("blimp_name=[a-zA-Z0-9]*", command)
-    if ms is None:
+    message = msg.payload.decode()
+
+    blimp_name = parseString("blimp_name", message)
+    if blimp_name is None:
         return
-    blimp_name = command[ms.span()[0]+11:ms.span()[1]]
 
     thread = Thread(target=stop_blimp, args=(blimp_name,))
     thread.start()
@@ -663,12 +591,14 @@ def main(mqtt_host, mqtt_port, osc_server, osc_port, base_topic):
     print("OSC server connected to %s on port %d" % (osc_server, osc_port))
 
     t0 = time.time()
-
+    count = 1
     main_dt = 0.001
     while run:
         osc_process()
         t = time.time() - t0
-        count = math.ceil(t / main_dt)
+        if count % 10 == 0:
+            client.publish(base_topic + "/heartbeat")
+        count = count + 1
         time.sleep(max(0, count * main_dt - t))
 
     for blimp in blimps:
