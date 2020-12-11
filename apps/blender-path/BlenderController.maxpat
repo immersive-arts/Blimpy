@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 222.0, 107.0, 1022.0, 644.0 ],
+		"rect" : [ 407.0, 88.0, 1021.0, 644.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -40,13 +40,24 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-35",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 381.0, 365.0, 214.0, 22.0 ],
+					"text" : "topics manager/blimps/b01/state move"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-19",
 					"linecount" : 9,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 669.5, 160.0, 285.0, 127.0 ],
-					"presentation_linecount" : 32,
+					"patching_rect" : [ 697.5, 160.0, 285.0, 127.0 ],
 					"text" : "\n\nthe rate in which MQTT data is send to the manager\nthe rate transformation data is beeing received\nbase topic of the manager\nbase topic of the blimp\ndevice name of the blimp\nrigidbody id from optitrack\nmaximum allowed velocity - if it goes beyond -> 0"
 				}
 
@@ -59,9 +70,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 611.5, 160.0, 53.0, 127.0 ],
-					"presentation_linecount" : 9,
-					"text" : "\n\n[fps]\n[fps]\n[symbol]\n[symbol]\n[symbol]\n[int]\n[m/s]",
-					"textjustification" : 0
+					"text" : "\n\n[fps]\n[fps]\n[symbol]\n[symbol]\n[symbol]\n[int]\n[m/s]"
 				}
 
 			}
@@ -71,7 +80,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 402.0, 452.0, 88.0, 22.0 ],
+					"patching_rect" : [ 464.666666666666686, 452.0, 88.0, 22.0 ],
 					"text" : "blp.show.panel"
 				}
 
@@ -83,7 +92,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 312.0, 452.0, 78.0, 22.0 ],
+					"patching_rect" : [ 262.333333333333371, 452.0, 78.0, 22.0 ],
 					"text" : "bpl.visualizer"
 				}
 
@@ -131,7 +140,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 669.5, 439.5, 290.0, 154.0 ],
+					"patching_rect" : [ 697.5, 439.5, 290.0, 154.0 ],
 					"text" : "receives following messages on\n\nhold: <blimp_name> 0...1\nhold: 0...1\npark: <blimp_name> bang\npark: bang\naddBlimps: <blimp_name> bang\naddBlimps: bang\nremoveBlimps: <blimp_name> bang\nremoveBlimps: bang\n"
 				}
 
@@ -143,7 +152,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 669.5, 296.5, 314.0, 141.0 ],
+					"patching_rect" : [ 697.5, 296.5, 314.0, 141.0 ],
 					"text" : "understands following messages send to the first inlet:\n\nconnected 0...1\nenable 0...1\ntransform <blimp_name> <position> <rotation>\ntopics <topic> <data>\nhold <blimp_name> 0...1\nhold 0...1\npark <blimp_name> bang\npark bang"
 				}
 
@@ -180,7 +189,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 312.0, 488.0, 218.0, 22.0 ],
+					"patching_rect" : [ 262.333333333333371, 482.0, 218.0, 22.0 ],
 					"text" : "jit.gl.sketch @layer 0 @depth_enable 0"
 				}
 
@@ -204,7 +213,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 223.0, 545.0, 87.0, 22.0 ],
+					"patching_rect" : [ 186.625, 546.0, 87.0, 22.0 ],
 					"text" : "prepend topics"
 				}
 
@@ -906,7 +915,7 @@
 													"patching_rect" : [ 557.5, 294.5, 50.0, 22.0 ],
 													"presentation" : 1,
 													"presentation_rect" : [ 116.0, 2.5, 50.0, 22.0 ],
-													"text" : "7:45"
+													"text" : "5:2"
 												}
 
 											}
@@ -1943,7 +1952,7 @@
 					"outlettype" : [ "", "", "int" ],
 					"parameter_enable" : 0,
 					"patching_rect" : [ 60.0, 216.5, 87.0, 45.0 ],
-					"text" : "HOLD",
+					"text" : "FREEZE",
 					"textcolor" : [ 0.0, 1.0, 0.047058823529412, 1.0 ],
 					"texton" : "HOT",
 					"textoncolor" : [ 1.0, 0.0, 0.070588235294118, 1.0 ],
@@ -1968,8 +1977,8 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 60.0, 282.0, 41.0, 22.0 ],
-					"text" : "s hold"
+					"patching_rect" : [ 60.0, 282.0, 51.0, 22.0 ],
+					"text" : "s freeze"
 				}
 
 			}
@@ -2038,20 +2047,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "int", "", "" ],
-					"patching_rect" : [ 60.0, 516.0, 345.0, 22.0 ],
-					"text" : "mxj mqtt mqtt://127.0.0.1 SPARCK"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-36",
-					"maxclass" : "led",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "int" ],
-					"parameter_enable" : 0,
-					"patching_rect" : [ 34.0, 545.0, 24.0, 24.0 ]
+					"patching_rect" : [ 60.0, 516.0, 219.0, 22.0 ],
+					"text" : "mxj mqtt mqtt://10.128.96.250 SPARCK"
 				}
 
 			}
@@ -2062,7 +2059,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 161.0, 474.0, 68.0, 22.0 ],
+					"patching_rect" : [ 135.5, 452.0, 68.0, 22.0 ],
 					"text" : "disconnect"
 				}
 
@@ -2074,7 +2071,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 106.0, 474.0, 53.0, 22.0 ],
+					"patching_rect" : [ 80.5, 452.0, 53.0, 22.0 ],
 					"text" : "connect"
 				}
 
@@ -2093,7 +2090,7 @@
 			}
 , 			{
 				"box" : 				{
-					"args" : [ "@update_rate", 10, "@base_topic", "manager", "@blimp_base_topic", "blimps", "@blimp_name", "b01", "@data_fps", 25, "@tracking_id", 1, "@velocity_max", 1 ],
+					"args" : [ "@update_rate", 10, "@base_topic", "manager", "@blimp_base_topic", "blimps", "@blimp_name", "b01", "@data_fps", 25, "@tracking_id", 50, "@velocity_max", 1 ],
 					"bgmode" : 0,
 					"border" : 0,
 					"clickthrough" : 0,
@@ -2104,10 +2101,10 @@
 					"maxclass" : "bpatcher",
 					"name" : "blp.txrx.path.maxpat",
 					"numinlets" : 1,
-					"numoutlets" : 3,
+					"numoutlets" : 4,
 					"offset" : [ 0.0, 0.0 ],
-					"outlettype" : [ "", "", "" ],
-					"patching_rect" : [ 60.0, 416.0, 523.0, 27.0 ],
+					"outlettype" : [ "", "", "", "" ],
+					"patching_rect" : [ 60.0, 416.0, 626.0, 25.5 ],
 					"viewvisibility" : 1
 				}
 
@@ -2167,8 +2164,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-1", 0 ],
-					"order" : 0,
-					"source" : [ "obj-30", 1 ]
+					"source" : [ "obj-30", 2 ]
 				}
 
 			}
@@ -2182,7 +2178,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-65", 0 ],
-					"order" : 1,
 					"source" : [ "obj-30", 1 ]
 				}
 
@@ -2196,17 +2191,15 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-36", 0 ],
-					"order" : 1,
+					"destination" : [ "obj-4", 0 ],
 					"source" : [ "obj-34", 0 ]
 				}
 
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-4", 0 ],
-					"order" : 0,
-					"source" : [ "obj-34", 0 ]
+					"destination" : [ "obj-30", 0 ],
+					"source" : [ "obj-35", 0 ]
 				}
 
 			}
