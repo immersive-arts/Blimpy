@@ -1,1 +1,1 @@
-..\network\NatNetThree2OSC\NatNetThree2OSC --localIP=10.128.96.182 --motiveIP=10.128.96.182 --oscSendIP=10.128.96.178 --oscSendPort=1880 --oscCtrlPort=1881 --oscMode=isadora --yup2zup=true
+..\network\NatNetThree2OSC\NatNetThree2OSC --localIP=10.128.96.250 --motiveIP=10.128.96.250 --oscSendIP=10.128.96.250 --oscSendPort=1880 --oscCtrlPort=1881 --oscMode=isadora --yup2zup=true
