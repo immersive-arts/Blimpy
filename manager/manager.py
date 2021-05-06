@@ -407,6 +407,9 @@ class Blimp:
         command = "0,0,0,0,0,0"
         mi = self.client.publish(str(self.blimp_base_topic) + "/" + str(self.blimp_name) + "/motors", command, 0, False)
         mi.wait_for_publish()
+        command = "0.0,0.0,0.0,0.0,0.0,0.0"
+        mi = self.client.publish(str(self.blimp_base_topic) + "/" + str(self.blimp_name) + "/forces", command, 0, False)
+        mi.wait_for_publish()
 
     def control(self):
         c_x = (self.x_ref - self.x) * self.k_p_xy + (self.vx_ref - self.vx) * self.k_d_xy
