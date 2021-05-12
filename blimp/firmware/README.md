@@ -1,5 +1,7 @@
 # Firmware
 
+[Naos](https://naos.256dpi.com) provides [further mqtt messages](https://naos.256dpi.com/documentation/device_management/) than here specified. 
+
 ## MQTT address space
 
 to address a blimp device the following path is required:
@@ -174,6 +176,6 @@ compilation only with the above described toolchain.
 
 ## Credits
 
-development of firmware, naos and shiftr.io:
+development of firmware, [naos](https://naos.256dpi.com/) and shiftr.io:
 
 Joel Gähwiler - [https://networkedartifacts.info](https://networkedartifacts.info)
