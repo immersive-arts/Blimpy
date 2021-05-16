@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 252.0, 88.0, 843.0, 689.0 ],
+		"rect" : [ 252.0, 88.0, 807.0, 689.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -40,13 +40,57 @@
 		"assistshowspatchername" : 0,
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-32",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 75.333332999999996, 579.625, 150.0, 20.0 ],
+					"text" : "settings can be stored"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-23",
+					"linecount" : 11,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 578.04166666666697, 137.0, 181.0, 154.0 ],
+					"presentation_linecount" : 11,
+					"text" : "\n\nkeeps device at this current position\npark the devive at the last sent position using velocity_max\nsend transform data to control device\nadd device to be managed\n\nremove device to be managed"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-20",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 75.333332999999996, 626.0, 73.0, 22.0 ],
+					"saved_object_attributes" : 					{
+						"client_rect" : [ 100, 100, 500, 600 ],
+						"parameter_enable" : 0,
+						"parameter_mappable" : 0,
+						"storage_rect" : [ 200, 200, 800, 500 ]
+					}
+,
+					"text" : "pattrstorage",
+					"varname" : "u937003758"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-19",
 					"linecount" : 9,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 502.333333333333485, 539.0, 285.0, 127.0 ],
-					"text" : "\n\nthe rate in which MQTT data is send to the manager\nthe rate transformation data is beeing received\nbase topic of the manager\nbase topic of the blimp\ndevice name of the blimp\nrigidbody id from optitrack\nmaximum allowed velocity - if it goes beyond -> 0"
+					"patching_rect" : [ 485.666666666666515, 529.125, 285.0, 127.0 ],
+					"text" : "\n\nthe rate in which MQTT data is send to the manager\nthe rate transformation data is beeing received\nbase topic of the manager\nbase topic of the device\ndevice name\nrigidbody id from optitrack\nmaximum allowed velocity - if it goes beyond -> 0"
 				}
 
 			}
@@ -57,7 +101,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 442.333333333333485, 539.0, 53.0, 127.0 ],
+					"patching_rect" : [ 430.833333333333485, 526.75, 53.0, 127.0 ],
 					"text" : "\n\n[fps]\n[fps]\n[symbol]\n[symbol]\n[symbol]\n[int]\n[m/s]"
 				}
 
@@ -68,7 +112,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 699.333333333333485, 488.0, 88.0, 22.0 ],
+					"patching_rect" : [ 679.333333333333485, 488.0, 88.0, 22.0 ],
 					"text" : "blp.show.panel"
 				}
 
@@ -80,7 +124,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 272.333333333333371, 483.0, 78.0, 22.0 ],
+					"patching_rect" : [ 270.833333333333485, 469.0, 78.0, 22.0 ],
 					"text" : "bpl.visualizer"
 				}
 
@@ -93,8 +137,8 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 54.0, 42.0, 715.0, 78.0 ],
-					"text" : "This patch illustrates how to receive OSC data from blender to be used to controll managed blimps.\n\nIt relies on the  [blp.txrx.path.maxpat] abstraction which manages the connection to the blimp with all the necessary calculations and controlls."
+					"patching_rect" : [ 34.0, 42.0, 743.0, 78.0 ],
+					"text" : "This patch illustrates how to receive OSC data from blender to be used to controll managed devices.\n\nIt relies on the  [blp.txrx.device.maxpat] abstraction which manages the connection to the device with all the necessary calculations and controlls."
 				}
 
 			}
@@ -105,7 +149,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 54.0, 11.0, 243.0, 29.0 ],
+					"patching_rect" : [ 34.0, 11.0, 243.0, 29.0 ],
 					"text" : "Blender Controller"
 				}
 
@@ -116,7 +160,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 54.0, 125.5, 150.0, 20.0 ],
+					"patching_rect" : [ 34.0, 125.5, 150.0, 20.0 ],
 					"text" : "Blender data receiver:"
 				}
 
@@ -124,24 +168,25 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-6",
-					"linecount" : 10,
+					"linecount" : 12,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 404.875, 252.5, 286.0, 141.0 ],
-					"text" : "receives following messages on\n\nfreeze: <blimp_name> 0...1\nfreeze: 0...1\npark: <blimp_name> bang\npark: bang\naddBlimps: <blimp_name> bang\naddBlimps: bang\nremoveBlimps: <blimp_name> bang\nremoveBlimps: bang"
+					"patching_rect" : [ 379.833333333333485, 137.0, 197.0, 167.0 ],
+					"text" : "understands following commands:\n\nfreeze <device_name>\nfreeze\npark <device_name>\npark\nhot <device_name>\nhot\naddDevice <device_name>\naddDevice\nremoveDevice <device_name>\nremoveDevice",
+					"textjustification" : 2
 				}
 
 			}
 , 			{
 				"box" : 				{
 					"id" : "obj-3",
-					"linecount" : 10,
+					"linecount" : 8,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 54.0, 192.5, 314.0, 141.0 ],
-					"text" : "understands following messages send to the first inlet:\n\nconnected 0...1\nenable 0...1\ntransform <blimp_name> <position> <rotation>\ntopics <topic> <data>\nhold <blimp_name> 0...1\nhold 0...1\npark <blimp_name> bang\npark bang"
+					"patching_rect" : [ 37.333333333333485, 195.5, 314.0, 114.0 ],
+					"text" : "understands following messages send to the first inlet:\n\nenable 0...1\nconnected 0...1\ntopics <topic> <data>\ntransform <device_name> position <px> <px> <pz>\ntransform <device_name> rotation <rx> <rx> <rz>\ncommand <commands> (see commands)"
 				}
 
 			}
@@ -152,8 +197,8 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 282.333333333333485, 539.0, 163.0, 127.0 ],
-					"text" : "expects following attributes:\n\n@update_rate\n@data_fps\n@base_topic\n@blimp_base_topic\n@blimp_name\n@tracking_id\n@velocity_max",
+					"patching_rect" : [ 270.833333333333485, 526.75, 163.0, 127.0 ],
+					"text" : "expects following attributes:\n\n@update_fps\n@data_fps\n@base_topic\n@blimp_base_topic\n@blimp_name\n@tracking_id\n@velocity_max",
 					"textjustification" : 2
 				}
 
@@ -166,7 +211,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 566.833333333333371, 158.0, 24.0, 24.0 ]
+					"patching_rect" : [ 464.041666666666856, 313.0, 24.0, 24.0 ]
 				}
 
 			}
@@ -177,7 +222,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 272.333333333333371, 511.0, 218.0, 22.0 ],
+					"patching_rect" : [ 270.833333333333485, 497.0, 218.0, 22.0 ],
 					"text" : "jit.gl.sketch @layer 0 @depth_enable 0"
 				}
 
@@ -189,7 +234,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 56.0, 616.0, 19.0, 22.0 ],
+					"patching_rect" : [ 37.333333333333485, 573.5, 19.0, 22.0 ],
 					"text" : "t l"
 				}
 
@@ -201,7 +246,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 182.625, 582.0, 87.0, 22.0 ],
+					"patching_rect" : [ 156.0, 538.0, 87.0, 22.0 ],
 					"text" : "prepend topics"
 				}
 
@@ -213,7 +258,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 156.0, 368.5, 107.0, 22.0 ],
+					"patching_rect" : [ 136.0, 368.5, 107.0, 22.0 ],
 					"text" : "prepend transform"
 				}
 
@@ -226,7 +271,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 57.333333333333485, 337.5, 24.0, 24.0 ]
+					"patching_rect" : [ 37.333333333333485, 337.5, 24.0, 24.0 ]
 				}
 
 			}
@@ -237,7 +282,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 57.333333333333485, 368.5, 92.0, 22.0 ],
+					"patching_rect" : [ 37.333333333333485, 368.5, 92.0, 22.0 ],
 					"text" : "prepend enable"
 				}
 
@@ -249,7 +294,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 56.0, 581.0, 111.0, 22.0 ],
+					"patching_rect" : [ 37.333333333333485, 538.0, 111.0, 22.0 ],
 					"text" : "prepend connected"
 				}
 
@@ -882,7 +927,7 @@
 													"patching_rect" : [ 557.5, 294.5, 50.0, 22.0 ],
 													"presentation" : 1,
 													"presentation_rect" : [ 116.0, 2.5, 50.0, 22.0 ],
-													"text" : "0:0"
+													"text" : "0:29"
 												}
 
 											}
@@ -1865,7 +1910,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 54.0, 150.0, 311.0, 30.0 ],
+					"patching_rect" : [ 34.0, 150.0, 311.0, 30.0 ],
 					"viewvisibility" : 1
 				}
 
@@ -1877,7 +1922,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 535.125, 158.0, 29.5, 22.0 ],
+					"patching_rect" : [ 432.333333333333485, 313.0, 29.5, 22.0 ],
 					"text" : "b01"
 				}
 
@@ -1889,7 +1934,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 598.75, 158.0, 29.5, 22.0 ],
+					"patching_rect" : [ 514.083333333333485, 313.0, 29.5, 22.0 ],
 					"text" : "b01"
 				}
 
@@ -1901,7 +1946,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 681.5, 158.0, 29.5, 22.0 ],
+					"patching_rect" : [ 631.54166666666697, 313.0, 29.5, 22.0 ],
 					"text" : "b01"
 				}
 
@@ -1918,10 +1963,10 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "int" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 408.5, 158.0, 87.0, 45.0 ],
-					"text" : "FREEZE",
+					"patching_rect" : [ 378.0, 313.0, 48.0, 24.0 ],
+					"text" : "freeze",
 					"textcolor" : [ 0.0, 1.0, 0.047058823529412, 1.0 ],
-					"texton" : "HOT",
+					"texton" : "hot",
 					"textoncolor" : [ 1.0, 0.0, 0.070588235294118, 1.0 ],
 					"usebgoncolor" : 1
 				}
@@ -1932,9 +1977,10 @@
 					"id" : "obj-10",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 535.125, 223.5, 41.0, 22.0 ],
-					"text" : "s park"
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 432.333333333333485, 345.5, 79.0, 22.0 ],
+					"text" : "prepend park"
 				}
 
 			}
@@ -1943,9 +1989,10 @@
 					"id" : "obj-11",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 408.5, 223.5, 51.0, 22.0 ],
-					"text" : "s freeze"
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 392.5, 378.5, 109.0, 22.0 ],
+					"text" : "prepend command"
 				}
 
 			}
@@ -1957,7 +2004,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 716.5, 158.0, 24.0, 24.0 ]
+					"patching_rect" : [ 666.54166666666697, 313.0, 24.0, 24.0 ]
 				}
 
 			}
@@ -1969,7 +2016,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 632.833333333333485, 158.0, 24.0, 24.0 ]
+					"patching_rect" : [ 548.16666666666697, 313.0, 24.0, 24.0 ]
 				}
 
 			}
@@ -1978,9 +2025,10 @@
 					"id" : "obj-52",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 681.5, 223.5, 94.0, 22.0 ],
-					"text" : "s removeBlimps"
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 631.54166666666697, 345.5, 133.0, 22.0 ],
+					"text" : "prepend removeDevice"
 				}
 
 			}
@@ -1989,9 +2037,10 @@
 					"id" : "obj-51",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 598.75, 223.5, 74.0, 22.0 ],
-					"text" : "s addBlimps"
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 514.083333333333485, 345.5, 113.0, 22.0 ],
+					"text" : "prepend addDevice"
 				}
 
 			}
@@ -2002,7 +2051,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 56.0, 524.0, 19.0, 22.0 ],
+					"patching_rect" : [ 37.333333333333485, 475.0, 19.0, 22.0 ],
 					"text" : "t l"
 				}
 
@@ -2014,7 +2063,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "int", "", "" ],
-					"patching_rect" : [ 56.0, 552.0, 219.0, 22.0 ],
+					"patching_rect" : [ 37.333333333333485, 509.0, 229.0, 22.0 ],
 					"text" : "mxj mqtt mqtt://10.128.96.250 SPARCK"
 				}
 
@@ -2026,7 +2075,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 131.5, 488.0, 68.0, 22.0 ],
+					"patching_rect" : [ 134.833333333333485, 475.0, 68.0, 22.0 ],
 					"text" : "disconnect"
 				}
 
@@ -2038,7 +2087,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 76.5, 488.0, 53.0, 22.0 ],
+					"patching_rect" : [ 79.833333333333485, 475.0, 53.0, 22.0 ],
 					"text" : "connect"
 				}
 
@@ -2050,14 +2099,14 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 156.0, 339.5, 111.0, 22.0 ],
+					"patching_rect" : [ 136.0, 339.5, 111.0, 22.0 ],
 					"text" : "r blenderMessages"
 				}
 
 			}
 , 			{
 				"box" : 				{
-					"args" : [ "@update_rate", 10, "@base_topic", "manager", "@blimp_base_topic", "blimps", "@blimp_name", "b01", "@data_fps", 25, "@tracking_id", 110, "@velocity_max", 1 ],
+					"args" : [ "@base_topic", "manager", "@blimp_base_topic", "blimps", "@blimp_name", "b01", "@tracking_id", 110, "@update_fps", 10, "@data_fps", 25, "@velocity_max", 1 ],
 					"bgmode" : 0,
 					"border" : 0,
 					"clickthrough" : 0,
@@ -2066,14 +2115,30 @@
 					"id" : "obj-30",
 					"lockeddragscroll" : 0,
 					"maxclass" : "bpatcher",
-					"name" : "blp.txrx.path.maxpat",
+					"name" : "blp.txrx.device.maxpat",
 					"numinlets" : 1,
 					"numoutlets" : 4,
 					"offset" : [ 0.0, 0.0 ],
 					"outlettype" : [ "", "", "", "" ],
-					"patching_rect" : [ 56.0, 446.875, 719.5, 25.625 ],
-					"varname" : "blp.txrx.path",
+					"patching_rect" : [ 37.333333333333485, 432.875, 719.5, 25.625 ],
+					"varname" : "device[0]",
 					"viewvisibility" : 1
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"angle" : 270.0,
+					"background" : 1,
+					"grad1" : [ 0.831372549019608, 0.768627450980392, 0.450980392156863, 1.0 ],
+					"grad2" : [ 0.701960784313725, 0.690196078431373, 0.286274509803922, 1.0 ],
+					"id" : "obj-27",
+					"maxclass" : "panel",
+					"mode" : 1,
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 65.333333333333485, 570.5, 201.0, 86.25 ],
+					"proportion" : 0.5
 				}
 
 			}
@@ -2088,7 +2153,7 @@
 					"mode" : 1,
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 282.333333333333485, 539.0, 505.0, 131.75 ],
+					"patching_rect" : [ 270.833333333333485, 526.75, 505.0, 131.75 ],
 					"proportion" : 0.5
 				}
 
@@ -2104,7 +2169,7 @@
 					"mode" : 1,
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 50.0, 187.75, 325.0, 219.75 ],
+					"patching_rect" : [ 30.0, 187.75, 325.0, 219.75 ],
 					"proportion" : 0.5
 				}
 
@@ -2120,7 +2185,7 @@
 					"mode" : 1,
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 393.333333333333485, 143.75, 394.0, 263.75 ],
+					"patching_rect" : [ 373.333333333333485, 129.75, 394.0, 277.75 ],
 					"proportion" : 0.5
 				}
 
@@ -2136,8 +2201,20 @@
 					"mode" : 1,
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 50.0, 439.25, 734.0, 39.75 ],
+					"patching_rect" : [ 31.333333333333485, 425.25, 734.0, 39.75 ],
 					"proportion" : 0.5
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-33",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 75.333332999999996, 601.625, 77.0, 22.0 ],
+					"text" : "clientwindow"
 				}
 
 			}
@@ -2145,7 +2222,21 @@
 		"lines" : [ 			{
 				"patchline" : 				{
 					"destination" : [ "obj-11", 0 ],
-					"source" : [ "obj-13", 0 ]
+					"source" : [ "obj-10", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-30", 0 ],
+					"source" : [ "obj-11", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-11", 0 ],
+					"source" : [ "obj-13", 1 ]
 				}
 
 			}
@@ -2166,7 +2257,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-30", 0 ],
-					"midpoints" : [ 65.5, 650.0, 13.5, 650.0, 13.5, 422.0, 65.5, 422.0 ],
+					"midpoints" : [ 46.833333333333485, 607.0, 15.833333333333485, 607.0, 15.833333333333485, 416.0, 46.833333333333485, 416.0 ],
 					"source" : [ "obj-16", 0 ]
 				}
 
@@ -2210,6 +2301,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-65", 0 ],
 					"source" : [ "obj-30", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-20", 0 ],
+					"source" : [ "obj-33", 0 ]
 				}
 
 			}
@@ -2278,6 +2376,20 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-11", 0 ],
+					"source" : [ "obj-51", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-11", 0 ],
+					"source" : [ "obj-52", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-51", 0 ],
 					"source" : [ "obj-53", 0 ]
 				}
@@ -2306,7 +2418,7 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "blp.txrx.path.maxpat",
+				"name" : "blp.txrx.device.maxpat",
 				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/txrx",
 				"patcherrelativepath" : "../../libs/blimpy4max/patchers/txrx",
 				"type" : "JSON",
@@ -2324,6 +2436,13 @@
 				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/math",
 				"patcherrelativepath" : "../../libs/blimpy4max/patchers/math",
 				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "blp.txrx.device.js",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/javascript",
+				"patcherrelativepath" : "../../libs/blimpy4max/javascript",
+				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
