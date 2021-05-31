@@ -79,11 +79,11 @@ class Blimp:
     k_d_z = 2.5
     k_i_z = 0.0
 
-    k_p_xy = 0.8
-    k_d_xy = 0.8
+    k_p_xy = 1.4
+    k_d_xy = 1.4
 
-    k_p_a = 0.9
-    k_d_a = 1.2
+    k_p_a = 0.6
+    k_d_a = 0
 
     m1 = 0.0
     m2 = 0.0
