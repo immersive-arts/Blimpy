@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 252.0, 88.0, 807.0, 689.0 ],
+		"rect" : [ 258.0, 101.0, 807.0, 689.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -44,7 +44,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 75.333332999999996, 579.625, 150.0, 20.0 ],
+					"patching_rect" : [ 71.333332999999996, 592.375, 150.0, 20.0 ],
 					"text" : "settings can be stored"
 				}
 
@@ -57,7 +57,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 578.04166666666697, 137.0, 181.0, 154.0 ],
-					"presentation_linecount" : 11,
 					"text" : "\n\nkeeps device at this current position\npark the devive at the last sent position using velocity_max\nsend transform data to control device\nadd device to be managed\n\nremove device to be managed"
 				}
 
@@ -69,7 +68,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 75.333332999999996, 626.0, 73.0, 22.0 ],
+					"patching_rect" : [ 71.333332999999996, 638.75, 73.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"client_rect" : [ 100, 100, 500, 600 ],
 						"parameter_enable" : 0,
@@ -89,7 +88,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 485.666666666666515, 529.125, 285.0, 127.0 ],
+					"patching_rect" : [ 485.833333333333485, 537.75, 285.0, 127.0 ],
 					"text" : "\n\nthe rate in which MQTT data is send to the manager\nthe rate transformation data is beeing received\nbase topic of the manager\nbase topic of the device\ndevice name\nrigidbody id from optitrack\nmaximum allowed velocity - if it goes beyond -> 0"
 				}
 
@@ -101,7 +100,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 430.833333333333485, 526.75, 53.0, 127.0 ],
+					"patching_rect" : [ 430.833333333333485, 537.75, 53.0, 127.0 ],
 					"text" : "\n\n[fps]\n[fps]\n[symbol]\n[symbol]\n[symbol]\n[int]\n[m/s]"
 				}
 
@@ -124,7 +123,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 270.833333333333485, 469.0, 78.0, 22.0 ],
+					"patching_rect" : [ 289.333333333333485, 481.0, 78.0, 22.0 ],
 					"text" : "bpl.visualizer"
 				}
 
@@ -137,7 +136,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 34.0, 42.0, 743.0, 78.0 ],
+					"patching_rect" : [ 34.0, 42.0, 746.0, 78.0 ],
 					"text" : "This patch illustrates how to receive OSC data from blender to be used to controll managed devices.\n\nIt relies on the  [blp.txrx.device.maxpat] abstraction which manages the connection to the device with all the necessary calculations and controlls."
 				}
 
@@ -197,7 +196,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 270.833333333333485, 526.75, 163.0, 127.0 ],
+					"patching_rect" : [ 270.833333333333485, 537.75, 163.0, 127.0 ],
 					"text" : "expects following attributes:\n\n@update_fps\n@data_fps\n@base_topic\n@blimp_base_topic\n@blimp_name\n@tracking_id\n@velocity_max",
 					"textjustification" : 2
 				}
@@ -222,7 +221,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 270.833333333333485, 497.0, 218.0, 22.0 ],
+					"patching_rect" : [ 289.333333333333485, 509.0, 218.0, 22.0 ],
 					"text" : "jit.gl.sketch @layer 0 @depth_enable 0"
 				}
 
@@ -246,7 +245,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 156.0, 538.0, 87.0, 22.0 ],
+					"patching_rect" : [ 152.333333333333485, 538.0, 87.0, 22.0 ],
 					"text" : "prepend topics"
 				}
 
@@ -927,7 +926,7 @@
 													"patching_rect" : [ 557.5, 294.5, 50.0, 22.0 ],
 													"presentation" : 1,
 													"presentation_rect" : [ 116.0, 2.5, 50.0, 22.0 ],
-													"text" : "0:29"
+													"text" : "0:0"
 												}
 
 											}
@@ -2063,8 +2062,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "int", "", "" ],
-					"patching_rect" : [ 37.333333333333485, 509.0, 229.0, 22.0 ],
-					"text" : "mxj mqtt mqtt://10.128.96.250 SPARCK"
+					"patching_rect" : [ 37.333333333333485, 509.0, 249.0, 22.0 ],
+					"text" : "mxj mqtt mqtt://10.128.96.250:1883 SPARCK"
 				}
 
 			}
@@ -2106,7 +2105,7 @@
 			}
 , 			{
 				"box" : 				{
-					"args" : [ "@base_topic", "manager", "@blimp_base_topic", "blimps", "@blimp_name", "b01", "@tracking_id", 110, "@update_fps", 10, "@data_fps", 25, "@velocity_max", 1 ],
+					"args" : [ "@base_topic", "manager", "@blimp_base_topic", "blimps", "@blimp_name", "b01", "@tracking_id", 101, "@update_fps", 10, "@data_fps", 25, "@velocity_max", 1 ],
 					"bgmode" : 0,
 					"border" : 0,
 					"clickthrough" : 0,
@@ -2137,7 +2136,7 @@
 					"mode" : 1,
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 65.333333333333485, 570.5, 201.0, 86.25 ],
+					"patching_rect" : [ 61.333333333333485, 583.25, 201.0, 86.25 ],
 					"proportion" : 0.5
 				}
 
@@ -2153,7 +2152,7 @@
 					"mode" : 1,
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 270.833333333333485, 526.75, 505.0, 131.75 ],
+					"patching_rect" : [ 270.833333333333485, 537.75, 505.0, 131.75 ],
 					"proportion" : 0.5
 				}
 
@@ -2213,7 +2212,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 75.333332999999996, 601.625, 77.0, 22.0 ],
+					"patching_rect" : [ 71.333332999999996, 614.375, 77.0, 22.0 ],
 					"text" : "clientwindow"
 				}
 

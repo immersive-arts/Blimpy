@@ -68,7 +68,7 @@ var my_topic_DeviceConfig 		= null;
 
 // device condition
 
-var myState     = API_stack_untracked;
+var myState     = "undefined";
 var myEnable 	= false; // this module is enabled
 var myConnected = false; // connected to the network
 var myHandshaked= false; // receive handshake from manager
@@ -89,44 +89,49 @@ function done(){
 
 // sent by the mqtt client
 function connected(_connected){
-    if(myConnected !== _connected){
+    if(myConnected !== (_connected == 1)?true:false){
         myConnected = (_connected == 1)?true:false;
         if(!myConnected){
             myHandshaked = false;
             myManaged = false;
+            flg_guiChange = true;
         }
+        update();
     }
-    update(true);
 }
 
 // sent by the manager
 function state(_state){
+    post("state: " + _state + " \n");
+    if(myState !== _state){
+        if(_state === API_stack_untracked){
+            myState = API_stack_untracked;
+        } else {
+            // if we receive these messages, then
+            myManaged = true;
 
-    if(_state === API_stack_untracked){
-        myState = API_stack_untracked;
-	} else {
-        // if we receive these messages, then
-        myManaged = true;
-        
-        if(_state === API_stack_ready){
-            if(flg_waitingForReady){
-                publish(my_topic_DeviceConfig, my_config_payload);
-                flg_waitingForReady = false;
+            if(_state === API_stack_ready){
+                if(flg_waitingForReady){
+                    publish(my_topic_DeviceConfig, my_config_payload);
+                    flg_waitingForReady = false;
+                }
+                myState = API_stack_ready;
             }
-            myState = API_stack_ready;
+            else if(_state === API_stack_hold){
+                myState = API_stack_hold;
+            }
+            else if(_state === API_stack_freeze){
+                myState = API_stack_freeze;
+            }
+            else if(_state === API_stack_park){
+                myState = API_stack_park;
+            }
+            else if(_state === API_stack_move){
+                myState = API_stack_move;
+            }        
         }
-        else if(_state === API_stack_hold){
-            myState = API_stack_hold;
-        }
-        else if(_state === API_stack_freeze){
-            myState = API_stack_freeze;
-        }
-        else if(_state === API_stack_park){
-            myState = API_stack_park;
-        }
-        else if(_state === API_stack_move){
-            myState = API_stack_move;
-        }        
+        flg_guiChange = true;
+        update();        
     }
 }
 
@@ -152,9 +157,11 @@ function command(_cmd, _device){
 
 // sent by the manager
 function heartbeat(_heartbeat){
-    if(myHandshaked !== _heartbeat){
+    if(myHandshaked !== (_heartbeat == 1)?true:false){
         myHandshaked = (_heartbeat == 1)?true:false;
         myConnected = myHandshaked;
+        flg_guiChange = true;
+        update();
     }
 }
 
@@ -210,16 +217,26 @@ function msg_int(v)
 
 function enable(_enabled){
 	myEnable = (_enabled == 1)?true:false;
-	update(true);
+    if(!myEnable){
+        unsubscribe(my_topic_DeviceState);
+        unsubscribe(my_topic_DeviceFeedback);
+        unsubscribe(my_topic_ManagerHeartbeat);
+
+        myHandshaked = false;
+        myManaged = false;
+        flg_guiChange = true;
+    } else {
+        subscribe(my_topic_ManagerHeartbeat);
+        subscribe(my_topic_DeviceState);
+        subscribe(my_topic_DeviceFeedback);
+
+    }
+	update();
 }
 
 function update(_enforce)
 {
 	if(flg_addressChange || _enforce == true){
-        unsubscribe(my_topic_DeviceState);
-        unsubscribe(my_topic_DeviceFeedback);
-		unsubscribe(my_topic_ManagerHeartbeat);
-
         my_devAddress =  my_blimp_base_topic + "/" + my_blimp_name;
 		my_managedDevAddress = my_base_topic + "/" + my_devAddress;
 		
@@ -232,22 +249,20 @@ function update(_enforce)
 		my_topic_DeviceStackClear 	= my_managedDevAddress + API_clear;
 		my_topic_DeviceStack 		= my_managedDevAddress + API_stack;
         my_topic_DeviceConfig       = my_managedDevAddress + API_config;
-
-		subscribe(my_topic_ManagerHeartbeat);
-        subscribe(my_topic_DeviceState);
-        subscribe(my_topic_DeviceFeedback);
+                
+        routeTopic("heartbeat", my_topic_ManagerHeartbeat);
         routeTopic("state", my_topic_DeviceState);
         routeTopic("feedback", my_topic_DeviceFeedback);
 
 		outlet(OUTID_SETUP, "stack", "set", my_topic_DeviceStack);
 		outlet(OUTID_SETUP, "clear", "set", my_topic_DeviceStackClear);
-        
 		outlet(OUTID_SETUP, "display", "set", my_managedDevAddress);
         
 		flg_addressChange = false;
 	}
     
     if(flg_guiChange || _enforce == true){
+        outlet(OUTID_SETUP, "state", myState);
         outlet(OUTID_SETUP, "gui", "managed", myManaged);
         outlet(OUTID_SETUP, "gui", "connected", myConnected);
         outlet(OUTID_SETUP, "gui", "heartbeat", myHandshaked);
@@ -259,7 +274,7 @@ function update(_enforce)
 }
 
 function routeTopic(_cmd, _topic){
-    outlet(OUTID_TOPIC_ROUTE, _cmd, _topic);
+    outlet(OUTID_TOPIC_ROUTE, "route", _cmd, _topic);
 }
 
 function publish(_topic, _payload){
