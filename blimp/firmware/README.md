@@ -1,6 +1,6 @@
 # Firmware
 
-[Naos](https://naos.256dpi.com) provides [further mqtt messages](https://naos.256dpi.com/documentation/device_management/) than here specified. 
+[Naos](https://naos.256dpi.com) provides [further mqtt messages](https://naos.256dpi.com/documentation/device_management/) than here specified.
 
 ## MQTT address space
 
@@ -119,15 +119,15 @@ naos run
 
 ## Configuration of device - OSX ONLY:
 
-Install [shiftr.io Desktop](https://desktop.shiftr.io) to get access to the BLE configuration.
+Install [naos Desktop](https://github.com/256dpi/naos/releases/tag/desktop%2Fv1.0) to get access to the BLE configuration.
 
-shiftr.io will be inside the menu bar after start.
+beware: naos Desktop will be inside the menu bar after start.
 
-when a device is switched on, shiftr.io will detect the device if bluetooth is enabled.
+when a device is switched on, naos Desktop will detect the device if bluetooth is enabled.
 
 connect to device:
 
-menu > shitfr.io > 1(2..) Device > deviceName
+menu > naos Desktop > 1(2..) Device > deviceName
 
 ![wifi](../../assets/pix/firmware/BT_deviceConfig_Wifi.jpg)
 
