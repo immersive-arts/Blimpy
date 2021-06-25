@@ -13,5 +13,14 @@ The following items need to be ordered before building a new wheely:
 ## 3. Frame
 
 ## 4. Electronics
+The ESP32 acts as a translator between the manager and motor controller. To connect ESP32 and motor controller directly solder several wires on the ESP32 and a pin header with 6 pins, which can be plugged into the motor controller. The connections are as follows:
+- 5V <-> 5V
+- GND <-> GND
+- Pin 13 <-> DAT
+- Pin 12 <-> CMD
+- Pin 15 <-> CLK
+- Pin 14 <-> CS
+
+![alt text](../../assets/pix/robots/wheely/electronics/esp32_motor_controller.png)
 
 ## 5. Assembly
