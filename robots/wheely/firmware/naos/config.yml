@@ -1,0 +1,8 @@
+wifi-ssid: IASpaceIOT
+wifi-password: 1ASpaceAccEss
+mqtt-host: 10.128.96.187
+mqtt-port: 1883
+mqtt-client-id: wheely01
+device-name: b01
+base-topic: blimps/b01
+
