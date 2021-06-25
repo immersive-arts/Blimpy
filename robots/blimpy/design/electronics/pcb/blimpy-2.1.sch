@@ -9246,7 +9246,7 @@ RESISTORS</text>
 <text x="203.2" y="200.66" size="1.778" layer="97">600mA (800mA max)</text>
 <text x="680.72" y="220.98" size="1.778" layer="94">SERVOS</text>
 <text x="449.58" y="223.52" size="1.778" layer="94">MOTORS</text>
-<text x="10.16" y="-58.42" size="6.35" layer="95">Blimpy Board 2.0
+<text x="10.16" y="-58.42" size="6.35" layer="95">Blimpy Board 2.1
 Immersive Arts Space
 ZHdK - Joël Gähwiler, Max Kriegleder</text>
 <text x="22.86" y="139.7" size="1.778" layer="94">BATTERY STATE OF CHARGE MEASUREMENT</text>
