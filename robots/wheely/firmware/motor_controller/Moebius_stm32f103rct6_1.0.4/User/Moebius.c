@@ -20,7 +20,7 @@ float Pitch, Roll, Yaw, Move_X, Move_Y, Move_Z;		//三轴角度和XYZ轴目标速度
 u16 PID_Parameter[10], Flash_Parameter[10];			//Flash相关数组
 float	Position_KP = 6, Position_KI = 0, Position_KD = 3;	//位置控制PID参数
 float Velocity_KP = 10, Velocity_KI = 10;			//速度控制PID参数
-int RC_Velocity = 30, RC_Position = 1000;			//设置遥控的速度和位置值
+int RC_Velocity = 80, RC_Position = 1000;			//设置遥控的速度和位置值
 int PS2_LX, PS2_LY, PS2_RX, PS2_RY, PS2_KEY;
 int Gryo_Z;
 /*************************************************

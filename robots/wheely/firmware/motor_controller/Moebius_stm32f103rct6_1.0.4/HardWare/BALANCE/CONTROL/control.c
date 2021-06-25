@@ -16,7 +16,8 @@ int Gyro_Bias;
 int j;
 unsigned int TimClk = 200;
 #define a_PARAMETER          (0.311f)               
-#define b_PARAMETER          (0.3075f)         
+#define b_PARAMETER          (0.3075f)   
+#define MAX_PWM 10000
 /**************************************************************************
 函数功能：小车运动数学模型
 入口参数：X Y Z 三轴速度或者位置
@@ -36,10 +37,14 @@ void Kinematic_Analysis(float Vx,float Vy,float Vz)
 	if(temp > 1 || temp < -1)
 		Vz += Gyro_K * temp;
 #endif
-	Target_A   = -Vx+Vy+Vz*(a_PARAMETER+b_PARAMETER);
-	Target_B   = +Vx+Vy-Vz*(a_PARAMETER+b_PARAMETER);
-	Target_C   = -Vx+Vy-Vz*(a_PARAMETER+b_PARAMETER);
-	Target_D   = +Vx+Vy+Vz*(a_PARAMETER+b_PARAMETER);
+	//Target_A   = -Vx+Vy+Vz*(a_PARAMETER+b_PARAMETER);
+	//Target_B   = +Vx+Vy-Vz*(a_PARAMETER+b_PARAMETER);
+	//Target_C   = -Vx+Vy-Vz*(a_PARAMETER+b_PARAMETER);
+	//Target_D   = +Vx+Vy+Vz*(a_PARAMETER+b_PARAMETER);
+	Target_A   = -Vx+Vz*(a_PARAMETER+b_PARAMETER);
+	Target_B   = Vy-Vz*(a_PARAMETER+b_PARAMETER);
+	Target_C   = -Vx-Vz*(a_PARAMETER+b_PARAMETER);
+	Target_D   = Vy+Vz*(a_PARAMETER+b_PARAMETER);
 }
 /**************************************************************************
 函数功能：所有的控制代码都在这里面
@@ -135,7 +140,7 @@ int EXTI15_10_IRQHandler(void)
 
 		Get_RC(0);
 		
-		Xianfu_Pwm(6900);                     //===PWM限幅
+		Xianfu_Pwm(MAX_PWM);                     //===PWM限幅
 		Set_Pwm(Motor_A,Motor_B,Motor_C,Motor_D);     //===赋值给PWM寄存器  
 	}
 	return 0;	 
@@ -233,8 +238,8 @@ int Incremental_PI_A (int Encoder,int Target)
 	 static int Bias,Pwm,Last_bias;
 	 Bias=Encoder-Target;                //计算偏差
 	 Pwm+=Velocity_KP*(Bias-Last_bias)+Velocity_KI*Bias;   //增量式PI控制器
-	 if(Pwm>7200)	Pwm=7200;
-	 if(Pwm<-7200)	Pwm=-7200;
+	 if(Pwm>MAX_PWM)	Pwm=MAX_PWM;
+	 if(Pwm<-MAX_PWM)	Pwm=-MAX_PWM;
 	 Last_bias=Bias;	                   //保存上一次偏差 
 	 return Pwm;                         //增量输出
 }
@@ -243,8 +248,8 @@ int Incremental_PI_B (int Encoder,int Target)
 	 static int Bias,Pwm,Last_bias;
 	 Bias=Encoder-Target;                //计算偏差
 	 Pwm+=Velocity_KP*(Bias-Last_bias)+Velocity_KI*Bias;   //增量式PI控制器
-	 if(Pwm>7200)	Pwm=7200;
-	 if(Pwm<-7200)	Pwm=-7200;
+	 if(Pwm>MAX_PWM)	Pwm=MAX_PWM;
+	 if(Pwm<-MAX_PWM)	Pwm=-MAX_PWM;
 	 Last_bias=Bias;	                   //保存上一次偏差 
 	 return Pwm;                         //增量输出
 }
@@ -253,8 +258,8 @@ int Incremental_PI_C (int Encoder,int Target)
 	 static int Bias,Pwm,Last_bias;
 	 Bias=Encoder-Target;                                  //计算偏差
 	 Pwm+=Velocity_KP*(Bias-Last_bias)+Velocity_KI*Bias;   //增量式PI控制器
-	 if(Pwm>7200)	Pwm=7200;
-	 if(Pwm<-7200)	Pwm=-7200;
+	 if(Pwm>MAX_PWM)	Pwm=MAX_PWM;
+	 if(Pwm<-MAX_PWM)	Pwm=-MAX_PWM;
 	 Last_bias=Bias;	                   //保存上一次偏差 
 	 return Pwm;                         //增量输出
 }
@@ -263,8 +268,8 @@ int Incremental_PI_D (int Encoder,int Target)
 	 static int Bias,Pwm,Last_bias;
 	 Bias=Encoder-Target;                                  //计算偏差
 	 Pwm+=Velocity_KP*(Bias-Last_bias)+Velocity_KI*Bias;   //增量式PI控制器
-	 if(Pwm>7200)	Pwm=7200;
-	 if(Pwm<-7200)	Pwm=-7200;
+	 if(Pwm>MAX_PWM)	Pwm=MAX_PWM;
+	 if(Pwm<-MAX_PWM)	Pwm=-MAX_PWM;
 	 Last_bias=Bias;	                   //保存上一次偏差 
 	 return Pwm;                         //增量输出
 }
