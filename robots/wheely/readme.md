@@ -59,6 +59,20 @@ The ESP32 acts as a translator between the manager and motor controller. To conn
 
 ![alt text](../../assets/pix/robots/wheely/electronics/esp32_motor_controller.png)
 
+Build and flash the firmware for the ESP32 controller (inside firmware/NAOS, attach ESP32 through Micro-USB port):
+```bash
+naos install
+```
+```bash
+naos build
+```
+```bash
+naos flash <dev>
+```
+For more instructions see [NAOS](https://github.com/256dpi/naos).
+
+Build and flash the firmware for the motor controller (inside firmware/motor_controller, attach motor controller through SWD port with ST-Link). Either install Keil uVision for building and flashing, or simply use STM32 ST-LINK utility to flash the precompiled OBJ/Moebius.hex).
+
 ## 5. Assembly
 
 start with the frame:
