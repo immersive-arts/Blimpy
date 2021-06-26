@@ -11,10 +11,11 @@ The following items need to be ordered before building a new wheely:
 - Charger: [swaytronic](https://www.swaytronic.ch/Ladegeraete/Ladegeraete-12V-DC/up100ac-plus.html) (70 CHF with a lead time of about 2 days)
 - Connector: [swaytronic](https://www.swaytronic.ch/LiPo---Zubehoer/LiPo-Stecksysteme---Zubehoer/lipo-stecksystem-new-dean-t-plug-mit-schutzkappe.html) (15 CHF with a lead time of about 2 days)
 
-***IMPORTANT: You will need to have 4 identical mecanum wheels. The above linked aliexpress robot contains 2 right and 2 left handed wheels. For this instructions you should use 4 right handed wheels. Left handed would work, but the move axis will be orientated differently.***
+***IMPORTANT: You will need to have 4 identical mecanum wheels. The above linked aliexpress robot contains 2 right and 2 left handed wheels. Both left handed and right will work, but the move axis will be orientated differently (see further down).***
 
 Alternative places to order spare parts:
 - righthanded mecanum wheels: [bastelgarage](https://www.bastelgarage.ch/rechtsdrehendes-80mm-mecanum-omni-wheel-rad) (10 CHF with a lead time of about 2 days)
+- lefthanded mecanum wheels: [bastelgarage](https://www.bastelgarage.ch/linksdrehendes-80mm-mecanum-omni-wheel-rad?search=mecanum) (10 CHF with a lead time of about 2 days)
 
 ## 3. Frame
 
@@ -45,8 +46,8 @@ plus from the robot kit:
 4 x 80mm Mecanum wheels
 4 x 12V DC motors
 4 x motor cables (40cm long)
+1 x STM32f103rct6 motor controller board
 Screws and couplings
-1pcs STM32f103rct6 control board
 
 ## 4. Electronics
 The ESP32 acts as a translator between the manager and motor controller. To connect ESP32 and motor controller directly solder several wires on the ESP32 and a pin header with 6 pins, which can be plugged into the motor controller. The connections are as follows:
@@ -85,12 +86,10 @@ start with the frame:
 * now use the countersunk screws and screw the bottom, the rips and the sound shield together.
 * assemble the motor and the wheels to the flange.
 * put the suspension and the flange into the frame and screw them together with the cylinder head screws.
-* screw the control board into the center and connect the motors with the board
-
-![alt text](../../assets/pix/robots/wheely/axisAndwheels.png)
-
-* connect the ESP32 development kit to the control board
-* connect the battery to the control board
+* screw the motor controler board into the center and connect the motors with the board
+* connect the ESP32 development kit to the motor controller
+* connect the battery to the motor controller
 * use velcro to stick the battery to the frame
 * close the top
 * mark the axis
+![alt text](../../assets/pix/robots/wheely/axisAndwheels.png)
