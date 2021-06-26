@@ -23,7 +23,7 @@ Alternative places to order spare parts:
 
 Designed with [blender](https://blender.org), frame made out of laser cut shapes from medium density fiberboard (MDF) 4mm thickness.
 
-6 individual shapes:
+7 individual shapes:
 
 2 x top
 4 x rip
@@ -86,9 +86,11 @@ start with the frame:
 * assemble the motor and the wheels to the flange.
 * put the suspension and the flange into the frame and screw them together with the cylinder head screws.
 * screw the control board into the center and connect the motors with the board
+
+![alt text](../../assets/pix/robots/wheely/axisAndwheels.png)
+
 * connect the ESP32 development kit to the control board
 * connect the battery to the control board
 * use velcro to stick the battery to the frame
 * close the top
 * mark the axis
-* 

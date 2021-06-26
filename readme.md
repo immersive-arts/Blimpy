@@ -33,6 +33,10 @@ At the [IASpace](http://immersive-arts.ch) the [Optitrack](http://optitrack.com)
 
 To send Optitracks native NATNET protocoll to the manager and SPARCK, the [NatNetThree2OSC](https://github.com/tecartlab/app_NetNatThree2OSC) application is used.
 
+# Additional info
+
+some additional info might be found on this [miro board](https://miro.com/app/board/o9J_lFMUi0Q=/), though ultimatly all data should be find its way into this repo.
+
 # Licenses
 
 All text and pictures are licensed under  ![CC-BY-NC](https://licensebuttons.net/l/by-nc/2.0/88x31.png)
