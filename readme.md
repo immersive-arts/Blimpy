@@ -52,3 +52,5 @@ created by [IASpace](http://immersive-arts.ch), Zürich University of the Arts, 
 * Roman Jurt - Materials, rapid prototyping, construction
 * Serena Cangiano - Theory
 * Martin Fröhlich - Lead, motion tracking, projection mapping
+
+[![DOI](https://zenodo.org/badge/245631441.svg)](https://zenodo.org/badge/latestdoi/245631441)
