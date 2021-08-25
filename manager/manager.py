@@ -599,7 +599,7 @@ def main(mqtt_host, mqtt_port, osc_server, osc_port, base_topic):
     while run:
         osc_process()
         t = time.time() - t0
-        if count % 10 == 0:
+        if count % 100 == 0:
             client.publish(base_topic + "/heartbeat")
         count = count + 1
         time.sleep(max(0, count * main_dt - t))
