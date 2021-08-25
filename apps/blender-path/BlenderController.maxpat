@@ -2105,7 +2105,7 @@
 			}
 , 			{
 				"box" : 				{
-					"args" : [ "@base_topic", "manager", "@blimp_base_topic", "blimps", "@blimp_name", "b01", "@tracking_id", 101, "@update_fps", 10, "@data_fps", 25, "@velocity_max", 1 ],
+					"args" : [ "@manager_base_topic", "manager", "@device_base_topic", "blimps", "@device_name", "b01", "@device_type", "blimpy", "@tracking_id", 301, "@update_fps", 10, "@data_fps", 25, "@velocity_max", 1 ],
 					"bgmode" : 0,
 					"border" : 0,
 					"clickthrough" : 0,

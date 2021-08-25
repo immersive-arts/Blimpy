@@ -34,9 +34,10 @@ var API_stack_untracked 	= "untracked";
 
 
 // device setup
-var my_base_topic = null;
-var my_blimp_base_topic = null;
-var my_blimp_name = null;
+var my_manager_base_topic = null;
+var my_device_base_topic = null;
+var my_device_name = null;
+var my_device_type = null;
 var my_tracking_id = -1;
 var my_update_fps = 0; 
 var my_data_fps = 0;
@@ -136,7 +137,7 @@ function state(_state){
 }
 
 function command(_cmd, _device){
-	if(_device == my_blimp_name || _device == undefined || _device == "bang"){
+	if(_device == my_device_name || _device == undefined || _device == "bang"){
 		if(_cmd == API_stack_freeze){
             outlet(OUTID_CONTROL, API_stack_freeze);
 		}
@@ -169,8 +170,8 @@ function addDevice(_deviceName){
 	if(myEnable){
         if(myConnected){            
             if(myHandshaked){		
-                if(_deviceName === my_blimp_name || _deviceName === undefined || _device == "bang"){		
-                    var payload = "blimp_base_topic="+ my_blimp_base_topic + " blimp_name=" + my_blimp_name + " tracking_id=" + my_tracking_id;
+                if(_deviceName === my_device_name || _deviceName === undefined || _device == "bang"){		
+                    var payload = "device_base_topic="+ my_device_base_topic + " device_name=" + my_device_name + " device_type=" + my_device_type + " tracking_id=" + my_tracking_id;
                     publish(my_topic_AddDevice, payload);
                     myManaged = true;
                     flg_guiChange = true;
@@ -178,13 +179,13 @@ function addDevice(_deviceName){
                     update();
                 }
             } else {
-                error("adding device '" + my_blimp_name + "' failed. No connection to manager available\n");
+                error("adding device '" + my_device_name + "' failed. No connection to manager available\n");
             }
         } else {
-            error("adding device '" + my_blimp_name + "' failed. No connection to mqtt broker available\n");            
+            error("adding device '" + my_device_name + "' failed. No connection to mqtt broker available\n");            
         }
     } else {
-        error("adding device '" + my_blimp_name + "' failed. Device not enabled\n");            
+        error("adding device '" + my_device_name + "' failed. Device not enabled\n");            
     }
 }
 
@@ -192,21 +193,21 @@ function removeDevice(_deviceName){
 	if(myEnable){
         if(myConnected){            
             if(myHandshaked){		
-                if(_deviceName === my_blimp_name || _deviceName === undefined || _device == "bang"){		
-                    var payload = "blimp_name=" + my_blimp_name;
+                if(_deviceName === my_device_name || _deviceName === undefined || _device == "bang"){		
+                    var payload = "device_name=" + my_device_name;
                     publish(my_topic_RemoveDevice, payload);
                     myManaged = false;
                     flg_guiChange = true;
                     update();
                 }
             } else {
-                error("removing device '" + my_blimp_name + "' failed. No connection to manager available\n");
+                error("removing device '" + my_device_name + "' failed. No connection to manager available\n");
             }
         } else {
-            error("removing device '" + my_blimp_name + "' failed. No connection to mqtt broker available\n");            
+            error("removing device '" + my_device_name + "' failed. No connection to mqtt broker available\n");            
         }
     } else {
-        error("removing device '" + my_blimp_name + "' failed. Device not enabled\n");            
+        error("removing device '" + my_device_name + "' failed. Device not enabled\n");            
     }
 }
 
@@ -237,12 +238,12 @@ function enable(_enabled){
 function update(_enforce)
 {
 	if(flg_addressChange || _enforce == true){
-        my_devAddress =  my_blimp_base_topic + "/" + my_blimp_name;
-		my_managedDevAddress = my_base_topic + "/" + my_devAddress;
+        my_devAddress =  my_device_base_topic + "/" + my_device_name;
+		my_managedDevAddress = my_manager_base_topic + "/" + my_devAddress;
 		
-		my_topic_AddDevice 			= my_base_topic + API_add;
-		my_topic_RemoveDevice 		= my_base_topic + API_remove;
-		my_topic_ManagerHeartbeat 	= my_base_topic + API_heartbeat;
+		my_topic_AddDevice 			= my_manager_base_topic + API_add;
+		my_topic_RemoveDevice 		= my_manager_base_topic + API_remove;
+		my_topic_ManagerHeartbeat 	= my_manager_base_topic + API_heartbeat;
 
 		my_topic_DeviceFeedback 	= my_managedDevAddress + API_feedback;
 		my_topic_DeviceState 		= my_managedDevAddress + API_state;
@@ -294,18 +295,23 @@ function unsubscribe(_topic){
 
 // SET FUNCTIONS
 
-function blimp_base_topic(_str){
-	my_blimp_base_topic = _str;
+function device_base_topic(_str){
+	my_device_base_topic = _str;
 	flg_addressChange = true;
 }
 
-function base_topic(_str){
-	my_base_topic = _str;
+function manager_base_topic(_str){
+	my_manager_base_topic = _str;
 	flg_addressChange = true;
 }
 
-function blimp_name(_str){
-	my_blimp_name = _str;
+function device_type(_str){
+	my_device_type = _str;
+	flg_addressChange = true;
+}
+
+function device_name(_str){
+	my_device_name = _str;
 	flg_addressChange = true;
 }
 
