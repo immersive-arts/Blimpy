@@ -3,13 +3,13 @@ import time
 import re
 from threading import Thread
 import signal as sig
-import math
 import queue
 import numpy as np
 from osc4py3.as_comthreads import osc_method, osc_udp_server, osc_startup, osc_process, osc_terminate
 from scipy import signal
 from enum import Enum
 import sys, getopt
+import yaml
 
 def signal_handler(sig, frame):
     global run
@@ -41,7 +41,7 @@ class State(Enum):
     hold = 4
     freeze = 5
 
-class Blimp:
+class Device:
     count = 0
     t0 = 0
     run_thread = False
@@ -75,16 +75,6 @@ class Blimp:
     c_z_filt = 0
     c_a_filt = 0
 
-    k_p_z = 2.0
-    k_d_z = 2.5
-    k_i_z = 0.0
-
-    k_p_xy = 1.4
-    k_d_xy = 1.4
-
-    k_p_a = 0.6
-    k_d_a = 0
-
     m1 = 0.0
     m2 = 0.0
     m3 = 0.0
@@ -108,22 +98,23 @@ class Blimp:
     
     state = State.untracked
 
-    def __init__(self, dt, client, base_topic, blimp_base_topic, blimp_name, tracking_id):
+    def __init__(self, dt, client, manager_base_topic, device_base_topic, device_type, device_name, tracking_id):
 
         self.tracking_id = tracking_id
-        self.blimp_name = blimp_name
-        self.blimp_base_topic = blimp_base_topic
-        self.base_topic = base_topic
+        self.manager_base_topic = manager_base_topic
+        self.device_base_topic = device_base_topic
+        self.device_type = device_type
+        self.device_name = device_name
         self.dt = dt
         self.client = client
-        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_name) + "/stack", self.stack)
-        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_name) + "/clear", self.clear)
-        self.client.message_callback_add(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_name) + "/config", self.config)
-        self.client.message_callback_add(str(blimp_base_topic) + "/" + str(self.blimp_name) + "/model", self.model)
-        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_name) + "/stack")
-        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_name) + "/clear")
-        self.client.subscribe(str(base_topic) + "/" + str(blimp_base_topic) + "/" + str(self.blimp_name) + "/config")
-        self.client.subscribe(str(blimp_base_topic) + "/" + str(self.blimp_name) + "/model")
+        self.client.message_callback_add(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/stack", self.stack)
+        self.client.message_callback_add(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/clear", self.clear)
+        self.client.message_callback_add(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/config", self.config)
+        self.client.message_callback_add(str(device_base_topic) + "/" + str(self.device_name) + "/model", self.model)
+        self.client.subscribe(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/stack")
+        self.client.subscribe(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/clear")
+        self.client.subscribe(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/config")
+        self.client.subscribe(str(device_base_topic) + "/" + str(self.device_name) + "/model")
 
         osc_method("/rigidbody/" + str(self.tracking_id) + "/tracked", self.set_track)
         osc_method("/rigidbody/" + str(self.tracking_id) + "/quat", self.set_attitude)
@@ -142,8 +133,21 @@ class Blimp:
         self.thread.start()
 
         self.filt_const = dt / (dt + self.time_const)
+        
+        with open('device_types.yml', 'r') as stream:
+            data = yaml.safe_load(stream)    
+    
+        self.k_p_z = data[device_type]['k_p_z']
+        self.k_d_z = data[device_type]['k_d_z']
+        self.k_i_z = data[device_type]['k_i_z']
+        
+        self.k_p_xy = data[device_type]['k_p_xy']
+        self.k_d_xy = data[device_type]['k_d_xy']
+        
+        self.k_p_a = data[device_type]['k_p_a']
+        self.k_d_a = data[device_type]['k_d_a']
 
-        print("%s started" % self.blimp_name)
+        print("%s of type %s started" % (self.device_name, self.device_type))
 
     def clear_commands(self):
         while not self.command_queue.empty():
@@ -177,7 +181,7 @@ class Blimp:
             try:
                 self.command_queue.put_nowait(command)
             except queue.Full:
-                print(self.blimp_name, "Error: command queue full")
+                print(self.device_name, "Error: command queue full")
 
         if command.split()[0]  == 'park':
             xf = parseFloat('x', command)
@@ -218,7 +222,7 @@ class Blimp:
             t, x, dx = self.compute_min_jerk(xf, tf)
             t, y, dy = self.compute_min_jerk(yf, tf)
             t, z, dz = self.compute_min_jerk(zf, tf)
-            t, a, da = self.compute_min_jerk(distance, tf)
+            t, a, _ = self.compute_min_jerk(distance, tf)
 
             for i in range(len(t)):
                 command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f state=park' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
@@ -226,13 +230,13 @@ class Blimp:
                 try:
                     self.command_queue.put_nowait(command)
                 except queue.Full:
-                    print(self.blimp_name, "Error: command queue full")
+                    print(self.device_name, "Error: command queue full")
 
             command = 'hold x=%f y=%f z=%f alpha=%f state=hold' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
             try:
                 self.command_queue.put_nowait(command)
             except queue.Full:
-                print(self.blimp_name, "Error: command queue full")
+                print(self.device_name, "Error: command queue full")
 
     def parse_command(self, command):
         if command.split()[0]  == 'move':
@@ -271,7 +275,7 @@ class Blimp:
             try:
                 self.command_queue.put_nowait(command)
             except queue.Full:
-                print(self.blimp_name, "Error: command queue full")
+                print(self.device_name, "Error: command queue full")
 
             state = parseString('state', command)
             if state == State.freeze.name:
@@ -338,7 +342,7 @@ class Blimp:
             
             if self.tracked == False:
                 self.state = State.untracked
-                print(self.blimp_name, "Error: Not tracked")
+                print(self.device_name, "Error: Not tracked")
             else:
                 self.state = State.ready
 
@@ -351,20 +355,20 @@ class Blimp:
                     self.empty_count = 0
                 except queue.Empty:
                     self.empty_count = self.empty_count + 1
-                    print(self.blimp_name, "Warning: Queue empty Count: ", self.empty_count)
+                    print(self.device_name, "Warning: Queue empty Count: ", self.empty_count)
                     if self.empty_count > 10:
                         self.state = State.ready
                         self.turn_off()
 
                 if self.state.value > State.ready.value:
-                    print(self.blimp_name, "run")
-                    print(self.blimp_name, "Command: ", command)
+                    print(self.device_name, "run")
+                    print(self.device_name, "Command: ", command)
                     self.control()
 
             command = self.state.name
-            self.client.publish(self.base_topic + '/' + self.blimp_base_topic + '/' + self.blimp_name + '/state', command, 0, False)
+            self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/state', command, 0, False)
             command = "x=%f y=%f z=%f alpha=%f vx=%f vy=%f vz=%f valpha=%f x_ref=%f y_ref=%f z_ref=%f alpha_ref=%f vx_ref=%f vy_ref=%f vz_ref=%f valpha_ref=%f fx=%f fy=%f fz=%f malpha=%f m1=%f m2=%f m3=%f m4=%f m5=%f m6=%f" % (self.x, self.y, self.z, self.alpha, self.vx, self.vy, self.vz, self.valpha, self.x_ref, self.y_ref, self.z_ref, self.alpha_ref, self.vx_ref, self.vy_ref, self.vz_ref, self.valpha_ref, self.fx, self.fy, self.fz, self.malpha, self.m1, self.m2, self.m3, self.m4, self.m5, self.m6)
-            self.client.publish(self.base_topic + '/' + self.blimp_base_topic + '/' + self.blimp_name + '/feedback', command, 0, False)
+            self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/feedback', command, 0, False)
 
             t = time.time() - self.t0
             self.count = self.count + 1
@@ -372,11 +376,11 @@ class Blimp:
             if self.count*self.dt - t < 0:
                 self.missed_ticks = self.missed_ticks + 1
 
-            print(self.blimp_name, "State: ", self.state.name, "Missed ticks: ", self.missed_ticks, "Queue size: ", self.command_queue.qsize())
+            print(self.device_name, "State: ", self.state.name, "Missed ticks: ", self.missed_ticks, "Queue size: ", self.command_queue.qsize())
 
             time.sleep(max(0.0, self.count * dt - t))
 
-        print(self.blimp_name, "stopped")
+        print(self.device_name, "stopped")
 
     def stop(self):
         self.run_thread = False
@@ -405,10 +409,10 @@ class Blimp:
 
     def turn_off(self):
         command = "0,0,0,0,0,0"
-        mi = self.client.publish(str(self.blimp_base_topic) + "/" + str(self.blimp_name) + "/motors", command, 0, False)
+        mi = self.client.publish(str(self.device_base_topic) + "/" + str(self.device_name) + "/motors", command, 0, False)
         mi.wait_for_publish()
         command = "0.0,0.0,0.0,0.0,0.0,0.0"
-        mi = self.client.publish(str(self.blimp_base_topic) + "/" + str(self.blimp_name) + "/forces", command, 0, False)
+        mi = self.client.publish(str(self.device_base_topic) + "/" + str(self.device_name) + "/forces", command, 0, False)
         mi.wait_for_publish()
 
     def control(self):
@@ -461,7 +465,7 @@ class Blimp:
         self.malpha = c_a_body
 
         command = '{:.3f},{:.3f},{:.3f},{:.3f},{:.3f},{:.3f}'.format(c_x_body, c_y_body, c_z_body, 0.0, 0.0, c_a_body)
-        self.client.publish(str(self.blimp_base_topic) + "/" + str(self.blimp_name) + "/forces", command, 0, False)
+        self.client.publish(str(self.device_base_topic) + "/" + str(self.device_name) + "/forces", command, 0, False)
         #print("Command: fx: %.3f fy: %.3f fz: %.3f mx: %.3f my: %.3f mz: %.3f" % (c_x_body, c_y_body, c_z_body, 0, 0, c_a_body))
         #print("State: x: %.3f/%.3f y: %.3f/%.3f z: %.3f/%.3f alpha: %.3f/%.3f" % (self.x, self.x_ref, self.y, self.y_ref, self.z, self.z_ref, self.alpha, self.alpha_ref))
 
@@ -525,69 +529,73 @@ class Blimp:
 
         return t, x, dx
 
-def stop_blimp(blimp_name):
-    global blimps
+def stop_device(device_name):
+    global devices
 
-    for blimp in blimps:
-        if blimp.blimp_name == blimp_name:
-            blimp.stop()
-            blimps.remove(blimp)
+    for device in devices:
+        if device.device_name == device_name:
+            device.stop()
+            devices.remove(device)
 
-def add_blimp(client, userdata, msg):
-    global blimps
+def add_device(client, userdata, msg):
+    global devices
 
     message = msg.payload.decode()
 
-    blimp_base_topic = parseString("blimp_base_topic", message)
-    if blimp_base_topic is None:
+    device_base_topic = parseString("device_base_topic", message)
+    if device_base_topic is None:
         return
 
-    blimp_name = parseString("blimp_name", message)
-    if blimp_name is None:
+    device_type = parseString("device_type", message)
+    if device_type is None:
         return
 
-    for blimp in blimps:
-        if blimp.blimp_name == blimp_name:
-            print("Error: Blimp with name '%s' exists" % blimp_name)
+    device_name = parseString("device_name", message)
+    if device_name is None:
+        return
+
+    for device in devices:
+        if device.device_name == device_name:
+            print("Error: device with name '%s' exists" % device_name)
             return
 
     tracking_id = parseString("tracking_id", message)
     if tracking_id is None:
         return
 
-    for blimp in blimps:
-        if blimp.tracking_id == tracking_id:
-            print("Error: Blimp with tracking_id '%s' exists" % tracking_id)
+    for device in devices:
+        if device.tracking_id == tracking_id:
+            print("Error: device with tracking_id '%s' exists" % tracking_id)
             return
 
-    blimps.append(Blimp(dt, client, base_topic, blimp_base_topic, blimp_name, tracking_id))
+    devices.append(Device(dt, client, manager_base_topic, device_base_topic, device_type, device_name, tracking_id))
 
-def remove_blimp(client, userdata, msg):
-    global blimps
+def remove_device(client, userdata, msg):
+    global devices
 
     message = msg.payload.decode()
 
-    blimp_name = parseString("blimp_name", message)
-    if blimp_name is None:
+    device_name = parseString("device_name", message)
+    if device_name is None:
         return
 
-    thread = Thread(target=stop_blimp, args=(blimp_name,))
+    thread = Thread(target=stop_device, args=(device_name,))
     thread.start()
 
-def main(mqtt_host, mqtt_port, osc_server, osc_port, base_topic):
-    global blimps
+def main(mqtt_host, mqtt_port, osc_server, osc_port, manager_base_topic):
+    global devices
 
-    client = mqtt.Client(client_id=base_topic)
+    client = mqtt.Client(client_id=manager_base_topic)
     client.username_pw_set(username="testtest",password="testtest")
     client.connect(mqtt_host, mqtt_port, 60)
     print("MQTT client connected to %s on port %d" % (mqtt_host, mqtt_port))
     client.loop_start()
 
-    client.message_callback_add(base_topic + "/add", add_blimp)
-    client.subscribe(base_topic + "/add")
+    client.message_callback_add(manager_base_topic + "/add", add_device)
+    client.subscribe(manager_base_topic + "/add")
 
-    client.message_callback_add(base_topic + "/remove", remove_blimp)
-    client.subscribe(base_topic + "/remove")
+    client.message_callback_add(manager_base_topic + "/remove", remove_device)
+    client.subscribe(manager_base_topic + "/remove")
 
     osc_startup()
     osc_udp_server(osc_server, osc_port, "aservername")
@@ -600,31 +608,31 @@ def main(mqtt_host, mqtt_port, osc_server, osc_port, base_topic):
         osc_process()
         t = time.time() - t0
         if count % 100 == 0:
-            client.publish(base_topic + "/heartbeat")
+            client.publish(manager_base_topic + "/heartbeat")
         count = count + 1
         time.sleep(max(0, count * main_dt - t))
 
-    for blimp in blimps:
-        blimp.stop()
+    for device in devices:
+        device.stop()
 
     client.disconnect()
     osc_terminate()
     print("Exit")
 
-blimps = []
+devices = []
 dt = 0.1
 run = True
 mqtt_host = "localhost"
 mqtt_port = 1883
 osc_server = "localhost"
 osc_port = 54321
-base_topic = "manager"
+manager_base_topic = "manager"
 
 if __name__ == "__main__":
     inputfile = ''
     outputfile = ''
     try:
-        opts, args = getopt.getopt(sys.argv[1:],"h",["mqtt_host=","mqtt_port=","osc_server=","osc_port=", "base_topic="])
+        opts, args = getopt.getopt(sys.argv[1:],"h",["mqtt_host=","mqtt_port=","osc_server=","osc_port=", "manager_base_topic="])
     except getopt.GetoptError:
         print ('manager.py --mqtt_host <host> --mqtt_port <port> --osc_server <server> --osc_port <port>')
         sys.exit(2)
@@ -644,4 +652,4 @@ if __name__ == "__main__":
         elif opt in ("--base_topic"):
             base_topic = arg
 
-    main(mqtt_host, mqtt_port, osc_server, osc_port, base_topic)
+    main(mqtt_host, mqtt_port, osc_server, osc_port, manager_base_topic)
