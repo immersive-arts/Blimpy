@@ -1,0 +1,16 @@
+blimpy:
+  k_d_a: 1.2
+  k_d_xy: 0.8
+  k_d_z: 2.5
+  k_i_z: 0.0
+  k_p_a: 0.7
+  k_p_xy: 0.8
+  k_p_z: 2.0
+wheely:
+  k_d_a: 0.0
+  k_d_xy: 1.4
+  k_d_z: 0.0
+  k_i_z: 0.0
+  k_p_a: 0.6
+  k_p_xy: 1.4
+  k_p_z: 0.0
