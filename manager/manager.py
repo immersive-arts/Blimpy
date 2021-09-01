@@ -40,6 +40,7 @@ class State(Enum):
     park = 3
     hold = 4
     freeze = 5
+    unmanaged = 6
 
 class Device:
     count = 0
@@ -386,6 +387,10 @@ class Device:
         self.run_thread = False
         self.thread.join()
         self.turn_off()
+        self.state = State.unmanaged
+        command = self.state.name
+        mi = self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/state', command, 0, False)
+        mi.wait_for_publish()
 
     def set_state(self, x, y, z, alpha, vx, vy, vz, valpha):
         self.x = x
