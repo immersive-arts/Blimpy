@@ -66,8 +66,8 @@ class BlimpData():
         print("Added blimp %s to GUI" % self._id)
         self._client.loop_start()
         
-        self._client.message_callback_add("manager/blimps/" + id + "/feedback", self.add_data)
-        self._client.subscribe("manager/blimps/" + id + "/feedback")
+        self._client.message_callback_add("manager/+/" + id + "/feedback", self.add_data)
+        self._client.subscribe("manager/+/" + id + "/feedback")
                 
     def add_data(self, client, userdata, msg):
         with self._lock:
@@ -282,8 +282,8 @@ class Ui(QtWidgets.QMainWindow):
         print("MQTT client connected to %s on port %d" % (MQTT_HOST, MQTT_PORT))
         self.client.loop_start()
         
-        self.client.message_callback_add("manager/blimps/+/state", self.addBlimp)
-        self.client.subscribe("manager/blimps/+/state")
+        self.client.message_callback_add("manager/+/+/state", self.addBlimp)
+        self.client.subscribe("manager/+/+/state")
         
         self.blimpsactive = []
         
