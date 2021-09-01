@@ -634,11 +634,11 @@ if __name__ == "__main__":
     try:
         opts, args = getopt.getopt(sys.argv[1:],"h",["mqtt_host=","mqtt_port=","osc_server=","osc_port=", "manager_base_topic="])
     except getopt.GetoptError:
-        print ('manager.py --mqtt_host <host> --mqtt_port <port> --osc_server <server> --osc_port <port>')
+        print ('manager.py --mqtt_host <host> --mqtt_port <port> --osc_server <server> --osc_port <port> --manager_base_topic <topic>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print ('manager.py --mqtt_host <host> --mqtt_port <port> --osc_server <server> --osc_port <port>')
+            print ('manager.py --mqtt_host <host> --mqtt_port <port> --osc_server <server> --osc_port <port> --manager_base_topic <topic>')
             sys.exit()
         elif opt in ("--mqtt_host"):
             mqtt_host = arg
@@ -649,7 +649,7 @@ if __name__ == "__main__":
             osc_server = arg
         elif opt in ("--osc_port"):
             osc_port = int(arg)
-        elif opt in ("--base_topic"):
-            base_topic = arg
+        elif opt in ("--manager_base_topic"):
+            manager_base_topic = arg
 
     main(mqtt_host, mqtt_port, osc_server, osc_port, manager_base_topic)
