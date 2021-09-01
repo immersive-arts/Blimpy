@@ -31,6 +31,8 @@ var API_stack_freeze 		= "freeze";
 var API_stack_park 			= "park";
 var API_stack_move 			= "move";
 var API_stack_untracked 	= "untracked";
+var API_stack_unmanaged 	= "unmanaged";
+var API_stack_unavailable 	= "unavailable";
 
 
 // device setup
@@ -103,7 +105,7 @@ function connected(_connected){
 
 // sent by the manager
 function state(_state){
-    post("state: " + _state + " \n");
+    //post("state: " + _state + " \n");
     if(myState !== _state){
         if(_state === API_stack_untracked){
             myState = API_stack_untracked;
@@ -152,6 +154,7 @@ function command(_cmd, _device){
 		}
 		if(_cmd == "removeDevice"){
             removeDevice(_device);
+            outlet(OUTID_CONTROL, API_stack_unmanaged);
 		}
 	}
 }
@@ -198,6 +201,7 @@ function removeDevice(_deviceName){
                     publish(my_topic_RemoveDevice, payload);
                     myManaged = false;
                     flg_guiChange = true;
+					myState = API_stack_unmanaged;
                     update();
                 }
             } else {
