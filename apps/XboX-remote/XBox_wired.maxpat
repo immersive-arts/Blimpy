@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 335.0, 116.0, 690.0, 734.0 ],
+		"rect" : [ 342.0, 79.0, 690.0, 734.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -46,7 +46,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 49.0, 50.0, 422.0, 208.0 ],
-					"text" : "Usage: \n1. connect your Xbox Wireless Controller via BlueTooth.\n2. press refresh button (hover over the UI to see the function of each element)\n3. enable main switch\n4. select the operating system you are using.\n5. select 'Xbox Wireless Controller' from the menu.\n\nIf the controller doesn't appear, repeat all above steps\n\n6. enter the blimp-base-topic and blimp-name\n7. connect to running mqtt broker\n8. subscribe to broker and link up with blimp\n\nThe position feedback from the tracking system works only if the osc2MQTT patch is running."
+					"text" : "Usage: \n1. connect your Xbox 360 Wired Controller via USB\n2. press refresh button (hover over the UI to see the function of each element)\n3. enable main switch\n4. select the operating system you are using.\n5. select 'Xbox Wireless Controller' from the menu.\n\nIf the controller doesn't appear, repeat all above steps\n\n6. enter the blimp-base-topic and blimp-name\n7. connect to running mqtt broker\n8. subscribe to broker and link up with blimp\n\nThe position feedback from the tracking system works only if the osc2MQTT patch is running."
 				}
 
 			}
@@ -58,7 +58,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 49.0, 12.0, 545.0, 27.0 ],
-					"text" : "Blimpy patch for direct control of blimp via Xbox Wireless Controller"
+					"text" : "Blimpy patch for direct control of blimp via Xbox Wired Controller"
 				}
 
 			}
@@ -122,7 +122,7 @@
 					"id" : "obj-47",
 					"lockeddragscroll" : 0,
 					"maxclass" : "bpatcher",
-					"name" : "blp.xbox.maxpat",
+					"name" : "blp.xbox.wire.maxpat",
 					"numinlets" : 0,
 					"numoutlets" : 17,
 					"offset" : [ 0.0, 0.0 ],
@@ -293,7 +293,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "int", "", "" ],
 					"patching_rect" : [ 51.617647058823536, 649.0, 221.0, 22.0 ],
-					"text" : "mxj mqtt mqtt://10.128.96.204 max-mqtt"
+					"text" : "mxj mqtt mqtt://10.128.96.189 max-mqtt"
 				}
 
 			}
@@ -462,11 +462,15 @@
 				"implicit" : 1
 			}
 , 			{
-				"name" : "blp.xbox.maxpat",
+				"name" : "blp.xbox.wire.maxpat",
 				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/utils",
 				"patcherrelativepath" : "../../libs/blimpy4max/patchers/utils",
 				"type" : "JSON",
 				"implicit" : 1
+			}
+, 			{
+				"name" : "mxj.mxo",
+				"type" : "iLaX"
 			}
  ],
 		"autosave" : 0
