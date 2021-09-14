@@ -8,7 +8,7 @@ def signal_handler(sig, frame):
     run = False
     
 signal.signal(signal.SIGINT, signal_handler)
-        
+
 class Sender:
     def __init__(self, BROKER_IP, BROKER_PORT, MANAGER_BASE_TOPIC, DEVICE_BASE_TOPIC, DEVICE_NAME):
 
@@ -28,8 +28,9 @@ class Sender:
         dx_ref = - R * 2 * np.pi * freq * np.sin(2 * np.pi * freq * t)
         dy_ref = R * 2 * np.pi * freq * np.cos(2 * np.pi * freq * t)
         a_ref = np.arctan2(dy_ref, dx_ref)
+        da_ref = 2*np.pi*freq
 
-        command = 'clear; move x=%f y=%f z=%f vx=%f vy=%f alpha=%f' % (x_ref, y_ref, z_ref, dx_ref, dy_ref, a_ref)
+        command = 'clear; move x=%f y=%f z=%f alpha=%f vx=%f vy=%f valpha=%f' % (x_ref, y_ref, z_ref, a_ref, dx_ref, dy_ref, da_ref)
         self.counter = self.counter + 1
 
         self.client.publish(self.topic_base + 'stack', command, 0, False)

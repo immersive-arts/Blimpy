@@ -261,8 +261,11 @@ class Device:
             alpha_ref = parseFloat('alpha', command)
             if alpha_ref == None:
                 alpha_ref = 0
+            valpha_ref = parseFloat('valpha', command)
+            if valpha_ref == None:
+                valpha_ref = 0
 
-            self.set_reference(x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, 0.0)
+            self.set_reference(x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref)
 
             state = parseString('state', command)
             if state == State.park.name:
@@ -448,7 +451,7 @@ class Device:
         elif e_alpha < -np.pi:
             e_alpha = e_alpha + 2 * np.pi
 
-        c_a = e_alpha * self.k_p_a - self.valpha * self.k_d_a
+        c_a = e_alpha * self.k_p_a + (self.valpha_ref - self.valpha) * self.k_d_a
         self.c_a_filt = self.filt_const * c_a + (1 - self.filt_const) * self.c_a_filt
 
         # send commands
