@@ -158,86 +158,91 @@ class Device:
                 continue
             self.command_queue.task_done()
 
-    def add_command(self, command):
-        if command.split()[0]  == 'move':
+    def add_command(self, multi_command):
+        for command in multi_command.split(';'):
+            command = command.strip()
 
-            x_ref = parseFloat('x', command)
-            if x_ref == None:
-                return
-            y_ref = parseFloat('y', command)
-            if y_ref == None:
-                return
-            z_ref = parseFloat('z', command)
-            if z_ref == None:
-                return
+            if command.split()[0] == 'clear':
+                self.clear_commands()
 
-            try:
-                self.command_queue.put_nowait(command)
-            except queue.Full:
-                pass
+            if command.split()[0]  == 'move':
 
-        if command.split()[0]  == 'freeze':
-            self.clear_commands()
-            command = 'hold x=%f y=%f z=%f alpha=%f state=freeze' % (self.x, self.y, self.z, self.alpha)
-            try:
-                self.command_queue.put_nowait(command)
-            except queue.Full:
-                print(self.device_name, "Error: command queue full")
+                x_ref = parseFloat('x', command)
+                if x_ref == None:
+                    return
+                y_ref = parseFloat('y', command)
+                if y_ref == None:
+                    return
+                z_ref = parseFloat('z', command)
+                if z_ref == None:
+                    return
 
-        if command.split()[0]  == 'park':
-            xf = parseFloat('x', command)
-            xf = xf - self.x
+                try:
+                    self.command_queue.put_nowait(command)
+                except queue.Full:
+                    pass
 
-            yf = parseFloat('y', command)
-            yf = yf - self.y
-
-            zf = parseFloat('z', command)
-            zf = zf - self.z
-
-            af = parseFloat('alpha', command)
-            phi = np.abs(af - self.alpha) % (2 * np.pi)
-            if phi > np.pi:
-                distance = 2 * np.pi - phi
-                if self.alpha < af:
-                    distance = -distance
-            else:
-                distance = phi
-                if self.alpha > af:
-                    distance = -distance
-
-            tf = parseFloat('t', command)
-            if tf is None:
-                tf = 0
-
-            vmax = parseFloat('vmax', command)
-            if vmax is None:
-                vmax = 0
-
-            if vmax > 0:
-                tf = np.abs(xf/vmax*1.8746174)
-                if tf < np.abs(yf/vmax*1.8746174):
-                    tf = np.abs(yf/vmax*1.8746174)
-                if tf < np.abs(zf/vmax*1.8746174):
-                    tf = np.abs(zf/vmax*1.8746174)
-
-            t, x, dx = self.compute_min_jerk(xf, tf)
-            t, y, dy = self.compute_min_jerk(yf, tf)
-            t, z, dz = self.compute_min_jerk(zf, tf)
-            t, a, _ = self.compute_min_jerk(distance, tf)
-
-            for i in range(len(t)):
-                command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f state=park' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
-                self.command_queue.put_nowait(command)
+            if command.split()[0]  == 'freeze':
+                self.clear_commands()
+                command = 'hold x=%f y=%f z=%f alpha=%f state=freeze' % (self.x, self.y, self.z, self.alpha)
                 try:
                     self.command_queue.put_nowait(command)
                 except queue.Full:
                     print(self.device_name, "Error: command queue full")
 
-            command = 'hold x=%f y=%f z=%f alpha=%f state=hold' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
-            try:
-                self.command_queue.put_nowait(command)
-            except queue.Full:
-                print(self.device_name, "Error: command queue full")
+            if command.split()[0]  == 'park':
+                xf = parseFloat('x', command)
+                xf = xf - self.x
+
+                yf = parseFloat('y', command)
+                yf = yf - self.y
+
+                zf = parseFloat('z', command)
+                zf = zf - self.z
+
+                af = parseFloat('alpha', command)
+                phi = np.abs(af - self.alpha) % (2 * np.pi)
+                if phi > np.pi:
+                    distance = 2 * np.pi - phi
+                    if self.alpha < af:
+                        distance = -distance
+                else:
+                    distance = phi
+                    if self.alpha > af:
+                        distance = -distance
+
+                tf = parseFloat('t', command)
+                if tf is None:
+                    tf = 0
+
+                vmax = parseFloat('vmax', command)
+                if vmax is None:
+                    vmax = 0
+
+                if vmax > 0:
+                    tf = np.abs(xf/vmax*1.8746174)
+                    if tf < np.abs(yf/vmax*1.8746174):
+                        tf = np.abs(yf/vmax*1.8746174)
+                    if tf < np.abs(zf/vmax*1.8746174):
+                        tf = np.abs(zf/vmax*1.8746174)
+
+                t, x, dx = self.compute_min_jerk(xf, tf)
+                t, y, dy = self.compute_min_jerk(yf, tf)
+                t, z, dz = self.compute_min_jerk(zf, tf)
+                t, a, _ = self.compute_min_jerk(distance, tf)
+
+                for i in range(len(t)):
+                    command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f state=park' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
+                    try:
+                        self.command_queue.put_nowait(command)
+                    except queue.Full:
+                        print(self.device_name, "Error: command queue full")
+
+                command = 'hold x=%f y=%f z=%f alpha=%f state=hold' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
+                try:
+                    self.command_queue.put_nowait(command)
+                except queue.Full:
+                    print(self.device_name, "Error: command queue full")
 
     def parse_command(self, command):
         if command.split()[0]  == 'move':
@@ -527,7 +532,7 @@ class Device:
         a3 = a[0]
         a4 = a[1]
         a5 = a[2]
-        N = tf/0.1
+        N = tf/self.dt
         t = np.linspace(0, tf, int(N))
         x = a3*t**3 + a4*t**4 + a5*t**5
         dx = 3*a3*t**2 + 4*a4*t**3 + 5*a5*t**4
