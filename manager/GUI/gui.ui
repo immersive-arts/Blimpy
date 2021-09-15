@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>789</width>
-    <height>724</height>
+    <width>1087</width>
+    <height>917</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
-     <widget class="QGroupBox" name="groupBox">
+     <widget class="QTabWidget" name="tabWidget">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -28,13 +28,381 @@
       </property>
       <property name="minimumSize">
        <size>
-        <width>150</width>
+        <width>160</width>
         <height>0</height>
        </size>
       </property>
-      <property name="title">
-       <string>Blimps</string>
+      <property name="currentIndex">
+       <number>0</number>
       </property>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Feedback</string>
+       </attribute>
+       <widget class="QGroupBox" name="groupBox">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>150</width>
+          <height>811</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="title">
+         <string>Devices</string>
+        </property>
+       </widget>
+      </widget>
+      <widget class="QWidget" name="settings">
+       <attribute name="title">
+        <string>Settings</string>
+       </attribute>
+       <widget class="QGroupBox" name="horizontal">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>151</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Horizontal (xy)</string>
+        </property>
+        <widget class="QSlider" name="hor_vel_slider">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>90</y>
+           <width>141</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="maximum">
+          <number>50</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QSlider" name="hor_pos_slider">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>50</y>
+           <width>141</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="maximum">
+          <number>50</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="hor_vel">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>70</y>
+           <width>67</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Velocity</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="hor_pos">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>30</y>
+           <width>67</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Position</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="k_p_xy">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>30</y>
+           <width>31</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>0.0</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="k_d_xy">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>70</y>
+           <width>31</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>0.0</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="vertical">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>140</y>
+          <width>151</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Vertical (z)</string>
+        </property>
+        <widget class="QSlider" name="ver_vel_slider">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>90</y>
+           <width>141</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="maximum">
+          <number>50</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QSlider" name="ver_pos_slider">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>50</y>
+           <width>141</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="maximum">
+          <number>50</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="ver_vel">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>70</y>
+           <width>67</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Velocity</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="ver_pos">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>30</y>
+           <width>67</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Position</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="k_p_z">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>30</y>
+           <width>31</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>0.0</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="k_d_z">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>70</y>
+           <width>31</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>0.0</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="k_i_z">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>110</y>
+           <width>31</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>0.0</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="ver_int">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>110</y>
+           <width>67</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Exactness</string>
+         </property>
+        </widget>
+        <widget class="QSlider" name="ver_int_slider">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>130</y>
+           <width>141</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="maximum">
+          <number>50</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QGroupBox" name="rotation">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>320</y>
+          <width>151</width>
+          <height>111</height>
+         </rect>
+        </property>
+        <property name="title">
+         <string>Rotation (alpha)</string>
+        </property>
+        <widget class="QSlider" name="ang_vel_slider">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>90</y>
+           <width>141</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="maximum">
+          <number>50</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QSlider" name="ang_slider">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>50</y>
+           <width>141</width>
+           <height>16</height>
+          </rect>
+         </property>
+         <property name="maximum">
+          <number>50</number>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="ang_vel">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>70</y>
+           <width>67</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Velocity</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="ang">
+         <property name="geometry">
+          <rect>
+           <x>30</x>
+           <y>30</y>
+           <width>67</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Angle</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="k_p_a">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>30</y>
+           <width>31</width>
+           <height>19</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>0.0</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="k_d_a">
+         <property name="geometry">
+          <rect>
+           <x>100</x>
+           <y>70</y>
+           <width>31</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>0.0</string>
+         </property>
+        </widget>
+       </widget>
+      </widget>
      </widget>
     </item>
     <item>
@@ -47,7 +415,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>789</width>
+     <width>1087</width>
      <height>24</height>
     </rect>
    </property>

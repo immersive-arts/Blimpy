@@ -31,7 +31,7 @@ def parseString(key, message):
         return data
 
 class BlimpData():
-    def __init__(self, identifier, L):
+    def __init__(self, identifier, L, k_p_xy, k_d_xy, k_p_z, k_d_z, k_i__z, k_p_a, k_d_a):
         self._x = deque([], maxlen=L)
         self._y = deque([], maxlen=L)
         self._z = deque([], maxlen=L)
@@ -78,6 +78,13 @@ class BlimpData():
         
         self._client.message_callback_add("manager/+/" + identifier + "/feedback", self.add_data)
         self._client.subscribe("manager/+/" + identifier + "/feedback")
+
+        self._k_p_xy = k_p_xy
+        self._k_d_xy = k_d_xy
+        self._k_p_z = k_p_z
+        self._k_d_z = k_d_z
+        self._k_p_a = k_p_a
+        self._k_d_a = k_d_a
                 
     def add_data(self, client, userdata, msg):
         with self._lock:
@@ -145,6 +152,14 @@ class BlimpData():
             self._queue_size = parseString('queue_size', message)
             self._missed_ticks = parseString('missed_ticks', message)
 
+            self._k_p_xy = parseFloat('k_p_xy', message)
+            self._k_d_xy = parseFloat('k_d_xy', message)
+            self._k_p_z = parseFloat('k_p_z', message)
+            self._k_d_z = parseFloat('k_d_z', message)
+            self._k_i_z = parseFloat('k_i_z', message)
+            self._k_p_a = parseFloat('k_p_a', message)
+            self._k_d_a = parseFloat('k_d_a', message)
+
             self._t.append(time.time() - self._t0)
             self._data_available = True 
                         
@@ -164,6 +179,10 @@ class BlimpData():
     def get_missed_ticks(self):
         with self._lock:
             return self._missed_ticks
+
+    def get_control_params(self):
+        with self._lock:
+            return self._k_p_xy, self._k_d_xy, self._k_p_z, self._k_d_z, self._k_i_z, self._k_p_a, self._k_d_a
 
     def data_available(self):
         return self._data_available      
@@ -308,8 +327,8 @@ class Ui(QtWidgets.QMainWindow):
         print("MQTT client connected to %s on port %d" % (MQTT_HOST, MQTT_PORT))
         self.client.loop_start()
         
-        self.client.message_callback_add("manager/+/+/state", self.addBlimp)
-        self.client.subscribe("manager/+/+/state")
+        self.client.message_callback_add("manager/+/+/feedback", self.addBlimp)
+        self.client.subscribe("manager/+/+/feedback")
         
         self.blimpsactive = []
         
@@ -317,6 +336,41 @@ class Ui(QtWidgets.QMainWindow):
         
         self.sem = threading.Semaphore()
         self.t0 = time.time()
+
+        self.ui.hor_pos_slider.valueChanged.connect(lambda: self.sliderChanged('hor_pos'))
+        self.ui.hor_vel_slider.valueChanged.connect(lambda: self.sliderChanged('hor_vel'))
+        self.ui.ver_pos_slider.valueChanged.connect(lambda: self.sliderChanged('ver_pos'))
+        self.ui.ver_vel_slider.valueChanged.connect(lambda: self.sliderChanged('ver_vel'))
+        self.ui.ver_int_slider.valueChanged.connect(lambda: self.sliderChanged('ver_int'))
+        self.ui.ang_slider.valueChanged.connect(lambda: self.sliderChanged('ang'))
+        self.ui.ang_vel_slider.valueChanged.connect(lambda: self.sliderChanged('ang_vel'))
+
+        self.k_p_xy = 0.0
+        self.k_d_xy = 0.0
+        self.k_p_z = 0.0
+        self.k_d_z = 0.0
+        self.k_i_z = 0.0
+        self.k_p_a = 0.0
+        self.k_d_a = 0.0
+
+    def sliderChanged(self, slider):
+        if slider == 'hor_pos':
+            self.k_p_xy = self.ui.hor_pos_slider.value()/10
+        if slider == 'hor_vel':
+            self.k_d_xy = self.ui.hor_vel_slider.value()/10
+        if slider == 'ver_pos':
+            self.k_p_z = self.ui.ver_pos_slider.value()/10
+        if slider == 'ver_vel':
+            self.k_d_z = self.ui.ver_vel_slider.value()/10
+        if slider == 'ver_int':
+            self.k_i_z = self.ui.ver_int_slider.value()/10
+        if slider == 'ang':
+            self.k_p_a = self.ui.ang_slider.value()/10
+        if slider == 'ang_vel':
+            self.k_d_a = self.ui.ang_vel_slider.value()/10
+
+        command = "k_p_z=%f k_d_z=%f k_i_z=%f k_p_xy=%f k_d_xy=%f k_p_a=%f k_d_a=%f" % (self.k_p_z, self.k_d_z, self.k_i_z, self.k_p_xy, self.k_d_xy, self.k_p_a, self.k_d_a)
+        self.client.publish('manager/blimps/' + self.active_blimp +'/config', command, 0, False)
                         
     def addPushButton(self, identifier):
 
@@ -333,15 +387,23 @@ class Ui(QtWidgets.QMainWindow):
         self.ui.pushButtons[identifier].clicked.connect(lambda: self.handleButton(self.ui.pushButtons[identifier]))
         self.sem.release()
         
-    def addBlimp(self, client, userdata, msg):
-        ident = msg.topic.split('/')[-2]
-        
+    def addBlimp(self, client, userdata, message):
+        ident = message.topic.split('/')[-2]
+
         if ident in self.blimpsactive:
             pass
         else:
             self.sem.acquire()
             self.blimpsactive.append(ident)
-            self.blimps[ident] = BlimpData(ident, 10*60*1)
+            self.k_p_xy = parseFloat('k_p_xy', message.payload.decode())
+            self.k_d_xy = parseFloat('k_d_xy', message.payload.decode())
+            self.k_p_z = parseFloat('k_p_z', message.payload.decode())
+            self.k_d_z = parseFloat('k_d_xy', message.payload.decode())
+            self.k_i_z = parseFloat('k_i_z', message.payload.decode())
+            self.k_p_a = parseFloat('k_p_a', message.payload.decode())
+            self.k_d_a = parseFloat('k_d_a', message.payload.decode())
+
+            self.blimps[ident] = BlimpData(ident, 10*60*1, self.k_p_xy, self.k_d_xy, self.k_p_z, self.k_d_z, self.k_i_z, self.k_p_a, self.k_d_a)
             self.updated.emit(ident)
         
     def updateData(self):
@@ -349,49 +411,70 @@ class Ui(QtWidgets.QMainWindow):
             for key, button in self.ui.pushButtons.items():
                 button.setText(key + '\n' + 'State: ' + self.blimps[key].get_state() + '\n Queue:' + self.blimps[key].get_queue_size() + '\n Missed:' + self.blimps[key].get_missed_ticks())         
 
-        self.now = pg.ptime.time()
+        if self.active_blimp is not '':
+            k_p_xy, k_d_xy, k_p_z, k_d_z, k_i_z, k_p_a, k_d_a = self.blimps[self.active_blimp].get_control_params()
+            self.ui.k_p_xy.setText(str(k_p_xy))
+            self.ui.k_d_xy.setText(str(k_d_xy))
+            self.ui.k_p_z.setText(str(k_p_z))
+            self.ui.k_d_z.setText(str(k_d_z))
+            self.ui.k_i_z.setText(str(k_i_z))
+            self.ui.k_p_a.setText(str(k_p_a))
+            self.ui.k_d_a.setText(str(k_d_a))
 
-        try:
             x, y, z, alpha, vx, vy, vz, valpha, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref, fx, fy, fz, malpha, m1, m2, m3, m4, m5, m6, t = self.blimps[self.active_blimp].get_data()
-        except:
-            return
 
-        if t:
-            time_relative = np.array(t) - t[-1]
-            self.plotDataItem_x.setData(time_relative, x)
-            self.plotDataItem_y.setData(time_relative, y)
-            self.plotDataItem_z.setData(time_relative, z)
-            self.plotDataItem_a.setData(time_relative, alpha)
-            
-            self.plotDataItem_x_ref.setData(time_relative, x_ref)
-            self.plotDataItem_y_ref.setData(time_relative, y_ref)
-            self.plotDataItem_z_ref.setData(time_relative, z_ref)
-            self.plotDataItem_a_ref.setData(time_relative, alpha_ref)
-            
-            self.plotDataItem_vx.setData(time_relative, vx)
-            self.plotDataItem_vy.setData(time_relative, vy)
-            self.plotDataItem_vz.setData(time_relative, vz)
-            self.plotDataItem_va.setData(time_relative, valpha)
-            
-            self.plotDataItem_vx_ref.setData(time_relative, vx_ref)
-            self.plotDataItem_vy_ref.setData(time_relative, vy_ref)
-            self.plotDataItem_vz_ref.setData(time_relative, vz_ref)
-            self.plotDataItem_va_ref.setData(time_relative, valpha_ref)
-            
-            self.plotDataItem_fx.setData(time_relative, fx)
-            self.plotDataItem_fy.setData(time_relative, fy)
-            self.plotDataItem_fz.setData(time_relative, fz)
-            self.plotDataItem_ma.setData(time_relative, malpha)
-            
-            self.plotDataItem_motors[0].setData(time_relative, m1)
-            self.plotDataItem_motors[1].setData(time_relative, m2)
-            self.plotDataItem_motors[2].setData(time_relative, m3)
-            self.plotDataItem_motors[3].setData(time_relative, m4)
-            self.plotDataItem_motors[4].setData(time_relative, m5)
-            self.plotDataItem_motors[5].setData(time_relative, m6)
+            if t:
+                time_relative = np.array(t) - t[-1]
+                self.plotDataItem_x.setData(time_relative, x)
+                self.plotDataItem_y.setData(time_relative, y)
+                self.plotDataItem_z.setData(time_relative, z)
+                self.plotDataItem_a.setData(time_relative, alpha)
+
+                self.plotDataItem_x_ref.setData(time_relative, x_ref)
+                self.plotDataItem_y_ref.setData(time_relative, y_ref)
+                self.plotDataItem_z_ref.setData(time_relative, z_ref)
+                self.plotDataItem_a_ref.setData(time_relative, alpha_ref)
+
+                self.plotDataItem_vx.setData(time_relative, vx)
+                self.plotDataItem_vy.setData(time_relative, vy)
+                self.plotDataItem_vz.setData(time_relative, vz)
+                self.plotDataItem_va.setData(time_relative, valpha)
+
+                self.plotDataItem_vx_ref.setData(time_relative, vx_ref)
+                self.plotDataItem_vy_ref.setData(time_relative, vy_ref)
+                self.plotDataItem_vz_ref.setData(time_relative, vz_ref)
+                self.plotDataItem_va_ref.setData(time_relative, valpha_ref)
+
+                self.plotDataItem_fx.setData(time_relative, fx)
+                self.plotDataItem_fy.setData(time_relative, fy)
+                self.plotDataItem_fz.setData(time_relative, fz)
+                self.plotDataItem_ma.setData(time_relative, malpha)
+
+                self.plotDataItem_motors[0].setData(time_relative, m1)
+                self.plotDataItem_motors[1].setData(time_relative, m2)
+                self.plotDataItem_motors[2].setData(time_relative, m3)
+                self.plotDataItem_motors[3].setData(time_relative, m4)
+                self.plotDataItem_motors[4].setData(time_relative, m5)
+                self.plotDataItem_motors[5].setData(time_relative, m6)
             
     def handleButton(self, btn):       
         self.active_blimp = btn.objectName()
+
+        k_p_xy, k_d_xy, k_p_z, k_d_z, k_i_z, k_p_a, k_d_a = self.blimps[self.active_blimp].get_control_params()
+        self.ui.k_p_xy.setText(str(k_p_xy))
+        self.ui.hor_pos_slider.setValue(10 * k_p_xy)
+        self.ui.k_d_xy.setText(str(k_d_xy))
+        self.ui.hor_vel_slider.setValue(10 * k_d_xy)
+        self.ui.k_p_z.setText(str(k_p_z))
+        self.ui.ver_pos_slider.setValue(10 * k_p_z)
+        self.ui.k_d_z.setText(str(k_d_z))
+        self.ui.ver_int_slider.setValue(10 * k_i_z)
+        self.ui.k_d_z.setText(str(k_d_z))
+        self.ui.ver_vel_slider.setValue(10 * k_d_z)
+        self.ui.k_p_a.setText(str(k_p_a))
+        self.ui.ang_slider.setValue(10 * k_p_a)
+        self.ui.k_d_a.setText(str(k_d_a))
+        self.ui.ang_vel_slider.setValue(10 * k_d_a)
 
         for _, button in self.ui.pushButtons.items():
             button.setStyleSheet("")
@@ -400,7 +483,7 @@ class Ui(QtWidgets.QMainWindow):
 
     def closeEvent(self, event):
         self.timer.stop()
-        for key, blimp in self.blimps.items():
+        for _, blimp in self.blimps.items():
             blimp.stop()
         event.accept()        
 
