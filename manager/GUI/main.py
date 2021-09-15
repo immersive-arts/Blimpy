@@ -411,7 +411,7 @@ class Ui(QtWidgets.QMainWindow):
             for key, button in self.ui.pushButtons.items():
                 button.setText(key + '\n' + 'State: ' + self.blimps[key].get_state() + '\n Queue:' + self.blimps[key].get_queue_size() + '\n Missed:' + self.blimps[key].get_missed_ticks())         
 
-        if self.active_blimp is not '':
+        if self.active_blimp != '':
             k_p_xy, k_d_xy, k_p_z, k_d_z, k_i_z, k_p_a, k_d_a = self.blimps[self.active_blimp].get_control_params()
             self.ui.k_p_xy.setText(str(k_p_xy))
             self.ui.k_d_xy.setText(str(k_d_xy))
@@ -462,19 +462,19 @@ class Ui(QtWidgets.QMainWindow):
 
         k_p_xy, k_d_xy, k_p_z, k_d_z, k_i_z, k_p_a, k_d_a = self.blimps[self.active_blimp].get_control_params()
         self.ui.k_p_xy.setText(str(k_p_xy))
-        self.ui.hor_pos_slider.setValue(10 * k_p_xy)
+        self.ui.hor_pos_slider.setValue(int(10 * k_p_xy))
         self.ui.k_d_xy.setText(str(k_d_xy))
-        self.ui.hor_vel_slider.setValue(10 * k_d_xy)
+        self.ui.hor_vel_slider.setValue(int(10 * k_d_xy))
         self.ui.k_p_z.setText(str(k_p_z))
-        self.ui.ver_pos_slider.setValue(10 * k_p_z)
+        self.ui.ver_pos_slider.setValue(int(10 * k_p_z))
         self.ui.k_d_z.setText(str(k_d_z))
-        self.ui.ver_int_slider.setValue(10 * k_i_z)
+        self.ui.ver_int_slider.setValue(int(10 * k_i_z))
         self.ui.k_d_z.setText(str(k_d_z))
-        self.ui.ver_vel_slider.setValue(10 * k_d_z)
+        self.ui.ver_vel_slider.setValue(int(10 * k_d_z))
         self.ui.k_p_a.setText(str(k_p_a))
-        self.ui.ang_slider.setValue(10 * k_p_a)
+        self.ui.ang_slider.setValue(int(10 * k_p_a))
         self.ui.k_d_a.setText(str(k_d_a))
-        self.ui.ang_vel_slider.setValue(10 * k_d_a)
+        self.ui.ang_vel_slider.setValue(int(10 * k_d_a))
 
         for _, button in self.ui.pushButtons.items():
             button.setStyleSheet("")
