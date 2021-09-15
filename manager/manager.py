@@ -370,8 +370,8 @@ class Device:
                         self.turn_off()
 
                 if self.state.value > State.ready.value:
-                    print(self.device_name, "run")
-                    print(self.device_name, "Command: ", command)
+                    #print(self.device_name, "run")
+                    #print(self.device_name, "Command: ", command)
                     self.control()
 
             command = self.state.name
@@ -379,7 +379,8 @@ class Device:
             command = "x=%f y=%f z=%f alpha=%f vx=%f vy=%f vz=%f valpha=%f x_ref=%f y_ref=%f z_ref=%f alpha_ref=%f " % (self.x, self.y, self.z, self.alpha, self.vx, self.vy, self.vz, self.valpha, self.x_ref, self.y_ref, self.z_ref, self.alpha_ref)
             command = command + "vx_ref=%f vy_ref=%f vz_ref=%f valpha_ref=%f fx=%f fy=%f fz=%f " % (self.vx_ref, self.vy_ref, self.vz_ref, self.valpha_ref, self.fx, self.fy, self.fz)
             command = command + "malpha=%f m1=%f m2=%f m3=%f m4=%f m5=%f m6=%f" % (self.malpha, self.m1, self.m2, self.m3, self.m4, self.m5, self.m6)
-            command = command + "missed_ticks=%d state=%s queue_size=%d" % (self.missed_ticks, self.state.name, self.command_queue.qsize())
+            command = command + "missed_ticks=%d state=%s queue_size=%d " % (self.missed_ticks, self.state.name, self.command_queue.qsize())
+            command = command + "k_p_xy=%f k_d_xy=%f k_p_z=%f k_d_z=%f k_i_z=%f k_p_a=%f k_d_a=%f" % (self.k_p_xy, self.k_d_xy, self.k_p_z, self.k_d_z, self.k_i_z, self.k_p_a, self.k_d_a)
             self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/feedback', command, 0, False)
 
             t = time.time() - self.t0
@@ -388,7 +389,7 @@ class Device:
             if self.count*self.dt - t < 0:
                 self.missed_ticks = self.missed_ticks + 1
 
-            print(self.device_name, "State: ", self.state.name, "Missed ticks: ", self.missed_ticks, "Queue size: ", self.command_queue.qsize())
+            #print(self.device_name, "State: ", self.state.name, "Missed ticks: ", self.missed_ticks, "Queue size: ", self.command_queue.qsize())
 
             time.sleep(max(0.0, self.count * dt - t))
 
