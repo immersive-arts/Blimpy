@@ -14,18 +14,24 @@ SIZE = 2
 MQTT_HOST = 'localhost'
 MQTT_PORT = 1883
 
-def parseFloat(string, message):
-    try:
-        ms = re.search(string+"=[-+]?\d*\.\d+", message)
-        data = float(message[ms.span()[0]+(len(string)+1):ms.span()[1]])
-    except:
-        pass
-        return None
-    
-    return data
+def parseFloat(key, message):
+    ms = re.search(key + "=[-+]?\d*\.\d+", message)
+    if ms is None:
+        return
+    else:
+        data = float(message[ms.span()[0]+(len(key)+1):ms.span()[1]])
+        return data
+
+def parseString(key, message):
+    ms = re.search(key + "=[a-zA-Z0-9]*", message)
+    if ms is None:
+        return
+    else:
+        data = message[ms.span()[0]+(len(key)+1):ms.span()[1]]
+        return data
 
 class BlimpData():
-    def __init__(self, id, L):
+    def __init__(self, identifier, L):
         self._x = deque([], maxlen=L)
         self._y = deque([], maxlen=L)
         self._z = deque([], maxlen=L)
@@ -54,20 +60,24 @@ class BlimpData():
         self._m5 = deque([], maxlen=L)
         self._m6 = deque([], maxlen=L)
         
+        self._state = ''
+        self._queue_size = ''
+        self._missed_ticks = ''
+
         self._data = np.zeros(6)
         self._lock = threading.Lock()    
                 
-        self._id = id
+        self._id = identifier
         self._t0 = time.time()
         
-        self._client = mqtt.Client(client_id='GUI'+id)
+        self._client = mqtt.Client(client_id='GUI'+identifier)
         self._client.username_pw_set(username="testtest",password="testtest")
         self._client.connect(MQTT_HOST, MQTT_PORT, 60)
         print("Added blimp %s to GUI" % self._id)
         self._client.loop_start()
         
-        self._client.message_callback_add("manager/+/" + id + "/feedback", self.add_data)
-        self._client.subscribe("manager/+/" + id + "/feedback")
+        self._client.message_callback_add("manager/+/" + identifier + "/feedback", self.add_data)
+        self._client.subscribe("manager/+/" + identifier + "/feedback")
                 
     def add_data(self, client, userdata, msg):
         with self._lock:
@@ -131,6 +141,10 @@ class BlimpData():
             self._m5.append(m5)
             self._m6.append(m6)
             
+            self._state = parseString('state', message)
+            self._queue_size = parseString('queue_size', message)
+            self._missed_ticks = parseString('missed_ticks', message)
+
             self._t.append(time.time() - self._t0)
             self._data_available = True 
                         
@@ -138,7 +152,19 @@ class BlimpData():
         with self._lock:
             self._data_available = False
             return self._x, self._y, self._z, self._alpha, self._vx, self._vy, self._vz, self._valpha, self._x_ref, self._y_ref, self._z_ref, self._alpha_ref, self._vx_ref, self._vy_ref, self._vz_ref, self._valpha_ref, self._fx, self._fy, self._fz, self._malpha, self._m1, self._m2, self._m3, self._m4, self._m5, self._m6, self._t
+
+    def get_state(self):
+        with self._lock:
+            return self._state
+
+    def get_queue_size(self):
+        with self._lock:
+            return self._queue_size
         
+    def get_missed_ticks(self):
+        with self._lock:
+            return self._missed_ticks
+
     def data_available(self):
         return self._data_available      
         
@@ -292,22 +318,20 @@ class Ui(QtWidgets.QMainWindow):
         self.sem = threading.Semaphore()
         self.t0 = time.time()
                         
-    def addPushButton(self, id):
+    def addPushButton(self, identifier):
 
         if not hasattr(self.ui, 'pushButtons'):
-            self.ui.pushButtons = []
+            self.ui.pushButtons = {}
 
-        i = len(self.ui.pushButtons)
-        self.ui.pushButtons.append(QtWidgets.QPushButton(self.ui.groupBox))
-        self.ui.pushButtons[i].setGeometry(QtCore.QRect(10, 30 + (len(self.blimpsactive)-1)*90, 131, 81))
-        self.ui.pushButtons[i].setStyleSheet("")
-        self.ui.pushButtons[i].setFlat(False)
-        self.ui.pushButtons[i].setObjectName(id)
-        self.ui.pushButtons[i].setText(id)
-        self.ui.pushButtons[i].show()
-        self.ui.pushButtons[i].clicked.connect(lambda: self.handleButton(self.ui.pushButtons[i]))
+        self.ui.pushButtons[identifier] = QtWidgets.QPushButton(self.ui.groupBox)
+        self.ui.pushButtons[identifier].setGeometry(QtCore.QRect(10, 30 + (len(self.blimpsactive)-1)*90, 131, 81))
+        self.ui.pushButtons[identifier].setStyleSheet("")
+        self.ui.pushButtons[identifier].setFlat(False)
+        self.ui.pushButtons[identifier].setObjectName(identifier)
+        self.ui.pushButtons[identifier].setText(identifier)
+        self.ui.pushButtons[identifier].show()
+        self.ui.pushButtons[identifier].clicked.connect(lambda: self.handleButton(self.ui.pushButtons[identifier]))
         self.sem.release()
-
         
     def addBlimp(self, client, userdata, msg):
         ident = msg.topic.split('/')[-2]
@@ -321,13 +345,17 @@ class Ui(QtWidgets.QMainWindow):
             self.updated.emit(ident)
         
     def updateData(self):
+        if hasattr(self.ui, 'pushButtons'):
+            for key, button in self.ui.pushButtons.items():
+                button.setText(key + '\n' + 'State: ' + self.blimps[key].get_state() + '\n Queue:' + self.blimps[key].get_queue_size() + '\n Missed:' + self.blimps[key].get_missed_ticks())         
+
         self.now = pg.ptime.time()
-                
+
         try:
             x, y, z, alpha, vx, vy, vz, valpha, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref, fx, fy, fz, malpha, m1, m2, m3, m4, m5, m6, t = self.blimps[self.active_blimp].get_data()
         except:
             return
-        
+
         if t:
             time_relative = np.array(t) - t[-1]
             self.plotDataItem_x.setData(time_relative, x)
@@ -363,13 +391,13 @@ class Ui(QtWidgets.QMainWindow):
             self.plotDataItem_motors[5].setData(time_relative, m6)
             
     def handleButton(self, btn):       
-        self.active_blimp = btn.text()
-            
-        for i, button in enumerate(self.ui.pushButtons):
-            self.ui.pushButtons[i].setStyleSheet("")
-            if button.text() == btn.text():
-                self.ui.pushButtons[i].setStyleSheet("background-color:rgb(11, 220, 13);")
-    
+        self.active_blimp = btn.objectName()
+
+        for _, button in self.ui.pushButtons.items():
+            button.setStyleSheet("")
+            if button.objectName() == self.active_blimp:
+                button.setStyleSheet("background-color:rgb(11, 220, 13);")
+
     def closeEvent(self, event):
         self.timer.stop()
         for key, blimp in self.blimps.items():

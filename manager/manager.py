@@ -376,7 +376,10 @@ class Device:
 
             command = self.state.name
             self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/state', command, 0, False)
-            command = "x=%f y=%f z=%f alpha=%f vx=%f vy=%f vz=%f valpha=%f x_ref=%f y_ref=%f z_ref=%f alpha_ref=%f vx_ref=%f vy_ref=%f vz_ref=%f valpha_ref=%f fx=%f fy=%f fz=%f malpha=%f m1=%f m2=%f m3=%f m4=%f m5=%f m6=%f" % (self.x, self.y, self.z, self.alpha, self.vx, self.vy, self.vz, self.valpha, self.x_ref, self.y_ref, self.z_ref, self.alpha_ref, self.vx_ref, self.vy_ref, self.vz_ref, self.valpha_ref, self.fx, self.fy, self.fz, self.malpha, self.m1, self.m2, self.m3, self.m4, self.m5, self.m6)
+            command = "x=%f y=%f z=%f alpha=%f vx=%f vy=%f vz=%f valpha=%f x_ref=%f y_ref=%f z_ref=%f alpha_ref=%f " % (self.x, self.y, self.z, self.alpha, self.vx, self.vy, self.vz, self.valpha, self.x_ref, self.y_ref, self.z_ref, self.alpha_ref)
+            command = command + "vx_ref=%f vy_ref=%f vz_ref=%f valpha_ref=%f fx=%f fy=%f fz=%f " % (self.vx_ref, self.vy_ref, self.vz_ref, self.valpha_ref, self.fx, self.fy, self.fz)
+            command = command + "malpha=%f m1=%f m2=%f m3=%f m4=%f m5=%f m6=%f" % (self.malpha, self.m1, self.m2, self.m3, self.m4, self.m5, self.m6)
+            command = command + "missed_ticks=%d state=%s queue_size=%d" % (self.missed_ticks, self.state.name, self.command_queue.qsize())
             self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/feedback', command, 0, False)
 
             t = time.time() - self.t0
