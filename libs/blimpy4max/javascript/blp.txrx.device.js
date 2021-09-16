@@ -271,7 +271,7 @@ function update(_enforce)
         outlet(OUTID_SETUP, "gui", "managed", myManaged);
         outlet(OUTID_SETUP, "gui", "connected", myConnected);
         outlet(OUTID_SETUP, "gui", "heartbeat", myHandshaked);
-        outlet(OUTID_SETUP, "gui", "config", "hidden", myManaged);
+        //outlet(OUTID_SETUP, "gui", "config", "hidden", myManaged);
         outlet(OUTID_SETUP, "gui", "menu_add", "hidden", !myHandshaked);       
         
         flg_guiChange = false;
