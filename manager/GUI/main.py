@@ -85,6 +85,7 @@ class BlimpData():
         self._k_d_z = k_d_z
         self._k_p_a = k_p_a
         self._k_d_a = k_d_a
+        self._battery_charge = 0.0
                 
     def add_data(self, client, userdata, msg):
         with self._lock:
@@ -160,6 +161,8 @@ class BlimpData():
             self._k_p_a = parseFloat('k_p_a', message)
             self._k_d_a = parseFloat('k_d_a', message)
 
+            self._battery_charge = parseFloat('battery_charge', message)
+
             self._t.append(time.time() - self._t0)
             self._data_available = True 
                         
@@ -183,6 +186,10 @@ class BlimpData():
     def get_control_params(self):
         with self._lock:
             return self._k_p_xy, self._k_d_xy, self._k_p_z, self._k_d_z, self._k_i_z, self._k_p_a, self._k_d_a
+
+    def get_battery_charge(self):
+        with self._lock:
+            return self._battery_charge
 
     def data_available(self):
         return self._data_available      
@@ -378,7 +385,7 @@ class Ui(QtWidgets.QMainWindow):
             self.ui.pushButtons = {}
 
         self.ui.pushButtons[identifier] = QtWidgets.QPushButton(self.ui.groupBox)
-        self.ui.pushButtons[identifier].setGeometry(QtCore.QRect(10, 30 + (len(self.blimpsactive)-1)*90, 131, 81))
+        self.ui.pushButtons[identifier].setGeometry(QtCore.QRect(10, 30 + (len(self.blimpsactive)-1)*100, 131, 91))
         self.ui.pushButtons[identifier].setStyleSheet("")
         self.ui.pushButtons[identifier].setFlat(False)
         self.ui.pushButtons[identifier].setObjectName(identifier)
@@ -409,7 +416,21 @@ class Ui(QtWidgets.QMainWindow):
     def updateData(self):
         if hasattr(self.ui, 'pushButtons'):
             for key, button in self.ui.pushButtons.items():
-                button.setText(key + '\n' + 'State: ' + self.blimps[key].get_state() + '\n Queue:' + self.blimps[key].get_queue_size() + '\n Missed:' + self.blimps[key].get_missed_ticks())         
+                charge = '%.2f %%' % (self.blimps[key].get_battery_charge()*100)
+                button.setText(key + '\n' + 'Charge: ' + charge + '\n State: ' + self.blimps[key].get_state() + \
+                               '\n Queue:' + self.blimps[key].get_queue_size() + '\n Missed:' + self.blimps[key].get_missed_ticks())
+
+                button.setStyleSheet("")
+                if self.blimps[key].get_state() != 'unavailable':
+                    s = int(255)
+                    l = int(255*0.6)
+                    h = int(min(max(171 * self.blimps[key].get_battery_charge() - 51, 0),120))
+                    if button.objectName() == self.active_blimp:
+                        style = "background-color:hsl(%i, %i, %i); border:2px solid #000000; border-radius:5px" %(h, s, l)
+                    else:
+                        style = "background-color:hsl(%i, %i, %i);" %(h, s, l)
+
+                    button.setStyleSheet(style)
 
         if self.active_blimp != '':
             k_p_xy, k_d_xy, k_p_z, k_d_z, k_i_z, k_p_a, k_d_a = self.blimps[self.active_blimp].get_control_params()
@@ -475,11 +496,6 @@ class Ui(QtWidgets.QMainWindow):
         self.ui.ang_slider.setValue(int(10 * k_p_a))
         self.ui.k_d_a.setText(str(k_d_a))
         self.ui.ang_vel_slider.setValue(int(10 * k_d_a))
-
-        for _, button in self.ui.pushButtons.items():
-            button.setStyleSheet("")
-            if button.objectName() == self.active_blimp:
-                button.setStyleSheet("background-color:rgb(11, 220, 13);")
 
     def closeEvent(self, event):
         self.timer.stop()

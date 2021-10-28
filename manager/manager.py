@@ -12,6 +12,8 @@ import sys, getopt
 import yaml
 
 def signal_handler(sig, frame):
+    del sig, frame
+
     global run
     run = False
 
@@ -34,13 +36,14 @@ def parseString(key, message):
         return data
 
 class State(Enum):
-    untracked = 0
-    ready = 1
-    move = 2
-    park = 3
-    hold = 4
-    freeze = 5
-    unmanaged = 6
+    unavailable = 0
+    untracked = 1
+    ready = 2
+    move = 3
+    park = 4
+    hold = 5
+    freeze = 6
+    unmanaged = 7
 
 class Device:
     count = 0
@@ -83,6 +86,9 @@ class Device:
     m5 = 0.0
     m6 = 0.0
 
+    battery_charge = 0.0
+    last_heartbeat = 0.0
+
     max_command = 1.0
     max_i_e = 3.0
 
@@ -97,7 +103,7 @@ class Device:
     count = 0
     empty_count = 0
     
-    state = State.untracked
+    state = State.unavailable
 
     def __init__(self, dt, client, manager_base_topic, device_base_topic, device_type, device_name, tracking_id):
 
@@ -112,10 +118,12 @@ class Device:
         self.client.message_callback_add(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/clear", self.clear)
         self.client.message_callback_add(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/config", self.config)
         self.client.message_callback_add(str(device_base_topic) + "/" + str(self.device_name) + "/model", self.model)
+        self.client.message_callback_add(str(device_base_topic) + "/" + str(self.device_name) + "/battery", self.battery)
         self.client.subscribe(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/stack")
         self.client.subscribe(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/clear")
         self.client.subscribe(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/config")
         self.client.subscribe(str(device_base_topic) + "/" + str(self.device_name) + "/model")
+        self.client.subscribe(str(device_base_topic) + "/" + str(self.device_name) + "/battery")
 
         osc_method("/rigidbody/" + str(self.tracking_id) + "/tracked", self.set_track)
         osc_method("/rigidbody/" + str(self.tracking_id) + "/quat", self.set_attitude)
@@ -145,6 +153,7 @@ class Device:
         self.k_d_a = data[device_type]['k_d_a']
 
         self.t0 = time.time()
+        self.last_heartbeat = self.t0
         self.thread = Thread(target=self.run)
         self.run_thread = True
         self.thread.start()
@@ -294,9 +303,13 @@ class Device:
                 return State.hold
 
     def stack(self, client, userdata, msg):
+        del client, userdata
+
         self.add_command(msg.payload.decode())
 
     def config(self, client, userdata, msg):
+        del client, userdata
+
         command = msg.payload.decode()
 
         ms = re.search("k_p_z=[-+]?\d*\.\d+", command)
@@ -334,6 +347,8 @@ class Device:
         self.k_d_xy = float(command[ms.span()[0]+7:ms.span()[1]])
 
     def model(self, client, userdata, msg):
+        del client, userdata
+
         command = msg.payload.decode()
 
         seg = command.split(",")
@@ -344,19 +359,38 @@ class Device:
         self.m5 = float(seg[4])
         self.m6 = float(seg[5])
 
+    def battery(self, client, userdata, msg):
+        del client, userdata
+
+        command = msg.payload.decode()
+
+        seg = command.split(",")
+        self.battery_charge = float(seg[0])
+        self.last_heartbeat = time.time()
+
     def clear(self, client, userdata, msg):
+        del client, userdata, msg
+
         self.clear_commands()
+
+    def run_state_machine(self):
+        if time.time() - self.last_heartbeat > 2.0:
+            self.state = State.unavailable
+            print(self.device_name, "Error: Not available")
+            return
+
+        if self.tracked == False:
+            self.state = State.untracked
+            print(self.device_name, "Error: Not tracked")
+            return
+
+        self.state = State.ready
 
     def run(self):
         while self.run_thread:
+            self.run_state_machine()
             
-            if self.tracked == False:
-                self.state = State.untracked
-                print(self.device_name, "Error: Not tracked")
-            else:
-                self.state = State.ready
-
-            if self.state == State.untracked:
+            if self.state == State.untracked or self.state == State.unavailable:
                 self.turn_off()
             else:
                 try:
@@ -381,7 +415,8 @@ class Device:
             command = command + "vx_ref=%f vy_ref=%f vz_ref=%f valpha_ref=%f fx=%f fy=%f fz=%f " % (self.vx_ref, self.vy_ref, self.vz_ref, self.valpha_ref, self.fx, self.fy, self.fz)
             command = command + "malpha=%f m1=%f m2=%f m3=%f m4=%f m5=%f m6=%f " % (self.malpha, self.m1, self.m2, self.m3, self.m4, self.m5, self.m6)
             command = command + "missed_ticks=%d state=%s queue_size=%d " % (self.missed_ticks, self.state.name, self.command_queue.qsize())
-            command = command + "k_p_xy=%f k_d_xy=%f k_p_z=%f k_d_z=%f k_i_z=%f k_p_a=%f k_d_a=%f" % (self.k_p_xy, self.k_d_xy, self.k_p_z, self.k_d_z, self.k_i_z, self.k_p_a, self.k_d_a)
+            command = command + "k_p_xy=%f k_d_xy=%f k_p_z=%f k_d_z=%f k_i_z=%f k_p_a=%f k_d_a=%f " % (self.k_p_xy, self.k_d_xy, self.k_p_z, self.k_d_z, self.k_i_z, self.k_p_a, self.k_d_a)
+            command = command + "battery_charge=%f" % (self.battery_charge)
             self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/feedback', command, 0, False)
 
             t = time.time() - self.t0
@@ -556,6 +591,8 @@ def stop_device(device_name):
             devices.remove(device)
 
 def add_device(client, userdata, msg):
+    del userdata
+
     global devices
 
     message = msg.payload.decode()
@@ -592,6 +629,8 @@ def add_device(client, userdata, msg):
         print("Error: device type unknown")
 
 def remove_device(client, userdata, msg):
+    del client, userdata
+
     global devices
 
     message = msg.payload.decode()
