@@ -586,7 +586,10 @@ def add_device(client, userdata, msg):
             print("Error: device with tracking_id '%s' exists" % tracking_id)
             return
 
-    devices.append(Device(dt, client, manager_base_topic, device_base_topic, device_type, device_name, tracking_id))
+    try:
+        devices.append(Device(dt, client, manager_base_topic, device_base_topic, device_type, device_name, tracking_id))
+    except:
+        print("Error: device type unknown")
 
 def remove_device(client, userdata, msg):
     global devices
