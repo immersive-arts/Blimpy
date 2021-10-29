@@ -6,10 +6,10 @@ import signal as sig
 import queue
 import numpy as np
 from osc4py3.as_comthreads import osc_method, osc_udp_server, osc_startup, osc_process, osc_terminate
-from scipy import signal
 from enum import Enum
 import sys, getopt
 import yaml
+from pyquaternion import Quaternion
 
 def signal_handler(sig, frame):
     del sig, frame
@@ -35,6 +35,27 @@ def parseString(key, message):
         data = message[ms.span()[0]+(len(key)+1):ms.span()[1]]
         return data
 
+def quaternion_to_euler(qw, qx, qy, qz):
+    t0 = +2.0 * (qw * qx + qy * qz)
+    t1 = +1.0 - 2.0 * (qx * qx + qy * qy)
+    roll = np.arctan2(t0, t1)
+    t2 = +2.0 * (qw * qy - qz * qx)
+    t2 = +1.0 if t2 > +1.0 else t2
+    t2 = -1.0 if t2 < -1.0 else t2
+    pitch = np.arcsin(t2)
+    t3 = +2.0 * (qw * qz + qx * qy)
+    t4 = +1.0 - 2.0 * (qy * qy + qz * qz)
+    yaw = np.arctan2(t3, t4)
+    return [yaw, pitch, roll]
+
+def constrain_angle_difference(angle_difference):
+    if angle_difference > np.pi:
+        angle_difference = angle_difference - 2 * np.pi
+    elif angle_difference < -np.pi:
+        angle_difference = angle_difference + 2 * np.pi
+    
+    return angle_difference
+
 class State(Enum):
     unavailable = 0
     untracked = 1
@@ -56,8 +77,18 @@ class Device:
     vx = 0
     vy = 0
     vz = 0
-    alpha = 0
-    valpha = 0
+    roll = 0
+    pitch = 0
+    yaw = 0
+    p = 0
+    q = 0
+    r = 0
+
+    attitude = Quaternion()
+    attitude_rate = 0
+    roll_rate = 0
+    pitch_rate = 0
+    yaw_rate = 0
 
     x_ref = 0
     y_ref = 0
@@ -65,13 +96,19 @@ class Device:
     vx_ref = 0
     vy_ref = 0
     vz_ref = 0
-    alpha_ref = 0
-    valpha_ref = 0
+    roll_ref = 0
+    pitch_ref = 0
+    yaw_ref = 0
+    p_ref = 0
+    q_ref = 0
+    r_ref = 0
 
     fx = 0
     fy = 0
     fz = 0
-    malpha = 0
+    mx = 0
+    my = 0
+    mz = 0
 
     i_e_z = 0
     c_x_filt = 0
@@ -96,7 +133,6 @@ class Device:
 
     t_pos = 0
     t_att = 0
-    b, a = signal.butter(3, 5.0, fs = 120.0)
 
     tracked = False
     missed_ticks = 0
@@ -104,6 +140,10 @@ class Device:
     empty_count = 0
     
     state = State.unavailable
+    
+    J = np.array([[0.024, 0.0, 0.005],
+                  [0.0, 0.039, 0.0],
+                  [0.005, 0.0, 0.032]])
 
     def __init__(self, dt, client, manager_base_topic, device_base_topic, device_type, device_name, tracking_id):
 
@@ -129,15 +169,7 @@ class Device:
         osc_method("/rigidbody/" + str(self.tracking_id) + "/quat", self.set_attitude)
         osc_method("/rigidbody/" + str(self.tracking_id) + "/position", self.set_position)
 
-        zi = signal.lfilter_zi(self.b, self.a)
-        _, self.vx_zf = signal.lfilter(self.b, self.a, [self.vx], zi=zi*self.vy)
-        _, self.vy_zf = signal.lfilter(self.b, self.a, [self.vy], zi=zi*self.vy)
-        _, self.vz_zf = signal.lfilter(self.b, self.a, [self.vz], zi=zi*self.vz)
-        _, self.valpha_zf = signal.lfilter(self.b, self.a, [self.valpha], zi=zi*self.valpha)
-
         self.command_queue = queue.Queue(1000)
-
-        self.filt_const = dt / (dt + self.time_const)
         
         with open('device_types.yml', 'r') as stream:
             data = yaml.safe_load(stream)    
@@ -148,9 +180,19 @@ class Device:
         
         self.k_p_xy = data[device_type]['k_p_xy']
         self.k_d_xy = data[device_type]['k_d_xy']
+
+        self.tau_att_x = data[device_type]['tau_att_x']
+        self.tau_att_y = data[device_type]['tau_att_y']
+        self.tau_att_z = data[device_type]['tau_att_z']
         
-        self.k_p_a = data[device_type]['k_p_a']
-        self.k_d_a = data[device_type]['k_d_a']
+        self.tau_p = data[device_type]['tau_p']
+        self.tau_q = data[device_type]['tau_q']
+        self.tau_r = data[device_type]['tau_r']
+
+        self.velocity_filter_RC = 1/(2*np.pi * 0.1)
+        self.velocity_filter_constant = self.dt / (self.velocity_filter_RC + self.dt)
+        self.rate_filter_RC = 1/(2*np.pi * 0.1)
+        self.rate_filter_constant = self.dt / (self.rate_filter_RC + self.dt)
 
         self.t0 = time.time()
         self.last_heartbeat = self.t0
@@ -194,7 +236,7 @@ class Device:
 
             if command.split()[0]  == 'freeze':
                 self.clear_commands()
-                command = 'hold x=%f y=%f z=%f alpha=%f state=freeze' % (self.x, self.y, self.z, self.alpha)
+                command = 'hold x=%f y=%f z=%f alpha=%f state=freeze' % (self.x, self.y, self.z, self.yaw)
                 try:
                     self.command_queue.put_nowait(command)
                 except queue.Full:
@@ -211,14 +253,14 @@ class Device:
                 zf = zf - self.z
 
                 af = parseFloat('alpha', command)
-                phi = np.abs(af - self.alpha) % (2 * np.pi)
+                phi = np.abs(af - self.yaw) % (2 * np.pi)
                 if phi > np.pi:
                     distance = 2 * np.pi - phi
-                    if self.alpha < af:
+                    if self.yaw < af:
                         distance = -distance
                 else:
                     distance = phi
-                    if self.alpha > af:
+                    if self.yaw > af:
                         distance = -distance
 
                 tf = parseFloat('t', command)
@@ -242,13 +284,13 @@ class Device:
                 t, a, _ = self.compute_min_jerk(distance, tf)
 
                 for i in range(len(t)):
-                    command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f state=park' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
+                    command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f state=park' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.yaw + np.pi) % (2 * np.pi) - np.pi)
                     try:
                         self.command_queue.put_nowait(command)
                     except queue.Full:
                         print(self.device_name, "Error: command queue full")
 
-                command = 'hold x=%f y=%f z=%f alpha=%f state=hold' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, (a[i] + self.alpha + np.pi) % (2 * np.pi) - np.pi)
+                command = 'hold x=%f y=%f z=%f alpha=%f state=hold' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, (a[i] + self.yaw + np.pi) % (2 * np.pi) - np.pi)
                 try:
                     self.command_queue.put_nowait(command)
                 except queue.Full:
@@ -268,14 +310,26 @@ class Device:
             vz_ref = parseFloat('vz', command)
             if vz_ref == None:
                 vz_ref = 0
-            alpha_ref = parseFloat('alpha', command)
-            if alpha_ref == None:
-                alpha_ref = 0
-            valpha_ref = parseFloat('valpha', command)
-            if valpha_ref == None:
-                valpha_ref = 0
+            roll_ref = parseFloat('gamma', command)
+            if roll_ref == None:
+                roll_ref = 0
+            pitch_ref = parseFloat('beta', command)
+            if pitch_ref == None:
+                pitch_ref = 0
+            yaw_ref = parseFloat('alpha', command)
+            if yaw_ref == None:
+                yaw_ref = 0
+            p_ref = parseFloat('p', command)
+            if p_ref == None:
+                p_ref = 0
+            q_ref = parseFloat('q', command)
+            if q_ref == None:
+                q_ref = 0
+            r_ref = parseFloat('valpha', command)
+            if r_ref == None:
+                r_ref = 0
 
-            self.set_reference(x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref)
+            self.set_reference(x_ref, y_ref, z_ref, vx_ref, vy_ref, vz_ref, roll_ref, pitch_ref, yaw_ref, p_ref, q_ref, r_ref)
 
             state = parseString('state', command)
             if state == State.park.name:
@@ -287,9 +341,9 @@ class Device:
             x_ref = parseFloat('x', command)
             y_ref = parseFloat('y', command)
             z_ref = parseFloat('z', command)
-            alpha_ref = parseFloat('alpha', command)
+            yaw_ref = parseFloat('alpha', command)
 
-            self.set_reference(x_ref, y_ref, z_ref, alpha_ref, 0.0, 0.0, 0.0, 0.0)
+            self.set_reference(x_ref, y_ref, z_ref, 0.0, 0.0, 0.0, 0.0, 0.0, yaw_ref, 0.0, 0.0, 0.0)
 
             try:
                 self.command_queue.put_nowait(command)
@@ -327,15 +381,6 @@ class Device:
             return
         self.k_i_z = float(command[ms.span()[0]+6:ms.span()[1]])
 
-        ms = re.search("k_p_a=[-+]?\d*\.\d+", command)
-        if ms is None:
-            return
-        self.k_p_a = float(command[ms.span()[0]+6:ms.span()[1]])
-
-        ms = re.search("k_d_a=[-+]?\d*\.\d+", command)
-        if ms is None:
-            return
-        self.k_d_a = float(command[ms.span()[0]+6:ms.span()[1]])
         ms = re.search("k_p_xy=[-+]?\d*\.\d+", command)
         if ms is None:
             return
@@ -345,6 +390,13 @@ class Device:
         if ms is None:
             return
         self.k_d_xy = float(command[ms.span()[0]+7:ms.span()[1]])
+        
+        self.tau_p = parseFloat('tau_p', command)
+        self.tau_q = parseFloat('tau_q', command)
+        self.tau_r = parseFloat('tau_r', command)
+        self.tau_att_x = parseFloat('tau_att_x', command)
+        self.tau_att_y = parseFloat('tau_att_y', command)
+        self.tau_att_z = parseFloat('tau_att_z', command)
 
     def model(self, client, userdata, msg):
         del client, userdata
@@ -411,11 +463,15 @@ class Device:
 
             command = self.state.name
             self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/state', command, 0, False)
-            command = "x=%f y=%f z=%f alpha=%f vx=%f vy=%f vz=%f valpha=%f x_ref=%f y_ref=%f z_ref=%f alpha_ref=%f " % (self.x, self.y, self.z, self.alpha, self.vx, self.vy, self.vz, self.valpha, self.x_ref, self.y_ref, self.z_ref, self.alpha_ref)
-            command = command + "vx_ref=%f vy_ref=%f vz_ref=%f valpha_ref=%f fx=%f fy=%f fz=%f " % (self.vx_ref, self.vy_ref, self.vz_ref, self.valpha_ref, self.fx, self.fy, self.fz)
-            command = command + "malpha=%f m1=%f m2=%f m3=%f m4=%f m5=%f m6=%f " % (self.malpha, self.m1, self.m2, self.m3, self.m4, self.m5, self.m6)
+            command = "x=%f y=%f z=%f vx=%f vy=%f vz=%f " % (self.x, self.y, self.z, self.vx, self.vy, self.vz)
+            command = command + "x_ref=%f y_ref=%f z_ref=%f vx_ref=%f vy_ref=%f vz_ref=%f " % (self.x_ref, self.y_ref, self.z_ref, self.vx_ref, self.vy_ref, self.vz_ref)
+            command = command + "roll=%f pitch=%f yaw=%f p=%f q=%f r=%f " % (self.roll, self.pitch, self.yaw, self.p, self.q, self.r)
+            command = command + "roll_ref=%f pitch_ref=%f yaw_ref=%f p_ref=%f q_ref=%f r_ref=%f " % (self.roll_ref, self.pitch_ref, self.yaw_ref, self.p_ref, self.q_ref, self.r_ref)
+            command = command + "fx=%f fy=%f fz=%f mx=%f my=%f mz=%f " % (self.fx, self.fy, self.fz, self.mx, self.my, self.mz)
+            command = command + "m1=%f m2=%f m3=%f m4=%f m5=%f m6=%f " % (self.m1, self.m2, self.m3, self.m4, self.m5, self.m6)
             command = command + "missed_ticks=%d state=%s queue_size=%d " % (self.missed_ticks, self.state.name, self.command_queue.qsize())
-            command = command + "k_p_xy=%f k_d_xy=%f k_p_z=%f k_d_z=%f k_i_z=%f k_p_a=%f k_d_a=%f " % (self.k_p_xy, self.k_d_xy, self.k_p_z, self.k_d_z, self.k_i_z, self.k_p_a, self.k_d_a)
+            command = command + "k_p_xy=%f k_d_xy=%f k_p_z=%f k_d_z=%f k_i_z=%f " % (self.k_p_xy, self.k_d_xy, self.k_p_z, self.k_d_z, self.k_i_z)
+            command = command + "tau_att_x=%f tau_att_y=%f tau_att_z=%f tau_p=%f tau_q=%f tau_r=%f " % (self.tau_att_x, self.tau_att_y, self.tau_att_z, self.tau_p, self.tau_q, self.tau_r)
             command = command + "battery_charge=%f" % (self.battery_charge)
             self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/feedback', command, 0, False)
 
@@ -440,25 +496,19 @@ class Device:
         mi = self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/state', command, 0, False)
         mi.wait_for_publish()
 
-    def set_state(self, x, y, z, alpha, vx, vy, vz, valpha):
-        self.x = x
-        self.y = y
-        self.z = z
-        self.vx = vx
-        self.vy = vy
-        self.vz = vz
-        self.alpha = alpha
-        self.valpha = valpha
-
-    def set_reference(self, x_ref, y_ref, z_ref, alpha_ref, vx_ref, vy_ref, vz_ref, valpha_ref):
+    def set_reference(self, x_ref, y_ref, z_ref, vx_ref, vy_ref, vz_ref, roll_ref, pitch_ref, yaw_ref, p_ref, q_ref, r_ref):
         self.x_ref = x_ref
         self.y_ref = y_ref
         self.z_ref = z_ref
-        self.alpha_ref = alpha_ref
         self.vx_ref = vx_ref
         self.vy_ref = vy_ref
         self.vz_ref = vz_ref
-        self.valpha_ref = valpha_ref
+        self.roll_ref = roll_ref
+        self.pitch_ref = pitch_ref
+        self.yaw_ref = yaw_ref
+        self.p_ref = p_ref
+        self.q_ref = q_ref
+        self.r_ref = r_ref
 
     def turn_off(self):
         command = "0,0,0,0,0,0"
@@ -469,11 +519,10 @@ class Device:
         mi.wait_for_publish()
 
     def control(self):
-        c_x = (self.x_ref - self.x) * self.k_p_xy + (self.vx_ref - self.vx) * self.k_d_xy
-        self.c_x_filt = self.filt_const * c_x + (1 - self.filt_const) * self.c_x_filt
-
-        c_y = (self.y_ref - self.y) * self.k_p_xy + (self.vy_ref - self.vy) *self.k_d_xy
-        self.c_y_filt = self.filt_const * c_y + (1 - self.filt_const) * self.c_y_filt
+        
+        # xy control 
+        f_x = (self.x_ref - self.x) * self.k_p_xy + (self.vx_ref - self.vx) * self.k_d_xy
+        f_y = (self.y_ref - self.y) * self.k_p_xy + (self.vy_ref - self.vy) * self.k_d_xy
 
         # altitude control
         e_z = (self.z_ref - self.z)
@@ -481,25 +530,16 @@ class Device:
         if (np.abs(self.i_e_z + e_z*dt) < self.max_i_e):
             self.i_e_z = e_z*dt + self.i_e_z
 
-        c_z = e_z * self.k_p_z + (self.vz_ref - self.vz) * self.k_d_z + self.i_e_z * self.k_i_z
-        self.c_z_filt = self.filt_const * c_z + (1 - self.filt_const) * self.c_z_filt
+        f_z = e_z * self.k_p_z + (self.vz_ref - self.vz) * self.k_d_z + self.i_e_z * self.k_i_z
+        
+        R_IB = np.array(self.attitude.rotation_matrix)
 
-        # heading control
-        e_alpha = self.alpha_ref - self.alpha
-        if e_alpha > np.pi:
-            e_alpha = e_alpha - 2 * np.pi
-        elif e_alpha < -np.pi:
-            e_alpha = e_alpha + 2 * np.pi
-
-        c_a = e_alpha * self.k_p_a + (self.valpha_ref - self.valpha) * self.k_d_a
-        self.c_a_filt = self.filt_const * c_a + (1 - self.filt_const) * self.c_a_filt
-
-        # send commands
-        c_x_body = np.cos(self.alpha) * self.c_x_filt + np.sin(self.alpha) * self.c_y_filt
-        c_y_body = -np.sin(self.alpha) * self.c_x_filt + np.cos(self.alpha) * self.c_y_filt
-        c_z_body = self.c_z_filt
-        c_a_body = self.c_a_filt
-
+        c = np.dot(R_IB.T, np.array([f_x, f_y, f_z]))
+        
+        c_x_body = c[0]
+        c_y_body = c[1]
+        c_z_body = c[2]
+        
         if np.abs(c_x_body) > self.max_command:
             c_x_body = np.sign(c_x_body) * self.max_command
 
@@ -509,17 +549,56 @@ class Device:
         if np.abs(c_z_body) > self.max_command:
             c_z_body = np.sign(c_z_body) * self.max_command
 
-        if np.abs(c_a_body) > self.max_command:
-            c_a_body = np.sign(c_a_body) * self.max_command
-
         self.fx = c_x_body
         self.fy = c_y_body
         self.fz = c_z_body
-        self.malpha = c_a_body
+        
+        # attitude control
+        q_X = Quaternion(axis= [1.0, 0.0, 0.0], radians=self.roll_ref)
+        q_Y = Quaternion(axis= [0.0, 1.0, 0.0], radians=self.pitch_ref)
+        q_Z = Quaternion(axis= [0.0, 0.0, 1.0], radians=self.yaw_ref)
 
-        command = '{:.3f},{:.3f},{:.3f},{:.3f},{:.3f},{:.3f}'.format(c_x_body, c_y_body, c_z_body, 0.0, 0.0, c_a_body)
+        attitude_des = q_Z * q_Y * q_X
+        attitude_err = attitude_des * self.attitude.inverse
+        
+        omega_cmd = 2 * np.sign(attitude_err.w) * np.array([attitude_err.x, attitude_err.y, attitude_err.z])
+        omega_cmd[0] = omega_cmd[0] / self.tau_att_x
+        omega_cmd[1] = omega_cmd[1] / self.tau_att_y
+        omega_cmd[2] = omega_cmd[2] / self.tau_att_z
+        
+        self.p_ref = omega_cmd[0]
+        self.q_ref = omega_cmd[1]
+        self.r_ref = omega_cmd[2]
+        omega = np.array([self.p, self.q, self.r])
+        
+        t = np.dot(self.J, np.array([omega_cmd[0], omega_cmd[1], omega_cmd[2]]) - omega)
+
+        t[0] = t[0] / self.tau_p
+        t[1] = t[1] / self.tau_q
+        t[2] = t[2] / self.tau_r
+        
+        #t = t + np.dot(np.cross(omega, self.J), omega)        
+        
+        c_roll_body = t[0]
+        c_pitch_body = t[1]
+        c_yaw_body = t[2]
+
+        if np.abs(c_roll_body) > self.max_command:
+            c_roll_body = np.sign(c_roll_body) * self.max_command
+
+        if np.abs(c_pitch_body) > self.max_command:
+            c_pitch_body = np.sign(c_pitch_body) * self.max_command
+        
+        if np.abs(c_yaw_body) > self.max_command:
+            c_yaw_body = np.sign(c_yaw_body) * self.max_command
+        
+        self.mx = c_roll_body
+        self.my = c_pitch_body
+        self.mz = c_yaw_body
+
+        command = '{:.3f},{:.3f},{:.3f},{:.3f},{:.3f},{:.3f}'.format(c_x_body, c_y_body, c_z_body, c_roll_body, c_pitch_body, c_yaw_body)
         self.client.publish(str(self.device_base_topic) + "/" + str(self.device_name) + "/forces", command, 0, False)
-        #print("Command: fx: %.3f fy: %.3f fz: %.3f mx: %.3f my: %.3f mz: %.3f" % (c_x_body, c_y_body, c_z_body, 0, 0, c_a_body))
+        #print("Command: fx: %.3f fy: %.3f fz: %.3f mx: %.3f my: %.3f mz: %.3f" % (c_x_body, c_y_body, c_z_body, 0, 0, c_yaw_body))
         #print("State: x: %.3f/%.3f y: %.3f/%.3f z: %.3f/%.3f alpha: %.3f/%.3f" % (self.x, self.x_ref, self.y, self.y_ref, self.z, self.z_ref, self.alpha, self.alpha_ref))
 
     def set_position(self, x, y, z):
@@ -528,13 +607,9 @@ class Device:
         self.t_pos = t_now
 
         if dt >= 0.008 and dt < 0.1:
-            vx_filt, self.vx_zf = signal.lfilter(self.b, self.a, [(x - self.x)/dt], zi = self.vx_zf)
-            vy_filt, self.vy_zf = signal.lfilter(self.b, self.a, [(y - self.y)/dt], zi = self.vy_zf)
-            vz_filt, self.vz_zf = signal.lfilter(self.b, self.a, [(z - self.z)/dt], zi = self.vz_zf)
-
-            self.vx = vx_filt[0]
-            self.vy = vy_filt[0]
-            self.vz = vz_filt[0]
+            self.vx = self.vx + self.velocity_filter_constant * ((x - self.x)/dt - self.vx)
+            self.vy = self.vy + self.velocity_filter_constant * ((y - self.y)/dt - self.vy)
+            self.vz = self.vz + self.velocity_filter_constant * ((z - self.z)/dt - self.vz)
 
         self.x = x
         self.y = y
@@ -545,21 +620,31 @@ class Device:
         dt = t_now - self.t_att
         self.t_att = t_now
 
-        siny_cosp = 2.0 * (qw * qz + qx * qy)
-        cosy_cosp = 1.0 - 2.0 * (qy * qy + qz * qz)
-        alpha = np.arctan2(siny_cosp, cosy_cosp)
+        ypr = quaternion_to_euler(qw, qx, qy, qz)
+        roll = ypr[2]
+        pitch = ypr[1]
+        yaw = ypr[0]
+
+        attitude = Quaternion(qw, qx, qy, qz)
 
         if dt >= 0.008 and dt < 0.1:
-            valpha = alpha - self.alpha
-            if valpha > np.pi:
-                valpha = valpha - 2 * np.pi
-            elif valpha < -np.pi:
-                valpha = valpha + 2 * np.pi
+            self.attitude_rate = (attitude - self.attitude) / dt
 
-            valpha_filt, self.valpha_zf = signal.lfilter(self.b, self.a, [valpha / dt], zi = self.valpha_zf)
-            self.valpha = valpha_filt[0]
+            roll_rate = constrain_angle_difference(roll - self.roll) / dt
+            pitch_rate = constrain_angle_difference(pitch - self.pitch) / dt
+            yaw_rate = constrain_angle_difference(yaw - self.yaw) / dt
+            self.roll_rate = self.roll_rate + self.rate_filter_constant * (roll_rate - self.roll_rate)
+            self.pitch_rate = self.pitch_rate + self.rate_filter_constant * (pitch_rate - self.pitch_rate)
+            self.yaw_rate = self.yaw_rate + self.rate_filter_constant * (yaw_rate - self.yaw_rate)
 
-        self.alpha = alpha
+        self.roll = roll
+        self.pitch = pitch
+        self.yaw = yaw
+        self.attitude = attitude
+
+        self.p = self.roll_rate - np.sin(self.pitch) * self.yaw_rate
+        self.q = np.cos(self.roll) * self.pitch_rate + np.sin(self.roll) * np.cos(self.pitch) * self.yaw_rate
+        self.r = -np.sin(self.roll) * self.pitch_rate + np.cos(self.roll) * np.cos(self.pitch) * self.yaw_rate
 
     def set_track(self, tracked):
         self.tracked = tracked

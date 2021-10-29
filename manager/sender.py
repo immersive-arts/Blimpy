@@ -25,12 +25,14 @@ class Sender:
         t = time.time() - t0
         x_ref = R * np.cos(2 * np.pi * freq * t)
         y_ref = R * np.sin(2 * np.pi * freq * t)
-        dx_ref = - R * 2 * np.pi * freq * np.sin(2 * np.pi * freq * t)
+        dx_ref = -R * 2 * np.pi * freq * np.sin(2 * np.pi * freq * t)
         dy_ref = R * 2 * np.pi * freq * np.cos(2 * np.pi * freq * t)
         a_ref = np.arctan2(dy_ref, dx_ref)
         da_ref = 2*np.pi*freq
 
         command = 'clear; move x=%f y=%f z=%f alpha=%f vx=%f vy=%f valpha=%f' % (x_ref, y_ref, z_ref, a_ref, dx_ref, dy_ref, da_ref)
+        #command = 'clear; move x=%f y=%f z=%f alpha=%f vx=%f vy=%f valpha=%f' % (0.0, 0.0, z_ref, a_ref, 0.0, 0.0, 0.0)
+
         self.counter = self.counter + 1
 
         self.client.publish(self.topic_base + 'stack', command, 0, False)
@@ -72,14 +74,16 @@ if args.device_name:
 count = 0
 t0 = time.time()
 dt = 0.1
-R = 2.0
+R = 2.5
 freq = 1/60
-z_ref = 2.0
+z_ref = 2.5
+x_ref = R
+y_ref = 0.0
 
 run = True
 sender = Sender(BROKER_IP, BROKER_PORT, MANAGER_BASE_TOPIC, DEVICE_BASE_TOPIC, DEVICE_NAME)
 sender.clear()
-sender.park(2.0, 0.0, 3.0, np.pi/2, 15.0, 0.0)
+sender.park(x_ref, y_ref, z_ref, np.pi/2, 15.0, 0.0)
 time.sleep(20.0)
 
 t0 = time.time()
