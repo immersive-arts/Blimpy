@@ -3,8 +3,8 @@
 #include <driver/adc.h>
 #include <driver/i2c.h>
 #include <naos.h>
-#include <string.h>
 #include <streamy.h>
+#include <string.h>
 
 #include "bat.h"
 #include "exp.h"
@@ -129,7 +129,8 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
 
     // publish model
     char model[255];
-    sprintf(model, "%f,%f,%f,%f,%f,%f", result.values[0], result.values[1], result.values[2], result.values[3], result.values[4], result.values[5]);
+    sprintf(model, "%f,%f,%f,%f,%f,%f", result.values[0], result.values[1], result.values[2], result.values[3],
+            result.values[4], result.values[5]);
     naos_publish("model", model, 0, false, NAOS_LOCAL);
 
     // free vectors
@@ -308,9 +309,9 @@ void app_main() {
   // initialize sound
   if (sound) {
     streamy_config_t config = {
-        .pin_clk = 15, // S1
-        .pin_data = 5, // S2
-        .pin_lrc = 14, // LED
+        .pin_clk = 15,  // S1
+        .pin_data = 5,  // S2
+        .pin_lrc = 14,  // LED
         .sample_rate = 44100,
         .bit_rate = 16,
         .dma_chunk_length = 10,
