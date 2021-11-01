@@ -304,7 +304,7 @@ void app_main() {
 
   // initialize servos and motors
   mot_init(!dm1, !dm2);
-  srv_init(dm1, dm2);
+  srv_init(!sound, dm1, dm2);
 
   // initialize sound
   if (sound) {
@@ -323,7 +323,9 @@ void app_main() {
   }
 
   // initialize neo pixels
-  neo_init(led_size, led_white);
+  if (!sound) {
+      neo_init(led_size, led_white);
+  }
 
   // prepare model
   mod_calculate();

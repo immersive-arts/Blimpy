@@ -83,7 +83,7 @@ static void srv_task(void *p) {
   }
 }
 
-void srv_init(bool s34, bool s56) {
+void srv_init(bool s12, bool s34, bool s56) {
   // prepare ledc timer config
   ledc_timer_config_t t = {
       .timer_num = LEDC_TIMER_1,
@@ -103,17 +103,19 @@ void srv_init(bool s34, bool s56) {
       .timer_sel = LEDC_TIMER_1,
   };
 
-  // configure servo 1
-  c.gpio_num = SRV_1;
-  c.channel = srv_chans[0];
-  ESP_ERROR_CHECK(ledc_channel_config(&c));
-  srv_avl[0] = true;
+  if (s12) {
+      // configure servo 1
+      c.gpio_num = SRV_1;
+      c.channel = srv_chans[0];
+      ESP_ERROR_CHECK(ledc_channel_config(&c));
+      srv_avl[0] = true;
 
-  // configure servo 2
-  c.gpio_num = SRV_2;
-  c.channel = srv_chans[1];
-  ESP_ERROR_CHECK(ledc_channel_config(&c));
-  srv_avl[1] = true;
+      // configure servo 2
+      c.gpio_num = SRV_2;
+      c.channel = srv_chans[1];
+      ESP_ERROR_CHECK(ledc_channel_config(&c));
+      srv_avl[1] = true;
+  }
 
   if (s34) {
     // configure servo 3
