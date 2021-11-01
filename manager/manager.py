@@ -85,6 +85,7 @@ class Device:
     r = 0
 
     attitude = Quaternion()
+    attitude_ref = Quaternion()
     attitude_rate = 0
     roll_rate = 0
     pitch_rate = 0
@@ -558,8 +559,8 @@ class Device:
         q_Y = Quaternion(axis= [0.0, 1.0, 0.0], radians=self.pitch_ref)
         q_Z = Quaternion(axis= [0.0, 0.0, 1.0], radians=self.yaw_ref)
 
-        attitude_des = q_Z * q_Y * q_X
-        attitude_err = attitude_des * self.attitude.inverse
+        self.attitude_ref = q_Z * q_Y * q_X
+        attitude_err = self.attitude_ref * self.attitude.inverse
         
         omega_cmd = 2 * np.sign(attitude_err.w) * np.array([attitude_err.x, attitude_err.y, attitude_err.z])
         omega_cmd[0] = omega_cmd[0] / self.tau_att_x
@@ -577,7 +578,7 @@ class Device:
         t[1] = t[1] / self.tau_q
         t[2] = t[2] / self.tau_r
         
-        #t = t + np.dot(np.cross(omega, self.J), omega)        
+        t = t + np.dot(np.cross(omega, self.J), omega)
         
         c_roll_body = t[0]
         c_pitch_body = t[1]
@@ -591,7 +592,7 @@ class Device:
         
         if np.abs(c_yaw_body) > self.max_command:
             c_yaw_body = np.sign(c_yaw_body) * self.max_command
-        
+
         self.mx = c_roll_body
         self.my = c_pitch_body
         self.mz = c_yaw_body
@@ -621,30 +622,21 @@ class Device:
         self.t_att = t_now
 
         ypr = quaternion_to_euler(qw, qx, qy, qz)
-        roll = ypr[2]
-        pitch = ypr[1]
-        yaw = ypr[0]
+        self.roll = ypr[2]
+        self.pitch = ypr[1]
+        self.yaw = ypr[0]
 
         attitude = Quaternion(qw, qx, qy, qz)
 
         if dt >= 0.008 and dt < 0.1:
             self.attitude_rate = (attitude - self.attitude) / dt
 
-            roll_rate = constrain_angle_difference(roll - self.roll) / dt
-            pitch_rate = constrain_angle_difference(pitch - self.pitch) / dt
-            yaw_rate = constrain_angle_difference(yaw - self.yaw) / dt
-            self.roll_rate = self.roll_rate + self.rate_filter_constant * (roll_rate - self.roll_rate)
-            self.pitch_rate = self.pitch_rate + self.rate_filter_constant * (pitch_rate - self.pitch_rate)
-            self.yaw_rate = self.yaw_rate + self.rate_filter_constant * (yaw_rate - self.yaw_rate)
-
-        self.roll = roll
-        self.pitch = pitch
-        self.yaw = yaw
         self.attitude = attitude
 
-        self.p = self.roll_rate - np.sin(self.pitch) * self.yaw_rate
-        self.q = np.cos(self.roll) * self.pitch_rate + np.sin(self.roll) * np.cos(self.pitch) * self.yaw_rate
-        self.r = -np.sin(self.roll) * self.pitch_rate + np.cos(self.roll) * np.cos(self.pitch) * self.yaw_rate
+        omega = 2 * self.attitude.inverse * self.attitude_rate
+        self.p = self.p + self.rate_filter_constant * (omega[1] - self.p)
+        self.q = self.q + self.rate_filter_constant * (omega[2] - self.q)
+        self.r = self.r + self.rate_filter_constant * (omega[3] - self.r)
 
     def set_track(self, tracked):
         self.tracked = tracked
