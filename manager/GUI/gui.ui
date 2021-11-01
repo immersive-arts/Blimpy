@@ -311,7 +311,7 @@
           <x>10</x>
           <y>320</y>
           <width>151</width>
-          <height>291</height>
+          <height>321</height>
          </rect>
         </property>
         <property name="title">
@@ -457,7 +457,7 @@
           <rect>
            <x>100</x>
            <y>150</y>
-           <width>31</width>
+           <width>41</width>
            <height>19</height>
           </rect>
          </property>
@@ -475,13 +475,13 @@
           </rect>
          </property>
          <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
           <number>10</number>
          </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
          <property name="value">
-          <number>1</number>
+          <number>10</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -497,13 +497,13 @@
           </rect>
          </property>
          <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
           <number>10</number>
          </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
          <property name="value">
-          <number>1</number>
+          <number>10</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -514,7 +514,7 @@
           <rect>
            <x>100</x>
            <y>190</y>
-           <width>31</width>
+           <width>41</width>
            <height>20</height>
           </rect>
          </property>
@@ -558,10 +558,10 @@
           </rect>
          </property>
          <property name="minimum">
-          <number>1</number>
+          <number>10</number>
          </property>
          <property name="maximum">
-          <number>10</number>
+          <number>100</number>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -585,7 +585,7 @@
           <rect>
            <x>100</x>
            <y>230</y>
-           <width>31</width>
+           <width>41</width>
            <height>20</height>
           </rect>
          </property>

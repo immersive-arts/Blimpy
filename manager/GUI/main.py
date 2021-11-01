@@ -468,11 +468,11 @@ class Ui(QtWidgets.QMainWindow):
         if slider == 'tau_att_z':
             self.tau_att_z = self.ui.tau_att_z_slider.value()/10
         if slider == 'tau_p':
-            self.tau_p = self.ui.tau_p_slider.value()/10
+            self.tau_p = self.ui.tau_p_slider.value()/1000
         if slider == 'tau_q':
-            self.tau_q = self.ui.tau_q_slider.value()/10
+            self.tau_q = self.ui.tau_q_slider.value()/1000
         if slider == 'tau_r':
-            self.tau_r = self.ui.tau_r_slider.value()/10
+            self.tau_r = self.ui.tau_r_slider.value()/1000
 
         command = "k_p_z=%f k_d_z=%f k_i_z=%f k_p_xy=%f k_d_xy=%f tau_att_x=%f tau_att_y=%f tau_att_z=%f tau_p=%f tau_q=%f tau_r=%f" \
                 % (self.k_p_z, self.k_d_z, self.k_i_z, self.k_p_xy, self.k_d_xy, self.tau_att_x, self.tau_att_y, self.tau_att_z, self.tau_p, self.tau_q, self.tau_r)
@@ -615,11 +615,11 @@ class Ui(QtWidgets.QMainWindow):
         self.ui.tau_att_z.setText(str(data._tau_att_z))
         self.ui.tau_att_z_slider.setValue(int(10 * data._tau_att_z))
         self.ui.tau_p.setText(str(data._tau_p))
-        self.ui.tau_p_slider.setValue(int(10 * data._tau_p))
+        self.ui.tau_p_slider.setValue(int(1000 * data._tau_p))
         self.ui.tau_q.setText(str(data._tau_q))
-        self.ui.tau_q_slider.setValue(int(10 * data._tau_q))
+        self.ui.tau_q_slider.setValue(int(1000 * data._tau_q))
         self.ui.tau_r.setText(str(data._tau_r))
-        self.ui.tau_r_slider.setValue(int(10 * data._tau_r))
+        self.ui.tau_r_slider.setValue(int(1000 * data._tau_r))
 
     def closeEvent(self, event):
         self.timer.stop()
