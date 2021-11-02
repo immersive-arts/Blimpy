@@ -140,11 +140,11 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     func updateControls() {
         // prepare values
         let fx = jry * -1 * moveSensitivity
-        let fy = jrx * -1 * moveSensitivity
+        let fy = jlx * -1 * moveSensitivity
         let fz = jly * -1 * moveSensitivity
         var mx = 0.0
         var my = 0.0
-        let mz = jlx * -1 * turnSensitivity
+        let mz = jrx * -1 * turnSensitivity
         
         // use motion if enabled
         if motion {
