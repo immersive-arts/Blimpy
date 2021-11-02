@@ -84,18 +84,6 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>Base Topic</string>
-			<key>Key</key>
-			<string>BaseTopic</string>
-			<key>AutocorrectionType</key>
-			<string>No</string>
-			<key>AutocapitalizationType</key>
-			<string>None</string>
-		</dict>
 	</array>
 </dict>
 </plist>

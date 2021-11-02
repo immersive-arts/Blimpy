@@ -11,7 +11,8 @@ import CocoaMQTT
 import CDJoystick
 import CoreMotion
 
-class ViewController: UIViewController, CocoaMQTTDelegate {
+class ViewController: UIViewController, CocoaMQTTDelegate, UITableViewDataSource, UITableViewDelegate {
+    var baseTopics: Set<String> = []
     var baseTopic = ""
     
     var manager: CMMotionManager = CMMotionManager()
@@ -31,6 +32,8 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     var turnSensitivity: Double = 0.5
     
     var lastSpeeds: Array<Double> = [0, 0, 0, 0, 0, 0]
+    
+    @IBOutlet weak var table: UITableView!
     
     @IBOutlet weak var battery: UIProgressView!
     @IBOutlet weak var wifi: UIProgressView!
@@ -208,7 +211,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     func mqtt(_ mqtt: CocoaMQTT, didConnectAck ack: CocoaMQTTConnAck) {
         if ack == .accept {
             status.backgroundColor = UIColor.green
-            client?.subscribe(baseTopic + "/#", qos: .qos0)
+            client?.subscribe("#", qos: .qos0)
         }
     }
     
@@ -216,7 +219,19 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
         // get data
         let data = String(data: Data(message.payload), encoding: .utf8)
         
-        // check for hearbeat
+        // check generic heartbeat
+        if message.topic.hasSuffix("/naos/heartbeat") {
+            // get base topic
+            let bt = String(message.topic[..<message.topic.index(message.topic.endIndex, offsetBy: -15)])
+            
+            // add and reload table
+            if !baseTopics.contains(bt) {
+                baseTopics.insert(bt)
+                table.reloadData()
+            }
+        }
+        
+        // check exact hearbeat
         if message.topic == baseTopic + "/naos/heartbeat" {
             // get info
             let info = data?.split(separator: ",")
@@ -241,7 +256,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
             wifiLabel.text = String(format: "WIFI %.0f%%", ss)
         }
         
-        // check for battery
+        // check exact battery
         if message.topic == baseTopic + "/battery" {
             // get info
             let info = data?.split(separator: ",")
@@ -268,5 +283,29 @@ class ViewController: UIViewController, CocoaMQTTDelegate {
     
     func mqttDidDisconnect(_ mqtt: CocoaMQTT, withError err: Error?) {
         status.backgroundColor = UIColor.red
+    }
+    
+    /* UITableViewDataSource */
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return baseTopics.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // get celel
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DroneCell", for: indexPath)
+
+        // set label text
+        cell.textLabel!.text = baseTopics[baseTopics.index(baseTopics.startIndex, offsetBy: indexPath.row)]
+
+        return cell
+    }
+    
+    
+    /* UITableViewDelegate */
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // set base topic
+        baseTopic = baseTopics[baseTopics.index(baseTopics.startIndex, offsetBy: indexPath.row)]
     }
 }

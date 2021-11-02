@@ -5,6 +5,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -134,6 +135,36 @@
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="gvZ-se-Jk2">
+                                <rect key="frame" x="392" y="216" width="240" height="113"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="hDO-QA-DZh"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DroneCell" textLabel="8Zo-Ne-nAt" style="IBUITableViewCellStyleDefault" id="vcN-KQ-yPG">
+                                        <rect key="frame" x="16" y="49.5" width="208" height="43.5"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="vcN-KQ-yPG" id="kF9-dA-Mck">
+                                            <rect key="frame" x="0.0" y="0.0" width="208" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8Zo-Ne-nAt">
+                                                    <rect key="frame" x="16" y="0.0" width="176" height="43.5"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="0.0"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="ikU-Ql-cAC"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="wmC-AL-3YH"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -158,11 +189,14 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="CaR-ui-RLR" secondAttribute="trailing" constant="50" id="lcF-Hf-hB4"/>
                             <constraint firstItem="Xcq-NQ-fxz" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="m0D-Ca-5v5"/>
                             <constraint firstItem="LBI-9v-ROU" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="mS7-5y-ueT"/>
+                            <constraint firstItem="LI1-WV-q8m" firstAttribute="top" secondItem="gvZ-se-Jk2" secondAttribute="bottom" constant="100" id="mrs-rI-4cO"/>
+                            <constraint firstItem="gvZ-se-Jk2" firstAttribute="top" secondItem="Gu7-rc-wQb" secondAttribute="bottom" constant="95" id="ocS-vt-zif"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="xjz-Jp-TU8" secondAttribute="bottom" constant="20" id="ox6-sn-Ylr"/>
                             <constraint firstItem="hbO-0M-awH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="qFq-ud-XOa"/>
                             <constraint firstItem="xjz-Jp-TU8" firstAttribute="leading" secondItem="DhB-tZ-aPr" secondAttribute="leading" id="rwE-Pg-5wa"/>
                             <constraint firstItem="qYG-I8-TJi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="teG-El-BTc"/>
                             <constraint firstItem="xjz-Jp-TU8" firstAttribute="top" secondItem="DhB-tZ-aPr" secondAttribute="bottom" constant="8" id="uqg-X5-e9J"/>
+                            <constraint firstItem="gvZ-se-Jk2" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="v7k-7q-cw1"/>
                             <constraint firstItem="0ft-dl-Umt" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="vZc-Q9-cIi"/>
                             <constraint firstItem="xjz-Jp-TU8" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="55" id="y2W-E0-aJG"/>
                             <constraint firstItem="0ft-dl-Umt" firstAttribute="top" secondItem="hbO-0M-awH" secondAttribute="bottom" constant="25" id="zP8-m6-EfE"/>
@@ -173,6 +207,7 @@
                         <outlet property="batteryLabel" destination="DhB-tZ-aPr" id="AGz-Ku-YsT"/>
                         <outlet property="status" destination="Xcq-NQ-fxz" id="Tg2-AC-APC"/>
                         <outlet property="systemLabel" destination="LBI-9v-ROU" id="kbx-4g-jU6"/>
+                        <outlet property="table" destination="gvZ-se-Jk2" id="swJ-4y-gZE"/>
                         <outlet property="wifi" destination="6sR-fy-Unf" id="9WO-hs-3YR"/>
                         <outlet property="wifiLabel" destination="GeA-O7-hUi" id="sYY-M1-4ZA"/>
                     </connections>
@@ -185,6 +220,9 @@
     <resources>
         <systemColor name="lightTextColor">
             <color white="1" alpha="0.59999999999999998" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>
