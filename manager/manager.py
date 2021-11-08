@@ -142,9 +142,9 @@ class Device:
     
     state = State.unavailable
     
-    J = np.array([[0.024, 0.0, 0.005],
+    J = np.array([[0.024, 0.0, 0.000],
                   [0.0, 0.039, 0.0],
-                  [0.005, 0.0, 0.032]])
+                  [0.00, 0.0, 0.032]])
 
     def __init__(self, dt, client, manager_base_topic, device_base_topic, device_type, device_name, tracking_id):
 
@@ -398,6 +398,9 @@ class Device:
         self.tau_att_x = parseFloat('tau_att_x', command)
         self.tau_att_y = parseFloat('tau_att_y', command)
         self.tau_att_z = parseFloat('tau_att_z', command)
+        self.roll_ref = parseFloat('roll_ref', command) * np.pi
+        self.pitch_ref = parseFloat('pitch_ref', command) * np.pi
+        self.yaw_ref = parseFloat('yaw_ref', command) * np.pi
 
     def model(self, client, userdata, msg):
         del client, userdata
@@ -466,8 +469,8 @@ class Device:
             self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/state', command, 0, False)
             command = "x=%f y=%f z=%f vx=%f vy=%f vz=%f " % (self.x, self.y, self.z, self.vx, self.vy, self.vz)
             command = command + "x_ref=%f y_ref=%f z_ref=%f vx_ref=%f vy_ref=%f vz_ref=%f " % (self.x_ref, self.y_ref, self.z_ref, self.vx_ref, self.vy_ref, self.vz_ref)
-            command = command + "roll=%f pitch=%f yaw=%f p=%f q=%f r=%f " % (self.roll, self.pitch, self.yaw, self.p, self.q, self.r)
-            command = command + "roll_ref=%f pitch_ref=%f yaw_ref=%f p_ref=%f q_ref=%f r_ref=%f " % (self.roll_ref, self.pitch_ref, self.yaw_ref, self.p_ref, self.q_ref, self.r_ref)
+            command = command + "qw=%f qx=%f qy=%f qz=%f p=%f q=%f r=%f " % (self.attitude.w, self.attitude.x, self.attitude.y, self.attitude.z, self.p, self.q, self.r)
+            command = command + "qw_ref=%f qx_ref=%f qy_ref=%f qz_ref=%f p_ref=%f q_ref=%f r_ref=%f " % (self.attitude_ref.w, self.attitude_ref.x, self.attitude_ref.y, self.attitude_ref.z, self.p_ref, self.q_ref, self.r_ref)
             command = command + "fx=%f fy=%f fz=%f mx=%f my=%f mz=%f " % (self.fx, self.fy, self.fz, self.mx, self.my, self.mz)
             command = command + "m1=%f m2=%f m3=%f m4=%f m5=%f m6=%f " % (self.m1, self.m2, self.m3, self.m4, self.m5, self.m6)
             command = command + "missed_ticks=%d state=%s queue_size=%d " % (self.missed_ticks, self.state.name, self.command_queue.qsize())
@@ -504,9 +507,9 @@ class Device:
         self.vx_ref = vx_ref
         self.vy_ref = vy_ref
         self.vz_ref = vz_ref
-        self.roll_ref = roll_ref
-        self.pitch_ref = pitch_ref
-        self.yaw_ref = yaw_ref
+        #self.roll_ref = roll_ref
+        #self.pitch_ref = pitch_ref
+        #self.yaw_ref = yaw_ref
         self.p_ref = p_ref
         self.q_ref = q_ref
         self.r_ref = r_ref
@@ -560,7 +563,10 @@ class Device:
         q_Z = Quaternion(axis= [0.0, 0.0, 1.0], radians=self.yaw_ref)
 
         self.attitude_ref = q_Z * q_Y * q_X
-        attitude_err = self.attitude_ref * self.attitude.inverse
+        attitude_err = self.attitude.inverse * self.attitude_ref
+
+        if attitude_err.w < 0:
+            attitude_err = -attitude_err
         
         omega_cmd = 2 * np.sign(attitude_err.w) * np.array([attitude_err.x, attitude_err.y, attitude_err.z])
         omega_cmd[0] = omega_cmd[0] / self.tau_att_x

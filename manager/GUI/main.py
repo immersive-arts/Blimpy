@@ -38,9 +38,10 @@ class Container():
         self._vx = deque([], maxlen=L)
         self._vy = deque([], maxlen=L)
         self._vz = deque([], maxlen=L)
-        self._roll = deque([], maxlen=L)
-        self._pitch = deque([], maxlen=L)
-        self._yaw = deque([], maxlen=L)
+        self._qw = deque([], maxlen=L)
+        self._qx = deque([], maxlen=L)
+        self._qy = deque([], maxlen=L)
+        self._qz = deque([], maxlen=L)
         self._p = deque([], maxlen=L)
         self._q = deque([], maxlen=L)
         self._r = deque([], maxlen=L)
@@ -50,9 +51,10 @@ class Container():
         self._vx_ref = deque([], maxlen=L)
         self._vy_ref = deque([], maxlen=L)
         self._vz_ref = deque([], maxlen=L)
-        self._roll_ref = deque([], maxlen=L)
-        self._pitch_ref = deque([], maxlen=L)
-        self._yaw_ref = deque([], maxlen=L)
+        self._qw_ref = deque([], maxlen=L)
+        self._qx_ref = deque([], maxlen=L)
+        self._qy_ref = deque([], maxlen=L)
+        self._qz_ref = deque([], maxlen=L)
         self._p_ref = deque([], maxlen=L)
         self._q_ref = deque([], maxlen=L)
         self._r_ref = deque([], maxlen=L)
@@ -120,9 +122,10 @@ class BlimpData():
             vx = parseFloat('vx', message)
             vy = parseFloat('vy', message)
             vz = parseFloat('vz', message)
-            roll = parseFloat('roll', message)
-            pitch = parseFloat('pitch', message)
-            yaw = parseFloat('yaw', message)
+            qw = parseFloat('qw', message)
+            qx = parseFloat('qx', message)
+            qy = parseFloat('qy', message)
+            qz = parseFloat('qz', message)
             p = parseFloat('p', message)
             q = parseFloat('q', message)
             r = parseFloat('r', message)
@@ -133,9 +136,10 @@ class BlimpData():
             vx_ref = parseFloat('vx_ref', message)
             vy_ref = parseFloat('vy_ref', message)
             vz_ref = parseFloat('vz_ref', message)
-            roll_ref = parseFloat('roll_ref', message)
-            pitch_ref = parseFloat('pitch_ref', message)
-            yaw_ref = parseFloat('yaw_ref', message)
+            qw_ref = parseFloat('qw_ref', message)
+            qx_ref = parseFloat('qx_ref', message)
+            qy_ref = parseFloat('qy_ref', message)
+            qz_ref = parseFloat('qz_ref', message)
             p_ref = parseFloat('p_ref', message)
             q_ref = parseFloat('q_ref', message)
             r_ref = parseFloat('r_ref', message)
@@ -160,9 +164,10 @@ class BlimpData():
             self._container._vx.append(vx)
             self._container._vy.append(vy)
             self._container._vz.append(vz)
-            self._container._roll.append(roll * 180 / np.pi)
-            self._container._pitch.append(pitch * 180 / np.pi)
-            self._container._yaw.append(yaw * 180 / np.pi)
+            self._container._qw.append(qw)
+            self._container._qx.append(qx)
+            self._container._qy.append(qy)
+            self._container._qz.append(qz)
             self._container._p.append(p * 180 / np.pi)
             self._container._q.append(q * 180 / np.pi)
             self._container._r.append(r * 180 / np.pi)
@@ -172,9 +177,10 @@ class BlimpData():
             self._container._vx_ref.append(vx_ref)
             self._container._vy_ref.append(vy_ref)
             self._container._vz_ref.append(vz_ref)
-            self._container._roll_ref.append(roll_ref * 180 / np.pi)
-            self._container._pitch_ref.append(pitch_ref * 180 / np.pi)
-            self._container._yaw_ref.append(yaw_ref * 180 / np.pi)
+            self._container._qw_ref.append(qw_ref)
+            self._container._qx_ref.append(qx_ref)
+            self._container._qy_ref.append(qy_ref)
+            self._container._qz_ref.append(qz_ref)
             self._container._p_ref.append(p_ref * 180 / np.pi)
             self._container._q_ref.append(q_ref * 180 / np.pi)
             self._container._r_ref.append(r_ref * 180 / np.pi)
@@ -310,31 +316,39 @@ class Ui(QtWidgets.QMainWindow):
 
         self.plotDataItem_fz = generatePlot(self.plotItem_fz, LINE, (204, 0, 0), SIZE)
 
-        self.plotItem_roll = self.ui.attitudeView.addPlot(row = 0, col = 0)
-        self.plotItem_roll.setLabel('left', 'Roll', '°')
-        self.plotItem_roll.setLabel('bottom', 'Time', 's')
-        self.plotItem_roll.setXRange(-70, 0)
+        self.plotItem_qw = self.ui.attitudeView.addPlot(row = 0, col = 0)
+        self.plotItem_qw.setLabel('left', 'qw', '-')
+        self.plotItem_qw.setLabel('bottom', 'Time', 's')
+        self.plotItem_qw.setXRange(-70, 0)
 
-        self.plotDataItem_roll = generatePlot(self.plotItem_roll, LINE, (204, 0, 0), SIZE)
-        self.plotDataItem_roll_ref = generatePlot(self.plotItem_roll, LINE, (11, 220, 13), SIZE)
+        self.plotDataItem_qw = generatePlot(self.plotItem_qw, LINE, (204, 0, 0), SIZE)
+        self.plotDataItem_qw_ref = generatePlot(self.plotItem_qw, LINE, (11, 220, 13), SIZE)
 
-        self.plotItem_pitch = self.ui.attitudeView.addPlot(row = 1, col = 0)
-        self.plotItem_pitch.setLabel('left', 'Pitch', '°')
-        self.plotItem_pitch.setLabel('bottom', 'Time', 's')
-        self.plotItem_pitch.setXRange(-70, 0)
+        self.plotItem_qx = self.ui.attitudeView.addPlot(row = 1, col = 0)
+        self.plotItem_qx.setLabel('left', 'qx', '-')
+        self.plotItem_qx.setLabel('bottom', 'Time', 's')
+        self.plotItem_qx.setXRange(-70, 0)
 
-        self.plotDataItem_pitch = generatePlot(self.plotItem_pitch, LINE, (204, 0, 0), SIZE)
-        self.plotDataItem_pitch_ref = generatePlot(self.plotItem_pitch, LINE, (11, 220, 13), SIZE)
+        self.plotDataItem_qx = generatePlot(self.plotItem_qx, LINE, (204, 0, 0), SIZE)
+        self.plotDataItem_qx_ref = generatePlot(self.plotItem_qx, LINE, (11, 220, 13), SIZE)
+
+        self.plotItem_qy = self.ui.attitudeView.addPlot(row = 2, col = 0)
+        self.plotItem_qy.setLabel('left', 'qy', '-')
+        self.plotItem_qy.setLabel('bottom', 'Time', 's')
+        self.plotItem_qy.setXRange(-70, 0)
+
+        self.plotDataItem_qy = generatePlot(self.plotItem_qy, LINE, (204, 0, 0), SIZE)
+        self.plotDataItem_qy_ref = generatePlot(self.plotItem_qy, LINE, (11, 220, 13), SIZE)
         
-        self.plotItem_yaw = self.ui.attitudeView.addPlot(row = 2, col = 0)
-        self.plotItem_yaw.setLabel('left', 'Yaw', '°')
-        self.plotItem_yaw.setLabel('bottom', 'Time', 's')
-        self.plotItem_yaw.setXRange(-70, 0)
+        self.plotItem_qz = self.ui.attitudeView.addPlot(row = 3, col = 0)
+        self.plotItem_qz.setLabel('left', 'qz', '-')
+        self.plotItem_qz.setLabel('bottom', 'Time', 's')
+        self.plotItem_qz.setXRange(-70, 0)
 
-        self.plotDataItem_yaw = generatePlot(self.plotItem_yaw, LINE, (204, 0, 0), SIZE)
-        self.plotDataItem_yaw_ref = generatePlot(self.plotItem_yaw, LINE, (11, 220, 13), SIZE)
+        self.plotDataItem_qz = generatePlot(self.plotItem_qz, LINE, (204, 0, 0), SIZE)
+        self.plotDataItem_qz_ref = generatePlot(self.plotItem_qz, LINE, (11, 220, 13), SIZE)
 
-        self.plotItem_p = self.ui.attitudeView.addPlot(row = 0, col = 1)
+        self.plotItem_p = self.ui.attitudeView.addPlot(row = 1, col = 1)
         self.plotItem_p.setLabel('left', 'p', '°/s')
         self.plotItem_p.setLabel('bottom', 'Time', 's')
         self.plotItem_p.setXRange(-70, 0)
@@ -342,7 +356,7 @@ class Ui(QtWidgets.QMainWindow):
         self.plotDataItem_p = generatePlot(self.plotItem_p, LINE, (204, 0, 0), SIZE)
         self.plotDataItem_p_ref = generatePlot(self.plotItem_p, LINE, (11, 220, 13), SIZE)
 
-        self.plotItem_q = self.ui.attitudeView.addPlot(row = 1, col = 1)
+        self.plotItem_q = self.ui.attitudeView.addPlot(row = 2, col = 1)
         self.plotItem_q.setLabel('left', 'q', '°/s')
         self.plotItem_q.setLabel('bottom', 'Time', 's')
         self.plotItem_q.setXRange(-70, 0)
@@ -350,7 +364,7 @@ class Ui(QtWidgets.QMainWindow):
         self.plotDataItem_q = generatePlot(self.plotItem_q, LINE, (204, 0, 0), SIZE)
         self.plotDataItem_q_ref = generatePlot(self.plotItem_q, LINE, (11, 220, 13), SIZE)
 
-        self.plotItem_r = self.ui.attitudeView.addPlot(row = 2, col = 1)
+        self.plotItem_r = self.ui.attitudeView.addPlot(row = 3, col = 1)
         self.plotItem_r.setLabel('left', 'r', '°/s')
         self.plotItem_r.setLabel('bottom', 'Time', 's')
         self.plotItem_r.setXRange(-70, 0)
@@ -358,21 +372,21 @@ class Ui(QtWidgets.QMainWindow):
         self.plotDataItem_r = generatePlot(self.plotItem_r, LINE, (204, 0, 0), SIZE)
         self.plotDataItem_r_ref = generatePlot(self.plotItem_r, LINE, (11, 220, 13), SIZE)
 
-        self.plotItem_mx = self.ui.attitudeView.addPlot(row = 0, col = 2)
+        self.plotItem_mx = self.ui.attitudeView.addPlot(row = 1, col = 2)
         self.plotItem_mx.setLabel('left', 'Mx', '-')
         self.plotItem_mx.setLabel('bottom', 'Time', 's')
         self.plotItem_mx.setXRange(-70, 0)
 
         self.plotDataItem_mx = generatePlot(self.plotItem_mx, LINE, (204, 0, 0), SIZE)
 
-        self.plotItem_my = self.ui.attitudeView.addPlot(row = 1, col = 2)
+        self.plotItem_my = self.ui.attitudeView.addPlot(row = 2, col = 2)
         self.plotItem_my.setLabel('left', 'My', '-')
         self.plotItem_my.setLabel('bottom', 'Time', 's')
         self.plotItem_my.setXRange(-70, 0)
 
         self.plotDataItem_my = generatePlot(self.plotItem_my, LINE, (204, 0, 0), SIZE)
 
-        self.plotItem_mz = self.ui.attitudeView.addPlot(row = 2, col = 2)
+        self.plotItem_mz = self.ui.attitudeView.addPlot(row = 3, col = 2)
         self.plotItem_mz.setLabel('left', 'Mz', '-')
         self.plotItem_mz.setLabel('bottom', 'Time', 's')
         self.plotItem_mz.setXRange(-70, 0)
@@ -437,6 +451,9 @@ class Ui(QtWidgets.QMainWindow):
         self.ui.tau_p_slider.valueChanged.connect(lambda: self.sliderChanged('tau_p'))
         self.ui.tau_q_slider.valueChanged.connect(lambda: self.sliderChanged('tau_q'))
         self.ui.tau_r_slider.valueChanged.connect(lambda: self.sliderChanged('tau_r'))
+        self.ui.q_roll_slider.valueChanged.connect(lambda: self.sliderChanged('roll'))
+        self.ui.q_pitch_slider.valueChanged.connect(lambda: self.sliderChanged('pitch'))
+        self.ui.q_yaw_slider.valueChanged.connect(lambda: self.sliderChanged('yaw'))
 
         self.k_p_xy = 0.0
         self.k_d_xy = 0.0
@@ -449,6 +466,9 @@ class Ui(QtWidgets.QMainWindow):
         self.tau_p = 0.0
         self.tau_q = 0.0
         self.tau_r = 0.0
+        self.roll_ref = 0.0
+        self.pitch_ref = 0.0
+        self.yaw_ref = 0.0
 
     def sliderChanged(self, slider):
         if slider == 'hor_pos':
@@ -473,9 +493,17 @@ class Ui(QtWidgets.QMainWindow):
             self.tau_q = self.ui.tau_q_slider.value()/1000
         if slider == 'tau_r':
             self.tau_r = self.ui.tau_r_slider.value()/1000
+        if slider == 'roll':
+            self.roll_ref = self.ui.q_roll_slider.value()/10
+        if slider == 'pitch':
+            self.pitch_ref = self.ui.q_pitch_slider.value()/10
+        if slider == 'yaw':
+            self.yaw_ref = self.ui.q_yaw_slider.value()/10
 
-        command = "k_p_z=%f k_d_z=%f k_i_z=%f k_p_xy=%f k_d_xy=%f tau_att_x=%f tau_att_y=%f tau_att_z=%f tau_p=%f tau_q=%f tau_r=%f" \
+        command = "k_p_z=%f k_d_z=%f k_i_z=%f k_p_xy=%f k_d_xy=%f tau_att_x=%f tau_att_y=%f tau_att_z=%f tau_p=%f tau_q=%f tau_r=%f " \
                 % (self.k_p_z, self.k_d_z, self.k_i_z, self.k_p_xy, self.k_d_xy, self.tau_att_x, self.tau_att_y, self.tau_att_z, self.tau_p, self.tau_q, self.tau_r)
+        command = command + "roll_ref=%f pitch_ref=%f yaw_ref=%f" % (self.roll_ref, self.pitch_ref, self.yaw_ref)
+
         self.client.publish('manager/blimps/' + self.active_blimp +'/config', command, 0, False)
                         
     def addPushButton(self, identifier):
@@ -561,9 +589,10 @@ class Ui(QtWidgets.QMainWindow):
                     self.plotDataItem_vx.setData(time_relative, data._vx)
                     self.plotDataItem_vy.setData(time_relative, data._vy)
                     self.plotDataItem_vz.setData(time_relative, data._vz)
-                    self.plotDataItem_roll.setData(time_relative, data._roll)
-                    self.plotDataItem_pitch.setData(time_relative, data._pitch)
-                    self.plotDataItem_yaw.setData(time_relative, data._yaw)
+                    self.plotDataItem_qw.setData(time_relative, data._qw)
+                    self.plotDataItem_qx.setData(time_relative, data._qx)
+                    self.plotDataItem_qy.setData(time_relative, data._qy)
+                    self.plotDataItem_qz.setData(time_relative, data._qz)
                     self.plotDataItem_p.setData(time_relative, data._p)
                     self.plotDataItem_q.setData(time_relative, data._q)
                     self.plotDataItem_r.setData(time_relative, data._r)
@@ -573,9 +602,10 @@ class Ui(QtWidgets.QMainWindow):
                     self.plotDataItem_vx_ref.setData(time_relative, data._vx_ref)
                     self.plotDataItem_vy_ref.setData(time_relative, data._vy_ref)
                     self.plotDataItem_vz_ref.setData(time_relative, data._vz_ref)
-                    self.plotDataItem_roll_ref.setData(time_relative, data._roll_ref)
-                    self.plotDataItem_pitch_ref.setData(time_relative, data._pitch_ref)
-                    self.plotDataItem_yaw_ref.setData(time_relative, data._yaw_ref)
+                    self.plotDataItem_qw_ref.setData(time_relative, data._qw_ref)
+                    self.plotDataItem_qx_ref.setData(time_relative, data._qx_ref)
+                    self.plotDataItem_qy_ref.setData(time_relative, data._qy_ref)
+                    self.plotDataItem_qz_ref.setData(time_relative, data._qz_ref)
                     self.plotDataItem_p_ref.setData(time_relative, data._p_ref)
                     self.plotDataItem_q_ref.setData(time_relative, data._q_ref)
                     self.plotDataItem_r_ref.setData(time_relative, data._r_ref)
