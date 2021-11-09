@@ -322,7 +322,7 @@ class Device:
                     except queue.Full:
                         print(self.device_name, "Error: command queue full")
 
-                command = 'hold x=%f y=%f z=%f alpha=%f state=hold' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, (a[i] + self.yaw + np.pi) % (2 * np.pi) - np.pi)
+                command = 'hold x=%f y=%f z=%f alpha=%f state=hold' % (x[-1] + self.x, y[-1] + self.y, z[-1] + self.z, (a[-1] + self.yaw + np.pi) % (2 * np.pi) - np.pi)
                 try:
                     self.command_queue.put_nowait(command)
                 except queue.Full:
