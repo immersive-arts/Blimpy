@@ -23,7 +23,7 @@ def signal_handler(sig, frame):
 sig.signal(sig.SIGINT, signal_handler)
 
 def parseFloat(key, message):
-    ms = re.search(key + "=[-+]?\d*\.\d+", message)
+    ms = re.search(key + "=[-+]?\d*\.\d+" + "|" + key + "=[-+]?\d+", message)
     if ms is None:
         return
     else:
