@@ -60,11 +60,10 @@ class State(Enum):
     unavailable = 0
     untracked = 1
     ready = 2
-    move = 3
-    park = 4
-    hold = 5
-    freeze = 6
-    unmanaged = 7
+    moving = 3
+    parking = 4
+    holding = 5
+    unmanaged = 6
 
 class Device:
     t0 = 0
@@ -236,7 +235,7 @@ class Device:
 
             if command.split()[0]  == 'freeze':
                 self.clear_commands()
-                command = 'hold x=%f y=%f z=%f alpha=%f state=freeze' % (self.x, self.y, self.z, self.yaw)
+                command = 'hold x=%f y=%f z=%f alpha=%f' % (self.x, self.y, self.z, self.yaw)
                 try:
                     self.command_queue.put_nowait(command)
                 except queue.Full:
@@ -292,13 +291,13 @@ class Device:
                 t, a, _ = self.compute_min_jerk(distance, tf)
 
                 for i in range(len(t)):
-                    command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f state=park' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.yaw + np.pi) % (2 * np.pi) - np.pi)
+                    command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f state=parking' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.yaw + np.pi) % (2 * np.pi) - np.pi)
                     try:
                         self.command_queue.put_nowait(command)
                     except queue.Full:
                         print(self.device_name, "Error: command queue full")
 
-                command = 'hold x=%f y=%f z=%f alpha=%f state=hold' % (x[-1] + self.x, y[-1] + self.y, z[-1] + self.z, (a[-1] + self.yaw + np.pi) % (2 * np.pi) - np.pi)
+                command = 'hold x=%f y=%f z=%f alpha=%f' % (x[-1] + self.x, y[-1] + self.y, z[-1] + self.z, (a[-1] + self.yaw + np.pi) % (2 * np.pi) - np.pi)
                 try:
                     self.command_queue.put_nowait(command)
                 except queue.Full:
@@ -335,10 +334,10 @@ class Device:
             self.set_reference(x_ref, y_ref, z_ref, vx_ref, vy_ref, vz_ref, roll_ref, pitch_ref, yaw_ref)
 
             state = parseString('state', command)
-            if state == State.park.name:
-                return State.park
+            if state == State.parking.name:
+                return State.parking
             else:
-                return State.move
+                return State.moving
 
         if command.split()[0]  == 'hold':
             x_ref = parseFloat('x', command)
@@ -353,11 +352,7 @@ class Device:
             except queue.Full:
                 print(self.device_name, "Error: command queue full")
 
-            state = parseString('state', command)
-            if state == State.freeze.name:
-                return State.freeze
-            else:
-                return State.hold
+            return State.holding
 
     def stack(self, client, userdata, msg):
         del client, userdata
