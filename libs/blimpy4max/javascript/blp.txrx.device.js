@@ -25,14 +25,18 @@ var API_state 		= "/state"; 	// state command sent from the manager
 var API_clear 		= "/clear"; 	// clear command sent to the manager
 var API_config      = "/config";    // config command sent to the manager
 var API_stack 		= "/stack"; 	// stack command sent to the manager
-var API_stack_ready 		= "ready";
-var API_stack_hold 			= "hold";
 var API_stack_freeze 		= "freeze";
 var API_stack_park 			= "park";
 var API_stack_move 			= "move";
-var API_stack_untracked 	= "untracked";
-var API_stack_unmanaged 	= "unmanaged";
-var API_stack_unavailable 	= "unavailable";
+var API_stack_release 		= "release";
+
+var API_status_unmanaged 	= "unmanaged";
+var API_status_unavailable 	= "unavailable";
+var API_status_untracked 	= "untracked";
+var API_status_ready 		= "ready";
+var API_status_holding 		= "holding";
+var API_status_parking 		= "parking";
+var API_status_moving 		= "moving";
 
 
 // device setup
@@ -107,30 +111,30 @@ function connected(_connected){
 function state(_state){
     //post("state: " + _state + " \n");
     if(myState !== _state){
-        if(_state === API_stack_untracked){
-            myState = API_stack_untracked;
+        if(_state === API_status_unavailable){
+            myState = API_status_unavailable;
+        }
+        else if(_state === API_status_untracked){
+            myState = API_status_untracked;
         } else {
             // if we receive these messages, then
             myManaged = true;
 
-            if(_state === API_stack_ready){
+            if(_state === API_status_ready){
                 if(flg_waitingForReady){
                     publish(my_topic_DeviceConfig, my_config_payload);
                     flg_waitingForReady = false;
                 }
-                myState = API_stack_ready;
+                myState = API_status_ready;
             }
-            else if(_state === API_stack_hold){
-                myState = API_stack_hold;
+            else if(_state === API_status_holding){
+                myState = API_status_holding;
             }
-            else if(_state === API_stack_freeze){
-                myState = API_stack_freeze;
+            else if(_state === API_status_parking){
+                myState = API_status_parking;
             }
-            else if(_state === API_stack_park){
-                myState = API_stack_park;
-            }
-            else if(_state === API_stack_move){
-                myState = API_stack_move;
+            else if(_state === API_status_moving){
+                myState = API_status_moving;
             }        
         }
         flg_guiChange = true;
@@ -146,15 +150,18 @@ function command(_cmd, _device){
 		if(_cmd == API_stack_park){
             outlet(OUTID_CONTROL, API_stack_park);
 		}
-		if(_cmd == "hot"){
-            outlet(OUTID_CONTROL, "hot");
+		if(_cmd == API_stack_move){
+            outlet(OUTID_CONTROL, API_stack_move);
+		}
+		if(_cmd == API_stack_release){
+            outlet(OUTID_CONTROL, API_stack_release);
 		}
 		if(_cmd == "addDevice"){
             addDevice(_device);
 		}
 		if(_cmd == "removeDevice"){
             removeDevice(_device);
-            outlet(OUTID_CONTROL, API_stack_unmanaged);
+            outlet(OUTID_CONTROL, API_status_unmanaged);
 		}
 	}
 }
@@ -201,7 +208,7 @@ function removeDevice(_deviceName){
                     publish(my_topic_RemoveDevice, payload);
                     myManaged = false;
                     flg_guiChange = true;
-					myState = API_stack_unmanaged;
+					myState = API_status_unmanaged;
                     update();
                 }
             } else {
@@ -222,6 +229,7 @@ function msg_int(v)
 
 function enable(_enabled){
 	myEnable = (_enabled == 1)?true:false;
+    flg_guiChange = true;
     if(!myEnable){
         unsubscribe(my_topic_DeviceState);
         unsubscribe(my_topic_DeviceFeedback);
@@ -229,12 +237,10 @@ function enable(_enabled){
 
         myHandshaked = false;
         myManaged = false;
-        flg_guiChange = true;
     } else {
         subscribe(my_topic_ManagerHeartbeat);
         subscribe(my_topic_DeviceState);
         subscribe(my_topic_DeviceFeedback);
-
     }
 	update();
 }
@@ -271,8 +277,14 @@ function update(_enforce)
         outlet(OUTID_SETUP, "gui", "managed", myManaged);
         outlet(OUTID_SETUP, "gui", "connected", myConnected);
         outlet(OUTID_SETUP, "gui", "heartbeat", myHandshaked);
+
+        outlet(OUTID_SETUP, "gui", "managed", "hidden", !myEnable);
+        outlet(OUTID_SETUP, "gui", "connected", "hidden", !myEnable);
+        outlet(OUTID_SETUP, "gui", "heartbeat", "hidden", !myEnable);
+        outlet(OUTID_SETUP, "gui", "menu", "hidden", !myEnable);
+        outlet(OUTID_SETUP, "display", "hidden", !myEnable);
         //outlet(OUTID_SETUP, "gui", "config", "hidden", myManaged);
-        outlet(OUTID_SETUP, "gui", "menu_add", "hidden", !myHandshaked);       
+        outlet(OUTID_SETUP, "gui", "menu_add", "hidden", !(myHandshaked * myEnable));       
         
         flg_guiChange = false;
     }

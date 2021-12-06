@@ -53,9 +53,9 @@ void mod_calculate() {
     // normalize forces
     a32_vector_norm(a32_vector_view(motor, 0, 3));
 
-    // calculate torques (mx = -fy * dz + fz * dy), (my = -fx * dz + fz * dx), (mz = -fx * dy + fy * dx)
+    // calculate torques (mx = -fy * dz + fz * dy), (my = fx * dz - fz * dx), (mz = -fx * dy + fy * dx)
     double mx = -motor.values[1] * motor.values[5] + motor.values[2] * motor.values[4];
-    double my = -motor.values[0] * motor.values[5] + motor.values[2] * motor.values[3];
+    double my = motor.values[0] * motor.values[5] - motor.values[2] * motor.values[3];
     double mz = -motor.values[0] * motor.values[4] + motor.values[1] * motor.values[3];
 
     // set torques
