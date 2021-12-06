@@ -4874,7 +4874,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 821.0, 236.0, 712.0, 654.0 ],
+						"rect" : [ 821.0, 236.0, 1029.0, 654.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 1,
 						"default_fontsize" : 12.0,
@@ -4955,29 +4955,6 @@
 							}
 , 							{
 								"box" : 								{
-									"id" : "obj-11",
-									"maxclass" : "newobj",
-									"numinlets" : 1,
-									"numoutlets" : 0,
-									"patching_rect" : [ 348.0, 587.0, 61.0, 22.0 ],
-									"text" : "print state"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-10",
-									"maxclass" : "newobj",
-									"numinlets" : 2,
-									"numoutlets" : 2,
-									"outlettype" : [ "", "" ],
-									"patching_rect" : [ 348.0, 552.0, 60.0, 22.0 ],
-									"text" : "zl.change"
-								}
-
-							}
-, 							{
-								"box" : 								{
 									"id" : "obj-6",
 									"maxclass" : "message",
 									"numinlets" : 2,
@@ -5030,6 +5007,7 @@
 									"dataname" : "",
 									"draggable" : 1,
 									"filename" : "related.svg",
+									"hidden" : 1,
 									"hint" : "configure device. can only be configured when device is NOT managed.",
 									"id" : "obj-40",
 									"ignoreclick" : 1,
@@ -5046,12 +5024,13 @@
 , 							{
 								"box" : 								{
 									"id" : "obj-1",
+									"linecount" : 2,
 									"maxclass" : "newobj",
-									"numinlets" : 6,
-									"numoutlets" : 6,
-									"outlettype" : [ "", "", "", "", "", "" ],
-									"patching_rect" : [ 678.0, 150.0, 297.0, 22.0 ],
-									"text" : "route connected heartbeat managed menu_add config"
+									"numinlets" : 7,
+									"numoutlets" : 7,
+									"outlettype" : [ "", "", "", "", "", "", "" ],
+									"patching_rect" : [ 678.0, 150.0, 323.0, 36.0 ],
+									"text" : "route connected heartbeat managed menu_add config_gui config"
 								}
 
 							}
@@ -5629,7 +5608,7 @@
 						"lines" : [ 							{
 								"patchline" : 								{
 									"destination" : [ "obj-16", 0 ],
-									"source" : [ "obj-1", 4 ]
+									"source" : [ "obj-1", 5 ]
 								}
 
 							}
@@ -5637,6 +5616,13 @@
 								"patchline" : 								{
 									"destination" : [ "obj-19", 0 ],
 									"source" : [ "obj-1", 1 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-40", 0 ],
+									"source" : [ "obj-1", 4 ]
 								}
 
 							}
@@ -5658,13 +5644,6 @@
 								"patchline" : 								{
 									"destination" : [ "obj-67", 0 ],
 									"source" : [ "obj-1", 3 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-11", 0 ],
-									"source" : [ "obj-10", 0 ]
 								}
 
 							}
@@ -6107,14 +6086,6 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-10", 0 ],
-									"order" : 0,
-									"source" : [ "obj-48", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
 									"destination" : [ "obj-23", 0 ],
 									"source" : [ "obj-48", 1 ]
 								}
@@ -6123,7 +6094,6 @@
 , 							{
 								"patchline" : 								{
 									"destination" : [ "obj-27", 0 ],
-									"order" : 1,
 									"source" : [ "obj-48", 0 ]
 								}
 
@@ -6256,16 +6226,7 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-10", 0 ],
-									"order" : 0,
-									"source" : [ "obj-77", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
 									"destination" : [ "obj-58", 0 ],
-									"order" : 1,
 									"source" : [ "obj-77", 0 ]
 								}
 

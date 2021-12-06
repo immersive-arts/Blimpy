@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 2079.0, 217.0, 804.0, 732.0 ],
+		"rect" : [ 2079.0, 217.0, 806.0, 732.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -105,7 +105,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 137.5, 383.5, 56.0, 22.0 ],
+					"patching_rect" : [ 143.833333333333485, 380.5, 56.0, 22.0 ],
 					"text" : "route t01"
 				}
 
@@ -317,7 +317,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 137.5, 411.5, 107.0, 22.0 ],
+					"patching_rect" : [ 143.833333333333485, 411.5, 107.0, 22.0 ],
 					"text" : "prepend transform"
 				}
 
@@ -778,6 +778,7 @@
 											}
 , 											{
 												"box" : 												{
+													"hidden" : 1,
 													"id" : "obj-63",
 													"maxclass" : "message",
 													"numinlets" : 2,
@@ -844,6 +845,7 @@
 												"box" : 												{
 													"autoscroll" : 0,
 													"fontsize" : 14.0,
+													"hidden" : 1,
 													"id" : "obj-45",
 													"keymode" : 1,
 													"lines" : 1,
@@ -899,6 +901,7 @@
 , 											{
 												"box" : 												{
 													"fontface" : 0,
+													"hidden" : 1,
 													"iconbackground" : 4,
 													"iconsize" : 25.0,
 													"iconstyle" : 10,
@@ -938,7 +941,6 @@
 , 											{
 												"box" : 												{
 													"fontface" : 0,
-													"hidden" : 1,
 													"iconbackground" : 4,
 													"iconsize" : 25.0,
 													"iconstyle" : 6,
@@ -966,6 +968,7 @@
 , 											{
 												"box" : 												{
 													"fontface" : 0,
+													"hidden" : 1,
 													"iconbackground" : 4,
 													"iconsize" : 25.0,
 													"iconstyle" : 5,
@@ -1048,7 +1051,7 @@
 													"patching_rect" : [ 561.5, 369.5, 50.0, 22.0 ],
 													"presentation" : 1,
 													"presentation_rect" : [ 116.0, 2.5, 50.0, 22.0 ],
-													"text" : "0:24"
+													"text" : "0:11"
 												}
 
 											}
@@ -2173,7 +2176,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 137.5, 357.0, 111.0, 22.0 ],
+					"patching_rect" : [ 143.833333333333485, 347.0, 111.0, 22.0 ],
 					"text" : "r blenderMessages"
 				}
 

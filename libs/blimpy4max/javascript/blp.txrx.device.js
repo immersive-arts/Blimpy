@@ -282,6 +282,7 @@ function update(_enforce)
         outlet(OUTID_SETUP, "gui", "connected", "hidden", !myEnable);
         outlet(OUTID_SETUP, "gui", "heartbeat", "hidden", !myEnable);
         outlet(OUTID_SETUP, "gui", "menu", "hidden", !myEnable);
+        outlet(OUTID_SETUP, "gui", "config_gui", "hidden", !myEnable);
         outlet(OUTID_SETUP, "display", "hidden", !myEnable);
         //outlet(OUTID_SETUP, "gui", "config", "hidden", myManaged);
         outlet(OUTID_SETUP, "gui", "menu_add", "hidden", !(myHandshaked * myEnable));       
