@@ -331,17 +331,8 @@ class Device:
             yaw_ref = parseFloat('alpha', command)
             if yaw_ref == None:
                 yaw_ref = 0
-            p_ref = parseFloat('p', command)
-            if p_ref == None:
-                p_ref = 0
-            q_ref = parseFloat('q', command)
-            if q_ref == None:
-                q_ref = 0
-            r_ref = parseFloat('r', command)
-            if r_ref == None:
-                r_ref = 0
 
-            self.set_reference(x_ref, y_ref, z_ref, vx_ref, vy_ref, vz_ref, roll_ref, pitch_ref, yaw_ref, p_ref, q_ref, r_ref)
+            self.set_reference(x_ref, y_ref, z_ref, vx_ref, vy_ref, vz_ref, roll_ref, pitch_ref, yaw_ref)
 
             state = parseString('state', command)
             if state == State.park.name:
@@ -355,7 +346,7 @@ class Device:
             z_ref = parseFloat('z', command)
             yaw_ref = parseFloat('alpha', command)
 
-            self.set_reference(x_ref, y_ref, z_ref, 0.0, 0.0, 0.0, 0.0, 0.0, yaw_ref, 0.0, 0.0, 0.0)
+            self.set_reference(x_ref, y_ref, z_ref, 0.0, 0.0, 0.0, 0.0, 0.0, yaw_ref)
 
             try:
                 self.command_queue.put_nowait(command)
@@ -511,7 +502,7 @@ class Device:
         mi = self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/state', command, 0, False)
         mi.wait_for_publish()
 
-    def set_reference(self, x_ref, y_ref, z_ref, vx_ref, vy_ref, vz_ref, roll_ref, pitch_ref, yaw_ref, p_ref, q_ref, r_ref):
+    def set_reference(self, x_ref, y_ref, z_ref, vx_ref, vy_ref, vz_ref, roll_ref, pitch_ref, yaw_ref):
         self.x_ref = x_ref
         self.y_ref = y_ref
         self.z_ref = z_ref
@@ -521,9 +512,6 @@ class Device:
         self.roll_ref = roll_ref
         self.pitch_ref = pitch_ref
         self.yaw_ref = yaw_ref
-        self.p_ref = p_ref
-        self.q_ref = q_ref
-        self.r_ref = r_ref
 
     def turn_off(self):
         command = "0,0,0,0,0,0"
