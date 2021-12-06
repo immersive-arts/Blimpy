@@ -67,7 +67,6 @@ class State(Enum):
     unmanaged = 7
 
 class Device:
-    count = 0
     t0 = 0
     run_thread = False
 
@@ -137,7 +136,7 @@ class Device:
 
     tracked = False
     missed_ticks = 0
-    count = 0
+    loop_count = 0
     empty_count = 0
     
     state = State.unavailable
@@ -146,14 +145,14 @@ class Device:
                   [0.0, 0.039, 0.0],
                   [0.00, 0.0, 0.032]])
 
-    def __init__(self, dt, client, manager_base_topic, device_base_topic, device_type, device_name, tracking_id):
+    def __init__(self, loop_period, client, manager_base_topic, device_base_topic, device_type, device_name, tracking_id):
 
         self.tracking_id = tracking_id
         self.manager_base_topic = manager_base_topic
         self.device_base_topic = device_base_topic
         self.device_type = device_type
         self.device_name = device_name
-        self.dt = dt
+        self.loop_period = loop_period
         self.client = client
         self.client.message_callback_add(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/stack", self.stack)
         self.client.message_callback_add(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/clear", self.clear)
@@ -191,9 +190,9 @@ class Device:
         self.tau_r = data[device_type]['tau_r']
 
         self.velocity_filter_RC = 1/(2*np.pi * 0.1)
-        self.velocity_filter_constant = self.dt / (self.velocity_filter_RC + self.dt)
+        self.velocity_filter_constant = self.loop_period / (self.velocity_filter_RC + self.loop_period)
         self.rate_filter_RC = 1/(2*np.pi * 0.1)
-        self.rate_filter_constant = self.dt / (self.rate_filter_RC + self.dt)
+        self.rate_filter_constant = self.loop_period / (self.rate_filter_RC + self.loop_period)
 
         self.t0 = time.time()
         self.last_heartbeat = self.t0
@@ -488,14 +487,14 @@ class Device:
             self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/feedback', command, 0, False)
 
             t = time.time() - self.t0
-            self.count = self.count + 1
+            self.loop_count = self.loop_count + 1
 
-            if self.count*self.dt - t < 0:
+            if self.loop_count * self.loop_period - t < 0:
                 self.missed_ticks = self.missed_ticks + 1
 
             #print(self.device_name, "State: ", self.state.name, "Missed ticks: ", self.missed_ticks, "Queue size: ", self.command_queue.qsize())
 
-            time.sleep(max(0.0, self.count * dt - t))
+            time.sleep(max(0.0, self.loop_count * self.loop_period - t))
 
         print(self.device_name, "stopped")
 
@@ -539,8 +538,8 @@ class Device:
         # altitude control
         e_z = (self.z_ref - self.z)
 
-        if (np.abs(self.i_e_z + e_z*dt) < self.max_i_e):
-            self.i_e_z = e_z*dt + self.i_e_z
+        if (np.abs(self.i_e_z + e_z * self.loop_period) < self.max_i_e):
+            self.i_e_z = e_z * self.loop_period + self.i_e_z
 
         f_z = e_z * self.k_p_z + (self.vz_ref - self.vz) * self.k_d_z + self.i_e_z * self.k_i_z
         
@@ -666,7 +665,7 @@ class Device:
         a3 = a[0]
         a4 = a[1]
         a5 = a[2]
-        N = tf/self.dt
+        N = tf/self.loop_period
         t = np.linspace(0, tf, int(N))
         x = a3*t**3 + a4*t**4 + a5*t**5
         dx = 3*a3*t**2 + 4*a4*t**3 + 5*a5*t**4
@@ -715,7 +714,7 @@ def add_device(client, userdata, msg):
             return
 
     try:
-        devices.append(Device(dt, client, manager_base_topic, device_base_topic, device_type, device_name, tracking_id))
+        devices.append(Device(device_loop_period, client, manager_base_topic, device_base_topic, device_type, device_name, tracking_id))
     except:
         print("Error: device type unknown")
 
@@ -754,14 +753,14 @@ def main(mqtt_host, mqtt_port, osc_server, osc_port, manager_base_topic):
 
     t0 = time.time()
     count = 1
-    main_dt = 0.001
+    main_loop_period = 0.001
     while run:
         osc_process()
         t = time.time() - t0
         if count % 100 == 0:
             client.publish(manager_base_topic + "/heartbeat")
         count = count + 1
-        time.sleep(max(0, count * main_dt - t))
+        time.sleep(max(0, count * main_loop_period - t))
 
     for device in devices:
         device.stop()
@@ -771,7 +770,7 @@ def main(mqtt_host, mqtt_port, osc_server, osc_port, manager_base_topic):
     print("Exit")
 
 devices = []
-dt = 0.1
+device_loop_period = 0.1
 run = True
 mqtt_host = "localhost"
 mqtt_port = 1883
