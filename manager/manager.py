@@ -95,9 +95,6 @@ class Device:
     vx_ref = 0
     vy_ref = 0
     vz_ref = 0
-    roll_ref = 0
-    pitch_ref = 0
-    yaw_ref = 0
     p_ref = 0
     q_ref = 0
     r_ref = 0
@@ -201,14 +198,6 @@ class Device:
 
         print("%s of type %s started" % (self.device_name, self.device_type))
 
-    def clear_commands(self):
-        while not self.command_queue.empty():
-            try:
-                self.command_queue.get(False)
-            except queue.Empty:
-                continue
-            self.command_queue.task_done()
-
     def add_command(self, multi_command):
         for command in multi_command.split(';'):
             command = command.strip()
@@ -257,18 +246,39 @@ class Device:
                     return
                 zf = zf - self.z
 
-                af = parseFloat('alpha', command)
-                if af == None:
-                    return
-                phi = np.abs(af - self.yaw) % (2 * np.pi)
-                if phi > np.pi:
-                    distance = 2 * np.pi - phi
-                    if self.yaw < af:
-                        distance = -distance
+                q = Quaternion()
+
+                qw = parseFloat('qw', command)
+                qx = parseFloat('qx', command)
+                qy = parseFloat('qy', command)
+                qz = parseFloat('qz', command)
+
+                if qw == None or qx == None or qy == None or qz == None:
+                    yaw_ref = parseFloat('alpha', command)
+                    pitch_ref = parseFloat('beta', command)
+                    roll_ref = parseFloat('gamma', command)
+
+                    if roll_ref == None and pitch_ref == None and yaw_ref == None:
+                        yaw_ref = parseFloat('yaw', command)
+                        pitch_ref = parseFloat('pitch', command)
+                        roll_ref = parseFloat('roll', command)
+
+                    if roll_ref != None or pitch_ref != None or yaw_ref != None:
+                        if roll_ref == None:
+                            roll_ref = 0.0
+                        if pitch_ref == None:
+                            pitch_ref = 0.0
+                        if yaw_ref == None:
+                            yaw_ref = 0.0
+
+                        q_X = Quaternion(axis= [1.0, 0.0, 0.0], radians=roll_ref)
+                        q_Y = Quaternion(axis= [0.0, 1.0, 0.0], radians=pitch_ref)
+                        q_Z = Quaternion(axis= [0.0, 0.0, 1.0], radians=yaw_ref)
+
+                        q = q_Z * q_Y * q_X
+
                 else:
-                    distance = phi
-                    if self.yaw > af:
-                        distance = -distance
+                    q = Quaternion(qw, qx, qy, qz).normalised
 
                 tf = parseFloat('t', command)
                 if tf is None:
@@ -288,16 +298,15 @@ class Device:
                 t, x, dx = self.compute_min_jerk(xf, tf)
                 t, y, dy = self.compute_min_jerk(yf, tf)
                 t, z, dz = self.compute_min_jerk(zf, tf)
-                t, a, _ = self.compute_min_jerk(distance, tf)
 
                 for i in range(len(t)):
-                    command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f alpha=%f state=parking' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], (a[i] + self.yaw + np.pi) % (2 * np.pi) - np.pi)
+                    command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f qw=%f qx=%f qy=%f qz=%f state=parking' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], q.w, q.x, q.y, q.z)
                     try:
                         self.command_queue.put_nowait(command)
                     except queue.Full:
                         print(self.device_name, "Error: command queue full")
 
-                command = 'hold x=%f y=%f z=%f alpha=%f' % (x[-1] + self.x, y[-1] + self.y, z[-1] + self.z, (a[-1] + self.yaw + np.pi) % (2 * np.pi) - np.pi)
+                command = 'hold x=%f y=%f z=%f qw=%f qx=%f qy=%f qz=%f' % (x[-1] + self.x, y[-1] + self.y, z[-1] + self.z, q.w, q.x, q.y, q.z)
                 try:
                     self.command_queue.put_nowait(command)
                 except queue.Full:
@@ -321,17 +330,41 @@ class Device:
             if vz_ref == None:
                 vz_ref = self.vz_ref + self.velocity_filter_constant * ((z_ref - self.z_ref)/self.loop_period - self.vz_ref)
 
-            roll_ref = parseFloat('gamma', command)
-            if roll_ref == None:
-                roll_ref = 0
-            pitch_ref = parseFloat('beta', command)
-            if pitch_ref == None:
-                pitch_ref = 0
-            yaw_ref = parseFloat('alpha', command)
-            if yaw_ref == None:
-                yaw_ref = 0
+            attitude_ref = Quaternion()
 
-            self.set_reference(x_ref, y_ref, z_ref, vx_ref, vy_ref, vz_ref, roll_ref, pitch_ref, yaw_ref)
+            qw = parseFloat('qw', command)
+            qx = parseFloat('qx', command)
+            qy = parseFloat('qy', command)
+            qz = parseFloat('qz', command)
+
+            if qw == None or qx == None or qy == None or qz == None:
+                yaw_ref = parseFloat('alpha', command)
+                pitch_ref = parseFloat('beta', command)
+                roll_ref = parseFloat('gamma', command)
+
+                if roll_ref == None and pitch_ref == None and yaw_ref == None:
+                    yaw_ref = parseFloat('yaw', command)
+                    pitch_ref = parseFloat('pitch', command)
+                    roll_ref = parseFloat('roll', command)
+
+                if roll_ref != None or pitch_ref != None or yaw_ref != None:
+                    if roll_ref == None:
+                        roll_ref = 0.0
+                    if pitch_ref == None:
+                        pitch_ref = 0.0
+                    if yaw_ref == None:
+                        yaw_ref = 0.0
+
+                    q_X = Quaternion(axis= [1.0, 0.0, 0.0], radians=roll_ref)
+                    q_Y = Quaternion(axis= [0.0, 1.0, 0.0], radians=pitch_ref)
+                    q_Z = Quaternion(axis= [0.0, 0.0, 1.0], radians=yaw_ref)
+
+                    attitude_ref = q_Z * q_Y * q_X
+
+            else:
+                attitude_ref = Quaternion(qw, qx, qy, qz).normalised
+
+            self.set_reference(x_ref, y_ref, z_ref, vx_ref, vy_ref, vz_ref, attitude_ref)
 
             state = parseString('state', command)
             if state == State.parking.name:
@@ -343,9 +376,14 @@ class Device:
             x_ref = parseFloat('x', command)
             y_ref = parseFloat('y', command)
             z_ref = parseFloat('z', command)
-            yaw_ref = parseFloat('alpha', command)
+            qw = parseFloat('qw', command)
+            qx = parseFloat('qx', command)
+            qy = parseFloat('qy', command)
+            qz = parseFloat('qz', command)
 
-            self.set_reference(x_ref, y_ref, z_ref, 0.0, 0.0, 0.0, 0.0, 0.0, yaw_ref)
+            attitude_ref = Quaternion(qw, qx, qy, qz)
+
+            self.set_reference(x_ref, y_ref, z_ref, 0.0, 0.0, 0.0, attitude_ref)
 
             try:
                 self.command_queue.put_nowait(command)
@@ -353,6 +391,14 @@ class Device:
                 print(self.device_name, "Error: command queue full")
 
             return State.holding
+
+    def clear_commands(self):
+        while not self.command_queue.empty():
+            try:
+                self.command_queue.get(False)
+            except queue.Empty:
+                continue
+            self.command_queue.task_done()
 
     def stack(self, client, userdata, msg):
         del client, userdata
@@ -494,16 +540,14 @@ class Device:
         mi = self.client.publish(self.manager_base_topic + '/' + self.device_base_topic + '/' + self.device_name + '/state', command, 0, False)
         mi.wait_for_publish()
 
-    def set_reference(self, x_ref, y_ref, z_ref, vx_ref, vy_ref, vz_ref, roll_ref, pitch_ref, yaw_ref):
+    def set_reference(self, x_ref, y_ref, z_ref, vx_ref, vy_ref, vz_ref, attitude_ref):
         self.x_ref = x_ref
         self.y_ref = y_ref
         self.z_ref = z_ref
         self.vx_ref = vx_ref
         self.vy_ref = vy_ref
         self.vz_ref = vz_ref
-        self.roll_ref = roll_ref
-        self.pitch_ref = pitch_ref
-        self.yaw_ref = yaw_ref
+        self.attitude_ref = attitude_ref
 
     def turn_off(self):
         command = "0,0,0,0,0,0"
@@ -549,11 +593,6 @@ class Device:
         self.fz = c_z_body
         
         # attitude control
-        q_X = Quaternion(axis= [1.0, 0.0, 0.0], radians=self.roll_ref)
-        q_Y = Quaternion(axis= [0.0, 1.0, 0.0], radians=self.pitch_ref)
-        q_Z = Quaternion(axis= [0.0, 0.0, 1.0], radians=self.yaw_ref)
-
-        self.attitude_ref = q_Z * q_Y * q_X
         attitude_err = self.attitude.inverse * self.attitude_ref
 
         if attitude_err.w < 0:
