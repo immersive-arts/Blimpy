@@ -309,15 +309,19 @@ class Device:
             x_ref = parseFloat('x', command)
             y_ref = parseFloat('y', command)
             z_ref = parseFloat('z', command)
+
             vx_ref = parseFloat('vx', command)
             if vx_ref == None:
-                vx_ref = 0
+                vx_ref = self.vx_ref + self.velocity_filter_constant * ((x_ref - self.x_ref)/self.loop_period - self.vx_ref)
+
             vy_ref = parseFloat('vy', command)
             if vy_ref == None:
-                vy_ref = 0
+                vy_ref = self.vy_ref + self.velocity_filter_constant * ((y_ref - self.y_ref)/self.loop_period - self.vy_ref)
+
             vz_ref = parseFloat('vz', command)
             if vz_ref == None:
-                vz_ref = 0
+                vz_ref = self.vz_ref + self.velocity_filter_constant * ((z_ref - self.z_ref)/self.loop_period - self.vz_ref)
+
             roll_ref = parseFloat('gamma', command)
             if roll_ref == None:
                 roll_ref = 0
