@@ -11,9 +11,6 @@ import sys, getopt
 import yaml
 from pyquaternion import Quaternion
 
-HACK_MIN_VEL = 0.05
-HACK_FIX_YAW = True
-
 def signal_handler(sig, frame):
     del sig, frame
 
@@ -68,7 +65,6 @@ class State(Enum):
     hold = 5
     freeze = 6
     unmanaged = 7
-    hack = 8
 
 class Device:
     count = 0
@@ -239,25 +235,6 @@ class Device:
                 except queue.Full:
                     pass
 
-            if command.split()[0]  == 'hack':
-
-                x_ref = parseFloat('x', command)
-                if x_ref == None:
-                    return
-                y_ref = parseFloat('y', command)
-                if y_ref == None:
-                    return
-                z_ref = parseFloat('z', command)
-                if z_ref == None:
-                    return
-                up = parseString('up', command)
-                if up == None:
-                    return
-                try:
-                    self.command_queue.put_nowait(command)
-                except queue.Full:
-                    pass
-
             if command.split()[0]  == 'freeze':
                 self.clear_commands()
                 command = 'hold x=%f y=%f z=%f alpha=%f state=freeze' % (self.x, self.y, self.z, self.yaw)
@@ -357,7 +334,7 @@ class Device:
             q_ref = parseFloat('q', command)
             if q_ref == None:
                 q_ref = 0
-            r_ref = parseFloat('valpha', command)
+            r_ref = parseFloat('r', command)
             if r_ref == None:
                 r_ref = 0
 
@@ -368,40 +345,6 @@ class Device:
                 return State.park
             else:
                 return State.move
-
-        if command.split()[0]  == 'hack':
-            x_ref = parseFloat('x', command)
-            y_ref = parseFloat('y', command)
-            z_ref = parseFloat('z', command)
-
-            vx_ref = self.vx_ref + self.velocity_filter_constant * ((x_ref - self.x_ref)/dt - self.vx_ref)
-            vy_ref = self.vy_ref + self.velocity_filter_constant * ((y_ref - self.y_ref)/dt - self.vy_ref)
-            vz_ref = self.vz_ref + self.velocity_filter_constant * ((z_ref - self.z_ref)/dt - self.vz_ref)
-
-            up = parseFloat('up',  command)
-
-            p_ref = 0.0
-            q_ref = 0.0
-            r_ref = 0.0
-
-            if np.abs(vx_ref) > HACK_MIN_VEL or np.abs(vy_ref) > HACK_MIN_VEL:
-                yaw_ref = np.arctan2(vy_ref, vx_ref)
-            else:
-                yaw_ref = self.yaw_ref
-
-            if HACK_FIX_YAW:
-                yaw_ref = 0.0
-
-            pitch_ref = 0.0
-
-            if up == 1.0:
-                roll_ref = 0.0
-            else:
-                roll_ref = np.pi
-
-            self.set_reference(x_ref, y_ref, z_ref, vx_ref, vy_ref, vz_ref, roll_ref, pitch_ref, yaw_ref, p_ref, q_ref, r_ref)
-
-            return State.hack
 
         if command.split()[0]  == 'hold':
             x_ref = parseFloat('x', command)
