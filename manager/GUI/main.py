@@ -89,7 +89,7 @@ class Container():
         self._tau_r = tau_r
         self._battery_charge = 0.0
 
-class BlimpData():
+class DeviceData():
     def __init__(self, identifier, L, k_p_xy, k_d_xy, k_p_z, k_d_z, k_i_z, tau_att_x, tau_att_y, tau_att_z, tau_p, tau_q, tau_r):
 
         self._container = Container(L, k_p_xy, k_d_xy, k_p_z, k_d_z, k_i_z, tau_att_x, tau_att_y, tau_att_z, tau_p, tau_q, tau_r)
@@ -419,24 +419,22 @@ class Ui(QtWidgets.QMainWindow):
         self.timer.timeout.connect(self.updateData)
         self.now = 0
         self.show()
-        
-        self.blimps = {}
-        
-        self.active_blimp = ''
-        
+
+        self.devices = {}
+        self.active_device = ''
+        self.device_count = 0
+
         self.client = mqtt.Client(client_id='GUI')
         self.client.username_pw_set(username="testtest",password="testtest")
         self.client.connect(MQTT_HOST, MQTT_PORT, 60)
         print("MQTT client connected to %s on port %d" % (MQTT_HOST, MQTT_PORT))
         self.client.loop_start()
-        
-        self.client.message_callback_add("manager/+/+/feedback", self.addBlimp)
+
+        self.client.message_callback_add("manager/+/+/feedback", self.addDevice)
         self.client.subscribe("manager/+/+/feedback")
-        
-        self.blimpsactive = []
-        
+    
         self.updated.connect(self.addPushButton)
-        
+
         self.sem = threading.Semaphore()
         self.t0 = time.time()
 
@@ -451,9 +449,6 @@ class Ui(QtWidgets.QMainWindow):
         self.ui.tau_p_slider.valueChanged.connect(lambda: self.sliderChanged('tau_p'))
         self.ui.tau_q_slider.valueChanged.connect(lambda: self.sliderChanged('tau_q'))
         self.ui.tau_r_slider.valueChanged.connect(lambda: self.sliderChanged('tau_r'))
-        self.ui.q_roll_slider.valueChanged.connect(lambda: self.sliderChanged('roll'))
-        self.ui.q_pitch_slider.valueChanged.connect(lambda: self.sliderChanged('pitch'))
-        self.ui.q_yaw_slider.valueChanged.connect(lambda: self.sliderChanged('yaw'))
 
         self.k_p_xy = 0.0
         self.k_d_xy = 0.0
@@ -493,18 +488,11 @@ class Ui(QtWidgets.QMainWindow):
             self.tau_q = self.ui.tau_q_slider.value()/1000
         if slider == 'tau_r':
             self.tau_r = self.ui.tau_r_slider.value()/1000
-        if slider == 'roll':
-            self.roll_ref = self.ui.q_roll_slider.value()/10
-        if slider == 'pitch':
-            self.pitch_ref = self.ui.q_pitch_slider.value()/10
-        if slider == 'yaw':
-            self.yaw_ref = self.ui.q_yaw_slider.value()/10
 
         command = "k_p_z=%f k_d_z=%f k_i_z=%f k_p_xy=%f k_d_xy=%f tau_att_x=%f tau_att_y=%f tau_att_z=%f tau_p=%f tau_q=%f tau_r=%f " \
                 % (self.k_p_z, self.k_d_z, self.k_i_z, self.k_p_xy, self.k_d_xy, self.tau_att_x, self.tau_att_y, self.tau_att_z, self.tau_p, self.tau_q, self.tau_r)
-        command = command + "roll_ref=%f pitch_ref=%f yaw_ref=%f" % (self.roll_ref, self.pitch_ref, self.yaw_ref)
 
-        self.client.publish('manager/blimps/' + self.active_blimp +'/config', command, 0, False)
+        self.client.publish('manager/blimps/' + self.active_device +'/config', command, 0, False)
                         
     def addPushButton(self, identifier):
 
@@ -512,7 +500,7 @@ class Ui(QtWidgets.QMainWindow):
             self.ui.pushButtons = {}
 
         self.ui.pushButtons[identifier] = QtWidgets.QPushButton(self.ui.groupBox)
-        self.ui.pushButtons[identifier].setGeometry(QtCore.QRect(10, 30 + (len(self.blimpsactive)-1)*100, 131, 91))
+        self.ui.pushButtons[identifier].setGeometry(QtCore.QRect(10, 30 + (self.device_count - 1)*100, 131, 91))
         self.ui.pushButtons[identifier].setStyleSheet("")
         self.ui.pushButtons[identifier].setFlat(False)
         self.ui.pushButtons[identifier].setObjectName(identifier)
@@ -521,15 +509,14 @@ class Ui(QtWidgets.QMainWindow):
         self.ui.pushButtons[identifier].clicked.connect(lambda: self.handleButton(self.ui.pushButtons[identifier]))
         self.sem.release()
         
-    def addBlimp(self, client, userdata, message):
+    def addDevice(self, client, userdata, message):
         del client, userdata
         ident = message.topic.split('/')[-2]
 
-        if ident in self.blimpsactive:
+        if ident in self.devices:
             pass
         else:
             self.sem.acquire()
-            self.blimpsactive.append(ident)
             self.k_p_xy = parseFloat('k_p_xy', message.payload.decode())
             self.k_d_xy = parseFloat('k_d_xy', message.payload.decode())
             self.k_p_z = parseFloat('k_p_z', message.payload.decode())
@@ -542,33 +529,35 @@ class Ui(QtWidgets.QMainWindow):
             self.tau_q = parseFloat('tau_q', message.payload.decode())
             self.tau_r = parseFloat('tau_r', message.payload.decode())
 
-            self.blimps[ident] = BlimpData(ident, 10*60*1, self.k_p_xy, self.k_d_xy, self.k_p_z, self.k_d_z, self.k_i_z, \
+            self.devices[ident] = DeviceData(ident, 10*60*1, self.k_p_xy, self.k_d_xy, self.k_p_z, self.k_d_z, self.k_i_z, \
                                            self.tau_att_x, self.tau_att_y, self.tau_att_z, self.tau_p, self.tau_q, self.tau_r)
+            self.device_count = self.device_count + 1
+            
             self.updated.emit(ident)
         
     def updateData(self):
         if hasattr(self.ui, 'pushButtons'): 
             for key, button in self.ui.pushButtons.items():
-                if self.blimps[key].data_available():
-                    charge = '%.2f %%' % (self.blimps[key].get_data()._battery_charge*100)
-                    button.setText(key + '\n' + 'Charge: ' + charge + '\n State: ' + self.blimps[key].get_data()._state + \
-                                   '\n Queue:' + self.blimps[key].get_data()._queue_size + '\n Missed:' + self.blimps[key].get_data()._missed_ticks)
+                if self.devices[key].data_available():
+                    charge = '%.2f %%' % (self.devices[key].get_data()._battery_charge*100)
+                    button.setText(key + '\n' + 'Charge: ' + charge + '\n State: ' + self.devices[key].get_data()._state + \
+                                   '\n Queue:' + self.devices[key].get_data()._queue_size + '\n Missed:' + self.devices[key].get_data()._missed_ticks)
     
                     button.setStyleSheet("")
-                    if self.blimps[key].get_data()._state != 'unavailable':
+                    if self.devices[key].get_data()._state != 'unavailable':
                         s = int(255)
                         l = int(255*0.6)
-                        h = int(min(max(171 * self.blimps[key].get_data()._battery_charge - 51, 0),120))
-                        if button.objectName() == self.active_blimp:
+                        h = int(min(max(171 * self.devices[key].get_data()._battery_charge - 51, 0),120))
+                        if button.objectName() == self.active_device:
                             style = "background-color:hsl(%i, %i, %i); border:2px solid #000000; border-radius:5px" %(h, s, l)
                         else:
                             style = "background-color:hsl(%i, %i, %i);" %(h, s, l)
     
                         button.setStyleSheet(style)
-                if key == self.active_blimp:
-                    self.blimps[self.active_blimp].acquire_lock()
-                    data = copy.deepcopy(self.blimps[self.active_blimp].get_data_without_lock())
-                    self.blimps[self.active_blimp].release_lock()
+                if key == self.active_device:
+                    self.devices[self.active_device].acquire_lock()
+                    data = copy.deepcopy(self.devices[self.active_device].get_data_without_lock())
+                    self.devices[self.active_device].release_lock()
     
                     self.ui.k_p_xy.setText(str(data._k_p_xy))
                     self.ui.k_d_xy.setText(str(data._k_d_xy))
@@ -625,9 +614,9 @@ class Ui(QtWidgets.QMainWindow):
                     self.plotDataItem_motors[5].setData(time_relative, data._m6)
             
     def handleButton(self, btn):       
-        self.active_blimp = btn.objectName()
+        self.active_device = btn.objectName()
 
-        data = self.blimps[self.active_blimp].get_data()
+        data = self.devices[self.active_device].get_data()
         self.ui.k_p_xy.setText(str(data._k_p_xy))
         self.ui.hor_pos_slider.setValue(int(10 * data._k_p_xy))
         self.ui.k_d_xy.setText(str(data._k_d_xy))
@@ -653,8 +642,8 @@ class Ui(QtWidgets.QMainWindow):
 
     def closeEvent(self, event):
         self.timer.stop()
-        for _, blimp in self.blimps.items():
-            blimp.stop()
+        for _, device in self.devices.items():
+            device.stop()
         event.accept()        
 
 import argparse

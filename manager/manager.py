@@ -400,9 +400,6 @@ class Device:
         self.tau_att_x = parseFloat('tau_att_x', command)
         self.tau_att_y = parseFloat('tau_att_y', command)
         self.tau_att_z = parseFloat('tau_att_z', command)
-        self.roll_ref = parseFloat('roll_ref', command) * np.pi
-        self.pitch_ref = parseFloat('pitch_ref', command) * np.pi
-        self.yaw_ref = parseFloat('yaw_ref', command) * np.pi
 
     def model(self, client, userdata, msg):
         del client, userdata
