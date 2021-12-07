@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 2079.0, 217.0, 806.0, 732.0 ],
+		"rect" : [ 117.0, 79.0, 806.0, 732.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -128,7 +128,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 547.5, 193.125, 219.0, 117.0 ],
+					"patching_rect" : [ 547.5, 193.125, 219.0, 114.0 ],
 					"text" : "\n\n\nkeeps device at this current position\npark the devive at the last sent position using live transform data\nadd device to be managed\nremove device to be managed"
 				}
 
@@ -160,7 +160,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 487.333333333333485, 574.75, 285.0, 117.0 ],
+					"patching_rect" : [ 487.333333333333485, 574.75, 285.0, 114.0 ],
 					"text" : "\n\nthe rate in which MQTT data is send to the manager\nbase topic of the manager\nbase topic of the device\ndevice name\nrigidbody id from optitrack\nmaximum allowed velocity - if it goes beyond -> 0"
 				}
 
@@ -172,7 +172,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 432.333333333333485, 574.75, 53.0, 117.0 ],
+					"patching_rect" : [ 432.333333333333485, 574.75, 53.0, 114.0 ],
 					"text" : "\n\n[fps]\n[symbol]\n[symbol]\n[symbol]\n[int]\n[m/s]"
 				}
 
@@ -208,7 +208,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 34.0, 42.0, 746.0, 80.0 ],
+					"patching_rect" : [ 34.0, 42.0, 746.0, 78.0 ],
 					"text" : "This patch illustrates how to receive OSC data from blender to be used to controll managed devices.\n\nIt relies on the  [blp.txrx.device.maxpat] abstraction which manages the connection to the device with all the necessary calculations and controlls."
 				}
 
@@ -243,7 +243,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 399.5, 193.125, 140.0, 117.0 ],
+					"patching_rect" : [ 399.5, 193.125, 140.0, 114.0 ],
 					"text" : "understands following commands:\n\nfreeze\npark\nmove\naddDevice\nremoveDevice",
 					"textjustification" : 2
 				}
@@ -256,7 +256,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 38.833333333333485, 189.5, 334.0, 144.0 ],
+					"patching_rect" : [ 38.833333333333485, 189.5, 334.0, 141.0 ],
 					"text" : "understands following messages send to the first inlet:\n\nenable 0...1\nconnected 0...1\ntopics <topic> <data>\ntransform position <px> <px> <pz>\ntransform rotation_deg <rx> <ry> <rz> (in degrees)\ntransform rotation_rad <rx> <ry> <rz> (in radian)\ntransform rotation_quat <qx> <qy> <qz> <qw> (quaternion)\ncommand <commands> (see commands)"
 				}
 
@@ -268,7 +268,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 272.333333333333485, 574.75, 163.0, 117.0 ],
+					"patching_rect" : [ 272.333333333333485, 574.75, 163.0, 114.0 ],
 					"text" : "expects following attributes:\n\n@update_fps\n@base_topic\n@blimp_base_topic\n@blimp_name\n@tracking_id\n@velocity_max",
 					"textjustification" : 2
 				}
@@ -778,7 +778,6 @@
 											}
 , 											{
 												"box" : 												{
-													"hidden" : 1,
 													"id" : "obj-63",
 													"maxclass" : "message",
 													"numinlets" : 2,
@@ -845,7 +844,6 @@
 												"box" : 												{
 													"autoscroll" : 0,
 													"fontsize" : 14.0,
-													"hidden" : 1,
 													"id" : "obj-45",
 													"keymode" : 1,
 													"lines" : 1,
@@ -901,7 +899,6 @@
 , 											{
 												"box" : 												{
 													"fontface" : 0,
-													"hidden" : 1,
 													"iconbackground" : 4,
 													"iconsize" : 25.0,
 													"iconstyle" : 10,
@@ -941,6 +938,7 @@
 , 											{
 												"box" : 												{
 													"fontface" : 0,
+													"hidden" : 1,
 													"iconbackground" : 4,
 													"iconsize" : 25.0,
 													"iconstyle" : 6,
@@ -968,7 +966,6 @@
 , 											{
 												"box" : 												{
 													"fontface" : 0,
-													"hidden" : 1,
 													"iconbackground" : 4,
 													"iconsize" : 25.0,
 													"iconstyle" : 5,
@@ -2462,65 +2459,69 @@
  ],
 		"dependency_cache" : [ 			{
 				"name" : "blp.txrx.device.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/blimpy4max/patchers/txrx",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/txrx",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/txrx",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "bpl.vector.derivate.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/blimpy4max/patchers/math",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/math",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/math",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "bpl.vector.length.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/blimpy4max/patchers/math",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/math",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/math",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "blp.txrx.device.js",
-				"bootpath" : "~/Documents/Max 8/Packages/blimpy4max/javascript",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/javascript",
+				"patcherrelativepath" : "../../libs/blimpy4max/javascript",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "bpl.visualizer.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/blimpy4max/patchers/utils",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/utils",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/utils",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "blp.show.panel.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/blimpy4max/patchers/utils",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/utils",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/utils",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "blp.plot.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/blimpy4max/patchers/utils",
+				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/utils",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/utils",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
-				"name" : "mxj.mxe64",
-				"type" : "mx64"
+				"name" : "mxj.mxo",
+				"type" : "iLaX"
 			}
 , 			{
-				"name" : "icst.button.mxe64",
-				"type" : "mx64"
+				"name" : "icst.button.mxo",
+				"type" : "iLaX"
 			}
  ],
 		"autosave" : 0,
 		"styles" : [ 			{
 				"name" : "rnbodefault",
 				"default" : 				{
-					"accentcolor" : [ 0.343034118413925, 0.506230533123016, 0.86220508813858, 1.0 ],
-					"fontsize" : [ 12.0 ],
 					"elementcolor" : [ 0.357540726661682, 0.515565991401672, 0.861786782741547, 1.0 ],
-					"bgcolor" : [ 0.031372549019608, 0.125490196078431, 0.211764705882353, 1.0 ],
+					"fontsize" : [ 12.0 ],
 					"fontname" : [ "Lato" ],
-					"stripecolor" : [ 0.258338063955307, 0.352425158023834, 0.511919498443604, 1.0 ],
 					"bgfillcolor" : 					{
 						"type" : "color",
 						"color" : [ 0.031372549019608, 0.125490196078431, 0.211764705882353, 1.0 ],
@@ -2531,7 +2532,10 @@
 						"autogradient" : 0.0
 					}
 ,
-					"color" : [ 0.929412, 0.929412, 0.352941, 1.0 ]
+					"stripecolor" : [ 0.258338063955307, 0.352425158023834, 0.511919498443604, 1.0 ],
+					"accentcolor" : [ 0.343034118413925, 0.506230533123016, 0.86220508813858, 1.0 ],
+					"color" : [ 0.929412, 0.929412, 0.352941, 1.0 ],
+					"bgcolor" : [ 0.031372549019608, 0.125490196078431, 0.211764705882353, 1.0 ]
 				}
 ,
 				"parentstyle" : "",
@@ -2540,16 +2544,13 @@
 , 			{
 				"name" : "rnbohighcontrast",
 				"default" : 				{
-					"accentcolor" : [ 0.666666666666667, 0.666666666666667, 0.666666666666667, 1.0 ],
-					"fontsize" : [ 13.0 ],
 					"elementcolor" : [ 0.223386004567146, 0.254748553037643, 0.998085916042328, 1.0 ],
+					"clearcolor" : [ 1.0, 1.0, 1.0, 0.0 ],
+					"fontsize" : [ 13.0 ],
 					"selectioncolor" : [ 0.301960784313725, 0.694117647058824, 0.949019607843137, 1.0 ],
 					"locked_bgcolor" : [ 0.258823529411765, 0.258823529411765, 0.258823529411765, 1.0 ],
-					"bgcolor" : [ 0.0, 0.0, 0.0, 1.0 ],
-					"clearcolor" : [ 1.0, 1.0, 1.0, 0.0 ],
 					"textcolor_inverse" : [ 1.0, 1.0, 1.0, 1.0 ],
 					"editing_bgcolor" : [ 0.258823529411765, 0.258823529411765, 0.258823529411765, 1.0 ],
-					"stripecolor" : [ 0.258823529411765, 0.258823529411765, 0.258823529411765, 1.0 ],
 					"bgfillcolor" : 					{
 						"type" : "color",
 						"color" : [ 0.0, 0.0, 0.0, 1.0 ],
@@ -2560,7 +2561,10 @@
 						"autogradient" : 0.0
 					}
 ,
+					"stripecolor" : [ 0.258823529411765, 0.258823529411765, 0.258823529411765, 1.0 ],
+					"accentcolor" : [ 0.666666666666667, 0.666666666666667, 0.666666666666667, 1.0 ],
 					"color" : [ 1.0, 0.874509803921569, 0.141176470588235, 1.0 ],
+					"bgcolor" : [ 0.0, 0.0, 0.0, 1.0 ],
 					"textcolor" : [ 1.0, 1.0, 1.0, 1.0 ]
 				}
 ,
