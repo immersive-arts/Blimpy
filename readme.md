@@ -23,7 +23,7 @@ you can find different applications inside the *apps* folder.
 The manager is documented inside the *manager* folder.
 
 ### Blimps
-Details on creating a blimp is documented inside the *blimp* folder.
+Details on creating a blimp is documented inside the *robots* folder.
 
 ### SAR
 Acronym for Spatial Augmented Reality, is realized with [SPARCK](http://tecartlab.com), an open source software to create multi-projection installations and handles multiple render passes, transformation hierarchies and projector calibration.
@@ -35,7 +35,7 @@ To send Optitracks native NATNET protocoll to the manager and SPARCK, the [NatNe
 
 # Additional info
 
-some additional info might be found on this [miro board](https://miro.com/app/board/o9J_lFMUi0Q=/), though ultimatly all data should be find its way into this repo.
+some additional info might be found on this [miro board](https://miro.com/app/board/o9J_lFMUi0Q=/), though ultimately all data should find its way into this repo.
 
 # Licenses
 
