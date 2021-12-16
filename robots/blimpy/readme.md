@@ -10,7 +10,7 @@ The classical setup resembles a zeppelin configuration with the main weight (con
 
 Front and forward direction of flight is the positive x-axis (red).
 
-The arrows of the propeller show the direction of the ==force== the propellers apply on the blimp when turning forward.
+The arrows of the propeller show the direction of the _force_ the propellers apply on the blimp when turning forward.
 
 ### Multi directional setup
 The other configuration is for blimps with their center of gravity at the same position as the center of volume, thus allowing the drone rotate around all the axes.
@@ -19,7 +19,7 @@ The other configuration is for blimps with their center of gravity at the same p
 
 Front and forward direction of flight is the positive x-axis (red), though in this setup all positive axes can be considered as being forward (disregarding the shape).
 
-The arrows of the propeller show the direction of the ==force== the propellers apply on the blimp when turning forward.
+The arrows of the propeller show the direction of the _force_ the propellers apply on the blimp when turning forward.
 
 ## Configuration
 
