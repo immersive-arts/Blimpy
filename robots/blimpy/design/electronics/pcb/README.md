@@ -1,19 +1,12 @@
 # Blimpy PCB
 
-![alt text](../../assets/pix/controller.jpg)
+Version 2.1 with step-up voltage regulator fix
+![alt text](../../../../../assets/pix/controller_V2.1_fix.jpg)
 
 ## TODO
 
-- On/Off switch needs replacement
-- thicker Board
-- current limiting for H-Bridges need resistors between pin x and y
-- PWM for driving H-Bridges need higher frequency out of the audible range
-- better battery state of charge estimation
-- RGB LEDS on the backside for illuminating blimp
-- IMU? Fix missing driver. Use another one or drop it?
-- Charging switch? (Tethered motor tests)
-- Battery switch? (Reset after fault)
-- Bigger Battery Connector: XT60?
+- integrate step-up voltage regulator (see blimpy-2.1_fix.pdf, step-up voltage regulator to prevent voltage to drop below 3.3V when large current is drawn from battery) 
+- improve battery state of charge estimate (potentially remove U4, measure current and terminal voltage of battery directly, and implement battery charge estimator)
 
 ## Connectors
 
@@ -26,7 +19,7 @@ All:
 
 ## Cables
 
-Actors:
+Actuators:
 
 - Wire Gauge: 26 (28)
 - Cross Section: 0.129mm2 (0.0810mm2)
@@ -34,9 +27,9 @@ Actors:
 
 Battery:
 
-- Wire Gauge: 24
-- Cross Section: 0.205mm2
-- Max Current: 3.5A
+- Wire Gauge: 20
+- Cross Section: 0.518mm2
+- Max Current: 11A
 
 ## Board Settings
 
