@@ -79,15 +79,23 @@ Whether the connected neo pixel strip has a white channel.
 
 #### Install NAOS CLI:
 
-[https://naos.shiftr.io/quickstart](https://naos.shiftr.io/quickstart)
+[https://naos.256dpi.com/quickstart/](https://naos.256dpi.com/quickstart/)
 
 (installation via terminal app, no need to create any folder, the installer will install the app into /usr/local/bin)
 
-inside terminal, cd to the folder where this readme is located, like:
+##### Install manually on OSX:
+
+download https://github.com/256dpi/naos/releases -> file:'naos-darwin-amd64' and rename it to 'naos', move it to
 
 ```bash
-cd /Users/XXX/blimpy/drone/firmware/
+/usr/local/bin
 ```
+and execute
+
+```bash
+chmod +x /usr/local/bin/naos
+```
+to make it executable.
 
 ### Python Dependency:
 
@@ -100,12 +108,18 @@ pip install pyserial
 
 #### Install naos dependencies and compile:
 
+inside terminal, cd to the folder where this readme is located, like:
+
+```bash
+cd /Users/XXX/blimpy/drone/firmware/
+```
+
 ```bash
 naos install
 naos build
 ```
 
-Attach board to usb connector.
+Attach board to usb connector (with attached battery if the board is modified with the latest step-up voltage regulator fix)
 
 Switch on board.
 
@@ -161,6 +175,17 @@ blimps/b43/min-duty
 ![parameters](../../../assets/pix/firmware/BT_deviceConfig_Parameters.jpg)
 
 Parameters this device is configured for.
+
+## Flashing device
+
+To reset to default parameters (in case the board hangs because of an undigestable input):
+
+attach it via USB (and with attached battery if the board is modified with the latest step-up voltage regulator fix)
+
+```bash
+naos flash --erase
+```
+
 
 ## Development
 
