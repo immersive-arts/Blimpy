@@ -152,12 +152,14 @@ class Device:
         self.client = client
         self.client.message_callback_add(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/stack", self.stack)
         self.client.message_callback_add(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/clear", self.clear)
-        self.client.message_callback_add(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/config", self.config)
+        self.client.message_callback_add(str(self.device_name) + "/config", self.config)
+        self.client.message_callback_add(str(self.device_name) + "/save", self.save)
         self.client.message_callback_add(str(device_base_topic) + "/" + str(self.device_name) + "/model", self.model)
         self.client.message_callback_add(str(device_base_topic) + "/" + str(self.device_name) + "/battery", self.battery)
         self.client.subscribe(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/stack")
         self.client.subscribe(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/clear")
-        self.client.subscribe(str(manager_base_topic) + "/" + str(device_base_topic) + "/" + str(self.device_name) + "/config")
+        self.client.subscribe(str(self.device_name) + "/config")
+        self.client.subscribe(str(self.device_name) + "/save")
         self.client.subscribe(str(device_base_topic) + "/" + str(self.device_name) + "/model")
         self.client.subscribe(str(device_base_topic) + "/" + str(self.device_name) + "/battery")
 
@@ -167,23 +169,23 @@ class Device:
 
         self.command_queue = queue.Queue(1000)
         
-        with open('device_types.yml', 'r') as stream:
-            data = yaml.safe_load(stream)    
+        with open(device_folder + "/" + self.device_type + '.dvc', 'r') as stream:
+            data = yaml.safe_load(stream)
     
-        self.k_p_z = data[device_type]['k_p_z']
-        self.k_d_z = data[device_type]['k_d_z']
-        self.k_i_z = data[device_type]['k_i_z']
+        self.k_p_z = data['k_p_z']
+        self.k_d_z = data['k_d_z']
+        self.k_i_z = data['k_i_z']
         
-        self.k_p_xy = data[device_type]['k_p_xy']
-        self.k_d_xy = data[device_type]['k_d_xy']
+        self.k_p_xy = data['k_p_xy']
+        self.k_d_xy = data['k_d_xy']
 
-        self.tau_att_x = data[device_type]['tau_att_x']
-        self.tau_att_y = data[device_type]['tau_att_y']
-        self.tau_att_z = data[device_type]['tau_att_z']
+        self.tau_att_x = data['tau_att_x']
+        self.tau_att_y = data['tau_att_y']
+        self.tau_att_z = data['tau_att_z']
         
-        self.tau_p = data[device_type]['tau_p']
-        self.tau_q = data[device_type]['tau_q']
-        self.tau_r = data[device_type]['tau_r']
+        self.tau_p = data['tau_p']
+        self.tau_q = data['tau_q']
+        self.tau_r = data['tau_r']
 
         self.velocity_filter_RC = 1/(2*np.pi * 0.1)
         self.velocity_filter_constant = self.loop_period / (self.velocity_filter_RC + self.loop_period)
@@ -463,7 +465,25 @@ class Device:
         seg = command.split(",")
         self.battery_charge = float(seg[0])
         self.last_heartbeat = time.time()
+        
+    def save(self, client, userdata, msg):
+        del client, userdata, msg
+        data = {}
+        data['k_p_z'] = self.k_p_z
+        data['k_d_z'] = self.k_d_z
+        data['k_i_z'] = self.k_i_z
+        data['k_p_xy'] = self.k_p_xy
+        data['k_d_xy'] = self.k_d_xy
+        data['tau_att_x'] = self.tau_att_x
+        data['tau_att_y'] = self.tau_att_y
+        data['tau_att_z'] = self.tau_att_z
+        data['tau_p'] = self.tau_p
+        data['tau_q'] = self.tau_q
+        data['tau_r'] = self.tau_r
 
+        with open(device_folder + "/" + self.device_type + '.dvc', 'w') as file:
+            yaml.dump(data, file)
+            
     def clear(self, client, userdata, msg):
         del client, userdata, msg
 
@@ -800,18 +820,19 @@ mqtt_port = 1883
 osc_server = "localhost"
 osc_port = 54321
 manager_base_topic = "manager"
+device_folder = "."
 
 if __name__ == "__main__":
     inputfile = ''
     outputfile = ''
     try:
-        opts, args = getopt.getopt(sys.argv[1:],"h",["mqtt_host=","mqtt_port=","osc_server=","osc_port=", "manager_base_topic="])
+        opts, args = getopt.getopt(sys.argv[1:],"h",["mqtt_host=","mqtt_port=","osc_server=","osc_port=", "manager_base_topic=", "device_folder="])
     except getopt.GetoptError:
-        print ('manager.py --mqtt_host <host> --mqtt_port <port> --osc_server <server> --osc_port <port> --manager_base_topic <topic>')
+        print ('manager.py --mqtt_host <host> --mqtt_port <port> --osc_server <server> --osc_port <port> --manager_base_topic <topic> --device_folder <folder>')
         sys.exit(2)
     for opt, arg in opts:
         if opt == '-h':
-            print ('manager.py --mqtt_host <host> --mqtt_port <port> --osc_server <server> --osc_port <port> --manager_base_topic <topic>')
+            print ('manager.py --mqtt_host <host> --mqtt_port <port> --osc_server <server> --osc_port <port> --manager_base_topic <topic> --device_folder <folder>')
             sys.exit()
         elif opt in ("--mqtt_host"):
             mqtt_host = arg
@@ -824,5 +845,7 @@ if __name__ == "__main__":
             osc_port = int(arg)
         elif opt in ("--manager_base_topic"):
             manager_base_topic = arg
+        elif opt in ("--device_folder"):
+            device_folder = arg
 
     main(mqtt_host, mqtt_port, osc_server, osc_port, manager_base_topic)

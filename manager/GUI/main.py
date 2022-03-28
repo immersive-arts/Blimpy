@@ -13,6 +13,7 @@ LINE = 1
 SIZE = 2
 MQTT_HOST = 'localhost'
 MQTT_PORT = 1883
+MANAGER_BASE_TOPIC = 'manager'
 
 def parseFloat(key, message):
     ms = re.search(key + "=[-+]?\d*\.\d+", message)
@@ -104,8 +105,8 @@ class DeviceData():
         print("Added blimp %s to GUI" % self._id)
         self._client.loop_start()
         
-        self._client.message_callback_add("manager/+/" + identifier + "/feedback", self.add_data)
-        self._client.subscribe("manager/+/" + identifier + "/feedback")
+        self._client.message_callback_add(MANAGER_BASE_TOPIC + "/+/" + identifier + "/feedback", self.add_data)
+        self._client.subscribe(MANAGER_BASE_TOPIC + "/+/" + identifier + "/feedback")
 
         self._data_available = False
                 
@@ -430,11 +431,13 @@ class Ui(QtWidgets.QMainWindow):
         print("MQTT client connected to %s on port %d" % (MQTT_HOST, MQTT_PORT))
         self.client.loop_start()
 
-        self.client.message_callback_add("manager/+/+/feedback", self.addDevice)
-        self.client.subscribe("manager/+/+/feedback")
+        self.client.message_callback_add(MANAGER_BASE_TOPIC + "/+/+/feedback", self.addDevice)
+        self.client.subscribe(MANAGER_BASE_TOPIC + "/+/+/feedback")
     
         self.updated.connect(self.addPushButton)
-
+        
+        self.ui.settingsButton.clicked.connect(self.handleSettingsButton)
+        
         self.sem = threading.Semaphore()
         self.t0 = time.time()
 
@@ -492,7 +495,7 @@ class Ui(QtWidgets.QMainWindow):
         command = "k_p_z=%f k_d_z=%f k_i_z=%f k_p_xy=%f k_d_xy=%f tau_att_x=%f tau_att_y=%f tau_att_z=%f tau_p=%f tau_q=%f tau_r=%f " \
                 % (self.k_p_z, self.k_d_z, self.k_i_z, self.k_p_xy, self.k_d_xy, self.tau_att_x, self.tau_att_y, self.tau_att_z, self.tau_p, self.tau_q, self.tau_r)
 
-        self.client.publish('manager/blimps/' + self.active_device +'/config', command, 0, False)
+        self.client.publish(self.active_device +'/config', command, 0, False)
                         
     def addPushButton(self, identifier):
 
@@ -639,6 +642,10 @@ class Ui(QtWidgets.QMainWindow):
         self.ui.tau_q_slider.setValue(int(1000 * data._tau_q))
         self.ui.tau_r.setText(str(data._tau_r))
         self.ui.tau_r_slider.setValue(int(1000 * data._tau_r))
+        
+    def handleSettingsButton(self):       
+        self.client.publish(self.active_device +'/save', None, 0, False)
+
 
     def closeEvent(self, event):
         self.timer.stop()
@@ -652,6 +659,7 @@ parser.add_argument("--line", help="plot lines (0: dots, 1: lines)")
 parser.add_argument("--size", help="plot size")
 parser.add_argument("--mqtt_host", help="IP of MQTT host")
 parser.add_argument("--mqtt_port", help="port of MQTT host")
+parser.add_argument("--manager_base_topic", help="manager base topic")
 
 args = parser.parse_args()
 if args.line:
@@ -666,6 +674,9 @@ if args.mqtt_host:
 if args.mqtt_port:
     print("Set mqtt port", args.mqtt_port)
     MQTT_PORT = int(args.mqtt_port)
+if args.mqtt_port:
+    print("Set manager base topic", args.manager_base_topic)
+    MANAGER_BASE_TOPIC = str(args.manager_base_topic)
 
 app = QtWidgets.QApplication(sys.argv)
 window = Ui()

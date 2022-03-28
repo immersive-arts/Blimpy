@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1087</width>
-    <height>917</height>
+    <width>1637</width>
+    <height>1246</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -594,6 +594,19 @@
          </property>
         </widget>
        </widget>
+       <widget class="QPushButton" name="settingsButton">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>620</y>
+          <width>151</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Save settings</string>
+        </property>
+       </widget>
       </widget>
      </widget>
     </item>
@@ -641,7 +654,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1087</width>
+     <width>1637</width>
      <height>24</height>
     </rect>
    </property>
