@@ -100,7 +100,8 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
 
     // set motors
     for (i = 0; i < MOT_NUM; i++) {
-      mot_set(i, speeds[i]);
+      float speed = speeds[i] * (float)motor_map[i];
+      mot_set(i, speed);
     }
 
     return;
