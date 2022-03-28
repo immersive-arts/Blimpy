@@ -212,8 +212,8 @@ static void loop() {
   // get battery data
   bat_data_t data = bat_data();
 
-  // check battery
-  if (data.charge < safety_off) {
+  // check battery (limit safety off to 0.5)
+  if (data.charge < 0.5 && data.charge < safety_off) {
     pwr_off();
   }
 
