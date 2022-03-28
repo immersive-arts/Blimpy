@@ -9,7 +9,7 @@ DEPENDENCIES:
   - CocoaMQTT
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - CDJoystick
     - CocoaAsyncSocket
     - CocoaMQTT
@@ -21,4 +21,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 687ea5249ecb7f5cd451b0c3953efd52e8cf192d
 
-COCOAPODS: 1.5.2
+COCOAPODS: 1.11.3
