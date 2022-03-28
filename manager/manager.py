@@ -224,7 +224,7 @@ class Device:
 
             if command.split()[0]  == 'freeze':
                 self.clear_commands()
-                command = 'hold x=%f y=%f z=%f alpha=%f' % (self.x, self.y, self.z, self.yaw)
+                command = 'hold x=%f y=%f z=%f qw=%f qx=%f qy=%f qz=%f' % (self.x, self.y, self.z, self.attitude.w, self.attitude.x, self.attitude.y, self.attitude.z)
                 try:
                     self.command_queue.put_nowait(command)
                 except queue.Full:
