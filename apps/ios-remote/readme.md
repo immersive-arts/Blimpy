@@ -18,7 +18,7 @@ The settings should match the ones used to configure the controller for the blim
 
 ## Installation
 
-To compile and upload the app to an iPad you need "XCode" and a "Apple Developer Account" unless the iPad is registered to your iCloud account (i think...).
+To compile and run the app to an iPad you need "Xcode" on your Mac. Before building and running, make sure to set up the project with your own provisioning profile.
 
 ### Dependencies
 
