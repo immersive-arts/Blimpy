@@ -274,6 +274,8 @@ class ViewController: UIViewController, CocoaMQTTDelegate, UITableViewDataSource
         }
     }
     
+    func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopics success: NSDictionary, failed: [String]) {}
+    func mqtt(_ mqtt: CocoaMQTT, didUnsubscribeTopics topics: [String]) {}
     func mqtt(_ mqtt: CocoaMQTT, didPublishMessage message: CocoaMQTTMessage, id: UInt16) {}
     func mqtt(_ mqtt: CocoaMQTT, didPublishAck id: UInt16) {}
     func mqtt(_ mqtt: CocoaMQTT, didSubscribeTopic topic: String) {}
