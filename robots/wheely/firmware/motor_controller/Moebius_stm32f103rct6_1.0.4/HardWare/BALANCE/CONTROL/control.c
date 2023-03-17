@@ -17,7 +17,10 @@ int j;
 unsigned int TimClk = 200;
 #define a_PARAMETER          (0.311f)               
 #define b_PARAMETER          (0.3075f)   
+#define d_PARAMETER          (0.38f)
+#define SQRT3_2							 (0.866f)
 #define MAX_PWM 10000
+#define OMNIWHEEL_3_WHEEL
 /**************************************************************************
 函数功能：小车运动数学模型
 入口参数：X Y Z 三轴速度或者位置
@@ -41,10 +44,16 @@ void Kinematic_Analysis(float Vx,float Vy,float Vz)
 	//Target_B   = +Vx+Vy-Vz*(a_PARAMETER+b_PARAMETER);
 	//Target_C   = -Vx+Vy-Vz*(a_PARAMETER+b_PARAMETER);
 	//Target_D   = +Vx+Vy+Vz*(a_PARAMETER+b_PARAMETER);
+#if defined(MECHANUM_4_WHEEL)
 	Target_A   = -Vx+Vz*(a_PARAMETER+b_PARAMETER);
 	Target_B   = Vy-Vz*(a_PARAMETER+b_PARAMETER);
 	Target_C   = -Vx-Vz*(a_PARAMETER+b_PARAMETER);
 	Target_D   = Vy+Vz*(a_PARAMETER+b_PARAMETER);
+#elif defined(OMNIWHEEL_3_WHEEL)
+	Target_A   = -Vx + Vz*d_PARAMETER;
+	Target_B   = -Vx/2 + Vy*SQRT3_2	- Vz*d_PARAMETER;
+	Target_C   = -Vx/2 - Vy*SQRT3_2 - Vz*d_PARAMETER;
+#endif
 }
 /**************************************************************************
 函数功能：所有的控制代码都在这里面
