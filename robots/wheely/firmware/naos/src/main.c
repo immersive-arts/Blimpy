@@ -1,7 +1,12 @@
 #include <naos.h>
+#include <naos/ble.h>
+#include <naos/wifi.h>
+#include <naos/mqtt.h>
+#include <naos/manager.h>
 #include <string.h>
 #include <art32/numbers.h>
-#include <art32/strconv.h>
+#include <art32/convert.h>
+#include <stdio.h>
 
 #include "cmd.h"
 
@@ -9,7 +14,7 @@ void online() {
 	naos_subscribe("forces", 0, NAOS_LOCAL);
 }
 
-void message(const char* topic, uint8_t* payload, size_t len, naos_scope_t scope) {
+void message(const char* topic, const uint8_t* payload, size_t len, naos_scope_t scope) {
 	 // set model forces and torques "fx,fy,fz,mx,my,mz" (-1 to 1)
 	  if (scope == NAOS_LOCAL && strcmp(topic, "forces") == 0) {
 	        // parse comma separated speeds
@@ -27,11 +32,23 @@ void message(const char* topic, uint8_t* payload, size_t len, naos_scope_t scope
 	  }
 }
 
+static void loop() {
+  // print battery
+  naos_log("Battery: %.1f%% | %.3fV (%.3fV) | %.3fA (%.3fA)", 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+
+  // publish data
+  char str[128];
+  sprintf(str, "%f,%f,%f,%f,%f", 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
+  naos_publish_s("battery", str, 0, false, NAOS_LOCAL);
+}
+
 static naos_config_t config = {
     .device_type = "wheely",
-    .firmware_version = "0.1.0",
+    .device_version = "0.1.0",
     .online_callback = online,
     .message_callback = message,
+    .loop_callback = loop,
+    .loop_interval = 300,
 };
 
 void app_main() {
@@ -39,4 +56,11 @@ void app_main() {
 
   // initialize naos
   naos_init(&config);
+  
+  naos_ble_init((naos_ble_config_t){});
+  naos_wifi_init();
+  naos_mqtt_init(1);
+  naos_manager_init();
+  
+  naos_start();
 }

@@ -1,19 +1,10 @@
 {
-  "version": "master",
+  "version": "e6135f3",
   "components": {
     "art32": {
       "repository": "https://github.com/256dpi/art32.git",
-      "version": "master"
+      "version": "916c44a"
     }
   },
-  "broker": "mqtt://10.128.96.250:1883",
-  "devices": {
-    "b01": {
-      "base_topic": "blimps/b01",
-      "name": "b01",
-      "type": "wheely",
-      "firmware_version": "0.1.0",
-      "parameters": {}
-    }
-  }
+  "broker": "mqtt://10.128.96.250:1883"
 }
