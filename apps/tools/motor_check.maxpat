@@ -3,14 +3,14 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 8,
-			"minor" : 2,
+			"minor" : 6,
 			"revision" : 0,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 342.0, 79.0, 375.0, 386.0 ],
+		"rect" : [ 342.0, 100.0, 375.0, 386.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -46,7 +46,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 213.0, 251.0, 50.0, 89.0 ],
+					"patching_rect" : [ 270.0, 252.5, 50.0, 89.0 ],
 					"text" : "subscribe optitrack/blimps/b02/position"
 				}
 
@@ -257,6 +257,7 @@
 					"enablevscroll" : 0,
 					"id" : "obj-14",
 					"lockeddragscroll" : 0,
+					"lockedsize" : 0,
 					"maxclass" : "bpatcher",
 					"name" : "blp.txrx.drone.maxpat",
 					"numinlets" : 4,
@@ -311,8 +312,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 2,
 					"outlettype" : [ "int", "list" ],
-					"patching_rect" : [ 35.0, 286.0, 199.0, 22.0 ],
-					"text" : "mqtt mqtt://10.128.96.189 max-mqtt"
+					"patching_rect" : [ 35.0, 286.0, 198.0, 22.0 ],
+					"text" : "mqtt mqtt://10.128.96.113 max-mqtt"
 				}
 
 			}
@@ -405,7 +406,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-14", 3 ],
-					"midpoints" : [ 224.5, 318.0, 286.000000000000057, 318.0, 286.000000000000057, 186.0, 268.5, 186.0 ],
+					"midpoints" : [ 223.5, 318.0, 286.000000000000057, 318.0, 286.000000000000057, 186.0, 268.5, 186.0 ],
 					"source" : [ "obj-22", 1 ]
 				}
 
@@ -512,16 +513,16 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "blp.txrx.drone.maxpat",
-				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/txrx",
-				"patcherrelativepath" : "../../libs/blimpy4max/patchers/txrx",
+				"name" : "blp.rate.maxpat",
+				"bootpath" : "/Volumes/Ddrive/00_core/IAServer/Blimpy/libs/blimpy4max/patchers/utils",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/utils",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
-				"name" : "blp.rate.maxpat",
-				"bootpath" : "~/Arbeiten/01_projekte/181111_IASpace/01_projekte/1901_HeliumDrone/02_dev/blimpy/libs/blimpy4max/patchers/utils",
-				"patcherrelativepath" : "../../libs/blimpy4max/patchers/utils",
+				"name" : "blp.txrx.drone.maxpat",
+				"bootpath" : "/Volumes/Ddrive/00_core/IAServer/Blimpy/libs/blimpy4max/patchers/txrx",
+				"patcherrelativepath" : "../../libs/blimpy4max/patchers/txrx",
 				"type" : "JSON",
 				"implicit" : 1
 			}
