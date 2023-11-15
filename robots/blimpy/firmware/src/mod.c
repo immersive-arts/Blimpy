@@ -15,8 +15,12 @@ static a32_vector_t parse_config(const char *config) {
   // allocate array
   a32_vector_t vec = a32_vector_new(6);
 
+  // copy string
+  char str[128];
+  strcpy(str, config);
+
   // parse comma separated speeds
-  char *ptr = strtok((char *)config, ",");
+  char *ptr = strtok(str, ",");
   int i = 0;
   while (ptr != NULL && i < vec.length) {
     vec.values[i] = a32_str2d(ptr);
