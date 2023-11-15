@@ -7,6 +7,7 @@
 #include <naos/wifi.h>
 #include <naos/sys.h>
 #include <naos/mqtt.h>
+#include <naos/manager.h>
 #include <string.h>
 
 #include "bat.h"
@@ -293,6 +294,7 @@ void app_main() {
   naos_ble_init((naos_ble_config_t){});
   naos_wifi_init();
   naos_mqtt_init(1);
+  naos_manager_init();
   naos_start();
 
   // get motor config
