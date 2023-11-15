@@ -1,6 +1,10 @@
 {
   "version": "v0.11.0",
   "target": "esp32",
+  "overrides": {
+    "CONFIG_FREERTOS_PLACE_FUNCTIONS_INTO_FLASH": "y",
+    "CONFIG_FREERTOS_PLACE_SNAPSHOT_FUNS_INTO_FLASH": "y"
+  },
   "components": {
     "art32": {
       "repository": "https://github.com/256dpi/art32.git",
