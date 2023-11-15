@@ -87,7 +87,7 @@ class ViewController: UIViewController, CocoaMQTTDelegate, UITableViewDataSource
         client!.autoReconnectTimeInterval = 1
         
         // connect to broker
-        client!.connect()
+        let _ = client!.connect()
     }
     
     func setupLeftJoystick() {
