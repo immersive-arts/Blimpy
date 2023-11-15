@@ -114,7 +114,7 @@ static uint16_t exp_read16(uint8_t addr, uint8_t reg) {
 
 static void exp_pin_mode(uint8_t addr, uint8_t pin, exp_pin_mode_t mode) {
   // get direction
-  uint input = (mode == EXP_INPUT || mode == EXP_INPUT_PULL_UP || mode == EXP_INPUT_PULL_DOWN);
+  uint8_t input = (mode == EXP_INPUT || mode == EXP_INPUT_PULL_UP || mode == EXP_INPUT_PULL_DOWN);
 
   // get direction register
   uint16_t reg = exp_read16(addr, 0x0E);
