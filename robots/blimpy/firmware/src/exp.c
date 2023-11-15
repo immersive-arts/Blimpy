@@ -225,11 +225,11 @@ void exp_init() {
   };
 
   // configure reset pin
-  gpio_config(&rst);
+  ESP_ERROR_CHECK(gpio_config(&rst));
 
   // reset chip
-  gpio_set_level(GPIO_NUM_2, 0);
-  gpio_set_level(GPIO_NUM_2, 1);
+  ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_2, 0));
+  ESP_ERROR_CHECK(gpio_set_level(GPIO_NUM_2, 1));
 
   // read test register
   uint16_t bytes = exp_read16(0, 0x13);
