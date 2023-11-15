@@ -243,18 +243,20 @@ static naos_param_t params[] = {
     {.name = "led-white", .type = NAOS_BOOL, .default_b = false, .sync_b = &led_white},
 };
 
-static naos_config_t config = {.device_type = "blimpy",
-                               .device_version = "0.4.1",
-                               .parameters = params,
-                               .num_parameters = sizeof(params) / sizeof(naos_param_t),
-                               .ping_callback = ping,
-                               .online_callback = online,
-                               .update_callback = update,
-                               .message_callback = message,
-                               .loop_callback = loop,
-                               .loop_interval = 300,
-                               .battery_callback = battery,
-                               .status_callback = status};
+static naos_config_t config = {
+    .device_type = "blimpy",
+    .device_version = "0.4.1",
+    .parameters = params,
+    .num_parameters = sizeof(params) / sizeof(naos_param_t),
+    .ping_callback = ping,
+    .online_callback = online,
+    .update_callback = update,
+    .message_callback = message,
+    .loop_callback = loop,
+    .loop_interval = 300,
+    .battery_callback = battery,
+    .status_callback = status,
+};
 
 void app_main() {
   // install global interrupt service
