@@ -3,6 +3,7 @@
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
 #include <naos.h>
+#include <naos/sys.h>
 
 #include "srv.h"
 

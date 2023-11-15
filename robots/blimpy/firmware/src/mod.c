@@ -1,6 +1,6 @@
 #include <art32/matrix.h>
 #include <art32/numbers.h>
-#include <art32/strconv.h>
+#include <art32/convert.h>
 #include <math.h>
 #include <naos.h>
 #include <stdio.h>
@@ -11,7 +11,7 @@
 static a32_matrix_t model = {0};
 static a32_vector_t range = {0};
 
-static a32_vector_t parse_config(char *config) {
+static a32_vector_t parse_config(const char *config) {
   // allocate array
   a32_vector_t vec = a32_vector_new(6);
 
@@ -42,11 +42,11 @@ void mod_calculate() {
   // parse individual motor configuration
   for (int i = 0; i < 6; i++) {
     // get param name
-    char param[16] = {0};
+    char param[24] = {0};
     sprintf(param, "model-m%d", i + 1);
 
     // parse string config
-    a32_vector_t motor = parse_config(naos_get(param));
+    a32_vector_t motor = parse_config(naos_get_s(param));
 
     // vector has the layout: fx, fy, fz, dx, dy, dz
 

@@ -1,8 +1,9 @@
 #include <art32/numbers.h>
-#include <art32/strconv.h>
+#include <art32/convert.h>
 #include <driver/adc.h>
 #include <driver/i2c.h>
 #include <naos.h>
+#include <naos/sys.h>
 #include <streamy.h>
 #include <string.h>
 

@@ -3,6 +3,7 @@
 #include <freertos/event_groups.h>
 #include <freertos/task.h>
 #include <naos.h>
+#include <naos/sys.h>
 
 #include "pwr.h"
 
