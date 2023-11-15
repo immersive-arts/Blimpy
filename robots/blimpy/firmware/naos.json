@@ -5,10 +5,6 @@
     "art32": {
       "repository": "https://github.com/256dpi/art32.git",
       "version": "master"
-    },
-    "streamy": {
-      "repository": "https://github.com/256dpi/streamy.git",
-      "version": "main"
     }
   }
 }

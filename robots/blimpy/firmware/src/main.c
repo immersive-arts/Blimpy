@@ -4,7 +4,6 @@
 #include <driver/i2c.h>
 #include <naos.h>
 #include <naos/sys.h>
-#include <streamy.h>
 #include <string.h>
 
 #include "bat.h"
@@ -20,8 +19,6 @@ static naos_status_t last_status = NAOS_DISCONNECTED;
 static double safety_off = 0;
 
 static double motor_map[6] = {0};
-
-static bool sound = false;
 
 static int32_t led_size = 0;
 static bool led_white = false;
@@ -70,11 +67,6 @@ static void online() {
   naos_subscribe("servos", 0, NAOS_LOCAL);
   naos_subscribe("motion", 0, NAOS_LOCAL);
   naos_subscribe("light", 0, NAOS_LOCAL);
-
-  // setup streamy
-  if (sound) {
-    streamy_setup();
-  }
 }
 
 static void update(const char *param, const char *value) {
@@ -202,11 +194,6 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
 
     return;
   }
-
-  // forward message
-  if (sound) {
-    streamy_handle(topic, payload, len, scope);
-  }
 }
 
 static void loop() {
@@ -249,7 +236,6 @@ static naos_param_t params[] = {
     {.name = "model-m4", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
     {.name = "model-m5", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
     {.name = "model-m6", .type = NAOS_STRING, .default_s = "0,0,0,0,0,0"},
-    {.name = "sound", .type = NAOS_BOOL, .default_b = false, .sync_b = &sound},
     {.name = "led-size", .type = NAOS_LONG, .default_l = 0, .sync_l = &led_size},
     {.name = "led-white", .type = NAOS_BOOL, .default_b = false, .sync_b = &led_white},
 };
@@ -308,26 +294,8 @@ void app_main() {
   mot_init(!dm1, !dm2);
   srv_init(!sound, dm1, dm2);
 
-  // initialize sound
-  if (sound) {
-    streamy_config_t config = {
-        .pin_clk = 15,  // S1
-        .pin_data = 5,  // S2
-        .pin_lrc = 14,  // LED
-        .sample_rate = 44100,
-        .bit_rate = 16,
-        .dma_chunk_length = 10,
-        .dma_chunk_num = 3,
-        .queue_length = 16,
-        .update_rate = 100,
-    };
-    streamy_init(config);
-  }
-
   // initialize neo pixels
-  if (!sound) {
-      neo_init(led_size, led_white);
-  }
+  neo_init(led_size, led_white);
 
   // prepare model
   mod_calculate();
