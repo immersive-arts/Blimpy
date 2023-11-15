@@ -1,10 +1,10 @@
 PODS:
   - CDJoystick (1.1.0)
-  - CocoaAsyncSocket (7.6.5)
-  - CocoaMQTT (2.0.2):
-    - CocoaMQTT/Core (= 2.0.2)
-  - CocoaMQTT/Core (2.0.2):
-    - CocoaAsyncSocket (~> 7.6.5)
+  - CocoaMQTT (2.1.6):
+    - CocoaMQTT/Core (= 2.1.6)
+  - CocoaMQTT/Core (2.1.6):
+    - MqttCocoaAsyncSocket (~> 1.0.8)
+  - MqttCocoaAsyncSocket (1.0.8)
 
 DEPENDENCIES:
   - CDJoystick
@@ -13,13 +13,13 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - CDJoystick
-    - CocoaAsyncSocket
     - CocoaMQTT
+    - MqttCocoaAsyncSocket
 
 SPEC CHECKSUMS:
   CDJoystick: 5563edf7dbc276cfec6f4606ee2a5b63ee54a15e
-  CocoaAsyncSocket: 065fd1e645c7abab64f7a6a2007a48038fdc6a99
-  CocoaMQTT: 2cab338fe04820d1e32aa20809e4d141a4118f0a
+  CocoaMQTT: 1f206228b29318eabdacad0c2e4e88575922c27a
+  MqttCocoaAsyncSocket: 77d3b74f76228dd5a05d1f9526eab101d415b30c
 
 PODFILE CHECKSUM: 687ea5249ecb7f5cd451b0c3953efd52e8cf192d
 
