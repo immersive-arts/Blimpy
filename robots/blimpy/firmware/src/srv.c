@@ -105,17 +105,17 @@ void srv_init(bool s12, bool s34, bool s56) {
   };
 
   if (s12) {
-      // configure servo 1
-      c.gpio_num = SRV_1;
-      c.channel = srv_chans[0];
-      ESP_ERROR_CHECK(ledc_channel_config(&c));
-      srv_avl[0] = true;
+    // configure servo 1
+    c.gpio_num = SRV_1;
+    c.channel = srv_chans[0];
+    ESP_ERROR_CHECK(ledc_channel_config(&c));
+    srv_avl[0] = true;
 
-      // configure servo 2
-      c.gpio_num = SRV_2;
-      c.channel = srv_chans[1];
-      ESP_ERROR_CHECK(ledc_channel_config(&c));
-      srv_avl[1] = true;
+    // configure servo 2
+    c.gpio_num = SRV_2;
+    c.channel = srv_chans[1];
+    ESP_ERROR_CHECK(ledc_channel_config(&c));
+    srv_avl[1] = true;
   }
 
   if (s34) {

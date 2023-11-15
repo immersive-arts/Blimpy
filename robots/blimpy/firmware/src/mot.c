@@ -17,11 +17,13 @@
 
 static bool mot_avl[MOT_NUM] = {0};
 
-static mcpwm_unit_t mot_units[MOT_NUM] = {MCPWM_UNIT_0, MCPWM_UNIT_0, MCPWM_UNIT_0,
-                                          MCPWM_UNIT_1, MCPWM_UNIT_1, MCPWM_UNIT_1};
+static mcpwm_unit_t mot_units[MOT_NUM] = {
+    MCPWM_UNIT_0, MCPWM_UNIT_0, MCPWM_UNIT_0, MCPWM_UNIT_1, MCPWM_UNIT_1, MCPWM_UNIT_1,
+};
 
-static mcpwm_timer_t mot_timers[MOT_NUM] = {MCPWM_TIMER_0, MCPWM_TIMER_1, MCPWM_TIMER_2,
-                                            MCPWM_TIMER_0, MCPWM_TIMER_1, MCPWM_TIMER_2};
+static mcpwm_timer_t mot_timers[MOT_NUM] = {
+    MCPWM_TIMER_0, MCPWM_TIMER_1, MCPWM_TIMER_2, MCPWM_TIMER_0, MCPWM_TIMER_1, MCPWM_TIMER_2,
+};
 
 void mot_init(bool m1, bool m2) {
   // configure pins
