@@ -11,31 +11,29 @@
 #include "cmd.h"
 
 void online() {
-	naos_subscribe("forces", 0, NAOS_LOCAL);
+  // subscribe topics
+  naos_subscribe("forces", 0, NAOS_LOCAL);
 }
 
 void message(const char* topic, const uint8_t* payload, size_t len, naos_scope_t scope) {
-	 // set model forces and torques "fx,fy,fz,mx,my,mz" (-1 to 1)
-	  if (scope == NAOS_LOCAL && strcmp(topic, "forces") == 0) {
-	        // parse comma separated speeds
-	        double data[6];
-	        char *ptr = strtok((char *)payload, ",");
-	        int i = 0;
-	        while (ptr != NULL && i < 6) {
-	          data[i] = a32_constrain_d(a32_str2d(ptr), -1, 1);
-	          ptr = strtok(NULL, ",");
-	          i++;
-	        }
+  // set model forces and torques "fx,fy,fz,mx,my,mz" (-1 to 1)
+  if (scope == NAOS_LOCAL && strcmp(topic, "forces") == 0) {
+    // parse comma separated speeds
+    double data[6];
+    char* ptr = strtok((char*)payload, ",");
+    int i = 0;
+    while (ptr != NULL && i < 6) {
+      data[i] = a32_constrain_d(a32_str2d(ptr), -1, 1);
+      ptr = strtok(NULL, ",");
+      i++;
+    }
 
-	        naos_log("Message: %f %f %f %f %f %f", data[0], data[1], data[2], data[3], data[4], data[5]);
-	        cmd_update(data[0], data[1], data[2], data[3], data[4], data[5]);
-	  }
+    naos_log("Message: %f %f %f %f %f %f", data[0], data[1], data[2], data[3], data[4], data[5]);
+    cmd_update(data[0], data[1], data[2], data[3], data[4], data[5]);
+  }
 }
 
 static void loop() {
-  // print battery
-  naos_log("Battery: %.1f%% | %.3fV (%.3fV) | %.3fA (%.3fA)", 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-
   // publish data
   char str[128];
   sprintf(str, "%f,%f,%f,%f,%f", 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
@@ -56,11 +54,9 @@ void app_main() {
 
   // initialize naos
   naos_init(&config);
-  
   naos_ble_init((naos_ble_config_t){});
   naos_wifi_init();
   naos_mqtt_init(1);
   naos_manager_init();
-  
   naos_start();
 }

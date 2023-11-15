@@ -81,9 +81,9 @@ void cmd_init(void) {
   };
 
   // Enable pull-ups on SPI lines so we don't detect rogue pulses when no master is connected.
-  gpio_set_pull_mode(GPIO_MOSI, GPIO_PULLUP_ONLY);
-  gpio_set_pull_mode(GPIO_SCLK, GPIO_PULLUP_ONLY);
-  gpio_set_pull_mode(GPIO_CS, GPIO_PULLUP_ONLY);
+  ESP_ERROR_CHECK(gpio_set_pull_mode(GPIO_MOSI, GPIO_PULLUP_ONLY));
+  ESP_ERROR_CHECK(gpio_set_pull_mode(GPIO_SCLK, GPIO_PULLUP_ONLY));
+  ESP_ERROR_CHECK(gpio_set_pull_mode(GPIO_CS, GPIO_PULLUP_ONLY));
 
   // Initialize SPI slave interface
   ESP_ERROR_CHECK(spi_slave_initialize(RCV_HOST, &buscfg, &slvcfg, 0));
