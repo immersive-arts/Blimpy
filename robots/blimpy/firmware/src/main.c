@@ -246,7 +246,7 @@ static naos_param_t params[] = {
 static naos_config_t config = {.device_type = "blimpy",
                                .device_version = "0.4.1",
                                .parameters = params,
-                               .num_parameters = 18,
+                               .num_parameters = sizeof(params) / sizeof(naos_param_t),
                                .ping_callback = ping,
                                .online_callback = online,
                                .update_callback = update,
