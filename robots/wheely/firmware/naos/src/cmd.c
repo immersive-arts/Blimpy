@@ -74,7 +74,7 @@ void cmd_init(void) {
 
   // Configuration for the SPI slave interface
   spi_slave_interface_config_t slvcfg = {
-      .mode = 3,
+      .mode = 2,
       .spics_io_num = GPIO_CS,
       .queue_size = 3,
       .flags = 0,
