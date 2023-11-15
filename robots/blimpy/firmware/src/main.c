@@ -3,7 +3,10 @@
 #include <driver/adc.h>
 #include <driver/i2c.h>
 #include <naos.h>
+#include <naos/ble.h>
+#include <naos/wifi.h>
 #include <naos/sys.h>
+#include <naos/mqtt.h>
 #include <string.h>
 
 #include "bat.h"
@@ -285,6 +288,10 @@ void app_main() {
 
   // initialize naos
   naos_init(&config);
+  naos_ble_init((naos_ble_config_t ){});
+  naos_wifi_init();
+  naos_mqtt_init(1);
+  naos_start();
 
   // get motor config
   bool dm1 = naos_get_b("disable-m1");
