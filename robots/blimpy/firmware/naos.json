@@ -1,10 +1,10 @@
 {
-  "version": "master",
+  "version": "v0.11.0",
   "target": "esp32",
   "components": {
     "art32": {
       "repository": "https://github.com/256dpi/art32.git",
-      "version": "master"
+      "version": "3f28c8f"
     }
   }
 }
