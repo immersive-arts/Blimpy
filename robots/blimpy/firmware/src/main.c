@@ -69,14 +69,14 @@ static void online() {
   naos_subscribe("light", 0, NAOS_LOCAL);
 }
 
-static void update(const char *param, const char *value) {
+static void update(naos_param_t *param) {
   // recalculate model if motor configuration changed
-  if (strncmp(param, "model-m", 7) == 0) {
+  if (strncmp(param->name, "model-m", 7) == 0) {
     mod_calculate();
   }
 }
 
-static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_t scope) {
+static void message(const char *topic, const uint8_t *payload, size_t len, naos_scope_t scope) {
   // set motor duty cycles "m1,m2,m3,m4,m5,m6" (-1 to 1)
   if (scope == NAOS_LOCAL && strcmp(topic, "motors") == 0) {
     // prepare speeds
@@ -125,7 +125,7 @@ static void message(const char *topic, uint8_t *payload, size_t len, naos_scope_
     char model[255];
     sprintf(model, "%f,%f,%f,%f,%f,%f", result.values[0], result.values[1], result.values[2], result.values[3],
             result.values[4], result.values[5]);
-    naos_publish("model", model, 0, false, NAOS_LOCAL);
+    naos_publish_s("model", model, 0, false, NAOS_LOCAL);
 
     // free vectors
     a32_vector_free(result);
@@ -212,7 +212,7 @@ static void loop() {
   // publish data
   char str[128];
   sprintf(str, "%f,%f,%f,%f,%f", data.charge, data.voltage, data.avg_voltage, data.current, data.avg_current);
-  naos_publish("battery", str, 0, false, NAOS_LOCAL);
+  naos_publish_s("battery", str, 0, false, NAOS_LOCAL);
 }
 
 static float battery() {
@@ -241,7 +241,7 @@ static naos_param_t params[] = {
 };
 
 static naos_config_t config = {.device_type = "blimpy",
-                               .firmware_version = "0.4.1",
+                               .device_version = "0.4.1",
                                .parameters = params,
                                .num_parameters = 18,
                                .ping_callback = ping,
@@ -250,7 +250,7 @@ static naos_config_t config = {.device_type = "blimpy",
                                .message_callback = message,
                                .loop_callback = loop,
                                .loop_interval = 300,
-                               .battery_level = battery,
+                               .battery_callback = battery,
                                .status_callback = status};
 
 void app_main() {
@@ -292,7 +292,7 @@ void app_main() {
 
   // initialize servos and motors
   mot_init(!dm1, !dm2);
-  srv_init(!sound, dm1, dm2);
+  srv_init(true, dm1, dm2);
 
   // initialize neo pixels
   neo_init(led_size, led_white);
