@@ -1,0 +1,97 @@
+#
+# For a description of the syntax of this configuration file,
+# see misc/tools/kconfig-language.txt.
+#
+
+menu "User-space networking stack API"
+
+config NET_USRSOCK
+	bool "User-space networking stack API"
+	default n
+	depends on NET
+	---help---
+		Enable or disable user-space networking stack support.
+
+		User-space networking stack API allows user-space daemon to
+		provide TCP/IP stack implementation for NuttX network.
+
+		Main use for this is to allow use and integration of
+		HW-provided TCP/IP stacks for NuttX.
+
+		For example, user-space daemon can translate /dev/usrsock API
+		requests to HW TCP/IP API requests while rest of the user-space
+		can access standard socket API, with socket descriptors that
+		can be used with NuttX system calls.
+
+if NET_USRSOCK
+
+config NET_USRSOCK_PREALLOC_CONNS
+	int "Preallocated usrsock connections"
+	default 6
+	---help---
+		Number of usrsock connections (all tasks).
+
+		This number of connections will be pre-allocated during system boot.
+		If dynamic connections allocation is enabled, more connections may
+		be allocated at a later time, as the system needs them. Else this
+		will be the maximum number of connections available to the system
+		at all times.
+
+		Set to 0 to disable (and rely only on dynamic allocations).
+
+		Note: Usrsock daemon can impose additional restrictions for
+		maximum number of concurrent connections supported.
+
+config NET_USRSOCK_ALLOC_CONNS
+	int "Dynamic usrsock connections allocation"
+	default 0
+	---help---
+		Dynamic memory allocations for usrsock.
+
+		When set to 0 all dynamic allocations are disabled.
+
+		When set to 1 a new connection will be allocated every time,
+		and it will be free'd when no longer needed.
+
+		Setting this to 2 or more will allocate the connections in
+		batches (with batch size equal to this config). When a
+		connection is no longer needed, it will be returned to the
+		free connections pool, and it will never be deallocated!
+
+config NET_USRSOCK_MAX_CONNS
+	int "Maximum number of usrsock connections"
+	default 0
+	depends on NET_USRSOCK_ALLOC_CONNS > 0
+	---help---
+		If dynamic connections allocation is selected (NET_USRSOCK_ALLOC_CONNS > 0)
+		this will limit the number of connections that can be allocated.
+
+		This is useful in case the system is under very heavy load (or
+		under attack), ensuring that the heap will not be exhausted.
+
+config NET_USRSOCK_NPOLLWAITERS
+	int "Number of usrsock poll waiters"
+	default 1
+
+config NET_USRSOCK_UDP
+	bool "User-space daemon provides UDP sockets"
+	default n
+	select NET_UDP_NO_STACK
+
+config NET_USRSOCK_TCP
+	bool "User-space daemon provides TCP sockets"
+	default n
+	select NET_TCP_NO_STACK
+
+config NET_USRSOCK_ICMP
+	bool "User-space daemon provides ICMP sockets"
+	select NET_ICMP_NO_STACK
+	default n
+
+config NET_USRSOCK_ICMPv6
+	bool "User-space daemon provides ICMPv6 sockets"
+	select NET_ICMPv6_NO_STACK
+	default n
+
+endif # NET_USRSOCK
+endmenu # User-space networking stack API

@@ -1,0 +1,191 @@
+############################################################################
+# arch/arm/src/armv8-m/Toolchain.defs
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.  The
+# ASF licenses this file to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance with the
+# License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+############################################################################
+
+# Parametrization for ARCHCPUFLAGS
+
+ifeq ($(CONFIG_ARM_DSP),y)
+  EXTCPUFLAGS = +dsp
+endif
+
+ifeq ($(CONFIG_ARM_PACBTI),y)
+  EXTCPUFLAGS := $(EXTCPUFLAGS)+pacbti
+
+  # Protects branches using pointer authentication and Branch Target Identification.
+  #
+  # The default is -mbranch-protection=none.
+  #
+  # -mbranch-protection=standard:
+  #   Enables all types of branch protection to their standard values.
+  #   The standard protection is equivalent to -mbranch-protection=bti+pac-ret.
+  #
+  # -mbranch-protection=bti:
+  #   Enables branch protection using Branch Target Identification.
+  #
+  # -mbranch-protection=pac-ret:
+  #   Enables branch protection using pointer authentication using key A.
+  #
+  #   +leaf:
+  #   Enables pointer authentication on all leaf functions, including the leaf
+  #   functions that do not save the LR on the stack.
+  #
+  #   +b-key:
+  #   Enables pointer authentication with Key B, rather than Key A.
+
+  ARCHOPTIMIZATION += -mbranch-protection=standard
+endif
+
+ifeq ($(CONFIG_ARM_HAVE_MVE),y)
+  EXTCPUFLAGS := $(EXTCPUFLAGS)+mve.fp+fp.dp
+endif
+
+ifeq ($(CONFIG_ARCH_CORTEXM23),y)
+  TOOLCHAIN_MTUNE    := -mtune=cortex-m23
+  TOOLCHAIN_MARCH    := -march=armv8-m.main
+  TOOLCHAIN_MFLOAT   := -mfloat-abi=soft
+  LLVM_CPUTYPE       := cortex-m23
+else ifeq ($(CONFIG_ARCH_CORTEXM33),y)
+  TOOLCHAIN_MTUNE    := -mtune=cortex-m33
+  TOOLCHAIN_MARCH    := -march=armv8-m.main$(EXTCPUFLAGS)
+  LLVM_CPUTYPE       := cortex-m33
+  ifeq ($(CONFIG_ARCH_FPU),y)
+    TOOLCHAIN_MFLOAT := -mfpu=fpv5-sp-d16
+  endif
+else ifeq ($(CONFIG_ARCH_CORTEXM35P),y)
+  TOOLCHAIN_MTUNE    := -mtune=cortex-m35p
+  TOOLCHAIN_MARCH    := -march=armv8-m.main$(EXTCPUFLAGS)
+  LLVM_CPUTYPE       := cortex-m35p
+  ifeq ($(CONFIG_ARCH_FPU),y)
+    TOOLCHAIN_MFLOAT := -mfpu=fpv5-sp-d16
+  endif
+else ifeq ($(CONFIG_ARCH_CORTEXM55),y)
+  TOOLCHAIN_MTUNE    := -mtune=cortex-m55
+  TOOLCHAIN_MARCH    := -march=armv8.1-m.main$(EXTCPUFLAGS)
+  LLVM_CPUTYPE       := cortex-m55
+  ifeq ($(CONFIG_ARCH_FPU),y)
+    TOOLCHAIN_MFLOAT := -mfpu=fpv5-d16
+  endif
+else ifeq ($(CONFIG_ARCH_CORTEXM85),y)
+  TOOLCHAIN_MTUNE    := -mtune=cortex-m85
+  TOOLCHAIN_MARCH    := -march=armv8.1-m.main$(EXTCPUFLAGS)
+  LLVM_CPUTYPE       := cortex-m85
+  ifeq ($(CONFIG_ARCH_FPU),y)
+    TOOLCHAIN_MFLOAT := -mfpu=fpv5-d16
+  endif
+endif
+
+LLVM_ARCHTYPE := thumbv8m.main$(EXTCPUFLAGS)
+
+ifeq ($(CONFIG_ARCH_FPU),y)
+  LLVM_ABITYPE := eabihf
+  ifeq ($(CONFIG_ARM_FPU_ABI_SOFT),y)
+    TOOLCHAIN_MFLOAT += -mfloat-abi=softfp
+  else
+    TOOLCHAIN_MFLOAT += -mfloat-abi=hard
+  endif
+else
+  LLVM_ABITYPE := eabi
+  TOOLCHAIN_MFLOAT += -mfloat-abi=soft
+endif
+
+# Clang Configuration files
+
+ifeq ($(CONFIG_ARM_TOOLCHAIN_CLANG),y)
+
+  ifeq ($(CONFIG_ARCH_CORTEXM23),y)
+    TOOLCHAIN_MARCH += --config armv8m.main_soft_nofp_nosys
+  else ifeq ($(CONFIG_ARCH_CORTEXM33),y)
+    ifeq ($(CONFIG_ARCH_FPU),y)
+      TOOLCHAIN_MARCH += --config armv8m.main_hard_fp_nosys
+    else
+      TOOLCHAIN_MARCH += --config armv8m.main_soft_nofp_nosys
+    endif
+  else ifeq ($(CONFIG_ARCH_CORTEXM35P),y)
+    ifeq ($(CONFIG_ARCH_FPU),y)
+      TOOLCHAIN_MARCH += --config armv8m.main_hard_fp_nosys
+    else
+      TOOLCHAIN_MARCH += --config armv8m.main_soft_nofp_nosys
+    endif
+  else ifeq ($(CONFIG_ARCH_CORTEXM55),y)
+    ifeq ($(CONFIG_ARCH_FPU),y)
+      TOOLCHAIN_MARCH += --config armv8.1m.main_hard_fp_nosys
+    else
+      TOOLCHAIN_MARCH += --config armv8.1m.main_soft_nofp_nomve_nosys
+    endif
+  else ifeq ($(CONFIG_ARCH_CORTEXM85),y)
+    ifeq ($(CONFIG_ARCH_FPU),y)
+      TOOLCHAIN_MARCH += --config armv8.1m.main_hard_fp
+    else
+      TOOLCHAIN_MARCH += --config armv8.1m.main_soft_nofp_nomve
+    endif
+  endif
+
+else ifeq ($(CONFIG_ARM_TOOLCHAIN_ARMCLANG),y)
+
+  ifeq ($(CONFIG_ARCH_CORTEXM23),y)
+    LDFLAGS += --cpu=Cortex-M23
+  else ifeq ($(CONFIG_ARCH_CORTEXM33),y)
+    ifeq ($(CONFIG_ARCH_FPU),y)
+      LDFLAGS += --cpu=Cortex-M33
+    else
+      LDFLAGS += --cpu=Cortex-M33.no_fp
+    endif
+  else ifeq ($(CONFIG_ARCH_CORTEXM35P),y)
+    ifeq ($(CONFIG_ARCH_FPU),y)
+      LDFLAGS += --cpu=Cortex-M35P
+    else
+      LDFLAGS += --cpu=Cortex-M35P.no_fp
+    endif
+  else ifeq ($(CONFIG_ARCH_CORTEXM55),y)
+    ifeq ($(CONFIG_ARM_HAVE_MVE),y)
+      ifeq ($(CONFIG_ARCH_FPU),y)
+        LDFLAGS += --cpu=Cortex-M55
+      else
+        LDFLAGS += --cpu=Cortex-M55.no_fp
+      endif
+    else
+      ifeq ($(CONFIG_ARCH_FPU),y)
+        LDFLAGS += --cpu=Cortex-M55.no_mve
+      else
+        LDFLAGS += --cpu=Cortex-M55.no_mve.no_fp
+      endif
+    endif
+  else ifeq ($(CONFIG_ARCH_CORTEXM85),y)
+    ifeq ($(CONFIG_ARM_HAVE_MVE),y)
+      ifeq ($(CONFIG_ARCH_FPU),y)
+        LDFLAGS += --cpu=Cortex-M85
+      else
+        LDFLAGS += --cpu=Cortex-M85.no_fp
+      endif
+    else
+      ifeq ($(CONFIG_ARCH_FPU),y)
+        LDFLAGS += --cpu=Cortex-M85.no_mve
+      else
+        LDFLAGS += --cpu=Cortex-M85.no_mve.no_fp
+      endif
+    endif
+  endif
+
+endif
+
+ifeq ($(CONFIG_ARMV8M_STACKCHECK),y)
+  ARCHOPTIMIZATION += -finstrument-functions -ffixed-r10
+endif
+
+include $(TOPDIR)/arch/arm/src/common/Toolchain.defs

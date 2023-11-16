@@ -1,0 +1,119 @@
+############################################################################
+# libs/libxx/libcxx.defs
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.  The
+# ASF licenses this file to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance with the
+# License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+###########################################################################
+
+LIBCXX_VERSION=12.0.0
+
+# Download and unpack tarball if no git repo found
+ifeq ($(wildcard libcxx/.git),)
+libcxx-$(LIBCXX_VERSION).src.tar.xz:
+	$(call DOWNLOAD,https://github.com/llvm/llvm-project/releases/download/llvmorg-$(LIBCXX_VERSION),libcxx-$(LIBCXX_VERSION).src.tar.xz)
+
+libcxx: libcxx-$(LIBCXX_VERSION).src.tar.xz
+	$(Q) tar -xf libcxx-$(LIBCXX_VERSION).src.tar.xz \
+	         --exclude libcxx-$(LIBCXX_VERSION).src/test/std/pstl
+	$(Q) mv libcxx-$(LIBCXX_VERSION).src libcxx
+	$(Q) patch -p0 < 0001-Remove-the-locale-fallback-for-NuttX.patch
+	$(Q) patch -p0 < 0001-libc-avoid-the-waring-__EXCEPTIONS-is-not-defined-ev.patch
+	$(Q) patch -p1 < 0001-libcxx-Rename-PS-macro-to-avoid-clashing-with-Xtensa.patch
+ifeq ($(CONFIG_LIBC_ARCH_ATOMIC),y)
+	$(Q) patch -p1 < 0002-Omit-atomic_-un-signed_lock_free-if-unsupported.patch
+endif
+	$(Q) touch $@
+endif
+
+$(TOPDIR)/include/libcxx: libcxx
+	$(Q) $(DIRLINK) $(CURDIR)/libcxx/include $(TOPDIR)/include/libcxx
+
+context:: $(TOPDIR)/include/libcxx
+
+distclean::
+	$(Q) $(DIRUNLINK) $(TOPDIR)/include/libcxx
+ifeq ($(wildcard libcxx/.git),)
+	$(Q) $(DELFILE) libcxx-$(LIBCXX_VERSION).src.tar.xz
+	$(call DELDIR, libcxx)
+endif
+
+CXXFLAGS += ${DEFINE_PREFIX}_LIBCPP_BUILDING_LIBRARY
+
+ifeq ($(CONFIG_LIBSUPCXX), y)
+CXXFLAGS += ${DEFINE_PREFIX}__GLIBCXX__
+endif
+
+# Workaround the following warning with "c++ (Ubuntu 9.3.0-10ubuntu2) 9.3.0"
+#
+# libcxx/src/barrier.cpp: In constructor 'std::__1::__barrier_algorithm_base::__barrier_algorithm_base(ptrdiff_t&)':
+# libcxx/src/barrier.cpp:35:9: warning: declaration of '__expected' shadows a member of 'std::__1::__barrier_algorithm_base' [-Wshadow]
+#    35 |         : __expected(__expected)
+#       |         ^
+# libcxx/src/barrier.cpp:29:24: note: shadowed declaration is here
+#    29 |     ptrdiff_t&         __expected;
+#       |                        ^~~~~~~~~~
+libcxx/src/barrier.cpp_CXXFLAGS += -Wno-shadow
+libcxx/src/locale.cpp_CXXFLAGS += -Wno-shadow
+
+libcxx/src/filesystem/directory_iterator.cpp_CXXFLAGS += -Wno-shadow
+libcxx/src/filesystem/operations.cpp_CXXFLAGS += -Wno-shadow
+
+# Workaround the following warning with "GCC 12.2"
+#
+# ...
+# include/libcxx/string:2156:35: warning: '__temp' may be used uninitialized [-Wmaybe-uninitialized]
+#  2156 |         this->__throw_length_error();
+#       |         ~~~~~~~~~~~~~~~~~~~~~~~~~~^~
+# include/libcxx/string:614:1: note: by argument 1 of type 'const std::__1::__basic_string_common<true>*' to 'void std::__1::__basic_string_common<<anonymous> >::__throw_length_error() const [with bool <anonymous> = true]' declared here
+#   614 | __basic_string_common<__b>::__throw_length_error() const
+#       | ^~~~~~~~~~~~~~~~~~~~~~~~~~
+# include/libcxx/string:2676:32: note: '__temp' declared here
+#  2676 |             const basic_string __temp (__first, __last, __alloc());
+#       |                                ^~~~~~
+
+GCCVER = $(shell $(CXX) --version | grep g++ | sed -r 's/.* ([0-9]+\.[0-9]+).*/\1/')
+ifeq ($(GCCVER),12.2)
+  libcxx/src/filesystem/operations.cpp_CXXFLAGS += -Wno-maybe-uninitialized
+endif
+
+# The following warning was observed with icicle:knsh config.
+# Looking at the code in question, it seems harmless to ignore.
+#
+# Note: For some reasons, GCC -Wall enables a different set of warnings
+# for C and C++.
+#
+# References:
+# https://gcc.gnu.org/bugzilla/show_bug.cgi?id=10604
+# https://github.com/gcc-mirror/gcc/blob/e54375d85d4aa5889869c2672158083b2106b623/gcc/c-family/c.opt#L1285-L1287
+#
+# CXX:  libcxx/src/condition_variable.cpp
+# libcxx/src/condition_variable.cpp: In member function 'void std::__1::condition_variable::__do_timed_wait(std::__1::unique_lock<std::__1::mutex>&, std::__1::chrono::time_point<std::__1::chrono::system_clock, std::__1::chrono::duration<long long int, std::__1::ratio<1, 1000000000> > >)':
+# libcxx/src/condition_variable.cpp:64:19: error: comparison of integer expressions of different signedness: 'std::__1::chrono::duration<long long int>::rep' {aka 'long long int'} and 'std::__1::__libcpp_numeric_limits<long unsigned int, true>::type' {aka 'long unsigned int'} [-Werror=sign-compare]
+#      if (s.count() < ts_sec_max)
+#          ~~~~~~~~~~^~~~~~~~~~~~
+libcxx/src/condition_variable.cpp_CXXFLAGS += -Wno-sign-compare
+
+CPPSRCS += $(notdir $(wildcard libcxx/src/*.cpp))
+CPPSRCS += $(notdir $(wildcard libcxx/src/experimental/*.cpp))
+CPPSRCS += $(notdir $(wildcard libcxx/src/filesystem/*.cpp))
+
+DEPPATH += --dep-path libcxx/src
+DEPPATH += --dep-path libcxx/src/experimental
+DEPPATH += --dep-path libcxx/src/filesystem
+
+VPATH += libcxx/src
+VPATH += libcxx/src/experimental
+VPATH += libcxx/src/filesystem

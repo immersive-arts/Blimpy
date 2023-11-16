@@ -1,0 +1,433 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+if ARCH_CHIP_ESPRESSIF
+
+choice ESPRESSIF_CHIP_SERIES
+	prompt "Chip Series"
+	default ESPRESSIF_ESP32C3
+
+config ESPRESSIF_ESP32C3
+	bool "ESP32-C3"
+	select ARCH_RV32
+	select ARCH_RV_ISA_M
+	select ARCH_RV_ISA_C
+	select ARCH_VECNOTIRQ
+	select ARCH_HAVE_BOOTLOADER
+	select ARCH_HAVE_MPU
+	select ARCH_HAVE_RESET
+	select ARCH_HAVE_RNG
+	select LIBC_ARCH_ATOMIC
+	select LIBC_ARCH_MEMCPY
+	select LIBC_ARCH_MEMCHR
+	select LIBC_ARCH_MEMCMP
+	select LIBC_ARCH_MEMMOVE
+	select LIBC_ARCH_MEMSET
+	select LIBC_ARCH_STRCHR
+	select LIBC_ARCH_STRCMP
+	select LIBC_ARCH_STRCPY
+	select LIBC_ARCH_STRLCPY
+	select LIBC_ARCH_STRNCPY
+	select LIBC_ARCH_STRLEN
+	select LIBC_ARCH_STRNLEN
+	---help---
+		ESP32-C3 chip with a single RISC-V IMC core, no embedded Flash memory
+
+config ESPRESSIF_ESP32C6
+	bool "ESP32-C6"
+	select ARCH_RV32
+	select ARCH_RV_ISA_M
+	select ARCH_RV_ISA_A
+	select ARCH_RV_ISA_C
+	select ARCH_VECNOTIRQ
+	select ARCH_HAVE_BOOTLOADER
+	select ARCH_HAVE_MPU
+	select ARCH_HAVE_RESET
+	select ARCH_HAVE_RNG
+	select LIBC_ARCH_MEMCPY
+	select LIBC_ARCH_MEMCHR
+	select LIBC_ARCH_MEMCMP
+	select LIBC_ARCH_MEMMOVE
+	select LIBC_ARCH_MEMSET
+	select LIBC_ARCH_STRCHR
+	select LIBC_ARCH_STRCMP
+	select LIBC_ARCH_STRCPY
+	select LIBC_ARCH_STRLCPY
+	select LIBC_ARCH_STRNCPY
+	select LIBC_ARCH_STRLEN
+	select LIBC_ARCH_STRNLEN
+	---help---
+		Espressif ESP32-C6 (RV32IMAC).
+
+config ESPRESSIF_ESP32H2
+	bool "ESP32-H2"
+	select ARCH_RV32
+	select ARCH_RV_ISA_M
+	select ARCH_RV_ISA_C
+	select ARCH_VECNOTIRQ
+	select ARCH_HAVE_BOOTLOADER
+	select ARCH_HAVE_MPU
+	select ARCH_HAVE_RESET
+	select ARCH_HAVE_RNG
+	select LIBC_ARCH_ATOMIC
+	select LIBC_ARCH_MEMCPY
+	select LIBC_ARCH_MEMCHR
+	select LIBC_ARCH_MEMCMP
+	select LIBC_ARCH_MEMMOVE
+	select LIBC_ARCH_MEMSET
+	select LIBC_ARCH_STRCHR
+	select LIBC_ARCH_STRCMP
+	select LIBC_ARCH_STRCPY
+	select LIBC_ARCH_STRLCPY
+	select LIBC_ARCH_STRNCPY
+	select LIBC_ARCH_STRLEN
+	select LIBC_ARCH_STRNLEN
+	select ESPRESSIF_ESPTOOLPY_NO_STUB
+	---help---
+		Espressif ESP32-H2 (RV32IMC).
+
+endchoice # ESPRESSIF_CHIP_SERIES
+
+config ESPRESSIF_CHIP_SERIES
+	string
+	default "esp32c3" if ESPRESSIF_ESP32C3
+	default "esp32c6" if ESPRESSIF_ESP32C6
+	default "esp32h2" if ESPRESSIF_ESP32H2
+	default "unknown"
+
+choice ESPRESSIF_FLASH
+	prompt "Flash Size"
+	default ESPRESSIF_FLASH_4M if ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6 || ESPRESSIF_ESP32H2
+
+config ESPRESSIF_FLASH_2M
+	bool "2 MB"
+
+config ESPRESSIF_FLASH_4M
+	bool "4 MB"
+
+endchoice # ESPRESSIF_FLASH
+
+config ESPRESSIF_FLASH_DETECT
+	bool "Auto-detect FLASH size"
+	default n
+	---help---
+		Auto detect flash size when flashing.
+
+choice ESPRESSIF_CPU_FREQ
+	prompt "CPU frequency"
+	default ESPRESSIF_CPU_FREQ_160 if ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6
+	default ESPRESSIF_CPU_FREQ_96 if ESPRESSIF_ESP32H2
+	---help---
+		CPU frequency to be set on application startup.
+
+config ESPRESSIF_CPU_FREQ_40
+	bool "40 MHz"
+	depends on ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6
+	---help---
+		Set the CPU frequency to 40 MHz.
+
+config ESPRESSIF_CPU_FREQ_48
+	bool "48 MHz"
+	depends on ESPRESSIF_ESP32H2
+	---help---
+		Set the CPU frequency to 48 MHz.
+
+config ESPRESSIF_CPU_FREQ_64
+	bool "64 MHz"
+	depends on ESPRESSIF_ESP32H2
+	---help---
+		Set the CPU frequency to 64 MHz.
+
+config ESPRESSIF_CPU_FREQ_80
+	bool "80 MHz"
+	depends on ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6
+	---help---
+		Set the CPU frequency to 80 MHz.
+
+config ESPRESSIF_CPU_FREQ_96
+	bool "96 MHz"
+	depends on ESPRESSIF_ESP32H2
+	---help---
+		Set the CPU frequency to 96 MHz.
+
+config ESPRESSIF_CPU_FREQ_160
+	bool "160 MHz"
+	depends on ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6
+	---help---
+		Set the CPU frequency to 160 MHz.
+
+endchoice # ESPRESSIF_CPU_FREQ
+
+config ESPRESSIF_CPU_FREQ_MHZ
+	int
+	default 40 if ESPRESSIF_CPU_FREQ_40
+	default 48 if ESPRESSIF_CPU_FREQ_48
+	default 64 if ESPRESSIF_CPU_FREQ_64
+	default 80 if ESPRESSIF_CPU_FREQ_80
+	default 96 if ESPRESSIF_CPU_FREQ_96
+	default 160 if ESPRESSIF_CPU_FREQ_160
+
+config ESPRESSIF_REGION_PROTECTION
+	bool "Enable region protection"
+	default y
+	select ARCH_USE_MPU
+	---help---
+		Configure the MPU to disable access to invalid memory regions.
+
+config ESPRESSIF_RUN_IRAM
+	bool "Run from IRAM"
+	default n
+	---help---
+		This loads all of NuttX inside IRAM. Used to test somewhat small
+		images that can fit entirely in IRAM.
+
+config ESPRESSIF_ESPTOOLPY_NO_STUB
+	bool "Disable download stub"
+	default n
+	---help---
+		The flasher tool sends a precompiled download stub first by default.
+		That stub allows things like compressed downloads and more.
+		Usually you should not need to disable that feature.
+		It is only required to be disabled in certain scenarios when either
+		Secure Boot V2 or Flash Encryption is enabled.
+
+menu "Peripheral Support"
+
+config ESPRESSIF_UART
+	bool
+	default n
+
+config ESPRESSIF_UART0
+	bool "UART0"
+	default y
+	select ESPRESSIF_UART
+	select UART0_SERIALDRIVER
+	select ARCH_HAVE_SERIAL_TERMIOS
+
+config ESPRESSIF_UART1
+	bool "UART1"
+	default n
+	select ESPRESSIF_UART
+	select UART1_SERIALDRIVER
+	select ARCH_HAVE_SERIAL_TERMIOS
+
+config ESPRESSIF_HR_TIMER
+	bool "High-Resolution Timer"
+	default n
+	---help---
+		A high-resolution hardware timer for supporting the management of
+		kernel events.
+		The HR Timer is built on top of the System Timer (SYSTIMER) peripheral.
+		Timer callbacks are dispatched from a high-priority kernel task.
+
+config ESPRESSIF_BROWNOUT_DET
+	bool "Brownout Detector"
+	default y
+	---help---
+		A built-in brownout detector which can detect if the voltage is lower
+		than a specific value. If this happens, it will reset the chip in
+		order to prevent unintended behaviour.
+
+endmenu # Peripheral Support
+
+menu "UART Configuration"
+	depends on ESPRESSIF_UART
+
+if ESPRESSIF_UART0
+
+config ESPRESSIF_UART0_TXPIN
+	int "UART0 TX Pin"
+	default 21 if ESPRESSIF_ESP32C3
+	default 16 if ESPRESSIF_ESP32C6
+	default 24 if ESPRESSIF_ESP32H2
+	range 0 21 if ESPRESSIF_ESP32C3
+	range 0 30 if ESPRESSIF_ESP32C6
+	range 0 27 if ESPRESSIF_ESP32H2
+
+config ESPRESSIF_UART0_RXPIN
+	int "UART0 RX Pin"
+	default 20 if ESPRESSIF_ESP32C3
+	default 17 if ESPRESSIF_ESP32C6
+	default 23 if ESPRESSIF_ESP32H2
+	range 0 21 if ESPRESSIF_ESP32C3
+	range 0 30 if ESPRESSIF_ESP32C6
+	range 0 27 if ESPRESSIF_ESP32H2
+
+config ESPRESSIF_UART0_RTSPIN
+	int "UART0 RTS Pin"
+	depends on SERIAL_IFLOWCONTROL
+	default 16 if ESPRESSIF_ESP32C3
+	default 15 if ESPRESSIF_ESP32C6
+	default 22 if ESPRESSIF_ESP32H2
+	range 0 21 if ESPRESSIF_ESP32C3
+	range 0 30 if ESPRESSIF_ESP32C6
+	range 0 27 if ESPRESSIF_ESP32H2
+
+config ESPRESSIF_UART0_CTSPIN
+	int "UART0 CTS Pin"
+	depends on SERIAL_OFLOWCONTROL
+	default 15 if ESPRESSIF_ESP32C3
+	default 14 if ESPRESSIF_ESP32C6
+	default 21 if ESPRESSIF_ESP32H2
+	range 0 21 if ESPRESSIF_ESP32C3
+	range 0 30 if ESPRESSIF_ESP32C6
+	range 0 27 if ESPRESSIF_ESP32H2
+
+endif # ESPRESSIF_UART0
+
+if ESPRESSIF_UART1
+
+config ESPRESSIF_UART1_TXPIN
+	int "UART1 TX Pin"
+	default 8 if ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6 || ESPRESSIF_ESP32H2
+
+config ESPRESSIF_UART1_RXPIN
+	int "UART1 RX Pin"
+	default 9 if ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6 || ESPRESSIF_ESP32H2
+
+config ESPRESSIF_UART1_RTSPIN
+	int "UART1 RTS Pin"
+	depends on SERIAL_IFLOWCONTROL
+	default 1 if ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6 || ESPRESSIF_ESP32H2
+	range 0 21 if ESPRESSIF_ESP32C3
+	range 0 30 if ESPRESSIF_ESP32C6
+	range 0 27 if ESPRESSIF_ESP32H2
+
+config ESPRESSIF_UART1_CTSPIN
+	int "UART1 CTS Pin"
+	depends on SERIAL_OFLOWCONTROL
+	default 2 if ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6 || ESPRESSIF_ESP32H2
+	range 0 21 if ESPRESSIF_ESP32C3
+	range 0 30 if ESPRESSIF_ESP32C6
+	range 0 27 if ESPRESSIF_ESP32H2
+
+endif # ESPRESSIF_UART1
+
+endmenu # UART Configuration
+
+menu "SPI Flash Configuration"
+
+choice ESPRESSIF_FLASH_MODE
+	prompt "SPI Flash mode"
+	default ESPRESSIF_FLASH_MODE_DIO
+	---help---
+		These options control how many I/O pins are used for communication with the attached SPI Flash chip.
+		The option selected here is then used by esptool when flashing.
+
+config ESPRESSIF_FLASH_MODE_DIO
+	bool "Dual IO (DIO)"
+
+config ESPRESSIF_FLASH_MODE_DOUT
+	bool "Dual Output (DOUT)"
+
+config ESPRESSIF_FLASH_MODE_QIO
+	bool "Quad IO (QIO)"
+
+config ESPRESSIF_FLASH_MODE_QOUT
+	bool "Quad Output (QOUT)"
+
+endchoice # ESPRESSIF_FLASH_MODE
+
+choice ESPRESSIF_FLASH_FREQ
+	prompt "SPI Flash frequency"
+	default ESPRESSIF_FLASH_FREQ_80M if ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6
+	default ESPRESSIF_FLASH_FREQ_48M if ESPRESSIF_ESP32H2
+	---help---
+		SPI Flash frequency.
+
+config ESPRESSIF_FLASH_FREQ_80M
+	bool "80 MHz"
+	depends on ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6
+
+config ESPRESSIF_FLASH_FREQ_48M
+	bool "48 MHz"
+	depends on ESPRESSIF_ESP32H2
+
+config ESPRESSIF_FLASH_FREQ_40M
+	bool "40 MHz"
+	depends on ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6
+
+config ESPRESSIF_FLASH_FREQ_26M
+	bool "26 MHz"
+	depends on ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6
+
+config ESPRESSIF_FLASH_FREQ_20M
+	bool "20 MHz"
+	depends on ESPRESSIF_ESP32C3 || ESPRESSIF_ESP32C6
+
+endchoice # ESPRESSIF_FLASH_FREQ
+
+endmenu # SPI Flash Configuration
+
+menu "High Resolution Timer"
+	depends on ESPRESSIF_HR_TIMER
+
+config ESPRESSIF_HR_TIMER_TASK_NAME
+	string "High Resolution Timer task name"
+	default "hr_timer"
+
+config ESPRESSIF_HR_TIMER_TASK_PRIORITY
+	int "High Resolution Timer task priority"
+	default 223
+	---help---
+		Priority level of the High Resolution Timer task.
+		Must be lower than the SCHED_HPWORKPRIORITY.
+
+config ESPRESSIF_HR_TIMER_TASK_STACK_SIZE
+	int "High Resolution Timer task stack size"
+	default 2048
+
+endmenu # High Resolution Timer
+
+menu "Application Image Configuration"
+
+config ESPRESSIF_PARTITION_TABLE_OFFSET
+	hex "Partition Table offset"
+	default 0x8000
+
+endmenu # Application Image Configuration
+
+menu "Brownout Detector Configuration"
+	depends on ESPRESSIF_BROWNOUT_DET
+
+choice ESPRESSIF_BROWNOUT_DET_LVL_SEL
+	prompt "Brownout voltage level"
+	default ESPRESSIF_BROWNOUT_DET_LVL_SEL_7
+	---help---
+		The brownout detector will reset the chip when the supply voltage is
+		approximately below this level. Note that there may be some variation
+		of brownout voltage level between each chip.
+
+	config ESPRESSIF_BROWNOUT_DET_LVL_SEL_7
+		bool "2.51V"
+
+	config ESPRESSIF_BROWNOUT_DET_LVL_SEL_6
+		bool "2.64V"
+
+	config ESPRESSIF_BROWNOUT_DET_LVL_SEL_5
+		bool "2.76V"
+
+	config ESPRESSIF_BROWNOUT_DET_LVL_SEL_4
+		bool "2.92V"
+
+	config ESPRESSIF_BROWNOUT_DET_LVL_SEL_3
+		bool "3.10V"
+
+	config ESPRESSIF_BROWNOUT_DET_LVL_SEL_2
+		bool "3.27V"
+endchoice
+
+config ESPRESSIF_BROWNOUT_DET_LVL
+	int
+	default 2 if ESPRESSIF_BROWNOUT_DET_LVL_SEL_2
+	default 3 if ESPRESSIF_BROWNOUT_DET_LVL_SEL_3
+	default 4 if ESPRESSIF_BROWNOUT_DET_LVL_SEL_4
+	default 5 if ESPRESSIF_BROWNOUT_DET_LVL_SEL_5
+	default 6 if ESPRESSIF_BROWNOUT_DET_LVL_SEL_6
+	default 7 if ESPRESSIF_BROWNOUT_DET_LVL_SEL_7
+
+endmenu # ESPRESSIF_BROWNOUT_DET
+
+endif # ARCH_CHIP_ESPRESSIF

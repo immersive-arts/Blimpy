@@ -1,0 +1,16 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+if ARCH_BOARD_STEVAL_ETH001V1
+
+if STM32F7_FOC
+
+config BOARD_STM32F7_STEVALETH001V1_FOC_VBUS
+	bool "STEVAL-ETH001V1 board VBUS sense"
+	default n
+
+endif # STM32F7_FOC
+
+endif # ARCH_BOARD_STEVAL_ETH001V1

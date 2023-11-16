@@ -1,0 +1,41 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+config NETUTILS_NNG
+	bool "Enable Nanomsg NG"
+	default n
+	---help---
+		Enable Nanomsg-NG library. NNG is a lightweight, broker-less library,
+		offering a simple API to solve common recurring messaging problems,
+		such as publish/subscribe, RPC-style request/reply, or service discovery.
+
+if NETUTILS_NNG
+
+config NETUTILS_NNG_VERSION
+	string "NNG Version"
+	default "1.5.2"
+
+config NETUTILS_NNG_HAVE_EPOLL
+	bool "Build with epoll"
+	default n
+	---help---
+		If this option is selected, an epoll based poll gueue
+		is included in the build. Otherwise poll based queue
+		is included in the build.
+
+choice
+	prompt "TLS engine"
+	default NETUTILS_NNG_USE_NONE
+
+config NETUTILS_NNG_USE_NONE
+	bool "None"
+
+config NETUTILS_NNG_USE_MBEDTLS
+	bool "MbedTLS"
+	select CRYPTO_MBEDTLS
+
+endchoice # TLS engine
+
+endif

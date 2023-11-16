@@ -1,0 +1,71 @@
+############################################################################
+# arch/arm/src/armv7-r/Toolchain.defs
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.  The
+# ASF licenses this file to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance with the
+# License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+############################################################################
+
+ifeq ($(CONFIG_ARCH_CORTEXR4),y)
+  ARCHCPUFLAGS += -mcpu=cortex-r4
+  LLVM_CPUTYPE := cortex-r4
+else ifeq ($(CONFIG_ARCH_CORTEXR5),y)
+  ARCHCPUFLAGS += -mcpu=cortex-r5
+  LLVM_CPUTYPE := cortex-r5
+else ifeq ($(CONFIG_ARCH_CORTEXR7),y)
+  ARCHCPUFLAGS += -mcpu=cortex-r7
+  LLVM_CPUTYPE := cortex-r7
+endif
+
+ifeq ($(CONFIG_ARCH_FPU),y)
+  LLVM_ABITYPE := eabihf
+  ARCHCPUFLAGS += -mfpu=vfpv3-d16
+  ifeq ($(CONFIG_ARM_FPU_ABI_SOFT),y)
+    ARCHCPUFLAGS += -mfloat-abi=softfp
+  else
+    ARCHCPUFLAGS += -mfloat-abi=hard
+  endif
+else
+  LLVM_ABITYPE := eabi
+  ARCHCPUFLAGS += -mfloat-abi=soft
+endif
+
+ifeq ($(CONFIG_ARM_THUMB),y)
+  LLVM_ARCHTYPE := thumbv7r
+else
+  LLVM_ARCHTYPE := armv7r
+endif
+
+ifeq ($(CONFIG_ARM_TOOLCHAIN_ARMCLANG),y)
+
+  ifeq ($(CONFIG_ARCH_CORTEXR4),y)
+    LDFLAGS += --cpu=Cortex-R4
+  else ifeq ($(CONFIG_ARCH_CORTEXR5),y)
+    ifeq ($(CONFIG_ARCH_FPU),y)
+      LDFLAGS += --cpu=Cortex-R5
+    else
+      LDFLAGS += --cpu=Cortex-R5.no_vfp
+    endif
+  else ifeq ($(CONFIG_ARCH_CORTEXR7),y)
+    ifeq ($(CONFIG_ARCH_FPU),y)
+      LDFLAGS += --cpu=Cortex-R7
+    else
+      LDFLAGS += --cpu=Cortex-R7.no_vfp
+    endif
+  endif
+
+endif
+
+include $(TOPDIR)/arch/arm/src/common/Toolchain.defs

@@ -1,0 +1,61 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+if NET_USRSOCK
+
+menu "Usrsock Driver Support"
+
+choice
+	prompt "Select usrsock device interface"
+	default NET_USRSOCK_DEVICE
+
+config NET_USRSOCK_DEVICE
+	bool "/dev/usrsock"
+	---help---
+		Will export /dev/usrsock device node for usrsock request/response operations
+
+config NET_USRSOCK_RPMSG
+	bool "rpmsg transport"
+	---help---
+		Will send usrsock request or receive usrsock response via rpmsg channel directly
+
+config NET_USRSOCK_CUSTOM
+	bool "Customerized interface"
+	---help---
+		Will send usrsock request or receive usrsock response via other kind of interface
+
+endchoice
+
+config NET_USRSOCK_RPMSG_CPUNAME
+	string "The cpuname on which the rpmsg server runs"
+	depends on NET_USRSOCK_RPMSG
+
+endmenu
+
+endif # NET_USRSOCK
+
+config NET_USRSOCK_RPMSG_SERVER
+	bool "RPMSG usrsock"
+	default n
+	depends on NET && RPTUN
+	---help---
+		Enable usrsock through rpmsg channel.
+
+if NET_USRSOCK_RPMSG_SERVER
+
+config NET_USRSOCK_RPMSG_SERVER_NSOCKS
+	int "The maximum number of socket descriptors for usrsock monitoring"
+	default 64
+	---help---
+		The maximum number of socket description for usrsosck monitoring.
+
+config NET_USRSOCK_RPMSG_SERVER_NIOVEC
+	int "The maximum number of I/O vector for reassemble buffer"
+	default 8
+	---help---
+		The maximum number of I/O vector for reassemble buffer.
+
+endif # NET_USRSOCK_RPMSG_SERVER
+

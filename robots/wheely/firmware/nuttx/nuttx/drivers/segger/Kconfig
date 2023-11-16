@@ -1,0 +1,133 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+menu "Segger RTT drivers"
+
+config SEGGER_RTT
+	bool
+	---help---
+		Enable Segger J-Link RTT libraries for platforms that support it.
+		Selection of this option enables use of RTT for various subsystems.
+		Note that by enabling this option, RTT buffers consume more RAM.
+
+if SEGGER_RTT
+
+config SEGGER_RTT_SECTION
+	string "Segger RTT Control Block Section"
+	default ""
+	---help---
+		Declare _SEGGER_RTT global variable in the specific data section.
+
+config SEGGER_RTT_BUFFER_SECTION
+	string "Segger RTT Buffer Block Section"
+	default SEGGER_RTT_SECTION
+	---help---
+		Declare _acUpBuffer/_acDownBuffer global variables in the specific
+		data section.
+
+config SEGGER_RTT_CPU_CACHE_LINE_SIZE
+	int "Segger RTT Cache Line Size"
+	default 0
+	---help---
+		Largest cache line size (in bytes) in the target system.
+
+config SEGGER_RTT_UNCACHED_OFF
+	int "Segger RTT uncached offset"
+	default 0
+	---help---
+		Address alias where RTT CB and buffers can be accessed uncached
+
+config SEGGER_RTT_MAX_NUM_UP_BUFFERS
+	int "Segger RTT Maximum Number of UP Buffers"
+	default 3
+	---help---
+		Number of up-buffers (T->H) available on this target
+
+config SEGGER_RTT_MAX_NUM_DOWN_BUFFERS
+	int "Segger RTT Maximum Number of Down Buffers"
+	default 3
+	---help---
+		Number of down-buffers (H->T) available on this target
+
+config SEGGER_RTT_BUFFER_SIZE_UP
+	int "Segger RTT UP Buffer Size"
+	default 1024
+	---help---
+		Size of the buffer for terminal output of target, up to host
+
+config SEGGER_RTT_BUFFER_SIZE_DOWN
+	int "Segger RTT Down Buffer Size"
+	default 16
+	---help---
+		Size of the buffer for terminal input to target from host (Usually keyboard input)
+
+choice
+	prompt "SEGGER_RTT_MODE"
+	default SEGGER_RTT_MODE_NO_BLOCK_SKIP
+
+config SEGGER_RTT_MODE_NO_BLOCK_SKIP
+	bool "Skip. Do not block, output nothing. (Default)"
+
+config SEGGER_RTT_MODE_NO_BLOCK_TRIM
+	bool "Trim: Do not block, output as much as fits."
+
+config SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL
+	bool "Block: Wait until there is space in the buffer."
+
+endchoice # SEGGER_RTT_MODE
+
+endif # SEGGER_RTT
+
+config STREAM_RTT
+	bool "Stream to/from Segger J-Link RTT"
+	select SEGGER_RTT
+	default n
+	---help---
+		Use Segger J-Link RTT as a stream input and output.
+
+config SYSLOG_RTT
+	bool "Log to Segger J-Link RTT"
+	select SEGGER_RTT
+	default n
+	---help---
+		Use Segger J-Link RTT as a SYSLOG output device.
+
+if DRIVERS_NOTE
+config SEGGER_SYSVIEW
+	bool "Note SEGGER SystemView driver"
+	select SEGGER_RTT
+	---help---
+		SystemView is a real-time recording and visualization tool for embedded
+		systems that reveals the true runtime behavior of an application,
+		going far deeper than the system insights provided by debuggers. This is
+		particularly effective when developing and working with complex embedded
+		systems comprising multiple threads and interrupts. SystemView can ensure
+		unintended interactions and resource conflicts.
+
+endif # DRIVERS_NOTE
+
+if SEGGER_SYSVIEW
+
+config SEGGER_SYSVIEW_RTT_CHANNEL
+	int "Segger System View RTT channel"
+	default 0
+	---help---
+		The RTT channel number for SystemView, zero find the unused one.
+
+config SEGGER_SYSVIEW_RTT_BUFFER_SIZE
+	int "Segger System View buffer size"
+	default SEGGER_RTT_BUFFER_SIZE_UP
+	---help---
+		Number of bytes that SystemView uses for the RTT buffer.
+
+config SEGGER_SYSVIEW_RAM_BASE
+	int "Segger System View Ram Base"
+	default 0
+	---help---
+		The lowest RAM address used for IDs
+
+endif
+
+endmenu # Segger RTT drivers

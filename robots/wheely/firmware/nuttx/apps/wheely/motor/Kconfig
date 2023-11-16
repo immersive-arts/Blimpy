@@ -1,0 +1,29 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+config MAXI1M_MOTOR
+	tristate "motor"
+	default n
+	---help---
+		Enable the stepper motor
+
+if MAXI1M_MOTOR
+
+config MAXI1M_MOTOR_PROGNAME
+	string "Program name"
+	default "motor"
+	---help---
+		This is the name of the program that will be used when the NSH ELF
+		program is installed.
+
+config MAXI1M_MOTOR_PRIORITY
+	int "motor task priority"
+	default 100
+
+config MAXI1M_MOTOR_STACKSIZE
+	int "motor stack size"
+	default DEFAULT_TASK_STACKSIZE
+
+endif
