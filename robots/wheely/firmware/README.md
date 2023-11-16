@@ -4,7 +4,7 @@
 
 ## MQTT address space
 
-to address a blimp device the following path is required:
+to address a wheely device the following path is required:
 
 ```bash
 <blimp_base_topic>/<blimp_name>/<message_name> "message_body"
@@ -13,13 +13,13 @@ to address a blimp device the following path is required:
 example:
 
 ```bash
-blimps/b43/min-duty
+wheely/b43/min-duty
 ```
 
 
 ## MQTT API
 
-The following message can be sent to a drone (prefixed with base topic):
+The following message can be sent to a wheely (prefixed with base topic):
 
 ### `motors`: `m1,m2,m3,m4,m5,m6`
 
@@ -28,18 +28,6 @@ Raw motor speeds between -1 and 1.
 ### `forces`: `fx,fy,fz,mx,my,mz`
 
 Motor forces between -1 and 1.
-
-### `servos`: `s1,s2,s3,s4,s5,s6`
-
-Servo angles between 0 and 1.
-
-### `motion`: `num,min,max,step`
-
-Individual servo motion for number (1 to 6) with a min and max angle and step from 0 to 1.
-
-### `light`: `r,g,b,w`
-
-Light colors from 0 to 255.
 
 ## MQTT Events
 
@@ -66,14 +54,6 @@ The individual motor mapping between -1 and 1 to invert or reduce power.
 ### `model-mx`
 
 The individual motor configuration in the form of `fx,fy,fz,dx,dy,dz`.
-
-### `led-size`
-
-The count of LEDs on the connected neo pixel strip.
-
-### `led-white`
-
-Whether the connected neo pixel strip has a white channel.
 
 ## Compilation and Installation
 
@@ -143,7 +123,7 @@ connect to device:
 
 menu > naos Desktop > 1(2..) Device > deviceName
 
-![naos](../../../assets/pix/firmware/BT_naos_blimpy_config.png)
+![naos](../../../assets/pix/firmware/BT_naos_wheely_config.png)
 
 * device-type: Device type
 * device-name: Device name shown via bluetooth
@@ -159,19 +139,6 @@ menu > naos Desktop > 1(2..) Device > deviceName
 * mqtt-configure: resets mqtt - status led turns green when connected
 * battery: battery level
 * ping: pings the device - status led flashes white
-* safety-off: 
-* disable-m1: disables motor1 to be able to use servo1
-* disable-m2: disables motor2 to be able to use servo2
-* motor-map1..6: direction of motor rotation and maximum speed available for controller (1 = max)
-* model-m1..6: dx, dy, dz, x, y, z
-	dx, dy, dz : direction motor points to (normalized vector)
-	x, y, z: position motor is attached to relative to center of gravity
-
-ie. for the parameter min-duty:
-
-```bash
-blimps/b43/min-duty
-```
 
 ## Flashing device
 
