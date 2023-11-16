@@ -50,13 +50,18 @@ var my_data_fps = 0;
 var my_velocity_max = 0.0;
 
 // device config
+var my_k_p_xy = 0.0;
 var my_k_p_z = 0.0;
+var my_k_d_xy = 0.0;
 var my_k_d_z = 0.0;
 var my_k_i_z = 0.0;
-var my_k_p_xy = 0.0;
-var my_k_d_xy = 0.0;
-var my_k_p_a = 0.0;
-var my_k_d_a = 0.0;
+var my_tau_att_x = 0.0;
+var my_tau_att_y = 0.0;
+var my_tau_att_z = 0.0;
+var my_tau_p = 0.0;
+var my_tau_q = 0.0;
+var my_tau_r = 0.0;
+
 var my_config_payload = "";
 
 var my_managedDevAddress = null;
@@ -352,14 +357,29 @@ function velocity_max(_float){
 
 function calc_config(){
 	var a = arrayfromargs(arguments);
-	my_k_p_z = a[0];
-	my_k_d_z = a[1];
-	my_k_i_z = a[2];
-	my_k_p_xy = a[3];
-	my_k_d_xy = a[4];
-	my_k_p_a = a[5];
-	my_k_d_a = a[6];
-    my_config_payload = "k_p_z=" + my_k_p_z + " k_d_z=" + my_k_d_z + " k_i_z=" + my_k_i_z + " k_p_xy=" + my_k_p_xy + " k_d_xy=" + my_k_d_xy + " k_p_a=" + my_k_p_a + " k_d_a=" + my_k_d_a;
+	my_k_p_xy = a[0];
+	my_k_p_z = a[1];
+	my_k_d_xy = a[2];
+	my_k_d_z = a[3];
+	my_k_i_z = a[4];
+	my_tau_att_x = a[5];
+	my_tau_att_y = a[6];
+	my_tau_att_z = a[7];
+	my_tau_p = a[8];
+	my_tau_q = a[9];
+	my_tau_r = a[10];
+    my_config_payload = 
+		"k_p_xy=" + my_k_p_xy + 
+		" k_p_z=" + my_k_p_z + 
+		" k_d_xy=" + my_k_d_xy + 
+		" k_d_z=" + my_k_d_z + 
+		" k_i_z=" + my_k_i_z + 
+		" tau_att_x=" + my_tau_att_x + 
+		" tau_att_y=" + my_tau_att_y +
+		" tau_att_z=" + my_tau_att_z +
+		" tau_p=" + my_tau_p + 
+		" tau_q=" + my_tau_q +
+		" tau_r=" + my_tau_r;
     publish(my_topic_DeviceConfig, my_config_payload);
 }
 
