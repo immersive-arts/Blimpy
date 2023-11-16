@@ -131,6 +131,14 @@ Run firmware:
 naos run
 ```
 
+In case of troubles (on newer Macs), install esptool manually and run with the "--alt" flag.
+
+```bash
+pip install esptool
+naos run --alt
+naos flash --alt
+```
+
 ## Configuration of device - OSX ONLY:
 
 Install the latest [naos Desktop](https://github.com/256dpi/naos/releases) to get access to the BLE configuration.
