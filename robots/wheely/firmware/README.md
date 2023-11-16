@@ -113,7 +113,7 @@ naos run
 
 ## Configuration of device - OSX ONLY:
 
-Install [naos Desktop](https://github.com/256dpi/naos/releases/tag/desktop%2Fv1.0) to get access to the BLE configuration.
+Install the latest [naos Desktop](https://github.com/256dpi/naos/releases) to get access to the BLE configuration.
 
 beware: naos Desktop will be inside the menu bar after start.
 
