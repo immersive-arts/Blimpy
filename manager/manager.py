@@ -233,19 +233,23 @@ class Device:
                     print(self.device_name, "Error: command queue full")
 
             if command.split()[0]  == 'park':
-                xf = parseFloat('x', command)
+                xf = parseFloat(' x', command)
+                
                 if xf == None:
-                    return
+                    xf = self.x
+
                 xf = xf - self.x
 
-                yf = parseFloat('y', command)
+                yf = parseFloat(' y', command)
                 if yf == None:
-                    return
+                    yf = self.y
+
                 yf = yf - self.y
 
-                zf = parseFloat('z', command)
+                zf = parseFloat(' z', command)
                 if zf == None:
-                    return
+                    zf = self.z
+
                 zf = zf - self.z
 
                 q = Quaternion()
@@ -256,28 +260,31 @@ class Device:
                 qz = parseFloat('qz', command)
 
                 if qw == None or qx == None or qy == None or qz == None:
-                    yaw_ref = parseFloat('alpha', command)
-                    pitch_ref = parseFloat('beta', command)
-                    roll_ref = parseFloat('gamma', command)
+                    yaw_f = parseFloat('alpha', command)
+                    pitch_f = parseFloat('beta', command)
+                    roll_f = parseFloat('gamma', command)
 
-                    if roll_ref == None and pitch_ref == None and yaw_ref == None:
-                        yaw_ref = parseFloat('yaw', command)
-                        pitch_ref = parseFloat('pitch', command)
-                        roll_ref = parseFloat('roll', command)
+                    if roll_f == None and pitch_f == None and yaw_f == None:
+                        yaw_f = parseFloat('yaw', command)
+                        pitch_f = parseFloat('pitch', command)
+                        roll_f = parseFloat('roll', command)
 
-                    if roll_ref != None or pitch_ref != None or yaw_ref != None:
-                        if roll_ref == None:
-                            roll_ref = 0.0
-                        if pitch_ref == None:
-                            pitch_ref = 0.0
-                        if yaw_ref == None:
-                            yaw_ref = 0.0
+                    if roll_f != None or pitch_f != None or yaw_f != None:
+                        if roll_f == None:
+                            roll_f = 0.0
+                        if pitch_f == None:
+                            pitch_f = 0.0
+                        if yaw_f == None:
+                            yaw_f = 0.0
 
-                        q_X = Quaternion(axis= [1.0, 0.0, 0.0], radians=roll_ref)
-                        q_Y = Quaternion(axis= [0.0, 1.0, 0.0], radians=pitch_ref)
-                        q_Z = Quaternion(axis= [0.0, 0.0, 1.0], radians=yaw_ref)
+                        qx = Quaternion(axis= [1.0, 0.0, 0.0], radians=roll_f)
+                        qy = Quaternion(axis= [0.0, 1.0, 0.0], radians=pitch_f)
+                        qz = Quaternion(axis= [0.0, 0.0, 1.0], radians=yaw_f)
 
-                        q = q_Z * q_Y * q_X
+                        q = qz * qy * qx
+
+                    else:
+                        q = self.attitude
 
                 else:
                     q = Quaternion(qw, qx, qy, qz).normalised
@@ -302,7 +309,9 @@ class Device:
                 t, z, dz = self.compute_min_jerk(zf, tf)
 
                 for i in range(len(t)):
-                    command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f qw=%f qx=%f qy=%f qz=%f state=parking' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], q.w, q.x, q.y, q.z)
+                    q_temp = Quaternion.slerp(self.attitude, q, amount=(i / len(t)))
+
+                    command = 'move x=%f y=%f z=%f vx=%f vy=%f vz=%f qw=%f qx=%f qy=%f qz=%f state=parking' % (x[i] + self.x, y[i] + self.y, z[i] + self.z, dx[i], dy[i], dz[i], q_temp.w, q_temp.x, q_temp.y, q_temp.z)
                     try:
                         self.command_queue.put_nowait(command)
                     except queue.Full:
@@ -316,9 +325,9 @@ class Device:
 
     def parse_command(self, command):
         if command.split()[0]  == 'move':
-            x_ref = parseFloat('x', command)
-            y_ref = parseFloat('y', command)
-            z_ref = parseFloat('z', command)
+            x_ref = parseFloat(' x', command)
+            y_ref = parseFloat(' y', command)
+            z_ref = parseFloat(' z', command)
 
             vx_ref = parseFloat('vx', command)
             if vx_ref == None:
@@ -375,9 +384,9 @@ class Device:
                 return State.moving
 
         if command.split()[0]  == 'hold':
-            x_ref = parseFloat('x', command)
-            y_ref = parseFloat('y', command)
-            z_ref = parseFloat('z', command)
+            x_ref = parseFloat(' x', command)
+            y_ref = parseFloat(' y', command)
+            z_ref = parseFloat(' z', command)
             qw = parseFloat('qw', command)
             qx = parseFloat('qx', command)
             qy = parseFloat('qy', command)
