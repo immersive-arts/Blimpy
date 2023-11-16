@@ -1,0 +1,99 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+menu "IEEE 802.15.4 socket support"
+
+config NET_IEEE802154
+	bool "IEEE 802.15.4 socket support"
+	default n
+	depends on WIRELESS_IEEE802154
+	select NETDEV_IOCTL
+	---help---
+		Enable support for raw, IEEE 802.15.4 sockets.
+
+		Raw sockets allow receiving and transmitting IEEE 802.15.4 radio
+		frames without a layer2 protocol such as 6LoWPAN in between. Frames
+		received are copied into a IEEE 802.15.4 socket tap before they
+		enter the network. Frames written into a IEEE 802.15.4 socket will
+		bypass the network altogether and will be sent directly to the
+		IEEE 802.15.4 MAC network interface driver outgoing frame queue.
+
+if NET_IEEE802154
+
+config NET_IEEE802154_FRAMELEN
+	int "IEEE 802.15.4 Frame Length"
+	default 127
+	range 1 999999
+	---help---
+		For standard IEEE 802.15.4 radios, this should always be 127 bytes.
+		However, some IEEE 802.15.4 radios may non-standard frame lengths.
+
+		This setting is currently used only for detection data transfers
+		that would exceed the radio frame length.
+
+config NET_IEEE802154_PREALLOC_CONNS
+	int "Preallocated IEEE 802.15.4 sockets"
+	default 4
+	---help---
+		Number of IEEE 802.15.4 connections (all tasks).
+
+		This number of connections will be pre-allocated during system boot.
+		If dynamic connections allocation is enabled, more connections may
+		be allocated at a later time, as the system needs them. Else this
+		will be the maximum number of connections available to the system
+		at all times.
+
+		Set to 0 to disable (and rely only on dynamic allocations).
+
+config NET_IEEE802154_ALLOC_CONNS
+	int "Dynamic IEEE 802.15.4 connections allocation"
+	default 0
+	---help---
+		Dynamic memory allocations for IEEE 802.15.4.
+
+		When set to 0 all dynamic allocations are disabled.
+
+		When set to 1 a new connection will be allocated every time,
+		and it will be free'd when no longer needed.
+
+		Setting this to 2 or more will allocate the connections in
+		batches (with batch size equal to this config). When a
+		connection is no longer needed, it will be returned to the
+		free connections pool, and it will never be deallocated!
+
+config NET_IEEE802154_MAX_CONNS
+	int "Maximum number of IEEE 802.15.4 connections"
+	default 0
+	depends on NET_IEEE802154_ALLOC_CONNS > 0
+	---help---
+		If dynamic connections allocation is selected (NET_IEEE802154_ALLOC_CONNS > 0)
+		this will limit the number of connections that can be allocated.
+
+		This is useful in case the system is under very heavy load (or
+		under attack), ensuring that the heap will not be exhausted.
+
+config NET_IEEE802154_NCONTAINERS
+	int "Number of pre-allocated frame containers"
+	default 8
+	---help---
+		This specifies the total number of preallocated frame containers.
+		One must be allocated with each incoming frame.
+
+config NET_IEEE802154_BACKLOG
+	int "Maximum frame backlog"
+	default 8
+	range 0 255
+	---help---
+		As frames are received, then are help in an RX queue.  They remain
+		in the RX queue until application logic reads the queue frames.  To
+		prevent overrun, the maximum backlog may be set to a nonzero value.
+		What the backlog of queue frames reaches that count, the olds frame
+		will be freed, preventing overrun at the cost of losing the oldest
+		frames.
+
+		NOTE: The special value of zero will disable all backlog checks.
+
+endif # NET_IEEE802154
+endmenu # IEEE 802.15.4 Socket Support

@@ -1,0 +1,565 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+comment "NRF53 Configuration Options"
+
+# NRF53 Families
+
+choice
+	prompt "NRF53 Chip Selection"
+	default ARCH_CHIP_NRF5340
+	depends on ARCH_CHIP_NRF53
+
+config ARCH_CHIP_NRF5340
+	bool "NRF5340"
+
+endchoice # NRF53 Chip Selection
+
+config NRF53_APPCORE
+	bool
+	default n
+	select ARM_HAVE_DSP
+	select ARCH_HAVE_FPU
+	select NRF53_HAVE_PWM
+	select NRF52_HAVE_GPIOTE1
+	select NRF53_HAVE_SAADC
+	select NRF53_HAVE_UART1
+
+config NRF53_NETCORE
+	bool
+	default n
+
+choice
+	prompt "NRF5340 Core Selection"
+	default ARCH_CHIP_NRF5340_CPUAPP
+	depends on ARCH_CHIP_NRF5340
+
+config ARCH_CHIP_NRF5340_CPUAPP
+	bool "NRF53 App core"
+	select NRF53_APPCORE
+
+config ARCH_CHIP_NRF5340_CPUNET
+	bool "NRF53 Net core"
+	select NRF53_NETCORE
+
+endchoice # NRF5340 Core Selection
+
+if NRF53_APPCORE
+
+config NRF53_NET_BOOT
+	bool "NRF53 Net core configuration"
+	default y
+
+if NRF53_NET_BOOT
+
+config NRF53_NET_POWER_ON_BOOT
+	bool "NRF53 Power Net core on App core boot"
+	default y
+
+config NRF53_NET_GPIO_ALLOW_ALL
+	bool "NRF53 allow all GPIO for Net core"
+	default y
+
+endif # NRF53_NET_BOOT
+
+endif # NRF53_APPCORE
+
+config NRF53_ENABLE_APPROTECT
+	bool "NRF53 enable APPROTECT"
+	default n
+
+# Peripheral support
+
+config NRF53_HAVE_UART1
+	bool
+	default n
+
+config NRF53_HAVE_GPIOTE1
+	bool
+	default n
+
+config NRF53_HAVE_PWM
+	bool
+	default n
+
+config NRF53_HAVE_SAADC
+	bool
+	default n
+
+# Peripheral Selection
+
+config NRF53_IPC
+	bool
+	default y if RPTUN
+
+config NRF53_UART
+	bool
+	default n
+
+config NRF53_TIMER
+	bool
+	default n
+
+config NRF53_PWM
+	bool
+	default n
+
+config NRF53_RTC
+	bool
+	default n
+
+menu "NRF53 Peripheral Selection"
+
+config NRF53_GPIOTE
+	bool "GPIOTE (GPIO interrupts)"
+	default n
+
+config NRF53_UART0
+	bool "UART0"
+	default n
+	select UART0_SERIALDRIVER
+	select NRF53_UART
+
+config NRF53_UART1
+	bool "UART1"
+	default n
+	depends on NRF53_HAVE_UART1
+	select UART1_SERIALDRIVER
+	select NRF53_UART
+
+config NRF53_TIMER0
+	bool "TIMER0"
+	select NRF53_TIMER
+	depends on !NRF53_SOFTDEVICE_CONTROLLER
+	default n
+
+config NRF53_TIMER1
+	bool "TIMER1"
+	select NRF53_TIMER
+	default n
+
+config NRF53_TIMER2
+	bool "TIMER2"
+	select NRF53_TIMER
+
+config NRF53_PWM0
+	bool "PWM0"
+	select NRF53_PWM
+	default n
+
+config NRF53_PWM1
+	bool "PWM1"
+	select NRF53_PWM
+	default n
+
+config NRF53_PWM2
+	bool "PWM2"
+	select NRF53_PWM
+	default n
+
+config NRF53_SAADC
+	bool "SAADC"
+	default n
+
+config NRF53_RTC0
+	bool "RTC0"
+	select NRF53_RTC
+	depends on !NRF53_SOFTDEVICE_CONTROLLER
+	default n
+
+config NRF53_RTC1
+	bool "RTC1"
+	select NRF53_RTC
+	default n
+
+endmenu # NRF53 Peripheral Selection
+
+menu "Clock Configuration"
+
+config NRF53_HFCLK_XTAL
+	bool "Enable HFCLK from external crystal"
+	default n
+	---help---
+		If the board includes an external high-frequency crystal, enable this
+		option to supply the HFCLK. If this option is disabled, the internal
+		oscillator will be used.
+		Note that the RADIO peripheral requires the HFCLK to be used.
+
+config NRF53_USE_LFCLK
+	bool "Enable LFCLK"
+	default n
+	---help---
+		Enable low-frequency clock.
+
+if NRF53_USE_LFCLK
+
+choice
+	prompt "LFCLK source"
+	default NRF53_LFCLK_XTAL
+
+config NRF53_LFCLK_XTAL
+	bool "External 32.768Khz crystal"
+
+config NRF53_LFCLK_RC
+	bool "Internal RC oscillator"
+
+config NRF53_LFCLK_SYNTH
+	bool "Synthesized from HFCLK"
+
+endchoice
+
+endif # NRF53_USE_LFCLK
+
+config NRF53_OSCILLATOR_LFXO
+	bool "Configure LFXO oscillator"
+	default y if NRF53_LFCLK_XTAL
+	depends on NRF53_APPCORE
+	---help---
+		Configure LFXO oscillator
+
+endmenu # Clock Configuration
+
+menu "System Timer"
+
+config NRF53_SYSTIMER
+	bool
+	default y
+
+choice
+	prompt "System Timer Source"
+	default NRF53_SYSTIMER_SYSTICK
+	---help---
+		Choose which hardware resource will drive NuttX
+		system time
+
+config NRF53_SYSTIMER_SYSTICK
+	bool "SysTick"
+	select TIMER_ARCH
+	select TIMER
+	select ARMV8M_SYSTICK
+	---help---
+		Use ARM SysTick. It can be used for tickless and
+		non-tickless mode.
+
+		NOTE: nrf53 implementation of WFE/WFI involves is
+		incompatible with SysTick. This means that if
+		you choose this option, WFE/WFI will not be used
+		in idle loop.
+
+config NRF53_SYSTIMER_RTC
+	bool "RTC"
+	select NRF53_RTC
+	select SCHED_TICKLESS
+	select SCHED_TICKLESS_ALARM
+	select NRF53_USE_LFCLK
+	---help---
+		Use RTC timer in tickless mode.
+
+endchoice
+
+if NRF53_SYSTIMER_RTC
+
+config NRF53_SYSTIMER_RTC_INSTANCE
+	int "RTC timer instance"
+	default 0 if !NRF53_SOFTDEVICE_CONTROLLER
+	default 1 if NRF53_SOFTDEVICE_CONTROLLER
+	range 0 1
+	---help---
+		Which RTC instance to use to drive the system timer
+
+endif
+
+endmenu # System Timer
+
+menu "PWM configuration"
+
+config NRF53_PWM_MULTICHAN
+	bool "PWM Multiple Output Channels"
+	default n
+
+if NRF53_PWM_MULTICHAN
+
+if NRF53_PWM0
+
+config NRF53_PWM0_CH0
+	bool "PWM0 Channel 0 Output"
+	default n
+	---help---
+		Enables channel 0 output.
+
+config NRF53_PWM0_CH1
+	bool "PWM0 Channel 1 Output"
+	default n
+	---help---
+		Enables channel 1 output.
+
+config NRF53_PWM0_CH2
+	bool "PWM0 Channel 2 Output"
+	default n
+	---help---
+		Enables channel 2 output.
+
+config NRF53_PWM0_CH3
+	bool "PWM0 Channel 3 Output"
+	default n
+	---help---
+		Enables channel 3 output.
+
+endif # NRF53_PWM0
+
+if NRF53_PWM1
+
+config NRF53_PWM1_CH0
+	bool "PWM1 Channel 0 Output"
+	default n
+	---help---
+		Enables channel 0 output.
+
+config NRF53_PWM1_CH1
+	bool "PWM1 Channel 1 Output"
+	default n
+	---help---
+		Enables channel 1 output.
+
+config NRF53_PWM1_CH2
+	bool "PWM1 Channel 2 Output"
+	default n
+	---help---
+		Enables channel 2 output.
+
+config NRF53_PWM1_CH3
+	bool "PWM1 Channel 3 Output"
+	default n
+	---help---
+		Enables channel 3 output.
+
+endif # NRF53_PWM1
+
+if NRF53_PWM2
+
+config NRF53_PWM2_CH0
+	bool "PWM2 Channel 0 Output"
+	default n
+	---help---
+		Enables channel 0 output.
+
+config NRF53_PWM2_CH1
+	bool "PWM2 Channel 1 Output"
+	default n
+	---help---
+		Enables channel 1 output.
+
+config NRF53_PWM2_CH2
+	bool "PWM2 Channel 2 Output"
+	default n
+	---help---
+		Enables channel 2 output.
+
+config NRF53_PWM2_CH3
+	bool "PWM2 Channel 3 Output"
+	default n
+	---help---
+		Enables channel 3 output.
+
+endif # NRF53_PWM2
+
+endif # !NRF53_PWM_MULTICHAN
+
+if !NRF53_PWM_MULTICHAN
+
+config NRF53_PWM0_CHANNEL
+	int "PWM0 Output Channel"
+	depends on NRF53_PWM0
+	default 0
+	range 0 3
+
+config NRF53_PWM1_CHANNEL
+	int "PWM1 Output Channel"
+	depends on NRF53_PWM1
+	default 0
+	range 0 3
+
+config NRF53_PWM2_CHANNEL
+	int "PWM2 Output Channel"
+	depends on NRF53_PWM2
+	default 0
+	range 0 3
+
+endif # !NRF53_PWM_MULTICHAN
+
+endmenu # PWM configuration
+
+menu "SAADC Configuration"
+
+if NRF53_SAADC
+
+choice
+	prompt "SAADC trigger selection"
+	default NRF53_SAADC_TASK
+	---help---
+		Choose mode for sample rate control
+
+config NRF53_SAADC_TASK
+	bool "SAADC Task trigger"
+
+config NRF53_SAADC_TIMER
+	bool "SAADC Timer trigger"
+
+endchoice # SAADC trigger selection
+
+if NRF53_SAADC_TIMER
+
+config NRF53_SAADC_TIMER_CC
+	int "SAADC Timer CC"
+	default 0
+	range 80 2047
+
+endif #NRF53_SAADC_TIMER
+
+config NRF53_SAADC_OVERSAMPLE
+	int "SAADC oversample"
+	default 0
+	range 0 8
+	---help---
+		SAADC oversample control
+
+config NRF53_SAADC_RESOLUTION
+	int "SAADC resolution"
+	default 0
+	range 0 3
+	---help---
+		SAADC resolution 0 - 8 bits, 1 - 10 bits, 2 - 12 bits, 3 - 14 bits
+
+config NRF53_SAADC_CHANNELS
+	int "SAADC channels"
+	default 8
+	range 0 8
+	---help---
+		SAADC channels
+
+config NRF53_SAADC_LIMITS
+	bool "SAADC limits enable"
+	default n
+	---help---
+		SAADC limist enable
+
+endif # NRF53_SAADC
+
+endmenu # SAADC Configuration
+
+menu "GPIO Interrupt Configuration"
+
+config NRF53_PER_PIN_INTERRUPTS
+	bool "Per-pin interrupt callbacks"
+	default !DEFAULT_SMALL
+	depends on NRF53_GPIOTE
+	---help---
+		The GPIOTE peripheral supports a limited number of channels which can
+		be set to EVENT mode and thus generate interrupts on pin state changes.
+		Another mechanism offered by the GPIO/GPIOTE peripherals is the PORT
+		event. This event is generated from a signal shared by all pins in
+		the GPIO port.
+
+		This option enables the ability to set per-pin callbacks that will
+		be invoked from the main GPIOTE ISR when a PORT event is generated.
+		As this involves extra storage to store each callback, this option can
+		be disabled to save space. In such case, it is possible to set a callback
+		for the whole PORT event directly.
+
+endmenu # GPIO Interrupt Configuration
+
+menuconfig NRF53_SOFTDEVICE_CONTROLLER
+	bool "SoftDevice Controller"
+	depends on ALLOW_BSDNORDIC_COMPONENTS
+	depends on NRF53_NETCORE
+	select ARMV8M_USEBASEPRI
+	select ARCH_RAMVECTORS
+	select ARCH_IRQPRIO
+	select CRYPTO
+	select CRYPTO_RANDOM_POOL
+	select NRF53_USE_LFCLK
+	---help---
+		This enables use of Nordic SoftDevice controller
+		(SDC). It is a library version of a subset of
+		full SoftDevice, which only includes the BLE
+		controller implementation.
+
+		It makes use of RTC0, TIMER0 and RADIO so
+		these will be unavailable for direct use by user.
+		It also makes use of DPPI channel range 0-13.
+
+if NRF53_SOFTDEVICE_CONTROLLER
+
+config NRF53_SDC_CLOCK_ACCURACY
+	int "Clock Accuracy [PPM]"
+	default 250
+	---help---
+		Select the clock accuracy depending on the chosen low-frequency clock
+		source
+
+config NRF53_SDC_PERIPHERAL_COUNT
+	int "Number of peripheral roles to support (also central)"
+	default 1
+	---help---
+		This controls how many peripheral connections will be supported. It also
+		determines the number of central roles from the following:
+
+		CENTRAL_ROLES = CONFIG_BLUETOOTH_MAX_CONN - NRF53_SDC_PERIPHERAL_COUNT
+		or
+		CENTRAL_ROLES = NRF52_SDC_MAX_COUNT - NRF52_SDC_PERIPHERAL_COUNT
+
+		So by choosing these two variables you can control both capabilities.
+
+config NRF53_SDC_MAX_COUNT
+	int "Maximum number of roles to support"
+	default 1
+	depends on !NET_BLUETOOTH
+
+config NRF53_SDC_ADVERTISING
+	bool "Support advertising"
+	default y
+
+config NRF53_SDC_SCANNING
+	bool "Support scanning"
+	default y
+
+if NRF53_SDC_SCANNING
+
+config NRF53_SDC_SCAN_BUFFER_COUNT
+	int "Scanning buffer count"
+	default 3
+	---help---
+		The minimum allowed number of buffers is 2.
+
+endif
+
+config NRF53_SDC_LE_2M_PHY
+	bool "Support LE 2M PHY"
+	default y
+
+config NRF53_SDC_LE_CODED_PHY
+	bool "Support LE Coded PHY"
+	default n if ARCH_CHIP_NRF53832
+	default y if ARCH_CHIP_NRF53840
+	depends on NRF53_SDC_MULTIROLE
+
+config NRF53_SDC_DLE
+	bool "Support Data Length Extension (DLE)"
+	default y
+
+config NRF53_BLE_TTY_NAME
+	string "BLE TTY device name"
+	default "/dev/ttyHCI0"
+	depends on UART_BTH4
+
+config NRF53_SDC_FICR_STATIC_ADDR
+	bool "Configure factory generated static random address"
+	default n
+
+config NRF53_SDC_PUB_ADDR
+	hex "Configure BT public address"
+	default 0x0000000000
+
+endif

@@ -1,0 +1,133 @@
+############################################################################
+# arch/arm/src/nrf53/Make.defs
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.  The
+# ASF licenses this file to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance with the
+# License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+############################################################################
+
+include armv8-m/Make.defs
+
+ifeq ($(CONFIG_NRF53_SYSTIMER_SYSTICK),y)
+CHIP_CSRCS += nrf53_systick.c
+else
+ifeq ($(CONFIG_NRF53_SYSTIMER_RTC),y)
+CHIP_CSRCS += nrf53_tickless_rtc.c
+endif
+endif
+
+CHIP_CSRCS += nrf53_start.c nrf53_clockconfig.c nrf53_irq.c nrf53_utils.c
+CHIP_CSRCS += nrf53_allocateheap.c nrf53_lowputc.c nrf53_gpio.c
+CHIP_CSRCS += nrf53_uid.c
+
+ifeq ($(CONFIG_NRF53_APPCORE),y)
+CHIP_CSRCS += nrf53_oscconfig.c
+endif
+
+ifneq ($(CONFIG_ARCH_IDLE_CUSTOM),y)
+CHIP_CSRCS += nrf53_idle.c
+endif
+
+ifeq ($(CONFIG_NRF53_GPIOTE),y)
+CHIP_CSRCS += nrf53_gpiote.c
+endif
+
+ifeq ($(CONFIG_NRF53_UART),y)
+CHIP_CSRCS += nrf53_serial.c
+endif
+
+ifeq ($(CONFIG_NRF53_APPCORE),y)
+CHIP_CSRCS += nrf53_cpunet.c
+endif
+
+ifeq ($(CONFIG_NRF53_IPC),y)
+CHIP_CSRCS += nrf53_ipc.c
+endif
+
+ifeq ($(CONFIG_RPTUN),y)
+CHIP_CSRCS += nrf53_rptun.c
+endif
+
+ifeq ($(CONFIG_NRF53_TIMER),y)
+CHIP_CSRCS += nrf53_tim.c
+ifeq ($(CONFIG_TIMER),y)
+CHIP_CSRCS += nrf53_tim_lowerhalf.c
+endif
+endif
+
+ifeq ($(CONFIG_NRF53_PWM),y)
+CHIP_CSRCS += nrf53_pwm.c
+endif
+
+ifeq ($(CONFIG_NRF53_SAADC),y)
+CHIP_CSRCS += nrf53_adc.c
+endif
+
+ifeq ($(CONFIG_NRF53_RTC),y)
+CHIP_CSRCS += nrf53_rtc.c
+endif
+
+ifeq ($(CONFIG_PM),y)
+CHIP_CSRCS += nrf53_pminitialize.c
+endif
+
+ifeq ($(CONFIG_NRF53_SOFTDEVICE_CONTROLLER),y)
+
+NRFXLIB_UNPACK  := sdk-nrfxlib
+NRFXLIB_VER     := 2.3.0
+NRFXLIB_REF     := v$(NRFXLIB_VER)
+NRFXLIB_TGZ     := $(NRFXLIB_REF).tar.gz
+NRFXLIB_URL     := https://github.com/nrfconnect/sdk-nrfxlib/archive
+
+$(NRFXLIB_TGZ):
+	$(call DOWNLOAD,$(NRFXLIB_URL),$(NRFXLIB_TGZ),chip/$(NRFXLIB_TGZ))
+
+chip/$(NRFXLIB_UNPACK): $(NRFXLIB_TGZ)
+	$(Q) echo "Unpacking: NRXFLIB"
+	$(Q) cd chip && tar zxf $(NRFXLIB_TGZ)
+	$(Q) mv chip/$(NRFXLIB_UNPACK)-$(NRFXLIB_VER)* chip/$(NRFXLIB_UNPACK)
+	$(Q) touch chip/$(NRFXLIB_UNPACK)
+
+ifeq ($(wildcard chip/$(NRFXLIB_UNPACK)/.git),)
+context:: chip/$(NRFXLIB_UNPACK)
+
+distclean::
+	$(call DELFILE, chip/$(NRFXLIB_TGZ))
+	$(call DELDIR, chip/$(NRFXLIB_UNPACK))
+endif
+
+CHIP_CSRCS += nrf53_sdc.c
+
+NRFX_DIR = $(ARCH_SRCDIR)$(DELIM)chip$(DELIM)nrfx
+NRFXLIB_DIR = $(ARCH_SRCDIR)$(DELIM)chip$(DELIM)sdk-nrfxlib
+CMSIS_DIR = $(ARCH_SRCDIR)$(DELIM)chip$(DELIM)CMSIS_5
+
+INCLUDES += \
+	$(shell $(INCDIR) "$(CC)" $(ARCH_SRCDIR)$(DELIM)chip$(DELIM)sdc) \
+	$(shell $(INCDIR) "$(CC)" $(NRFXLIB_DIR)$(DELIM)mpsl$(DELIM)include) \
+	$(shell $(INCDIR) "$(CC)" $(NRFXLIB_DIR)$(DELIM)softdevice_controller$(DELIM)include)
+
+CFLAGS += -DNRF53_SERIES
+
+LIB_VARIANT=soft-float
+
+EXTRA_LIBPATHS += \
+	-L $(NRFXLIB_DIR)$(DELIM)mpsl$(DELIM)lib$(DELIM)cortex-m33+nodsp$(DELIM)$(LIB_VARIANT) \
+	-L $(NRFXLIB_DIR)$(DELIM)softdevice_controller$(DELIM)lib$(DELIM)cortex-m33+nodsp$(DELIM)$(LIB_VARIANT)
+
+EXTRA_LIBS += -lmpsl
+EXTRA_LIBS += -lsoftdevice_controller_multirole
+
+endif

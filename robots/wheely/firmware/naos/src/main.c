@@ -40,6 +40,12 @@ static void loop() {
   naos_publish_s("battery", str, 0, false, NAOS_LOCAL);
 }
 
+static float battery() {
+  // read battery
+  return 0.0f;
+}
+
+
 static naos_config_t config = {
     .device_type = "wheely",
     .device_version = "0.1.0",
@@ -47,6 +53,7 @@ static naos_config_t config = {
     .message_callback = message,
     .loop_callback = loop,
     .loop_interval = 300,
+    .battery_callback = battery,
 };
 
 void app_main() {

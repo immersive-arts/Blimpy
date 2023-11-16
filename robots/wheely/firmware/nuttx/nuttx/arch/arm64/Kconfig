@@ -1,0 +1,210 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+if ARCH_ARM64
+comment "ARM64 Options"
+
+choice
+	prompt "ARM64 Toolchain Selection"
+	default ARM64_TOOLCHAIN_GNU_EABI
+
+config ARM64_TOOLCHAIN_GNU_EABI
+	bool "Generic GNU EABI toolchain"
+	select ARCH_TOOLCHAIN_GNU
+	---help---
+		This option should work for any modern GNU toolchain (GCC 4.5 or newer)
+
+config ARM64_TOOLCHAIN_CLANG
+	bool "LLVM Clang toolchain"
+	select ARCH_TOOLCHAIN_CLANG
+
+endchoice
+
+choice
+	prompt "ARM64 chip selection"
+	default ARCH_CHIP_QEMU
+
+config ARCH_CHIP_A64
+	bool "Allwinner A64"
+	select ARCH_CORTEX_A53
+	select ARCH_HAVE_ADDRENV
+	select ARCH_HAVE_RESET
+	select ARCH_HAVE_PSCI
+	select ARCH_NEED_ADDRENV_MAPPING
+	---help---
+		Allwinner A64 SoC
+
+config ARCH_CHIP_QEMU
+	bool "QEMU virt platform (ARMv8a)"
+	select ARCH_CORTEX_A53
+	select ARCH_HAVE_ADDRENV
+	select ARCH_NEED_ADDRENV_MAPPING
+	---help---
+		QEMU virt platform (ARMv8a)
+
+config ARCH_CHIP_FVP_ARMV8R
+	bool "ARM FVP virt platform (ARMv8r)"
+	select ARCH_CORTEX_R82
+	---help---
+		ARM FVP virt platform (ARMv8r)
+endchoice
+
+config ARCH_ARMV8A
+	bool
+	default n
+	select ARCH_HAVE_EL3
+
+config ARCH_ARMV8R
+	bool
+	default n
+	select ARCH_SINGLE_SECURITY_STATE
+
+config ARCH_HAVE_PSCI
+	bool "ARM PCSI (Power State Coordination Interface) Support"
+	default n
+	---help---
+		This Power State Coordination Interface (PSCI) defines
+		a standard interface for power management. the PCSI need
+		to implement handling firmware at EL2 or EL3. The option
+		maybe not applicable for arm core without PCSI firmware
+		interface implement
+
+config ARCH_SINGLE_SECURITY_STATE
+	bool "ARM Single Security State Support"
+	default n
+	---help---
+		Some ARM aarch64 Cortex-family processors only supports single
+		security state(eg. Cortex-R82). For these Processors,
+		GIC or other ARM architecture feature will with different
+		configure
+
+config ARCH_HAVE_EL3
+	bool
+	default n
+	---help---
+		Some ARM aarch64 Cortex-family processors only supports
+		EL0~El2(eg. Cortex-R82). For these Processors, the code
+		runing at EL3 is not necessary and system register for EL3
+		is not accessible
+
+config ARCH_SET_VMPIDR_EL2
+	bool "Set VMPIDR_EL2 at EL2 stage"
+	help
+		VMPIDR_EL2 holds the value of the Virtualization Multiprocessor ID.
+		From architecture manual of AArch64, the behave is:
+		  -reading register MPIDR_EL1 in EL2, it's return real MPIDR_EL1
+		  -reading register MPIDR_EL1 in EL1, it's return VMPIDR_EL2
+		So since NuttX for SMP is running at EL1 to read MPIDR_EL1 for
+		identify CPU id, it's need to set VMPIDR_EL2 to MPIDR_EL1 for
+		every CPU at boot EL2 stage.
+		For some platform, the bootloader or hypervisor will do that at
+		the EL2 stage, but not all.
+		ARM FVP and VDK should set it since these platform will boot
+		without BootLoader.
+
+config ARCH_EARLY_PRINT
+	bool "arch early print support"
+	default n
+	---help---
+		The aarch64 have EL0~El3 execute level and NS/S (security state),
+		the NuttX should be execute at EL1 in NS(ARmv8-A) or S(ARmv8-R)
+		state. but booting NuttX have different ELs and state while with
+		different platform, if NuttX runing at wrong ELs or state it will
+		be not normal anymore. So we need to print something in arm64_head.S
+		to debug this situation.
+		Enabling this option will need to implement arm64_earlyserialinit and
+		arm64_lowputc functions just you see in qemu, if you not sure,
+		keeping the option disable.
+
+config ARCH_CORTEX_A53
+	bool
+	default n
+	select ARCH_ARMV8A
+	select ARM_HAVE_NEON
+	select ARCH_HAVE_TRUSTZONE
+	select ARCH_DCACHE
+	select ARCH_ICACHE
+	select ARCH_HAVE_MMU
+	select ARCH_HAVE_FPU
+	select ARCH_HAVE_TESTSET
+
+config ARCH_CORTEX_A57
+	bool
+	default n
+	select ARCH_ARMV8A
+	select ARM_HAVE_NEON
+	select ARCH_HAVE_TRUSTZONE
+	select ARCH_DCACHE
+	select ARCH_ICACHE
+	select ARCH_HAVE_MMU
+	select ARCH_HAVE_FPU
+	select ARCH_HAVE_TESTSET
+
+config ARCH_CORTEX_A72
+	bool
+	default n
+	select ARCH_ARMV8A
+	select ARM_HAVE_NEON
+	select ARCH_HAVE_TRUSTZONE
+	select ARCH_DCACHE
+	select ARCH_ICACHE
+	select ARCH_HAVE_MMU
+	select ARCH_HAVE_FPU
+	select ARCH_HAVE_TESTSET
+
+config ARCH_CORTEX_R82
+	bool
+	default n
+	select ARCH_ARMV8R
+	select ARCH_DCACHE
+	select ARCH_ICACHE
+	select ARCH_HAVE_MPU
+	select ARCH_HAVE_TESTSET
+
+config ARCH_FAMILY
+	string
+	default "armv8-a"   if ARCH_ARMV8A
+	default "armv8-r"   if ARCH_ARMV8R
+
+config ARCH_CHIP
+	string
+	default "a64"       if ARCH_CHIP_A64
+	default "qemu"      if ARCH_CHIP_QEMU
+	default "fvp-v8r"   if ARCH_CHIP_FVP_ARMV8R
+
+config ARCH_HAVE_TRUSTZONE
+	bool
+	default n
+	---help---
+		Automatically selected to indicate that the ARM CPU supports
+		TrustZone.
+
+config ARM_HAVE_NEON
+	bool
+	default n
+	---help---
+		Decide whether support NEON instruction
+
+config ARM_GIC_VERSION
+	int "GIC version"
+	default 2           if ARCH_CHIP_A64
+	default 3
+	range 2 4
+	---help---
+		Version of Generic Interrupt Controller (GIC) supported by the
+		architecture
+
+if ARCH_CHIP_A64
+source "arch/arm64/src/a64/Kconfig"
+endif
+
+if ARCH_CHIP_QEMU
+source "arch/arm64/src/qemu/Kconfig"
+endif
+
+if ARCH_CHIP_FVP_ARMV8R
+source "arch/arm64/src/fvp-v8r/Kconfig"
+endif
+endif # ARCH_ARM64

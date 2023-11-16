@@ -1,0 +1,92 @@
+#
+# For a description of the syntax of this configuration file,
+# see the file kconfig-language.txt in the NuttX tools repository.
+#
+
+menu "Socket Support"
+
+config NET_PREALLOC_DEVIF_CALLBACKS
+	int "Preallocated socket callbacks"
+	default 16 if !DEFAULT_SMALL
+	default 4 if DEFAULT_SMALL
+	---help---
+		Number of preallocated socket callbacks (all tasks).
+
+		This number of callbacks will be pre-allocated during system boot.
+		If dynamic callbacks allocation is enabled, more callbacks may be
+		allocated at a later time, as the system needs them. Else this
+		will be the maximum number of callbacks available to the system
+		at all times.
+
+		Set to 0 to disable (and rely only on dynamic allocations).
+
+config NET_ALLOC_DEVIF_CALLBACKS
+	int "Dynamic socket callbacks allocation"
+	default 0
+	---help---
+		Dynamic memory allocations for socket callbacks.
+
+		When set to 0 all dynamic allocations are disabled.
+
+		When set to 1 a new callback will be allocated every time, and
+		it will be free'd when no longer needed.
+
+		Setting this to 2 or more will allocate the callbacks in batches
+		(with batch size equal to this config). When a callback is no
+		longer needed, it will be returned to the free callbacks pool,
+		and it will never be deallocated!
+
+config NET_SOCKOPTS
+	bool "Socket options"
+	default n
+	---help---
+		Enable or disable support for socket options
+
+config NET_TCPPROTO_OPTIONS
+	bool
+	default n
+	---help---
+		Enable or disable support for TCP protocol level socket options.
+
+config NET_UDPPROTO_OPTIONS
+	bool
+	default n
+	---help---
+		Enable or disable support for UDP protocol level socket options.
+
+config NET_CANPROTO_OPTIONS
+	bool
+	default n
+	---help---
+		Enable or disable support for CAN protocol level socket option
+
+if NET_SOCKOPTS
+
+config NET_SOLINGER
+	bool "SO_LINGER socket option"
+	default n
+	depends on NET_TCP_WRITE_BUFFERS || NET_UDP_WRITE_BUFFERS
+	select NET_UDP_NOTIFIER if NET_UDP
+	---help---
+		Enable or disable support for the SO_LINGER socket option.  Requires
+		write buffer support.
+
+config NET_TIMESTAMP
+	bool "SO_TIMESTAMP socket option"
+	default n
+	depends on NET_CAN
+	---help---
+		Enable or disable support for the SO_TIMESTAMP socket option. Currently only tested & implemented in SocketCAN but should work on all sockets
+
+config NET_BINDTODEVICE
+	bool "SO_BINDTODEVICE socket option Bind-to-device support"
+	default n
+	select NETDEV_IFINDEX
+	---help---
+		Enable support for the NET_BINDTODEVICE socket option.
+		Linux has SO_BINDTODEVICE but in NuttX this option is instead
+		specific to the UDP protocol.
+
+endif # NET_SOCKOPTS
+
+endmenu # Socket Support

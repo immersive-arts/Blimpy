@@ -1,0 +1,73 @@
+############################################################################
+# arch/or1k/src/mor1kx/Make.defs
+#
+# Licensed to the Apache Software Foundation (ASF) under one or more
+# contributor license agreements.  See the NOTICE file distributed with
+# this work for additional information regarding copyright ownership.  The
+# ASF licenses this file to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance with the
+# License.  You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+############################################################################
+
+CMN_ASRCS  = or1k_vectortab.S \
+             or1k_saveusercontext.S \
+             or1k_fullcontextrestore.S
+
+CMN_CSRCS  = or1k_initialize.c \
+             or1k_allocateheap.c \
+             or1k_createstack.c \
+             or1k_usestack.c \
+             or1k_releasestack.c \
+             or1k_stackframe.c \
+             or1k_initialstate.c \
+             or1k_switchcontext.c \
+             or1k_schedulesigaction.c \
+             or1k_copyfullstate.c \
+             or1k_registerdump.c \
+             or1k_getintstack.c \
+             or1k_exit.c \
+             or1k_udelay.c \
+             or1k_mdelay.c \
+             or1k_idle.c \
+             or1k_irq.c \
+             or1k_nputs.c \
+             or1k_uart.c \
+             or1k_timer.c \
+             or1k_doirq.c \
+             or1k_cpuinfo.c \
+             mor1kx_start.c
+
+ifeq ($(CONFIG_BUILD_PROTECTED),y)
+CMN_CSRCS += or1k_task_start.c or1k_pthread_start.c
+#CMN_CSRCS += or1k_signal_dispatch.c
+#CMN_UASRCS += or1k_signal_handler.S
+endif
+
+ifeq ($(CONFIG_STACK_COLORATION),y)
+#CMN_CSRCS += or1k_checkstack.c
+endif
+
+ifeq ($(CONFIG_DEBUG_FEATURES),y)
+#CMN_CSRCS += or1k_dumpnvic.c
+endif
+
+ifneq ($(CONFIG_SCHED_TICKLESS),y)
+#CHIP_CSRCS += sam_timerisr.c
+endif
+
+ifeq ($(CONFIG_BUILD_PROTECTED),y)
+#CHIP_CSRCS += sam_userspace.c
+endif
+
+ifeq ($(CONFIG_ARCH_IRQPRIO),y)
+#CHIP_CSRCS += sam_irqprio.c
+endif
