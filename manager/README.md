@@ -69,24 +69,50 @@ python manager.py --mqtt_host "10.128.96.102" --mqtt_port 1883 --osc_server "10.
 
 ### Device type file
 
-Inside the same folder should be the **device_types.yml** configuration file, in which the default regulator-parameter for each device type are set.
+Inside the same folder should be the **device_types.yml** configuration file, in which the default controller parameters for each device type are set.
 
 for example:
 
 ```
 blimpy:
+  k_p_xy: 1.0
+  k_p_z: 1.0
   k_d_xy: 1.5
   k_d_z: 3.0
   k_i_z: 0.1
-  k_p_xy: 1.0
-  k_p_z: 1.0
-  tau_p: 0.025
-  tau_q: 0.025
-  tau_r: 0.025
   tau_att_x: 2.0
   tau_att_y: 2.0
   tau_att_z: 2.0
+  tau_p: 0.025
+  tau_q: 0.025
+  tau_r: 0.025
 ```
+
+## Controller Parameters
+
+The controller is a realization of a [proportional-integral-derivative controller](https://en.wikipedia.org/wiki/Proportional%E2%80%93integral%E2%80%93derivative_controller). Each device will need its own control parameters to regulate it depending on its physical properties. 
+
+```
+  k_p_xy     = proportional coefficient in xy direction - determines the responsiveness
+  k_p_z      = proportional coefficient in z direction - determines the responsiveness
+  k_d_xy     = derivative coefficient in xy direction - damping
+  k_d_z      = derivative coefficient in z direction - damping
+  k_i_z      = integral coefficient in z direction - determines the precision towards the reference value - but to high will cause overshoot
+  tau_att_x  = time constance for orientation control in x axis [s] - rule of thumb: 10 x tau_p 
+  tau_att_y  = time constance for orientation control in y axis [s] - rule of thumb: 10 x tau_q 
+  tau_att_z  = time constance for orientation control in z axis [s] - rule of thumb: 10 x tau_r 
+  tau_p      = time constance for angle speed control in x axis [s] - rule of thumb: ~ 10...25 ms
+  tau_q      = time constance for angle speed control in y axis [s] - rule of thumb: ~ 10...25 ms
+  tau_r      = time constance for angle speed control in z axis [s] - rule of thumb: ~ 10...25 ms
+```
+
+Good method to find the ideal parameters for a device is the [Ziegler-Nichols Method](https://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method):
+
++ first set k_i and k_d values to 0
++ raise k_p from zero until the system has stable and consistent oscillations. This value is then known as k_u.
++ set k_p = k_u * 0.5 
++ raise k_d to get it more stable
++ raise k_i to get it even more stable
 
 ## API
 
@@ -106,10 +132,10 @@ To register a new device with the manager, a message to the following topic need
 ```
 The payload of this message configures the device as
 ```
-device_base_topic=<base topic of the device>
-device_name=<device name>
-device_type=<device type, needs to be specified inside 'device_types.yml'>
-tracking_id=<tracking id as per the motion capture system>
+device_base_topic = <base topic of the device>
+device_name       = <device name>
+device_type       = <device type, needs to be specified inside 'device_types.yml'>
+tracking_id       = <tracking id as per the motion capture system>
 ```
 > Carefull: When the device is configured with the [NAOS desktop app](https://github.com/256dpi/naos/releases/tag/desktop%2Fv1.0), inside the Device panel, the 'Base Topic' is the combination of <device_base_topic> and <device_name>:
 
@@ -127,15 +153,48 @@ Four basic commands are unavailable:
 
 #### park
 
-Is a high level motion command to park the device. It requires the desired final position, orientation and maximum speed to reach this position, where the manager plans and executes a smooth trajectory.
+Is a high level motion command to park the device. It requires the desired final position and orientation. There are two variants:
+
+**Providing maximum speed to reach this position, where the manager plans and executes a smooth trajectory.**
+This is ideal for devices that can only move at a certain maximal speed.
 ```
 "park
-    x=<position x[m]>
-    y=<position y[m]>
-    z=<position z[m]>
-    alpha=<orientation [rad]>
-    vmax=<max speed [m/s]>"
+    vmax =<max translation speed [m/s]>"
+    x    =<position x[m]>
+    y    =<position y[m]>
+    z    =<position z[m]>
 ```
+while the orientation can be provided in three different formats.
+either:
+```
+    alpha =<rotation in z-axis [rad]>"
+    beta  =<rotation in y-axis [rad]>"
+    gamma =<rotation in x-axis [rad]>"
+```
+or in yaw, pitch, roll:
+```
+    yaw   =<rotation in z-axis [rad]>"
+    pitch =<rotation in y-axis [rad]>"
+    roll  =<rotation in x-axis [rad]>"
+```
+or as a quaternion:
+```
+    qw =<quaternion w>
+    qx =<quaternion x>
+    qy =>quaternion y>
+    qz =<quaternion z>
+```
+
+**Providing time to reach this position, where the manager plans and executes a smooth trajectory.**
+```
+"park
+    tmax =<time to reach translation target[s]>"
+    x    =<position x[m]>
+    y    =<position y[m]>
+    z    =<position z[m]>
+```
+while the orientation is set as in the above example.
+
 Once the manager reaches the desired position, it returns the status 'holding'
 
 #### move
@@ -150,29 +209,29 @@ Is the workhorse command to move the device. The payload of this message **must*
 while the orientation can be provided in three different formats.
 either:
 ```
-    alpha=<rotation in z-axis [rad]>"
-    beta=<rotation in y-axis [rad]>"
-    gamma=<rotation in x-axis [rad]>"
+    alpha =<rotation in z-axis [rad]>"
+    beta  =<rotation in y-axis [rad]>"
+    gamma =<rotation in x-axis [rad]>"
 ```
 or in yaw, pitch, roll:
 ```
-    yaw=<rotation in z-axis [rad]>"
-    pitch=<rotation in y-axis [rad]>"
-    roll=<rotation in x-axis [rad]>"
+    yaw   =<rotation in z-axis [rad]>"
+    pitch =<rotation in y-axis [rad]>"
+    roll  =<rotation in x-axis [rad]>"
 ```
 or as a quaternion:
 ```
-    qw=<quaternion w>
-    qx=<quaternion x>
-    qy=>quaternion y>
-    qz=<quaternion z>
+    qw =<quaternion w>
+    qx =<quaternion x>
+    qy =>quaternion y>
+    qz =<quaternion z>
 ```
 
 additionally, one also can provide the speed.
 ```
-    vx=<velocity x[m/s]>
-    vy=\velocity y[m/s]>
-    vz=<velocity z[m/s]>
+    vx =<velocity x[m/s]>
+    vy =<velocity y[m/s]>
+    vz =<velocity z[m/s]>
 ```
 If the speed is not provided, the manager tries to calculate it.
 
@@ -203,4 +262,5 @@ The payload of this message describes the desired blimp
 The manager folder contains an example demonstrating all of above commands. First start the manager (manager.py), then add a blimp (add.py), execute a several commands (sender.py) and last remove the blimp (remove.py). For a real demonstration, this requires a device which is tracked by the motion capture system with tracking ID 1.
 
 ## Credits
+
 Max Kriegleder - max.kriegleder@gmail.com
