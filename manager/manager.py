@@ -698,6 +698,11 @@ class Device:
         self.tracked = tracked
 
     def compute_min_jerk(self, xf, tf):
+        N = int(tf/self.loop_period)
+        if N == 0:
+            N = 2
+            tf = 2 * self.loop_period
+
         A = np.array([[tf**3, tf**4, tf**5],
                       [3*tf**2, 4*tf**3, 5*tf**4],
                       [6*tf, 12*tf**2, 20*tf**3]])
@@ -708,8 +713,7 @@ class Device:
         a3 = a[0]
         a4 = a[1]
         a5 = a[2]
-        N = tf/self.loop_period
-        t = np.linspace(0, tf, int(N))
+        t = np.linspace(0, tf, N)
         x = a3*t**3 + a4*t**4 + a5*t**5
         dx = 3*a3*t**2 + 4*a4*t**3 + 5*a5*t**4
 
