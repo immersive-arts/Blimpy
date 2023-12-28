@@ -3,93 +3,9 @@
 ## 1. Overview
 The wheely robot is a ground robot employing mecanum wheels for instantenous movement in any direction.
 
-## 2. Preparation
-The following items need to be ordered before building a new wheely:
-- Commercial mecanum wheel robot: [aliexpress](https://www.aliexpress.com/item/4001193081747.html?spm=a2g0s.9042311.0.0.14964c4ddIATUA) (150 USD including shipping with a lead time of about 2-3 weeks)
-- ESP32 development kit: [digikey](https://www.digikey.ch/product-detail/de/espressif-systems/ESP32-DEVKITC-32D/1965-1000-ND/9356990) (9 CHF with a lead time of about 2 days)
-- Battery: [swaytronic](https://www.swaytronic.ch/LiPo-Akku---Swaytronic/LiPo-Akku-3S-11-1V-248/35C---70C/swaytronic-lipo-3s-11-1v-3400mah-35c-70c-t.html) (50 CHF with a lead time of about 2 days)
-- Charger: [swaytronic](https://www.swaytronic.ch/Ladegeraete/Ladegeraete-12V-DC/up100ac-plus.html) (70 CHF with a lead time of about 2 days)
-- Connector: [swaytronic](https://www.swaytronic.ch/LiPo---Zubehoer/LiPo-Stecksysteme---Zubehoer/lipo-stecksystem-new-dean-t-plug-mit-schutzkappe.html) (15 CHF with a lead time of about 2 days)
-
-***IMPORTANT: You will need to have 4 identical mecanum wheels. The above linked aliexpress robot contains 2 right and 2 left handed wheels. Both left handed and right will work, but the move axis will be orientated differently (see further down).***
-
-Alternative places to order spare parts:
-- righthanded mecanum wheels: [bastelgarage](https://www.bastelgarage.ch/rechtsdrehendes-80mm-mecanum-omni-wheel-rad) (10 CHF with a lead time of about 2 days)
-- lefthanded mecanum wheels: [bastelgarage](https://www.bastelgarage.ch/linksdrehendes-80mm-mecanum-omni-wheel-rad?search=mecanum) (10 CHF with a lead time of about 2 days)
-
-## 3. Frame
-
 ### Mk02
-![alt text](../../assets/pix/robots/wheely/wheely_mk02.jpg)
+![alt text](../../assets/pix/robots/wheely/wheely_mk02.jpg) [link](./design/mechanics/mk02/readme.md)
 
-Designed with [blender](https://blender.org), frame made out of laser cut shapes from medium density fiberboard (MDF) 4mm thickness.
+### Mk03
+![alt text](../../assets/pix/robots/wheely/wheely_mk03.jpg) [link](./design/mechanics/mk03.4/readme.md)
 
-7 individual shapes:
-
-2 x top
-4 x rip
-4 x flange
-4 x wheel cover
-4 x wheel top cover
-4 x sound shield
-8 x suspension
-
-plus
-
-140 x M4 nuts
-100 x M4/10mm countersunk screws
-40 x M4/10mm cylinder head screws
-40 x M4 washers
-
-plus from the robot kit:
-
-4 x 80mm Mecanum wheels
-4 x 12V DC motors
-4 x motor cables (40cm long)
-1 x STM32f103rct6 motor controller board
-Screws and couplings
-
-## 4. Electronics
-The ESP32 acts as a translator between the manager and motor controller. To connect ESP32 and motor controller directly solder several wires on the ESP32 and a pin header with 6 pins, which can be plugged into the motor controller. The connections are as follows:
-- 5V <-> 5V
-- GND <-> GND
-- Pin 13 <-> DAT
-- Pin 12 <-> CMD
-- Pin 15 <-> CLK
-- Pin 14 <-> CS
-
-![alt text](../../assets/pix/robots/wheely/electronics/esp32_motor_controller.png)
-
-Build and flash the firmware for the ESP32 controller (inside firmware/NAOS, attach ESP32 through Micro-USB port):
-```bash
-naos install
-```
-```bash
-naos build
-```
-```bash
-naos flash <dev>
-```
-For more instructions see [NAOS](https://github.com/256dpi/naos).
-
-Build and flash the firmware for the motor controller (inside firmware/motor_controller, attach motor controller through SWD port with ST-Link). Either install Keil uVision for building and flashing, or simply use STM32 ST-LINK utility to flash the precompiled OBJ/Moebius.hex).
-
-## 5. Assembly
-
-start with the frame:
-
-* drill countersinks into all the holes where countersunk screws will come.
-* glue all the bolts into the frames. This makes sure the bolts don't fall of during assembly.
-* Stick the rips together (you will have to widen the gaps in one of the rips to be able to assemble)
-* place them onto one of the tops. make sure you start with the bottom (top and bottom are identical).
-* also assemble the sound shields
-* now use the countersunk screws and screw the bottom, the rips and the sound shield together.
-* assemble the motor and the wheels to the flange.
-* put the suspension and the flange into the frame and screw them together with the cylinder head screws.
-* screw the motor controler board into the center and connect the motors with the board
-* connect the ESP32 development kit to the motor controller
-* connect the battery to the motor controller
-* use velcro to stick the battery to the frame
-* close the top
-* mark the axis
-![alt text](../../assets/pix/robots/wheely/axisAndwheels.png)
