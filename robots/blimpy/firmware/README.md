@@ -111,7 +111,7 @@ pip install pyserial
 inside terminal, cd to the folder where this readme is located, like:
 
 ```bash
-cd /Users/XXX/blimpy/drone/firmware/
+cd /Users/XXX/blimpy/robots/blimpy/firmware/
 ```
 
 ```bash
@@ -136,6 +136,11 @@ In case of troubles (on newer Macs), install esptool manually and run with the "
 ```bash
 pip install esptool
 naos run --alt
+```
+
+When flashing, keep pressing the on/off switch and run:
+
+```
 naos flash --alt
 ```
 
