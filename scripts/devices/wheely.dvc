@@ -8,4 +8,4 @@ tau_att_y: 2.0
 tau_att_z: 2.0
 tau_p: 0.019
 tau_q: 0.018
-tau_r: 0.02
+tau_r: 0.03
